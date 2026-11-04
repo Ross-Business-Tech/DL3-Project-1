@@ -1,0 +1,17 @@
+# Weights, gates and freshness. Changed here, never in code.
+freshness_days: 90          # proposed limit for critical fee/deadline/eligibility sources
+fetch:
+  timeout_seconds: 30
+  max_retries: 3            # total attempts = max_retries + 1
+  backoff_seconds: [2, 4, 8]
+  min_seconds_between_requests_per_host: 2.0
+  max_bytes: 52428800       # 50 MB cap per download
+  respect_robots_txt: true
+  allowed_content_types:
+    - text/html
+    - application/pdf
+    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - application/vnd.ms-excel
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - application/msword
+    - text/csv
