@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "smoke": "node scripts/smoke-test.cjs",
-    "publish:preview": "node scripts/herenow-publish.mjs preview"
+    "publish:preview": "node scripts/herenow-publish.mjs preview",
+    "test": "node --test src/ranking/engine.test.js"
   },
   "dependencies": {
     "react": "^19.3.1",

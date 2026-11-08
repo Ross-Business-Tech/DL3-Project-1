@@ -1,0 +1,467 @@
+// The DL3 state-ranking algorithm (guide sections 5D, 6, 7 and 9A).
+//
+// Pure functions only: the same input always gives the same output, nothing is random, and
+// nothing calls a language model. Pipeline for each record (one state/agency + credit pathway):
+//
+//   1. Gates (5D)        Pass / Fail / Needs verification. A failed gate is excluded no matter
+//                        how well it scores; unknown evidence can never pass.
+//   2. Score (7A, 7B)    0-5 per component x weight / 5 = points out of 100. Unknown components
+//                        give an interval (unknown = 0 for the low end, 5 for the high end);
+//                        known components are never re-weighted.
+//   3. Rank (7B)         Separate 9% and 4% lists. Ties share a rank. An ordinal rank is withheld
+//                        when the uncertainty could change where the record lands.
+//   4. Sensitivity (7B)  Each weight +/-20%, renormalized to 100. Results that move are flagged.
+
+import { COMPONENTS, SETTINGS, MODEL_VERSION } from './config.js'
+
+const EPS = 1e-9
+const isNum = (x) => typeof x === 'number' && Number.isFinite(x)
+const toCents = (x) => Math.round(x * 100)
+
+// ---------------------------------------------------------------- weights
+
+export function defaultWeights() {
+  return Object.fromEntries(COMPONENTS.map((c) => [c.key, c.weight]))
+}
+
+export function checkWeights(weights) {
+  let total = 0
+  for (const { key } of COMPONENTS) {
+    const w = weights[key]
+    if (!isNum(w) || w < 0) throw new Error(`Weight for "${key}" must be a number of 0 or more.`)
+    total += w
+  }
+  if (Math.abs(total - 100) > 1e-6) throw new Error(`Weights must total 100 (they total ${total}).`)
+  return weights
+}
+
+function normalizeWeights(weights) {
+  const total = COMPONENTS.reduce((sum, { key }) => sum + weights[key], 0)
+  return Object.fromEntries(COMPONENTS.map(({ key }) => [key, (weights[key] * 100) / total]))
+}
+
+// ------------------------------------------------------- developer economics (section 5)
+
+// Strictly greater than 10% passes; exactly 10% fails. Compared in whole cents so that
+// floating-point rounding can never turn 10.0% into 10.0000001%.
+export function feeTest(approvedGrossFee, totalDevelopmentCost, settings = SETTINGS) {
+  if (!isNum(approvedGrossFee) || !isNum(totalDevelopmentCost) || approvedGrossFee < 0 || totalDevelopmentCost <= 0) {
+    return { status: 'unknown', ratio: null }
+  }
+  const ratio = approvedGrossFee / totalDevelopmentCost
+  const passes = toCents(approvedGrossFee) * 100 > toCents(totalDevelopmentCost) * settings.minFeePercent
+  return { status: passes ? 'pass' : 'fail', ratio }
+}
+
+// Section 5B: three distinct outcomes, without counting any deduction twice.
+//   approved gross fee  = eligible fee base x fee % (or the cap, whichever is lower)
+//   DL3 retained fee    = gross fee x DL3 share, less other required deductions
+//   non-deferred cash   = retained fee x (1 - deferred share), less DL3 overhead and pursuit costs
+export function feeEconomics({
+  eligibleFeeBase,
+  feePercent,
+  cap = null,
+  totalDevelopmentCost,
+  dl3Share = 1,
+  deferredShare = 0,
+  otherDeductions = 0,
+  overheadAndPursuitCosts = 0,
+}) {
+  const uncapped = (eligibleFeeBase * feePercent) / 100
+  const approvedGrossFee = isNum(cap) ? Math.min(uncapped, cap) : uncapped
+  const retainedFee = approvedGrossFee * dl3Share - otherDeductions
+  const deferredAmount = retainedFee * deferredShare
+  const nonDeferredReceipts = retainedFee - deferredAmount
+  return {
+    approvedGrossFee,
+    grossFeeToTdc: approvedGrossFee / totalDevelopmentCost,
+    retainedFee,
+    retainedFeeToTdc: retainedFee / totalDevelopmentCost,
+    deferredAmount,
+    nonDeferredReceipts,
+    netCashAfterCosts: nonDeferredReceipts - overheadAndPursuitCosts,
+    capBinds: isNum(cap) && uncapped > cap,
+    feeTest: feeTest(approvedGrossFee, totalDevelopmentCost),
+  }
+}
+
+// ------------------------------------------------------------------- gates (5D, 9A)
+
+function daysBetween(fromIso, toIso) {
+  const a = Date.parse(`${fromIso}T00:00:00Z`)
+  const b = Date.parse(`${toIso}T00:00:00Z`)
+  return Number.isNaN(a) || Number.isNaN(b) ? null : Math.round((b - a) / 86_400_000)
+}
+
+const boolStatus = (v) => (v === true ? 'pass' : v === false ? 'fail' : 'unknown')
+
+export function evaluateGates(record, { asOf, settings = SETTINGS }) {
+  const checks = []
+
+  const units = record.maxFeasibleUnits
+  checks.push({
+    key: 'units',
+    label: `More than 100 units (at least ${settings.minUnits})`,
+    status: isNum(units) ? (units >= settings.minUnits ? 'pass' : 'fail') : 'unknown',
+    detail: isNum(units) ? `Largest plausible urban project: ${units} units` : 'Largest feasible project size not known',
+  })
+
+  const fee = feeTest(record.approvedGrossFee, record.totalDevelopmentCost, settings)
+  checks.push({
+    key: 'fee',
+    label: `Developer fee above ${settings.minFeePercent}% of total development cost`,
+    status: fee.status,
+    detail: fee.ratio === null ? 'Approved fee or development cost missing' : `Fee is ${(fee.ratio * 100).toFixed(2)}% of total development cost`,
+  })
+
+  checks.push({
+    key: 'sponsor',
+    label: 'Eligible sponsor or documented partnership path',
+    status: boolStatus(record.sponsorPath),
+    detail: record.sponsorPath == null ? 'Not yet confirmed' : record.sponsorPath ? 'Path documented' : 'No path found',
+  })
+
+  checks.push({
+    key: 'financing',
+    label: 'Financing and execution requirements satisfiable',
+    status: boolStatus(record.financingPath),
+    detail: record.financingPath == null ? 'Not yet confirmed' : record.financingPath ? 'Requirements satisfiable' : 'Requirements cannot be met',
+  })
+
+  // Freshness never fails a record; it only blocks a pass until the source is re-checked.
+  const dates = Array.isArray(record.criticalSourceDates) ? record.criticalSourceDates : []
+  const ages = dates.map((d) => daysBetween(d, asOf))
+  const stale = ages.filter((age) => age === null || age > settings.staleAfterDays)
+  checks.push({
+    key: 'freshness',
+    label: `Critical sources retrieved within ${settings.staleAfterDays} days`,
+    status: dates.length === 0 || stale.length > 0 ? 'unknown' : 'pass',
+    detail:
+      dates.length === 0
+        ? 'No source retrieval dates recorded'
+        : stale.length > 0
+          ? `${stale.length} of ${dates.length} critical sources are stale or have an unreadable date`
+          : `Oldest source is ${Math.max(...ages)} days old`,
+  })
+
+  const status = checks.some((c) => c.status === 'fail')
+    ? 'Fail'
+    : checks.some((c) => c.status === 'unknown')
+      ? 'Needs verification'
+      : 'Pass'
+  return { status, checks }
+}
+
+// -------------------------------------------------------------------- scoring (7A, 7B)
+
+const isValidScore = (s) => Number.isInteger(s) && s >= 0 && s <= 5
+
+// Total = sum(weight x score) / 5. Unknown components are bounded, never averaged away.
+export function scoreComponents(scores, weights) {
+  let lo = 0
+  let knownWeight = 0
+  let unknownWeight = 0
+  const unknown = []
+  for (const { key } of COMPONENTS) {
+    const w = weights[key]
+    const s = scores?.[key]
+    if (isValidScore(s)) {
+      lo += (w * s) / 5
+      knownWeight += w
+    } else {
+      unknownWeight += w
+      unknown.push(key)
+    }
+  }
+  const hi = lo + unknownWeight // unknown scored 5 => weight x 5 / 5
+  return {
+    lo,
+    hi,
+    point: unknown.length === 0 ? lo : null,
+    coverage: knownWeight / (knownWeight + unknownWeight),
+    unknown,
+  }
+}
+
+// 7A: scores of 1, 2 and 4 need written evidence; anything that is not a whole 0-5 is ignored.
+function scoreWarnings(record) {
+  const warnings = []
+  for (const { key, label } of COMPONENTS) {
+    const s = record.scores?.[key]
+    if (s === undefined || s === null) continue
+    if (!isValidScore(s)) warnings.push(`${label}: "${s}" is not a whole number from 0 to 5, so it was treated as unknown`)
+    else if ([1, 2, 4].includes(s) && !record.evidence?.[key]) warnings.push(`${label}: a score of ${s} needs written evidence`)
+  }
+  return warnings
+}
+
+// ------------------------------------------------- funding and competition index (7A)
+
+const percentile = (value, values) => {
+  const less = values.filter((v) => v < value).length
+  const equal = values.filter((v) => v === value).length
+  return ((less + 0.5 * equal) / values.length) * 100
+}
+
+// Average of the within-pathway percentiles of (a) eligible award volume and (b) award rate
+// (eligible awards / qualified applications). Missing application counts leave the component
+// unresolved. Mapping to a 0-5 score follows the anchors: no awards = 0, middle third = 3,
+// top third = 5. The bottom third has no anchor in the guide, so it maps to 1 (proposed).
+export function fundingAccess(records, settings = SETTINGS) {
+  const results = new Map()
+  const byPathway = new Map()
+  for (const r of records) {
+    if (!byPathway.has(r.pathway)) byPathway.set(r.pathway, [])
+    byPathway.get(r.pathway).push(r)
+  }
+  for (const [pathway, group] of byPathway) {
+    const rows = group.map((r) => {
+      const volume = r.funding?.eligibleAwardsPerYear
+      const apps = r.funding?.qualifiedApplicationsPerYear
+      const rate = isNum(volume) && isNum(apps) && apps > 0 ? volume / apps : null
+      return { id: r.id, volume: isNum(volume) ? volume : null, rate }
+    })
+    const volumes = rows.filter((x) => x.volume !== null).map((x) => x.volume)
+    const rates = rows.filter((x) => x.rate !== null).map((x) => x.rate)
+    for (const row of rows) {
+      const universe = volumes.length
+      const smallSample = universe < settings.smallSampleBelow
+      const base = { pathway, universe, smallSample, awardRate: row.rate }
+      if (row.volume === null || row.rate === null) {
+        results.set(row.id, { ...base, index: null, score: null, note: 'Award or application counts missing, so this component is unresolved' })
+        continue
+      }
+      const index = (percentile(row.volume, volumes) + percentile(row.rate, rates)) / 2
+      const score = row.volume === 0 ? 0 : index >= 200 / 3 ? 5 : index >= 100 / 3 ? 3 : 1
+      results.set(row.id, {
+        ...base,
+        index,
+        score,
+        note: smallSample ? `Percentiles come from only ${universe} jurisdictions in the ${pathway} pathway, which is not a national percentile` : null,
+      })
+    }
+  }
+  return results
+}
+
+function withDerivedFunding(records, settings) {
+  const derived = fundingAccess(records, settings)
+  return records.map((r) => {
+    if (r.scores?.funding !== undefined) return r // an explicit score always wins
+    const d = derived.get(r.id)
+    if (!d) return r
+    return { ...r, scores: { ...r.scores, funding: d.score }, derived: { ...r.derived, funding: d } }
+  })
+}
+
+// ------------------------------------------------------------ ranking (7B)
+
+// For each record work out the best and worst place it could finish given its score interval.
+// A record whose best and worst place agree gets an ordinal rank (ties share it); otherwise the
+// rank is withheld and the range is reported instead.
+function positionPool(entries, settings) {
+  const out = new Map()
+  for (const r of entries) {
+    let definitelyAbove = 0
+    let possiblyAbove = 0
+    let tied = false
+    for (const o of entries) {
+      if (o === r) continue
+      if (o.lo > r.hi + EPS) definitelyAbove++
+      if (o.hi > r.lo + EPS) possiblyAbove++
+      if (r.point !== null && o.point !== null && Math.abs(o.point - r.point) <= EPS) tied = true
+    }
+    const best = 1 + definitelyAbove
+    const worst = 1 + possiblyAbove
+    out.set(r.id, {
+      best,
+      worst,
+      rank: best === worst ? best : null,
+      tied,
+      shortlistStatus: worst <= settings.shortlistSize ? 'in' : best > settings.shortlistSize ? 'out' : 'uncertain',
+    })
+  }
+  return out
+}
+
+// Section 7B: vary each weight by +/-20%, renormalize to 100, and see what moves.
+function sensitivityScenarios(weights, settings) {
+  const scenarios = []
+  for (const { key, label } of COMPONENTS) {
+    for (const [direction, factor] of [['up', 1 + settings.weightShock], ['down', 1 - settings.weightShock]]) {
+      scenarios.push({
+        label: `${label} weight ${direction === 'up' ? '+' : '-'}${Math.round(settings.weightShock * 100)}%`,
+        weights: normalizeWeights({ ...weights, [key]: weights[key] * factor }),
+      })
+    }
+  }
+  return scenarios
+}
+
+function rankPool(assessed, weights, settings) {
+  const entries = assessed.map((a) => ({ id: a.id, ...scoreComponents(a.scores, weights) }))
+  return positionPool(entries, settings)
+}
+
+function describeUnknown(keys) {
+  return keys.map((k) => COMPONENTS.find((c) => c.key === k).label).join(', ')
+}
+
+// ------------------------------------------------------------- the main entry point
+
+/**
+ * Rank a list of records.
+ *
+ * Each record is one allocating jurisdiction + credit pathway:
+ *   { id, state, pathway: '9%' | '4%', allocator, confidence: 'High'|'Medium'|'Low',
+ *     maxFeasibleUnits, approvedGrossFee, totalDevelopmentCost, sponsorPath, financingPath,
+ *     criticalSourceDates: ['2026-10-20', ...],
+ *     scores: { economics, funding, access, scale, urban, execution, venture }  // whole 0-5, null = unknown
+ *     evidence: { <component>: 'written evidence' },
+ *     funding: { eligibleAwardsPerYear, qualifiedApplicationsPerYear },  // derives `funding` if absent
+ *     nextDeadline, recommendedAction, overrides: [] }
+ *
+ * options: { asOf: 'YYYY-MM-DD', weights, settings }
+ */
+export function rankRecords(records, options = {}) {
+  const settings = { ...SETTINGS, ...options.settings }
+  const weights = checkWeights(options.weights ?? defaultWeights())
+  const asOf = options.asOf ?? new Date().toISOString().slice(0, 10)
+
+  const prepared = withDerivedFunding(records, settings)
+  const assessed = prepared.map((r) => {
+    const gates = evaluateGates(r, { asOf, settings })
+    return {
+      id: r.id,
+      state: r.state,
+      pathway: r.pathway,
+      allocator: r.allocator ?? null,
+      confidence: r.confidence ?? 'Low',
+      nextDeadline: r.nextDeadline ?? null,
+      recommendedAction: r.recommendedAction ?? null,
+      scores: r.scores ?? {},
+      evidence: r.evidence ?? {},
+      derived: r.derived ?? {},
+      overrides: r.overrides ?? [],
+      gates,
+      score: scoreComponents(r.scores, weights),
+      warnings: scoreWarnings(r),
+    }
+  })
+
+  const pathways = [...new Set(assessed.map((a) => a.pathway))].sort().reverse() // '9%' before '4%'
+  const lists = pathways.map((pathway) => {
+    const group = assessed.filter((a) => a.pathway === pathway)
+    const pool = group.filter((a) => a.gates.status === 'Pass')
+    const position = positionPool(
+      pool.map((a) => ({ id: a.id, ...a.score })),
+      settings,
+    )
+
+    const scenarioResults = sensitivityScenarios(weights, settings).map((s) => ({
+      label: s.label,
+      positions: rankPool(pool, s.weights, settings),
+    }))
+
+    const ranked = pool
+      .map((a) => {
+        const pos = position.get(a.id)
+        const changes = []
+        for (const s of scenarioResults) {
+          const p = s.positions.get(a.id)
+          if (p.shortlistStatus !== pos.shortlistStatus) changes.push(`${s.label}: shortlist status becomes "${p.shortlistStatus}"`)
+          else if (pos.rank !== null && p.rank === null) changes.push(`${s.label}: rank can no longer be fixed`)
+          else if (pos.rank !== null && p.rank !== null && Math.abs(p.rank - pos.rank) > settings.rankShiftTolerance) {
+            changes.push(`${s.label}: rank moves from ${pos.rank} to ${p.rank}`)
+          }
+        }
+        const overridden = a.overrides.length > 0
+        const actionable = pos.shortlistStatus === 'in' && pos.rank !== null && a.confidence !== 'Low'
+        let reason
+        let action
+        if (actionable) {
+          reason = `Passes all gates; ranked ${pos.rank}${pos.tied ? ' (tied)' : ''} in the ${pathway} list`
+          action = a.recommendedAction ?? 'Prepare a review profile'
+        } else if (a.confidence === 'Low' && pos.shortlistStatus === 'in') {
+          reason = 'Would make the shortlist, but low-confidence records cannot be actionable'
+          action = 'Raise evidence quality before pursuing'
+        } else if (pos.shortlistStatus === 'out') {
+          reason = 'Passes all gates but ranks below the shortlist'
+          action = 'Monitor'
+        } else if (a.score.unknown.length > 0) {
+          reason = `Missing evidence (${describeUnknown(a.score.unknown)}) means the rank cannot be fixed yet`
+          action = `Fill in: ${describeUnknown(a.score.unknown)}`
+        } else {
+          reason = 'Missing evidence on another jurisdiction means this rank cannot be fixed yet'
+          action = 'Complete the other jurisdictions’ evidence'
+        }
+        return {
+          ...a,
+          rank: pos.rank,
+          rankRange: [pos.best, pos.worst],
+          tied: pos.tied,
+          shortlistStatus: pos.shortlistStatus,
+          provisional: a.score.point === null,
+          actionable,
+          overridden,
+          stability: { unstable: changes.length > 0, changes },
+          reason,
+          action,
+          date: asOf,
+        }
+      })
+      .sort(
+        (a, b) =>
+          b.score.lo - a.score.lo || b.score.hi - a.score.hi || a.state.localeCompare(b.state),
+      )
+
+    const needsVerification = group
+      .filter((a) => a.gates.status === 'Needs verification')
+      .map((a) => ({
+        ...a,
+        reason: a.gates.checks.filter((c) => c.status === 'unknown').map((c) => c.detail).join('; '),
+        action: 'Verify the missing or stale evidence before scoring',
+        date: asOf,
+      }))
+      .sort((a, b) => a.state.localeCompare(b.state))
+
+    const excluded = group
+      .filter((a) => a.gates.status === 'Fail')
+      .map((a) => ({
+        ...a,
+        reason: a.gates.checks.filter((c) => c.status === 'fail').map((c) => c.detail).join('; '),
+        action: 'Excluded; keep in the coverage report',
+        date: asOf,
+      }))
+      .sort((a, b) => a.state.localeCompare(b.state))
+
+    return {
+      pathway,
+      ranked,
+      shortlist: ranked.filter((r) => r.actionable),
+      needsVerification,
+      excluded,
+      counts: { total: group.length, pass: pool.length, needsVerification: needsVerification.length, fail: excluded.length },
+    }
+  })
+
+  return { modelVersion: MODEL_VERSION, asOf, weights, settings, lists }
+}
+
+// ----------------------------------------------------- overrides (7B: "log overrides")
+
+// Returns a copy of the record with one component score changed and the change logged with
+// who approved it, why, and when. Overrides are never applied silently.
+export function applyScoreOverride(record, { component, score, approver, reason, date }) {
+  if (!COMPONENTS.some((c) => c.key === component)) throw new Error(`Unknown component "${component}".`)
+  if (!isValidScore(score)) throw new Error('An override score must be a whole number from 0 to 5.')
+  for (const [name, value] of Object.entries({ approver, reason, date })) {
+    if (typeof value !== 'string' || value.trim() === '') throw new Error(`An override needs a ${name}.`)
+  }
+  if (Number.isNaN(Date.parse(`${date}T00:00:00Z`))) throw new Error('An override date must look like 2026-11-08.')
+  return {
+    ...record,
+    scores: { ...record.scores, [component]: score },
+    overrides: [...(record.overrides ?? []), { component, from: record.scores?.[component] ?? null, to: score, approver, reason, date }],
+  }
+}

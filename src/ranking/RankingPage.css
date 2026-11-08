@@ -1,0 +1,116 @@
+.ranking {
+  --good: #1a7f4b;
+  --good-bg: rgba(26, 127, 75, 0.12);
+  --warn: #9a5b00;
+  --warn-bg: rgba(217, 140, 0, 0.14);
+  --track: #ecebef;
+  text-align: left;
+  padding: 24px 16px 48px;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 1.45;
+}
+@media (prefers-color-scheme: dark) {
+  .ranking {
+    --good: #5fd49a;
+    --good-bg: rgba(95, 212, 154, 0.14);
+    --warn: #f0b955;
+    --warn-bg: rgba(240, 185, 85, 0.14);
+    --track: #2a2c36;
+  }
+}
+
+.ranking h1 { font-size: 30px; letter-spacing: -0.5px; margin: 4px 0 12px; }
+.ranking h2 { font-size: 20px; margin: 28px 0 8px; }
+.ranking h3 { font-size: 17px; margin: 0; color: var(--text-h); font-weight: 600; }
+.ranking .eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+.ranking .small { font-size: 14px; line-height: 1.4; margin: 2px 0; }
+.ranking .grow { flex: 1; min-width: 0; }
+.ranking .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ranking .warn { color: var(--warn); }
+
+.banner {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.tabs { display: flex; gap: 8px; margin: 20px 0 8px; }
+.tabs button {
+  flex: 1;
+  font: inherit;
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-h);
+  cursor: pointer;
+  min-height: 44px;
+}
+.tabs button.on { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible, .download:focus-visible, .details summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.summary { margin: 4px 0 0; }
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+.card.is-actionable { border-color: var(--good); }
+.card-head { display: flex; gap: 12px; align-items: center; }
+.rank {
+  flex: none;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: var(--text-h);
+  background: var(--code-bg);
+}
+.rank-open { color: var(--warn); background: var(--warn-bg); font-size: 14px; }
+.score { text-align: right; display: grid; }
+.score strong { font-size: 24px; color: var(--text-h); line-height: 1.1; }
+
+.bar { position: relative; height: 8px; border-radius: 4px; background: var(--track); margin: 12px 0 10px; overflow: hidden; }
+.bar-fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 4px; }
+.bar-range { position: absolute; top: 0; bottom: 0; background: var(--accent-bg); border: 1px dashed var(--accent-border); box-sizing: border-box; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--code-bg); color: var(--text-h); }
+.chip.good { background: var(--good-bg); color: var(--good); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.conf-low { background: var(--warn-bg); color: var(--warn); }
+
+.details { margin-top: 8px; }
+.details summary { cursor: pointer; font-size: 14px; color: var(--accent); padding: 6px 0; min-height: 32px; }
+.parts { width: 100%; border-collapse: collapse; font-size: 14px; margin: 4px 0 8px; }
+.parts td { padding: 4px 0; border-bottom: 1px solid var(--border); }
+.parts .num { text-align: right; white-space: nowrap; padding-left: 12px; }
+
+.side { margin-top: 8px; }
+.side-row { display: grid; gap: 2px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; }
+.side-row strong { color: var(--text-h); }
+
+.download {
+  font: inherit;
+  margin-top: 12px;
+  padding: 12px 16px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+  cursor: pointer;
+  width: 100%;
+}
