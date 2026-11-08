@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Change report {{ run_id }}</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.3rem .5rem;text-align:left;vertical-align:top}
+pre{background:#f6f6f6;padding:.5rem;overflow:auto;font-size:13px}.add{color:#0a6}.del{color:#c22}.bad{color:#c22;font-weight:600}</style></head><body>
+<h1>Source change report</h1>
+<p>Run <b>{{ run_id }}</b> &middot; started {{ started_at }}. Shows changed <i>source text</i> only; interpretation changes need reviewer sign-off.</p>
+<h2>Summary</h2>
+<ul><li>Sources retrieved: {{ counts.fetched }} (new {{ counts.new }}, changed {{ counts.changed }}, unchanged {{ counts.unchanged }})</li>
+<li>Failed retrievals: {{ counts.failed }}</li><li>Stale or never-retrieved critical sources: {{ counts.blocking }}</li></ul>
+<h2>Changed sources</h2>
+{% for c in changes %}<h3>{{ c.source_id }} &mdash; {{ c.title }}</h3>
+<p>{{ c.status }} &middot; {{ c.previous_retrieved_at }} &rarr; {{ c.current_retrieved_at }} &middot; hash {{ c.previous_sha256[:8] }} &rarr; {{ c.current_sha256[:8] }}</p>
+{% if c.note %}<p>{{ c.note }}</p>{% endif %}
+{% if c.text_diff %}<p>{{ c.text_diff.added_lines }} lines added, {{ c.text_diff.removed_lines }} removed{% if c.text_diff.truncated %} (diff truncated){% endif %}</p>
+<pre>{% for l in c.text_diff.unified %}<span class="{{ 'add' if l.startswith('+') and not l.startswith('+++') else ('del' if l.startswith('-') and not l.startswith('---') else '') }}">{{ l }}</span>
+{% endfor %}</pre>{% endif %}
+{% else %}<p>No changed sources in this run.</p>{% endfor %}
+<h2>Failed retrievals (manual review queued)</h2>
+{% if failures %}<table><tr><th>Source</th><th>URL</th><th>Attempts</th><th>Error</th></tr>
+{% for f in failures %}<tr><td>{{ f.source_id }}</td><td>{{ f.url }}</td><td>{{ f.attempts }}</td><td>{{ f.error }}</td></tr>{% endfor %}</table>
+{% else %}<p>None.</p>{% endif %}
+<h2>Source freshness (limit {{ freshness_days }} days)</h2>
+<table><tr><th>Source</th><th>Critical</th><th>Age (days)</th><th>Status</th></tr>
+{% for f in freshness %}<tr><td>{{ f.source_id }}</td><td>{{ 'yes' if f.critical else '' }}</td><td>{{ f.age_days if f.age_days is not none else '—' }}</td>
+<td class="{{ 'bad' if f.blocks_recommendation else '' }}">{{ f.reason }}{% if f.blocks_recommendation %} — blocks current recommendation{% endif %}</td></tr>{% endfor %}</table>
+<h2>Candidate pages for review</h2>
+{% if candidates %}<table><tr><th>Source</th><th>Topic</th><th>Page</th><th>Quote</th></tr>
+{% for c in candidates %}<tr><td>{{ c.source_id }}</td><td>{{ c.topic }}</td><td>{{ c.page }}</td><td>{{ c.quote }}</td></tr>{% endfor %}</table>
+{% else %}<p>None located.</p>{% endif %}
+{% if ocr %}<h2>Pages needing OCR</h2><ul>{% for o in ocr %}<li>{{ o.source_id }}: pages {{ o.pages|join(', ') }}</li>{% endfor %}</ul>{% endif %}
+</body></html>

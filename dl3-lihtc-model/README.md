@@ -23,3 +23,23 @@ python -m pytest -q tests
   snapshot stays. `archive.freshness()` flags sources older than `freshness_days` (90) and blocks critical ones.
 - **Politeness:** robots.txt respected, 2s per-host gap, 50 MB cap, content-type allowlist, identifying
   User-Agent (set `DL3_CONTACT` in `.env`). Downloaded files are stored as data and never executed.
+
+## Full collection pipeline
+
+```bash
+python run_all.py                      # fetch -> archive -> locate pages -> change report -> manifest
+python run_all.py --only P6 P7 --follow-documents
+```
+
+Each run writes `outputs/runs/{yyyymmdd}_{runid}/` with `change_report.html` (changed source text, failed
+retrievals, freshness, candidate pages with quotes), `change_report.json`, and `run_manifest.json`
+(code version, settings, every snapshot hash).
+
+- `src/extract/pdf_text.py`: page-level text (PDF/HTML/CSV); image-only pages are flagged for OCR.
+- `src/extract/locate.py`: finds the pages most likely to hold fee, credit-cap, set-aside, deadline,
+  eligibility and award-table rules using `config/locate_keywords.yaml`. Output is a *candidate* with a
+  verbatim quote, never a rule; reviewers and extraction decide.
+- `src/fetch/hud_allocators.py`: parses the archived HUD agency list into `data/reference/hud_allocators.csv`.
+  Parser is untested against the live page; all rows are marked "needs verification".
+- Refresh demo: `tests/test_refresh.py` runs the pipeline, edits a source (15% -> 12% fee), takes another
+  source offline, reruns, and checks the report shows the diff, the failure, and the retained last-good copy.

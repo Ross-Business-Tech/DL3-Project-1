@@ -47,28 +47,29 @@ def text_diff(old: str, new: str, context: int = 1, max_lines: int = 200) -> dic
 
 
 def compare_latest(conn, archive_root: str | Path, source_id: str) -> dict:
-    """Compare the two most recent snapshots of a source."""
+    """Compare the most recent snapshot of a source with its prior different version."""
     cur = latest_snapshot(conn, source_id)
     if cur is None:
         return {"source_id": source_id, "status": "no_snapshot"}
-    prev = None
-    # most recent earlier snapshot with a different hash gives the real 'before' state
-    row = conn.execute(
+    return compare_latest_for(conn, archive_root, cur)
+
+
+def compare_latest_for(conn, archive_root: str | Path, cur) -> dict:
+    """Compare snapshot `cur` with the nearest earlier snapshot whose content differs."""
+    source_id = cur["source_id"]
+    prev = conn.execute(
         "SELECT * FROM snapshot WHERE source_id=? AND snapshot_id<? AND sha256<>? ORDER BY snapshot_id DESC LIMIT 1",
         (source_id, cur["snapshot_id"], cur["sha256"])).fetchone()
-    prev = row
     if prev is None:
-        return {"source_id": source_id, "status": "first_snapshot" if latest_snapshot(
-            conn, source_id, cur["snapshot_id"]) is None else "unchanged",
-            "current_snapshot_id": cur["snapshot_id"]}
+        earlier = latest_snapshot(conn, source_id, cur["snapshot_id"])
+        return {"source_id": source_id, "status": "first_snapshot" if earlier is None else "unchanged",
+                "current_snapshot_id": cur["snapshot_id"]}
     out = {"source_id": source_id, "status": "changed", "previous_snapshot_id": prev["snapshot_id"],
            "current_snapshot_id": cur["snapshot_id"], "previous_sha256": prev["sha256"],
            "current_sha256": cur["sha256"], "previous_retrieved_at": prev["retrieved_at"],
            "current_retrieved_at": cur["retrieved_at"]}
-    old_raw = (Path(archive_root) / prev["archive_path"]).read_bytes()
-    new_raw = (Path(archive_root) / cur["archive_path"]).read_bytes()
-    old_t = extract_text(old_raw, prev["content_type"])
-    new_t = extract_text(new_raw, cur["content_type"])
+    old_t = extract_text((Path(archive_root) / prev["archive_path"]).read_bytes(), prev["content_type"])
+    new_t = extract_text((Path(archive_root) / cur["archive_path"]).read_bytes(), cur["content_type"])
     if old_t is None or new_t is None:
         out["text_diff"] = None
         out["note"] = "binary format; hash changed, text diff unavailable"

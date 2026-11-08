@@ -94,6 +94,7 @@ def store_snapshot(
     http_status: int,
     retrieved_at: datetime | None = None,
     parent_source_id: str | None = None,
+    run_id: str | None = None,
 ) -> SnapshotResult:
     retrieved_at = retrieved_at or utcnow()
     digest = sha256_bytes(data)
@@ -109,21 +110,21 @@ def store_snapshot(
     changed = prev is None or prev["sha256"] != digest
     cur = conn.execute(
         """INSERT INTO snapshot (source_id, url, final_url, retrieved_at, sha256, content_type,
-             byte_size, http_status, archive_path, is_duplicate, parent_source_id, doc_status)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)""",
+             byte_size, http_status, archive_path, is_duplicate, parent_source_id, doc_status, run_id)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
         (source["source_id"], requested_url, final_url, retrieved_at.isoformat(), digest, content_type,
          len(data), http_status, rel.as_posix(), 0 if changed else 1, parent_source_id,
-         source.get("status", "unknown")),
+         source.get("status", "unknown"), run_id),
     )
     conn.commit()
     return SnapshotResult(cur.lastrowid, rel.as_posix(), digest, changed, prev is None)
 
 
 def record_failure(conn, source_id: str, url: str, attempts: int, error: str,
-                   attempted_at: datetime | None = None) -> None:
+                   attempted_at: datetime | None = None, run_id: str | None = None) -> None:
     conn.execute(
-        "INSERT INTO fetch_failure (source_id, url, attempted_at, attempts, error) VALUES (?,?,?,?,?)",
-        (source_id, url, (attempted_at or utcnow()).isoformat(), attempts, error),
+        "INSERT INTO fetch_failure (source_id, url, attempted_at, attempts, error, run_id) VALUES (?,?,?,?,?,?)",
+        (source_id, url, (attempted_at or utcnow()).isoformat(), attempts, error, run_id),
     )
     conn.commit()
 
@@ -140,3 +141,14 @@ def freshness(conn, source_id: str, critical: bool, limit_days: int, now: dateti
     return {"source_id": source_id, "age_days": age, "stale": stale,
             "blocks_recommendation": bool(critical and stale),
             "reason": f"last retrieved {age} days ago" if stale else "fresh"}
+
+
+def start_run(conn, run_id: str, code_version: str | None = None) -> None:
+    conn.execute("INSERT INTO run (run_id, started_at, code_version) VALUES (?,?,?)",
+                 (run_id, utcnow().isoformat(), code_version))
+    conn.commit()
+
+
+def finish_run(conn, run_id: str) -> None:
+    conn.execute("UPDATE run SET finished_at=? WHERE run_id=?", (utcnow().isoformat(), run_id))
+    conn.commit()

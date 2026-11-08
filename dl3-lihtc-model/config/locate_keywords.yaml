@@ -1,0 +1,29 @@
+# Keyword/regex patterns used to find pages worth extracting. Deterministic; edit without code changes.
+topics:
+  fee_rule:
+    - 'developer\s+fee'
+    - 'deferred\s+(developer\s+)?fee'
+    - 'fee\s+(cap|limit|maximum)'
+    - 'total\s+development\s+cost'
+  unit_credit_caps:
+    - 'maximum\s+(annual\s+)?(credit|award|reservation)'
+    - 'per[- ]project\s+(cap|limit)'
+    - 'credit\s+(cap|ceiling)'
+    - 'maximum\s+number\s+of\s+units'
+  set_asides:
+    - 'set[- ]aside'
+    - 'nonprofit\s+set'
+    - 'geographic\s+(pool|region)'
+  deadlines:
+    - 'application\s+(deadline|due)'
+    - 'round\s+\d'
+    - 'due\s+(date|by)'
+  sponsor_eligibility:
+    - 'experience\s+requirement'
+    - 'principal(s)?\s+(must|shall)'
+    - 'sponsor\s+eligib'
+    - 'capacity\s+(requirement|threshold)'
+  award_table:
+    - 'awards?\s+(list|summary|announcement)'
+    - 'tax\s+credit\s+awards'
+    - 'projects?\s+awarded'

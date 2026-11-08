@@ -173,7 +173,7 @@ def discover_links(html: bytes, base_url: str, allowed: set[str]) -> list[tuple[
 
 def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
         fetcher: Fetcher | None = None, only: set[str] | None = None,
-        follow_documents: bool = False) -> RunSummary:
+        follow_documents: bool = False, run_id: str | None = None) -> RunSummary:
     conn = archive.connect(db_path)
     fetcher = fetcher or Fetcher(settings, allowed_hosts(register))
     summary = RunSummary()
@@ -182,7 +182,7 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
             continue
         archive.upsert_source(conn, {k: src.get(k) for k in
                               ("source_id", "jurisdiction", "state", "doc_type", "title", "url", "status", "critical", "notes")})
-        _fetch_one(conn, fetcher, archive_root, src, src["url"], None, summary)
+        _fetch_one(conn, fetcher, archive_root, src, src["url"], None, summary, run_id)
         if follow_documents:
             snap = archive.latest_snapshot(conn, src["source_id"])
             if snap and snap["content_type"] == "text/html":
@@ -195,24 +195,24 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
                                  title=text or url, url=url, doc_type=src["doc_type"] + "_doc")
                     archive.upsert_source(conn, {k: child.get(k) for k in
                                           ("source_id", "jurisdiction", "state", "doc_type", "title", "url", "status", "critical", "notes")})
-                    _fetch_one(conn, fetcher, archive_root, child, url, src["source_id"], summary)
+                    _fetch_one(conn, fetcher, archive_root, child, url, src["source_id"], summary, run_id)
                 conn.commit()
     conn.close()
     return summary
 
 
-def _fetch_one(conn, fetcher, archive_root, src, url, parent_id, summary: RunSummary) -> None:
+def _fetch_one(conn, fetcher, archive_root, src, url, parent_id, summary: RunSummary, run_id=None) -> None:
     sid = src["source_id"]
     try:
         resp, attempts = fetcher.get(url)
     except FetchError as e:
-        archive.record_failure(conn, sid, url, fetcher.cfg["max_retries"] + 1, str(e))
+        archive.record_failure(conn, sid, url, fetcher.cfg["max_retries"] + 1, str(e), run_id=run_id)
         summary.failed += 1
         summary.details.append({"source_id": sid, "result": "failed", "error": str(e)})
         return
     res = archive.store_snapshot(conn, archive_root, source=src, data=resp.body, requested_url=url,
                                  final_url=resp.final_url, content_type=resp.content_type,
-                                 http_status=resp.status, parent_source_id=parent_id)
+                                 http_status=resp.status, parent_source_id=parent_id, run_id=run_id)
     summary.fetched += 1
     summary.changed += int(res.changed)
     summary.unchanged += int(not res.changed)

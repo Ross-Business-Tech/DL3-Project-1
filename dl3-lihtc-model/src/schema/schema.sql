@@ -14,6 +14,13 @@ CREATE TABLE IF NOT EXISTS source (
 );
 
 -- One row per successful retrieval. Never updated or deleted: originals are preserved.
+CREATE TABLE IF NOT EXISTS run (
+    run_id       TEXT PRIMARY KEY,
+    started_at   TEXT NOT NULL,
+    finished_at  TEXT,
+    code_version TEXT
+);
+
 CREATE TABLE IF NOT EXISTS snapshot (
     snapshot_id    INTEGER PRIMARY KEY AUTOINCREMENT,
     source_id      TEXT NOT NULL REFERENCES source(source_id),
@@ -27,7 +34,8 @@ CREATE TABLE IF NOT EXISTS snapshot (
     archive_path   TEXT NOT NULL,            -- relative to archive root
     is_duplicate   INTEGER NOT NULL DEFAULT 0, -- same hash as previous snapshot
     parent_source_id TEXT,                   -- set when discovered via a landing page
-    doc_status     TEXT NOT NULL DEFAULT 'unknown'  -- draft | final | unknown
+    doc_status     TEXT NOT NULL DEFAULT 'unknown',  -- draft | final | unknown
+    run_id         TEXT
 );
 CREATE INDEX IF NOT EXISTS ix_snapshot_source ON snapshot(source_id, retrieved_at);
 
@@ -39,7 +47,8 @@ CREATE TABLE IF NOT EXISTS fetch_failure (
     attempted_at TEXT NOT NULL,
     attempts     INTEGER NOT NULL,
     error        TEXT NOT NULL,
-    manual_review_queued INTEGER NOT NULL DEFAULT 1
+    manual_review_queued INTEGER NOT NULL DEFAULT 1,
+    run_id       TEXT
 );
 
 -- Documents found on landing pages. Candidates only; fetched when host is allowlisted.
@@ -50,4 +59,14 @@ CREATE TABLE IF NOT EXISTS discovered_link (
     link_text    TEXT,
     first_seen_at TEXT NOT NULL,
     UNIQUE(parent_source_id, url)
+);
+
+-- Pages in archived documents likely to contain a rule. Candidates for extraction/review, not facts.
+CREATE TABLE IF NOT EXISTS candidate_page (
+    snapshot_id  INTEGER NOT NULL REFERENCES snapshot(snapshot_id),
+    topic        TEXT NOT NULL,
+    page         INTEGER NOT NULL,       -- 1-based; HTML documents use page 1
+    score        INTEGER NOT NULL,
+    quote        TEXT NOT NULL,          -- verbatim excerpt from the page
+    PRIMARY KEY (snapshot_id, topic, page)
 );
