@@ -144,12 +144,17 @@ export function evaluateGates(record, { asOf, settings = SETTINGS }) {
           : `Oldest source is ${Math.max(...ages)} days old`,
   })
 
-  const status = checks.some((c) => c.status === 'fail')
-    ? 'Fail'
-    : checks.some((c) => c.status === 'unknown')
-      ? 'Needs verification'
-      : 'Pass'
-  return { status, checks }
+  // A failure resting on low-confidence evidence (guide 9A: "critical evidence is missing,
+  // conflicting, or stale") is not final, so it is held for verification rather than excluded.
+  const failed = checks.some((c) => c.status === 'fail')
+  const lowConfidenceFail = failed && record.confidence === 'Low'
+  const status =
+    failed && !lowConfidenceFail
+      ? 'Fail'
+      : failed || checks.some((c) => c.status === 'unknown')
+        ? 'Needs verification'
+        : 'Pass'
+  return { status, checks, lowConfidenceFail }
 }
 
 // -------------------------------------------------------------------- scoring (7A, 7B)
@@ -307,6 +312,17 @@ function describeUnknown(keys) {
   return keys.map((k) => COMPONENTS.find((c) => c.key === k).label).join(', ')
 }
 
+// What is still open on a record held for verification: unknown checks, plus any failure that
+// rests on low-confidence evidence.
+function openChecksText(a) {
+  const parts = a.gates.checks.filter((c) => c.status === 'unknown').map((c) => `${c.label}: ${c.detail}`)
+  if (a.gates.lowConfidenceFail) {
+    const fails = a.gates.checks.filter((c) => c.status === 'fail').map((c) => c.detail)
+    parts.unshift(`Fails on current data (${fails.join('; ')}) but the evidence is low confidence, so it cannot be excluded yet`)
+  }
+  return parts.join('; ')
+}
+
 // ------------------------------------------------------------- the main entry point
 
 /**
@@ -343,6 +359,9 @@ export function rankRecords(records, options = {}) {
       evidence: r.evidence ?? {},
       derived: r.derived ?? {},
       overrides: r.overrides ?? [],
+      notes: r.notes ?? null,
+      researched: r.researched ?? true,
+      benchmarkOnly: r.benchmarkOnly === true,
       gates,
       score: scoreComponents(r.scores, weights),
       warnings: scoreWarnings(r),
@@ -351,8 +370,18 @@ export function rankRecords(records, options = {}) {
 
   const pathways = [...new Set(assessed.map((a) => a.pathway))].sort().reverse() // '9%' before '4%'
   const lists = pathways.map((pathway) => {
-    const group = assessed.filter((a) => a.pathway === pathway)
+    // Benchmark-only jurisdictions (the guide's Illinois) are researched but never ranked.
+    const group = assessed.filter((a) => a.pathway === pathway && !a.benchmarkOnly)
     const pool = group.filter((a) => a.gates.status === 'Pass')
+    const benchmark = assessed
+      .filter((a) => a.pathway === pathway && a.benchmarkOnly)
+      .map((a) => ({
+        ...a,
+        reason: 'Benchmark only: excluded from the active new-development shortlist (guide section 1)',
+        action: 'Research for benchmarking and rule changes only',
+        date: asOf,
+      }))
+      .sort((a, b) => a.state.localeCompare(b.state))
     const position = positionPool(
       pool.map((a) => ({ id: a.id, ...a.score })),
       settings,
@@ -419,7 +448,7 @@ export function rankRecords(records, options = {}) {
       .filter((a) => a.gates.status === 'Needs verification')
       .map((a) => ({
         ...a,
-        reason: a.gates.checks.filter((c) => c.status === 'unknown').map((c) => c.detail).join('; '),
+        reason: openChecksText(a),
         action: 'Verify the missing or stale evidence before scoring',
         date: asOf,
       }))
@@ -441,7 +470,14 @@ export function rankRecords(records, options = {}) {
       shortlist: ranked.filter((r) => r.actionable),
       needsVerification,
       excluded,
-      counts: { total: group.length, pass: pool.length, needsVerification: needsVerification.length, fail: excluded.length },
+      benchmark,
+      counts: {
+        total: group.length,
+        pass: pool.length,
+        needsVerification: needsVerification.length,
+        fail: excluded.length,
+        benchmark: benchmark.length,
+      },
     }
   })
 

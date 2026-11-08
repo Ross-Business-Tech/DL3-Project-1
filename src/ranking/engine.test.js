@@ -84,7 +84,26 @@ test('a failed gate is excluded however well it scores; unknown never passes', (
   assert.deepEqual(l.ranked.map((r) => r.id), ['ok'])
   assert.deepEqual(l.excluded.map((r) => r.id), ['fail'])
   assert.deepEqual(l.needsVerification.map((r) => r.id), ['unk'])
-  assert.deepEqual(l.counts, { total: 3, pass: 1, needsVerification: 1, fail: 1 })
+  assert.deepEqual(l.counts, { total: 3, pass: 1, needsVerification: 1, fail: 1, benchmark: 0 })
+})
+
+test('a failure on low-confidence evidence is held for verification; high-confidence failures are excluded', () => {
+  const shortUnits = { maxFeasibleUnits: 90 }
+  assert.equal(evaluateGates(rec({ ...shortUnits, confidence: 'High' }), { asOf: AS_OF }).status, 'Fail')
+  assert.equal(evaluateGates(rec({ ...shortUnits, confidence: 'Medium' }), { asOf: AS_OF }).status, 'Fail')
+  const low = evaluateGates(rec({ ...shortUnits, confidence: 'Low' }), { asOf: AS_OF })
+  assert.equal(low.status, 'Needs verification')
+  assert.equal(low.lowConfidenceFail, true)
+  const l = list([rec({ id: 'lowfail', ...shortUnits, confidence: 'Low' })])
+  assert.deepEqual(l.needsVerification.map((r) => r.id), ['lowfail'])
+  assert.match(l.needsVerification[0].reason, /low confidence/)
+})
+
+test('benchmark-only jurisdictions are kept but never gated, ranked or counted', () => {
+  const l = list([rec({ id: 'real', state: 'Real' }), rec({ id: 'bench', state: 'Bench', benchmarkOnly: true })])
+  assert.deepEqual(l.ranked.map((r) => r.id), ['real'])
+  assert.deepEqual(l.benchmark.map((r) => r.id), ['bench'])
+  assert.deepEqual(l.counts, { total: 1, pass: 1, needsVerification: 0, fail: 0, benchmark: 1 })
 })
 
 test('a critical source older than 90 days needs verification; 90 days exactly is fine', () => {

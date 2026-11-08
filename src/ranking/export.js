@@ -3,7 +3,7 @@
 const COLUMNS = [
   'Pathway', 'List', 'Rank', 'State', 'Allocator', 'Score', 'Evidence coverage', 'Confidence',
   'Eligibility', 'Shortlist', 'Tie', 'Unstable under weight changes', 'Reason', 'Next deadline',
-  'Action', 'Run date', 'Model version',
+  'Action', 'Researched', 'Source notes', 'Run date', 'Model version',
 ]
 
 const round = (n) => Number(n.toFixed(1))
@@ -35,22 +35,25 @@ export function toCsv(result) {
         kind === 'Ranked' ? rankText(r) : '',
         r.state,
         r.allocator,
-        scoreText(r.score),
-        `${Math.round(r.score.coverage * 100)}%`,
+        kind === 'Benchmark only' ? '' : scoreText(r.score),
+        kind === 'Benchmark only' ? '' : `${Math.round(r.score.coverage * 100)}%`,
         r.confidence,
-        r.gates.status,
+        kind === 'Benchmark only' ? 'Benchmark only' : r.gates.status,
         kind === 'Ranked' ? r.shortlistStatus + (r.actionable ? ' (actionable)' : '') : '',
         r.tied ? 'Yes' : '',
         r.stability?.unstable ? 'Yes' : '',
         r.reason,
         r.nextDeadline,
         r.action,
+        r.researched ? 'Yes' : 'No',
+        r.notes,
         r.date,
         result.modelVersion,
       ])
     list.ranked.forEach((r) => add(r, 'Ranked'))
     list.needsVerification.forEach((r) => add(r, 'Needs verification'))
     list.excluded.forEach((r) => add(r, 'Excluded'))
+    list.benchmark.forEach((r) => add(r, 'Benchmark only'))
   }
   return rows.map((row) => row.map(cell).join(',')).join('\n') + '\n'
 }

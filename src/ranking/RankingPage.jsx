@@ -2,10 +2,13 @@ import { useMemo, useState } from 'react'
 import { COMPONENTS } from './config.js'
 import { rankRecords } from './engine.js'
 import { rankText, scoreText, toCsv } from './export.js'
+import { REAL_DATA } from './realData.js'
 import { SAMPLE_AS_OF, SAMPLE_RECORDS } from './sampleData.js'
 import './RankingPage.css'
 
 const round = (n) => Number(n.toFixed(1))
+const TODAY = new Date().toISOString().slice(0, 10)
+const STATUS_TEXT = { pass: '✓ Pass', fail: '✗ Fail', unknown: '? Unknown' }
 
 function ScoreBar({ score }) {
   return (
@@ -13,6 +16,19 @@ function ScoreBar({ score }) {
       {score.point === null && <div className="bar-range" style={{ left: `${score.lo}%`, width: `${score.hi - score.lo}%` }} />}
       <div className="bar-fill" style={{ width: `${score.lo}%` }} />
     </div>
+  )
+}
+
+function CheckList({ checks }) {
+  return (
+    <ul className="checks">
+      {checks.map((c) => (
+        <li key={c.key}>
+          <span className={`ck ck-${c.status}`}>{STATUS_TEXT[c.status]}</span> {c.label}
+          <span className="small block">{c.detail}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -98,34 +114,70 @@ function RankedCard({ r }) {
   )
 }
 
-function SideList({ title, hint, items }) {
-  if (items.length === 0) return null
+// A researched jurisdiction that is held for verification or excluded: show exactly why.
+function CheckCard({ r }) {
+  return (
+    <li className="card">
+      <div className="card-head">
+        <div className="grow">
+          <h3>{r.state}</h3>
+          <p className="small">{r.allocator}</p>
+        </div>
+        <span className={`chip conf-${r.confidence.toLowerCase()}`}>{r.confidence} confidence</span>
+      </div>
+      <p className="small">{r.reason}</p>
+      <details className="details">
+        <summary>The five checks</summary>
+        <CheckList checks={r.gates.checks} />
+        {r.nextDeadline && <p className="small"><strong>Next deadline:</strong> {r.nextDeadline}</p>}
+        {r.notes && <p className="small"><strong>Research notes:</strong> {r.notes}</p>}
+      </details>
+    </li>
+  )
+}
+
+function Section({ title, hint, children }) {
   return (
     <section className="side">
       <h2>{title}</h2>
-      <p className="small">{hint}</p>
-      <ul className="plain">
-        {items.map((r) => (
-          <li key={r.id} className="side-row">
-            <strong>{r.state}</strong>
-            <span className="small">{r.reason}</span>
-          </li>
-        ))}
-      </ul>
+      {hint && <p className="small">{hint}</p>}
+      {children}
     </section>
   )
 }
 
+// Which checks are holding researched jurisdictions back, most common first.
+function blockers(items) {
+  const counts = new Map()
+  for (const r of items) {
+    for (const c of r.gates.checks) {
+      if (c.status === 'pass') continue
+      const entry = counts.get(c.key) ?? { label: c.label, unknown: 0, fail: 0 }
+      entry[c.status]++
+      counts.set(c.key, entry)
+    }
+  }
+  return [...counts.values()].sort((a, b) => b.unknown + b.fail - (a.unknown + a.fail))
+}
+
 export default function RankingPage() {
-  const result = useMemo(() => rankRecords(SAMPLE_RECORDS, { asOf: SAMPLE_AS_OF }), [])
-  const [pathway, setPathway] = useState(result.lists[0].pathway)
-  const list = result.lists.find((l) => l.pathway === pathway)
+  const [dataset, setDataset] = useState('real')
+  const real = useMemo(() => rankRecords(REAL_DATA.records, { asOf: TODAY }), [])
+  const sample = useMemo(() => rankRecords(SAMPLE_RECORDS, { asOf: SAMPLE_AS_OF }), [])
+  const result = dataset === 'real' ? real : sample
+  const [pathway, setPathway] = useState('9%')
+  const list = result.lists.find((l) => l.pathway === pathway) ?? result.lists[0]
+
+  const researched = list.needsVerification.filter((r) => r.researched)
+  const unresearched = list.needsVerification.filter((r) => !r.researched)
+  const totalPass = result.lists.reduce((n, l) => n + l.counts.pass, 0)
+  const researchedNames = [...new Set(REAL_DATA.records.filter((r) => r.researched).map((r) => r.state))]
 
   function download() {
     const url = URL.createObjectURL(new Blob([toCsv(result)], { type: 'text/csv' }))
     const a = document.createElement('a')
     a.href = url
-    a.download = `dl3-state-ranking-${result.asOf}.csv`
+    a.download = `dl3-state-ranking-${dataset}-${result.asOf}.csv`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -135,14 +187,26 @@ export default function RankingPage() {
       <header>
         <p className="eyebrow">DL3 LIHTC opportunity model</p>
         <h1>State ranking</h1>
-        <p className="banner">
-          Sample data only. Every state, number and score here is made up to show how the ranking works. Nothing on this page is a real result.
-        </p>
+        <div className="seg" role="group" aria-label="Which data to show">
+          <button aria-pressed={dataset === 'real'} className={dataset === 'real' ? 'on' : ''} onClick={() => setDataset('real')}>Real data (draft)</button>
+          <button aria-pressed={dataset === 'sample'} className={dataset === 'sample' ? 'on' : ''} onClick={() => setDataset('sample')}>Sample data (made up)</button>
+        </div>
+        {dataset === 'real' ? (
+          <p className="banner">
+            Draft research data, retrieved Nov 8, 2026, not yet reviewed by DL3. Only {REAL_DATA.stats.researchedStates} of {REAL_DATA.stats.states} states
+            ({researchedNames.join(', ')}) have been researched; the rest list the agency only.
+            {totalPass === 0 && ' No state has passed every check yet, so nothing is ranked.'}
+          </p>
+        ) : (
+          <p className="banner">
+            Sample data only. Every state, number and score here is made up to show how the ranking works. Nothing on this page is a real result.
+          </p>
+        )}
       </header>
 
       <div className="tabs" role="tablist" aria-label="Credit pathway">
         {result.lists.map((l) => (
-          <button key={l.pathway} role="tab" aria-selected={l.pathway === pathway} className={l.pathway === pathway ? 'on' : ''} onClick={() => setPathway(l.pathway)}>
+          <button key={l.pathway} role="tab" aria-selected={l.pathway === list.pathway} className={l.pathway === list.pathway ? 'on' : ''} onClick={() => setPathway(l.pathway)}>
             {l.pathway} credit
             <span className="small"> {l.ranked.length} ranked</span>
           </button>
@@ -150,20 +214,74 @@ export default function RankingPage() {
       </div>
 
       <p className="small summary">
-        {list.counts.total} jurisdictions in the {list.pathway} pathway: {list.counts.pass} passed the gates, {list.counts.needsVerification} need verification, {list.counts.fail} failed a gate.
+        {list.counts.total} states in the {list.pathway} pathway: {list.counts.pass} passed every check, {list.counts.needsVerification} need verification
+        ({researched.length} researched, {unresearched.length} not yet researched), {list.counts.fail} failed a check.
+        {list.counts.benchmark > 0 && ` Illinois is shown for benchmarking only.`}
       </p>
 
       <section>
         <h2>Ranking</h2>
-        {list.ranked.length === 0 ? <p>No jurisdiction has passed every gate yet.</p> : <ol className="plain">{list.ranked.map((r) => <RankedCard key={r.id} r={r} />)}</ol>}
+        {list.ranked.length > 0 ? (
+          <ol className="plain">{list.ranked.map((r) => <RankedCard key={r.id} r={r} />)}</ol>
+        ) : (
+          <div className="empty">
+            <p><strong>No state has passed every check yet.</strong> A state is only ranked once all five checks pass, and unknown never counts as a pass.</p>
+            {blockers(researched).length > 0 && (
+              <>
+                <p className="small">What is holding the {researched.length} researched {researched.length === 1 ? 'state' : 'states'} back:</p>
+                <ul className="small">
+                  {blockers(researched).map((b) => (
+                    <li key={b.label}>
+                      {b.label}: {b.unknown > 0 && `${b.unknown} unknown`}{b.unknown > 0 && b.fail > 0 && ', '}{b.fail > 0 && `${b.fail} fail on current data`}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        )}
       </section>
 
-      <SideList title="Needs verification" hint="Unknown or stale evidence cannot pass. These are not scored until it is checked." items={list.needsVerification} />
-      <SideList title="Excluded" hint="Failed a gate, so they are left out however well they might score. Kept here for the coverage report." items={list.excluded} />
+      {researched.length > 0 && (
+        <Section title="Researched, needs verification" hint="Some evidence is still unknown or low confidence. These are not scored until it is checked.">
+          <ul className="plain">{researched.map((r) => <CheckCard key={r.id} r={r} />)}</ul>
+        </Section>
+      )}
 
-      <section className="side">
-        <h2>How it works</h2>
-        <details className="details" open={false}>
+      {list.excluded.length > 0 && (
+        <Section title="Excluded" hint="Failed a check on evidence that is not low confidence, so they are left out however well they might score. Kept here for the coverage report.">
+          <ul className="plain">{list.excluded.map((r) => <CheckCard key={r.id} r={r} />)}</ul>
+        </Section>
+      )}
+
+      {unresearched.length > 0 && (
+        <Section title="Not researched yet">
+          <details className="details">
+            <summary>{unresearched.length} states have only an agency name so far</summary>
+            <ul className="names small">
+              {unresearched.map((r) => (
+                <li key={r.id}><strong>{r.state}</strong> · {r.allocator}</li>
+              ))}
+            </ul>
+          </details>
+        </Section>
+      )}
+
+      {list.benchmark.length > 0 && (
+        <Section title="Benchmark only" hint="Researched for comparison and rule changes, but kept out of the active new-development shortlist.">
+          <ul className="plain">
+            {list.benchmark.map((r) => (
+              <li key={r.id} className="side-row">
+                <strong>{r.state}</strong>
+                <span className="small">{r.allocator}</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      <Section title="How it works">
+        <details className="details">
           <summary>Weights and rules</summary>
           <table className="parts">
             <tbody>
@@ -175,13 +293,14 @@ export default function RankingPage() {
           <ul className="small">
             <li>Each factor is scored 0 to 5. Score = sum of (weight × score) ÷ 5, out of 100.</li>
             <li>A state must have room for a project of 101+ units, a developer fee above 10% of development cost, a sponsor path, and workable financing, with sources checked in the last {result.settings.staleAfterDays} days.</li>
+            <li>A failure that rests on low-confidence evidence is held for verification, not excluded.</li>
             <li>Missing factors give a range, never a guess. A rank is withheld when missing evidence could change it.</li>
             <li>Every weight is moved up and down 20% to see whether the order changes.</li>
             <li>Weights and thresholds are proposals until DL3 approves them. Model version {result.modelVersion}, run date {result.asOf}.</li>
           </ul>
         </details>
         <button className="download" onClick={download}>Download full report (CSV)</button>
-      </section>
+      </Section>
     </main>
   )
 }
