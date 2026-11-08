@@ -22,7 +22,23 @@ from bs4 import BeautifulSoup
 from . import archive
 
 ROOT = Path(__file__).resolve().parents[2]
+FIELDS = ("source_id", "jurisdiction", "state", "doc_type", "title", "url", "status", "critical", "notes",
+          *archive.OPTIONAL_SOURCE_FIELDS)
 DOC_EXTS = (".pdf", ".xlsx", ".xls", ".docx", ".doc", ".csv")
+
+
+MAGIC = {  # declared type -> required leading bytes; mismatches are quarantined (not archived)
+    "application/pdf": (b"%PDF-",),
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": (b"PK\x03\x04",),
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": (b"PK\x03\x04",),
+    "application/vnd.ms-excel": (b"\xd0\xcf\x11\xe0", b"PK\x03\x04"),
+    "application/msword": (b"\xd0\xcf\x11\xe0",),
+}
+
+
+def content_matches_type(body: bytes, content_type: str | None) -> bool:
+    sigs = MAGIC.get(content_type or "")
+    return True if sigs is None else body.lstrip(b"\xef\xbb\xbf")[:8].startswith(sigs) or body[:8].startswith(sigs)
 
 
 class FetchError(Exception):
@@ -149,6 +165,8 @@ class Fetcher:
                     body += chunk
                     if len(body) > self.cfg["max_bytes"]:
                         raise FetchError(f"exceeds max_bytes ({self.cfg['max_bytes']})")
+                if not content_matches_type(bytes(body), ct):
+                    raise FetchError(f"quarantined: content does not look like declared type {ct}")
                 return Response(bytes(body), r.status_code, ct, r.url), attempt + 1
             except FetchError:
                 raise
@@ -181,7 +199,7 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
         if only and src["source_id"] not in only:
             continue
         archive.upsert_source(conn, {k: src.get(k) for k in
-                              ("source_id", "jurisdiction", "state", "doc_type", "title", "url", "status", "critical", "notes")})
+                              FIELDS})
         _fetch_one(conn, fetcher, archive_root, src, src["url"], None, summary, run_id)
         if follow_documents:
             snap = archive.latest_snapshot(conn, src["source_id"])
@@ -192,9 +210,10 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
                                        " VALUES (?,?,?,?)", (src["source_id"], url, text, archive.utcnow().isoformat()))
                     summary.discovered += cur.rowcount
                     child = dict(src, source_id=f"{src['source_id']}:{archive.sha256_bytes(url.encode())[:8]}",
-                                 title=text or url, url=url, doc_type=src["doc_type"] + "_doc")
+                                 title=text or url, url=url, doc_type=src["doc_type"] + "_doc",
+                                 status="unknown")  # never inherit a parent page's draft/final status
                     archive.upsert_source(conn, {k: child.get(k) for k in
-                                          ("source_id", "jurisdiction", "state", "doc_type", "title", "url", "status", "critical", "notes")})
+                                          FIELDS})
                     _fetch_one(conn, fetcher, archive_root, child, url, src["source_id"], summary, run_id)
                 conn.commit()
     conn.close()

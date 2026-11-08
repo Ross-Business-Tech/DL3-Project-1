@@ -197,3 +197,30 @@ def test_register_loads_and_has_required_columns():
     rows = fetch.load_register()
     assert len(rows) >= 9 and all(r["url"].startswith("https://") for r in rows)
     assert {"P3", "P6"} <= {r["source_id"] for r in rows}
+
+
+def test_fake_pdf_is_quarantined_not_archived(site, tmp_path):
+    site.routes["/qap"] = (200, "application/pdf", b"<html>not a pdf</html>")
+    s = go(site, tmp_path, reg(site))
+    assert s.failed == 1 and "quarantined" in s.details[0]["error"]
+    assert not any((tmp_path / "archive").rglob("*.pdf"))
+
+
+def test_discovered_documents_do_not_inherit_final_status(site, tmp_path):
+    site.routes["/qap"] = (200, "text/html", b'<a href="/plan.pdf">Plan</a>')
+    site.routes["/plan.pdf"] = (200, "application/pdf", make_pdf("QAP"))
+    go(site, tmp_path, reg(site, status="final"), follow_documents=True)
+    conn = archive.connect(tmp_path / "t.db")
+    assert conn.execute("SELECT doc_status FROM snapshot WHERE parent_source_id='T1'").fetchone()[0] == "unknown"
+    assert conn.execute("SELECT doc_status FROM snapshot WHERE source_id='T1'").fetchone()[0] == "final"
+
+
+def test_spec_source_record_fields_present(site, tmp_path):
+    site.routes["/qap"] = (200, "text/html", b"x")
+    go(site, tmp_path, reg(site, plan_year="2027-2028"))
+    conn = archive.connect(tmp_path / "t.db")
+    src = conn.execute("SELECT * FROM source").fetchone()
+    assert src["plan_year"] == "2027-2028" and src["adoption_date"] is None
+    snap = archive.latest_snapshot(conn, "T1")
+    for col in ("url", "retrieved_at", "sha256", "doc_status", "archive_path"):  # Section 4 minimum fields
+        assert snap[col]

@@ -61,13 +61,23 @@ class SnapshotResult:
     first_snapshot: bool
 
 
+OPTIONAL_SOURCE_FIELDS = ("plan_year", "adoption_date", "effective_dates", "amendment_date", "superseded_by")
+
+
 def upsert_source(conn: sqlite3.Connection, row: dict) -> None:
+    row = {**{k: None for k in OPTIONAL_SOURCE_FIELDS}, **row}
+    row = {k: (v or None) if k in OPTIONAL_SOURCE_FIELDS else v for k, v in row.items()}
     conn.execute(
-        """INSERT INTO source (source_id, jurisdiction, state, doc_type, title, url, status, critical, notes)
-           VALUES (:source_id, :jurisdiction, :state, :doc_type, :title, :url, :status, :critical, :notes)
+        """INSERT INTO source (source_id, jurisdiction, state, doc_type, title, url, status, critical, notes,
+             plan_year, adoption_date, effective_dates, amendment_date, superseded_by)
+           VALUES (:source_id, :jurisdiction, :state, :doc_type, :title, :url, :status, :critical, :notes,
+             :plan_year, :adoption_date, :effective_dates, :amendment_date, :superseded_by)
            ON CONFLICT(source_id) DO UPDATE SET jurisdiction=excluded.jurisdiction, state=excluded.state,
              doc_type=excluded.doc_type, title=excluded.title, url=excluded.url,
-             status=excluded.status, critical=excluded.critical, notes=excluded.notes""",
+             status=excluded.status, critical=excluded.critical, notes=excluded.notes,
+             plan_year=excluded.plan_year, adoption_date=excluded.adoption_date,
+             effective_dates=excluded.effective_dates, amendment_date=excluded.amendment_date,
+             superseded_by=excluded.superseded_by""",
         row,
     )
     conn.commit()

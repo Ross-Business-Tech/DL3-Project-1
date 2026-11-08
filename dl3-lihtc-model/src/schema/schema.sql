@@ -10,7 +10,12 @@ CREATE TABLE IF NOT EXISTS source (
     url          TEXT NOT NULL,
     status       TEXT NOT NULL DEFAULT 'unknown',  -- draft | final | unknown
     critical     INTEGER NOT NULL DEFAULT 0,       -- fee/deadline/eligibility: freshness-limited
-    notes        TEXT
+    notes        TEXT,
+    plan_year    TEXT,   -- e.g. 2027-2028; filled by a reviewer, never guessed
+    adoption_date TEXT,
+    effective_dates TEXT,
+    amendment_date TEXT,
+    superseded_by TEXT   -- source_id of the replacing source
 );
 
 -- One row per successful retrieval. Never updated or deleted: originals are preserved.
