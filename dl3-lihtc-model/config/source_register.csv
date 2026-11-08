@@ -1,5 +1,6 @@
 source_id,jurisdiction,state,doc_type,title,url,status,critical,notes,plan_year,adoption_date,effective_dates,amendment_date,superseded_by
 P1,HUD,US,allocator_list,HUD list of LIHTC allocating agencies,https://www.huduser.gov/lihtc/agency_list.htm,final,false,Starting list of state and local agencies. Revalidate names authority and links.,,,,,
+P1b,HUD,US,allocator_list,HUD LIHTC Database list of allocating agencies (lihtc.huduser.gov),https://lihtc.huduser.gov/agency_list.htm,final,false,Alternate address of P1 found by web search; whichever responds is parsed.,,,,,
 P2,HUD,US,program_data,HUD LIHTC program data,https://www.huduser.gov/portal/datasets/lihtc.html,final,false,Property and tenant data. Keep property records distinct from award-round records.,,,,,
 P3,IHDA,IL,qap,IHDA Qualified Allocation Plan page,https://www.ihda.org/developers/qap/,unknown,true,Current and prior plans redlines and FAQs. 2027-2028 two-year plan. Illinois is benchmark only.,,,,,
 P4,Cook County,IL,incentive,Cook County Assessor AHSAP program,https://www.cookcountyassessoril.gov/affordable-housing,unknown,false,Property tax abatement example.,,,,,

@@ -1,0 +1,59 @@
+# Rules for discovering inventory sources on agency websites. Deterministic; edit without code changes.
+crawl:
+  max_pages_per_jurisdiction: 30
+  max_depth: 3
+  workers: 8                # jurisdictions crawled in parallel (each host still rate-limited)
+# Links worth following toward LIHTC material (scored on link text + URL).
+follow:
+  - 'tax[- ]?credit'
+  - 'lihtc'
+  - '\bhtc\b'
+  - 'qap'
+  - 'allocation'
+  - 'multi[- ]?family'
+  - 'rental'
+  - 'developer'
+  - 'development'
+  - 'partner'
+  - 'program'
+  - 'housing'
+  - 'bond'
+# Never follow these (matched against the URL).
+skip:
+  - '^mailto:'
+  - '^tel:'
+  - '^javascript:'
+  - 'login|signin|sign-in|logout'
+  - '/search'
+  - 'calendar'
+  - 'facebook\.com|twitter\.com|x\.com|linkedin\.com|instagram\.com|youtube\.com'
+  - 'homebuyer|home-buyer|mortgage-loan|down-?payment|rental-assistance|emergency'
+# A link "has LIHTC context" if its text, URL, or the page it was found on matches one of these.
+lihtc_context:
+  - 'tax[- ]?credit'
+  - 'lihtc'
+  - '\bhtc\b'
+  - '\b[49]\s*%'
+  - 'qap'
+  - 'qualified\s+allocation'
+categories:
+  qap:
+    patterns: ['qualified\s+allocation\s+plan', '\bqap\b']
+    needs_context: false
+  award_list:
+    patterns: ['\bawards?\b', 'awarded', '\breservations?\b', 'allocations?\s+(list|made|awarded|summary)',
+               'funded\s+(projects|developments)', '\bresults\b', 'recipients', 'selected\s+(projects|developments)']
+    needs_context: true
+  underwriting:
+    patterns: ['underwriting']
+    needs_context: false
+  application:
+    patterns: ['\bapplications?\b', '\bnofa\b', 'notice\s+of\s+funding', 'funding\s+round', '\bround\b']
+    needs_context: true
+  lihtc_program:
+    patterns: ['low[- ]income\s+housing\s+tax\s+credit', '\blihtc\b', 'housing\s+tax\s+credits?']
+    needs_context: false
+  bond_program:
+    patterns: ['tax[- ]exempt\s+bonds?', 'private\s+activity\s+bonds?', 'multi[- ]?family\s+(revenue\s+)?bonds?', '\b4\s*%']
+    needs_context: false
+draft_markers: ['draft', 'proposed', 'public\s+comment', 'redline', 'comment\s+period']

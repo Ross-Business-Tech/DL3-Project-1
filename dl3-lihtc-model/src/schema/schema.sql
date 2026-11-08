@@ -75,3 +75,45 @@ CREATE TABLE IF NOT EXISTS candidate_page (
     quote        TEXT NOT NULL,          -- verbatim excerpt from the page
     PRIMARY KEY (snapshot_id, topic, page)
 );
+
+-- Inventory discovery (50-state). Every candidate keeps where and when it was found.
+CREATE TABLE IF NOT EXISTS crawl_page (
+    run_id          TEXT NOT NULL,
+    jurisdiction_id TEXT NOT NULL,
+    url             TEXT NOT NULL,
+    final_url       TEXT NOT NULL,
+    title           TEXT,
+    sha256          TEXT NOT NULL,
+    depth           INTEGER NOT NULL,
+    retrieved_at    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ix_crawl_page ON crawl_page(jurisdiction_id, run_id);
+
+CREATE TABLE IF NOT EXISTS inventory_candidate (
+    run_id          TEXT NOT NULL,
+    jurisdiction_id TEXT NOT NULL,
+    category        TEXT NOT NULL,   -- qap | award_list | underwriting | application | lihtc_program | bond_program
+    url             TEXT NOT NULL,
+    link_text       TEXT,
+    kind            TEXT NOT NULL,   -- page | document
+    file_format     TEXT,            -- pdf | xlsx | html ...
+    found_on_url    TEXT NOT NULL,
+    found_on_sha256 TEXT,
+    score           INTEGER NOT NULL,
+    years           TEXT,            -- years named in link text / file name, comma-separated
+    draft_marker    INTEGER NOT NULL DEFAULT 0,
+    offsite         INTEGER NOT NULL DEFAULT 0,
+    depth           INTEGER NOT NULL,
+    retrieved_at    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ix_inv_cand ON inventory_candidate(jurisdiction_id, run_id);
+
+CREATE TABLE IF NOT EXISTS crawl_status (
+    run_id          TEXT NOT NULL,
+    jurisdiction_id TEXT NOT NULL,
+    pages_fetched   INTEGER NOT NULL,
+    errors          INTEGER NOT NULL,
+    first_error     TEXT,
+    finished_at     TEXT NOT NULL,
+    PRIMARY KEY (run_id, jurisdiction_id)
+);

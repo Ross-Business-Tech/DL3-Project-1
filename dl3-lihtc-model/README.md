@@ -43,3 +43,25 @@ retrievals, freshness, candidate pages with quotes), `change_report.json`, and `
   Parser is untested against the live page; all rows are marked "needs verification".
 - Refresh demo: `tests/test_refresh.py` runs the pipeline, edits a source (15% -> 12% fee), takes another
   source offline, reruns, and checks the report shows the diff, the failure, and the retained last-good copy.
+
+## 50-state inventory
+
+```bash
+python run_all.py --inventory            # fetch register sources (incl. HUD list), crawl every agency, build inventory
+python run_all.py --inventory MI CHI     # just some jurisdictions
+python -m src.inventory.build            # rebuild the spreadsheet only (e.g. after editing overrides)
+```
+
+Output: `data/inventory/state_inventory.xlsx` (sheets: Inventory, Candidates, HUD list, Read me) and `.csv`.
+
+- `config/jurisdictions.csv`: the 50 states plus DC, PR, USVI and the Chicago and NYC sub-allocators. Agency names
+  and homepages are a seed list (unverified); each is checked against HUD's allocating-agency list (P1).
+- `src/inventory/crawl.py`: a focused, polite crawl of each agency site (30 pages, depth 3, same site, 8 sites in
+  parallel) that records candidate QAP pages and documents, award lists, underwriting manuals, application
+  rounds and bond programs, with the link text, the page it was found on, that page's hash and the time.
+  Keyword rules live in `config/inventory_keywords.yaml`.
+- Auto-found values are candidates. A QAP is never marked final automatically; deadlines and the light-screen
+  fee/credit caps stay "needs verification".
+- To confirm a value, add a row to `config/inventory_overrides.csv` (jurisdiction_id, field, value, source_url,
+  reviewer, reviewed_on) and rebuild. Reviewed values always win, and a row becomes "verified" only when every
+  key field has been reviewed.

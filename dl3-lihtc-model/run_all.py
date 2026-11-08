@@ -31,7 +31,8 @@ def code_version() -> str:
 def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = None,
                  archive_root: Path | None = None, out_root: Path | None = None,
                  only: set[str] | None = None, follow_documents: bool = False,
-                 refresh_hud: bool = True, fetcher: fetch.Fetcher | None = None) -> Path:
+                 refresh_hud: bool = True, fetcher: fetch.Fetcher | None = None,
+                 inventory: bool = False, inventory_only: set[str] | None = None) -> Path:
     settings = fetch.load_settings()
     register = fetch.load_register(register_path)
     db_path = db_path or ROOT / "data" / "dl3.db"
@@ -54,11 +55,24 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
 
     hud_rows = 0
     if refresh_hud:
-        p1 = archive.latest_snapshot(conn, "P1")
-        if p1 and p1["content_type"] == "text/html" and p1["run_id"] == run_id:
-            rows = hud_allocators.parse_allocators((archive_root / p1["archive_path"]).read_bytes(), p1["final_url"])
-            hud_allocators.write_csv(rows, ROOT / "data" / "reference" / "hud_allocators.csv")
-            hud_rows = len(rows)
+        for sid in ("P1", "P1b"):  # same HUD list at two addresses; use the first that parses
+            p1 = archive.latest_snapshot(conn, sid)
+            if p1 and p1["content_type"] == "text/html" and p1["run_id"] == run_id:
+                rows = hud_allocators.parse_allocators((archive_root / p1["archive_path"]).read_bytes(),
+                                                       p1["final_url"])
+                if rows:
+                    hud_allocators.write_csv(rows, ROOT / "data" / "reference" / "hud_allocators.csv")
+                    hud_rows = len(rows)
+                    break
+
+    inventory_path = None
+    if inventory:
+        from src.inventory import build, crawl
+        js = crawl.load_jurisdictions()
+        if inventory_only:
+            js = [j for j in js if j["jurisdiction_id"] in inventory_only]
+        crawl.crawl_all(js, settings, crawl.load_rules(), db_path)
+        inventory_path = str(build.build(db_path=db_path))
 
     archive.finish_run(conn, run_id)
     ctx = change_report.build_context(conn, archive_root, run_id, settings["freshness_days"])
@@ -70,7 +84,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
     (out_dir / "change_report.json").write_text(json.dumps(ctx, indent=2, default=str), encoding="utf-8")
     manifest = {"run_id": run_id, "started_at": started, "code_version": code_version(),
                 "register": str(register_path or "config/source_register.csv"),
-                "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows,
+                "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path,
                 "sources": summary.details,
                 "snapshots": [dict(r) for r in conn.execute(
                     "SELECT snapshot_id, source_id, sha256, retrieved_at, archive_path FROM snapshot WHERE run_id=?", (run_id,))]}
@@ -84,11 +98,17 @@ def main(argv=None) -> int:
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--follow-documents", action="store_true")
     ap.add_argument("--no-hud", action="store_true", help="skip parsing the HUD allocator list")
+    ap.add_argument("--inventory", nargs="*", metavar="ID",
+                    help="also crawl agency sites and rebuild data/inventory/state_inventory.xlsx "
+                         "(all jurisdictions, or the IDs given, e.g. --inventory MI CHI)")
     a = ap.parse_args(argv)
     out = run_pipeline(only=set(a.only) if a.only else None, follow_documents=a.follow_documents,
-                       refresh_hud=not a.no_hud)
+                       refresh_hud=not a.no_hud, inventory=a.inventory is not None,
+                       inventory_only={x.upper() for x in a.inventory} if a.inventory else None)
     m = json.loads((out / "run_manifest.json").read_text())
     print(f"Run {m['run_id']}: {m['counts']}\nReport: {out / 'change_report.html'}")
+    if m.get("inventory"):
+        print(f"Inventory: {m['inventory']}")
     return 1 if m["counts"]["failed"] else 0
 
 

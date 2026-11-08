@@ -105,7 +105,21 @@ def test_scanned_pdf_page_flagged_for_ocr():
 
 def test_hud_parser_marks_rows_unverified():
     html = (b"<table><tr><th>State</th><th>Agency</th></tr>"
-            b"<tr><td>MI</td><td><a href='/m'>Michigan State Housing Development Authority</a></td></tr></table>")
-    rows = hud_allocators.parse_allocators(html, "https://example.org/list")
-    assert rows[0]["state"] == "MI" and rows[0]["agency_url"] == "https://example.org/m"
-    assert rows[0]["verification_status"] == "needs verification"
+            b"<tr><td>Michigan</td><td><a href='https://www.michigan.gov/mshda'>Michigan State Housing Development Authority</a></td></tr>"
+            b"<tr><td>Illinois</td><td><a href='https://www.ihda.org/'>IHDA</a></td></tr>"
+            b"<tr><td>Illinois</td><td><a href='https://www.chicago.gov/doh'>City of Chicago</a></td></tr>"
+            b"<tr><td><a href='/about'>About HUD</a></td></tr></table>")
+    rows = hud_allocators.parse_allocators(html, "https://www.huduser.gov/lihtc/agency_list.htm")
+    assert [(r["state"], r["agency_host"]) for r in rows] == [
+        ("MI", "michigan.gov"), ("IL", "ihda.org"), ("IL", "chicago.gov")]
+    assert rows[0]["agency_name"] == "Michigan State Housing Development Authority"
+    assert all(r["verification_status"] == "needs verification" for r in rows)
+
+
+def test_hud_parser_heading_layout():
+    html = (b"<h3>New York</h3><p><a href='https://hcr.ny.gov/'>NYS Homes and Community Renewal</a></p>"
+            b"<p><a href='https://www.nyc.gov/site/hpd'>NYC HPD</a></p><h3>Ohio</h3>"
+            b"<ul><li><a href='https://ohiohome.org/'>Ohio Housing Finance Agency</a></li></ul>")
+    rows = hud_allocators.parse_allocators(html, "https://www.huduser.gov/x")
+    assert [(r["state"], r["agency_name"]) for r in rows] == [
+        ("NY", "NYS Homes and Community Renewal"), ("NY", "NYC HPD"), ("OH", "Ohio Housing Finance Agency")]
