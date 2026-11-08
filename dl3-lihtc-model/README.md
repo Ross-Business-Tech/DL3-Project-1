@@ -46,6 +46,13 @@ retrievals, freshness, candidate pages with quotes), `change_report.json`, and `
 
 ## 50-state inventory
 
+One-time setup for the browser fallback (needed for HUD's list and some agency sites):
+
+```bash
+pip install -r requirements.txt
+python -m playwright install chromium
+```
+
 ```bash
 python run_all.py --inventory            # fetch register sources (incl. HUD list), crawl every agency, build inventory
 python run_all.py --inventory MI CHI     # just some jurisdictions
@@ -65,3 +72,21 @@ Output: `data/inventory/state_inventory.xlsx` (sheets: Inventory, Candidates, HU
 - To confirm a value, add a row to `config/inventory_overrides.csv` (jurisdiction_id, field, value, source_url,
   reviewer, reviewed_on) and rebuild. Reviewed values always win, and a row becomes "verified" only when every
   key field has been reviewed.
+
+### How failures are handled (from the first real run, 2026-11-08)
+
+- **robots.txt** follows RFC 9309: a site that refuses to serve robots.txt (4xx) has no rules; a server error
+  means stay out. A real "Disallow" is always respected, including by the browser fallback; the error says which.
+- **Bot-check pages** (HUD's HTTP 202, "checking your browser") and **incomplete TLS certificate chains**
+  (ilga.gov, dca.ga.gov) are retried once in headless Chromium. TLS is also checked with the operating
+  system's certificate store (`truststore`). Certificate checking is never turned off.
+- **JavaScript-built homepages** (almost no links in the HTML) are re-read in the browser.
+- **Agencies that moved**: if a homepage redirects to a new site, the crawl follows it and reports the new
+  address in `agency_moved_to` so `config/jurisdictions.csv` can be updated.
+- **States that don't say "QAP"** get aliases in `jurisdictions.csv` (`qap_aliases`): CA "TCAC Regulations",
+  WA "Tax Credit Policies", AK "GOAL".
+- **Choosing the QAP**: newsletters, videos and workshop recordings are never chosen; notices, redlines,
+  appendices and comment files are listed after the plan as "[related document]"; plan years come from the
+  range in the title. `qap_current_nondraft_url` shows the newest plan not marked draft, so a draft never hides
+  the rule in force.
+- Snapshots record `retrieval_method` (http / browser) for provenance.

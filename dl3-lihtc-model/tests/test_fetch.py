@@ -10,8 +10,8 @@ from src.fetch import archive, diff, fetch
 
 SETTINGS = {"fetch": {"timeout_seconds": 5, "max_retries": 2, "backoff_seconds": [0, 0],
                       "min_seconds_between_requests_per_host": 0, "max_bytes": 100000,
-                      "respect_robots_txt": True,
-                      "allowed_content_types": ["text/html", "application/pdf"]}}
+                      "respect_robots_txt": True, "browser_fallback": False,
+                      "allowed_content_types": ["text/html", "application/pdf", "application/xml", "text/xml"]}}
 
 
 def make_pdf(text: str) -> bytes:
@@ -24,13 +24,17 @@ class Site:
     """Tiny mutable local site standing in for an agency server."""
     def __init__(self):
         self.routes = {}   # path -> (status, content_type, body)
+        self.dynamic = {}  # path -> fn(request_headers) -> (status, content_type, body)
         self.hits = {}
         site = self
 
         class H(http.server.BaseHTTPRequestHandler):
             def do_GET(self):
                 site.hits[self.path] = site.hits.get(self.path, 0) + 1
-                status, ct, body = site.routes.get(self.path, (404, "text/plain", b"nope"))
+                if self.path in site.dynamic:
+                    status, ct, body = site.dynamic[self.path](self.headers)
+                else:
+                    status, ct, body = site.routes.get(self.path, (404, "text/plain", b"nope"))
                 if callable(status):
                     status = status(site.hits[self.path])
                 self.send_response(status)

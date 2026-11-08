@@ -1,23 +1,30 @@
 # Rules for discovering inventory sources on agency websites. Deterministic; edit without code changes.
 crawl:
-  max_pages_per_jurisdiction: 30
+  max_pages_per_jurisdiction: 50
+  sitemap_seed_pages: 15    # best-matching sitemap URLs added to the crawl queue
+  max_sitemap_urls: 5000
   max_depth: 3
   workers: 8                # jurisdictions crawled in parallel (each host still rate-limited)
-# Links worth following toward LIHTC material (scored on link text + URL).
-follow:
+# Links worth following toward LIHTC material (scored on link text + URL). Strong words count 5, weak 1,
+# so generic "housing"/"program" links on a housing agency site do not use up the page budget.
+follow_strong:
   - 'tax[- ]?credit'
   - 'lihtc'
   - '\bhtc\b'
   - 'qap'
   - 'allocation'
   - 'multi[- ]?family'
-  - 'rental'
   - 'developer'
+  - 'rental[- ]housing[- ]development'
+  - 'bond'
+follow_weak:
+  - 'rental'
   - 'development'
   - 'partner'
   - 'program'
   - 'housing'
-  - 'bond'
+  - 'funding'
+  - 'financ'
 # Never follow these (matched against the URL).
 skip:
   - '^mailto:'
@@ -28,6 +35,8 @@ skip:
   - 'calendar'
   - 'facebook\.com|twitter\.com|x\.com|linkedin\.com|instagram\.com|youtube\.com'
   - 'homebuyer|home-buyer|mortgage-loan|down-?payment|rental-assistance|emergency'
+  - '\.(png|jpe?g|gif|svg|webp|ico|mp4|mov|avi|mp3|wav|zip|exe|dmg|css|js)(\?|$)'
+  - '/(news|press|events?|blog|careers|jobs|staff|board-meetings?)/'
 # A link "has LIHTC context" if its text, URL, or the page it was found on matches one of these.
 lihtc_context:
   - 'tax[- ]?credit'
@@ -57,3 +66,49 @@ categories:
     patterns: ['tax[- ]exempt\s+bonds?', 'private\s+activity\s+bonds?', 'multi[- ]?family\s+(revenue\s+)?bonds?', '\b4\s*%']
     needs_context: false
 draft_markers: ['draft', 'proposed', 'public\s+comment', 'redline', 'comment\s+period']
+# Candidates from these hosts are never chosen (video, newsletters, link shorteners, social media).
+exclude_hosts:
+  - 'youtube.com'
+  - 'youtu.be'
+  - 'vimeo.com'
+  - 'conta.cc'
+  - 'constantcontact.com'
+  - 'mailchi.mp'
+  - 'list-manage.com'
+  - 'bit.ly'
+  - 'tinyurl.com'
+  - 'eventbrite.com'
+  - 'zoom.us'
+  - 'facebook.com'
+  - 'twitter.com'
+  - 'x.com'
+  - 'linkedin.com'
+  - 'instagram.com'
+# Candidates whose link text matches these are never chosen as a QAP / award list / manual.
+exclude_text:
+  - 'workshop'
+  - 'webinar'
+  - 'recording'
+  - '\bvideo\b'
+  - 'training'
+  - 'newsletter'
+  - 'press\s+release'
+# Documents about a QAP rather than the QAP itself. Listed after the plan, never chosen over it.
+ancillary:
+  - 'append(ix|ices)'
+  - 'exhibit'
+  - 'attachment'
+  - 'summary'
+  - 'notice'
+  - 'hearing'
+  - '\bcomments\b'          # collected comments; a draft "for public comment" is the plan itself
+  - 'redline'
+  - 'blackline'
+  - 'changes'
+  - 'presentation'
+  - '\bfaq'
+  - 'response'
+  - 'checklist'
+  - '\bforms?\b'
+  - 'application'
+  - '\.zip$'

@@ -14,7 +14,7 @@ def build_context(conn, archive_root: Path, run_id: str, freshness_days: int) ->
     run = conn.execute("SELECT * FROM run WHERE run_id=?", (run_id,)).fetchone()
     snaps = conn.execute("SELECT s.*, src.title FROM snapshot s JOIN source src USING(source_id) "
                          "WHERE s.run_id=? ORDER BY s.snapshot_id", (run_id,)).fetchall()
-    changes, new, unchanged = [], 0, 0
+    changes, new, unchanged, furniture = [], 0, 0, []
     for s in snaps:
         has_prev = archive.latest_snapshot(conn, s["source_id"], s["snapshot_id"]) is not None
         if not has_prev:
@@ -24,7 +24,12 @@ def build_context(conn, archive_root: Path, run_id: str, freshness_days: int) ->
         else:
             d = diff.compare_latest_for(conn, archive_root, s)
             d["title"] = s["title"]
-            changes.append(d)
+            if d["status"] == "bytes_changed_text_same":
+                # dynamic page furniture (tokens, timestamps): not a change in source text
+                unchanged += 1
+                furniture.append(s["source_id"])
+            else:
+                changes.append(d)
     failures = [dict(r) for r in conn.execute("SELECT * FROM fetch_failure WHERE run_id=?", (run_id,))]
     fresh = []
     for r in conn.execute("SELECT source_id, critical FROM source ORDER BY source_id"):
@@ -38,7 +43,7 @@ def build_context(conn, archive_root: Path, run_id: str, freshness_days: int) ->
     return {"run_id": run_id, "started_at": run["started_at"] if run else "",
             "counts": {"fetched": len(snaps), "new": new, "changed": len(changes), "unchanged": unchanged,
                        "failed": len(failures), "blocking": sum(1 for f in fresh if f["blocks_recommendation"])},
-            "changes": changes, "failures": failures, "freshness": fresh, "candidates": cands,
+            "changes": changes, "furniture_only": furniture, "failures": failures, "freshness": fresh, "candidates": cands,
             "freshness_days": freshness_days, "ocr": []}
 
 

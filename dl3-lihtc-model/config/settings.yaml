@@ -7,6 +7,10 @@ fetch:
   min_seconds_between_requests_per_host: 2.0
   max_bytes: 52428800       # 50 MB cap per download
   respect_robots_txt: true
+  # Retry in headless Chromium (Playwright) when a site shows a bot-check page, sends an incomplete TLS
+  # certificate chain, or builds its links with JavaScript. Web pages only. If Playwright is
+  # not installed, the error message says how to install it.
+  browser_fallback: true
   allowed_content_types:
     - text/html
     - application/pdf
@@ -15,3 +19,5 @@ fetch:
     - application/vnd.openxmlformats-officedocument.wordprocessingml.document
     - application/msword
     - text/csv
+    - application/xml
+    - text/xml

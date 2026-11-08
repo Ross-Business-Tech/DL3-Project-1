@@ -124,7 +124,7 @@ def test_unreachable_agency_reported_not_guessed(site, tmp_path):
     js = [jur(site, agency_url=site.base + "/gone")]
     run_crawl(site, tmp_path, js)
     r = inventory(tmp_path, js)["ZZ"]
-    assert r["verification_status"] == "crawl failed: check agency URL"
+    assert r["verification_status"] == "crawl failed: see first_crawl_error"
     assert r["qap_page_url"] == "" and "HTTP 404" in r["first_crawl_error"]
 
 

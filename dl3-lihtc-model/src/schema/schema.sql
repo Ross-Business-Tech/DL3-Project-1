@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS snapshot (
     is_duplicate   INTEGER NOT NULL DEFAULT 0, -- same hash as previous snapshot
     parent_source_id TEXT,                   -- set when discovered via a landing page
     doc_status     TEXT NOT NULL DEFAULT 'unknown',  -- draft | final | unknown
-    run_id         TEXT
+    run_id         TEXT,
+    retrieval_method TEXT          -- http | browser | manual
 );
 CREATE INDEX IF NOT EXISTS ix_snapshot_source ON snapshot(source_id, retrieved_at);
 
@@ -115,5 +116,8 @@ CREATE TABLE IF NOT EXISTS crawl_status (
     errors          INTEGER NOT NULL,
     first_error     TEXT,
     finished_at     TEXT NOT NULL,
+    start_error     TEXT,            -- why the agency homepage itself failed, if it did
+    moved_to        TEXT,            -- homepage redirected to a new site (agency moved)
+    start_method    TEXT,            -- http | browser
     PRIMARY KEY (run_id, jurisdiction_id)
 );

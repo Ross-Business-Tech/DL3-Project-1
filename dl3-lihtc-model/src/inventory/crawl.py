@@ -43,8 +43,11 @@ def load_jurisdictions(path: Path | None = None) -> list[dict]:
 def load_rules(path: Path | None = None) -> dict:
     rules = yaml.safe_load((path or ROOT / "config" / "inventory_keywords.yaml").read_text())
     c = lambda pats: [re.compile(p, re.I) for p in pats]  # noqa: E731
-    rules["_follow"], rules["_skip"] = c(rules["follow"]), c(rules["skip"])
+    rules["_strong"], rules["_weak"] = c(rules["follow_strong"]), c(rules["follow_weak"])
+    rules["_skip"] = c(rules["skip"])
     rules["_context"], rules["_draft"] = c(rules["lihtc_context"]), c(rules["draft_markers"])
+    rules["_exclude_hosts"] = {h.lower() for h in rules.get("exclude_hosts", [])}
+    rules["_exclude_text"], rules["_ancillary"] = c(rules.get("exclude_text", [])), c(rules.get("ancillary", []))
     rules["_cats"] = {k: (c(v["patterns"]), bool(v.get("needs_context"))) for k, v in rules["categories"].items()}
     return rules
 
@@ -72,9 +75,33 @@ def years_in(text: str) -> list[int]:
     return sorted(y for y in ys if 2000 <= y <= 2035)
 
 
+def plan_years(text: str) -> list[int]:
+    """Plan years a QAP title names: the first range if there is one ("2027-2028 QAP, changes from 2026"
+    is a 2027-2028 plan), otherwise the latest single year."""
+    m = YEAR_RANGE.search(text)
+    if m:
+        a, b = int(m.group(1)), m.group(2)
+        b = int(b) if len(b) == 4 else (a // 100) * 100 + int(b)
+        if a <= b <= a + 5:
+            return list(range(a, b + 1))
+    ys = years_in(text)
+    return ys[-1:] if ys else []
+
+
 def file_format(url: str) -> str | None:
     path = urlparse(url).path.lower()
     return next((fmt for ext, fmt in DOC_FORMATS.items() if path.endswith(ext)), None)
+
+
+def jurisdiction_rules(j: dict, rules: dict) -> dict:
+    """Add this jurisdiction's own names for its QAP (e.g. California "TCAC Regulations")."""
+    aliases = [a.strip() for a in (j.get("qap_aliases") or "").split(";") if a.strip()]
+    if not aliases:
+        return rules
+    cats = dict(rules["_cats"])
+    pats, needs = cats["qap"]
+    cats["qap"] = (pats + [re.compile(a, re.I) for a in aliases], needs)
+    return {**rules, "_cats": cats}
 
 
 def classify(text: str, url: str, page_context: str, rules: dict) -> list[dict]:
@@ -97,29 +124,126 @@ class CrawlResult:
     pages: list = field(default_factory=list)
     candidates: list = field(default_factory=list)
     errors: list = field(default_factory=list)
+    start_error: str | None = None
+    moved_to: str | None = None
+    start_method: str | None = None
 
 
 def _follow_score(text: str, url: str, rules: dict) -> int:
-    return sum(len(rx.findall(f"{text} {urlparse(url).path}")) for rx in rules["_follow"])
+    t = f"{text} {urlparse(url).path}"
+    return 5 * sum(len(rx.findall(t)) for rx in rules["_strong"]) + sum(len(rx.findall(t)) for rx in rules["_weak"])
+
+
+LOC = re.compile(rb"<loc>\s*([^<\s]+)\s*</loc>", re.I)
+
+
+def sitemap_urls(fetcher: fetch.Fetcher, base: str, limit: int) -> list[str]:
+    """Page URLs from the site's sitemap(s): robots.txt Sitemap: lines, else /sitemap.xml. One index level."""
+    rp, _ = fetcher.robots(base)
+    maps = list((rp.site_maps() if rp else None) or []) or [base + "/sitemap.xml"]
+    urls, seen_maps = [], set()
+    while maps and len(seen_maps) < 8 and len(urls) < limit:
+        m = maps.pop(0)
+        if m in seen_maps or m.endswith(".gz"):
+            continue
+        seen_maps.add(m)
+        try:
+            resp, _ = fetcher.get(m)
+        except fetch.FetchError:
+            continue
+        locs = [u.decode("utf-8", "replace") for u in LOC.findall(resp.body)]
+        if b"<sitemapindex" in resp.body[:2000]:
+            maps.extend(locs)
+        else:
+            urls.extend(locs)
+    return urls[:limit]
 
 
 def crawl_jurisdiction(j: dict, rules: dict, fetcher: fetch.Fetcher) -> CrawlResult:
+    try:
+        return _crawl(j, jurisdiction_rules(j, rules), fetcher)
+    finally:
+        fetcher.close()
+
+
+def _candidate(c, url, text, kind, fmt, found_on, sha, years, draft, offsite, depth, now):
+    return {**c, "url": url, "link_text": text, "kind": kind, "file_format": fmt, "found_on_url": found_on,
+            "found_on_sha256": sha, "years": years, "draft_marker": draft, "offsite": offsite,
+            "depth": depth, "retrieved_at": now}
+
+
+def _crawl(j: dict, rules: dict, fetcher: fetch.Fetcher) -> CrawlResult:
     res = CrawlResult(j["jurisdiction_id"])
     limits = rules["crawl"]
     prefix = (j.get("path_prefix") or "").rstrip("/")
     hosts = hosts_for(j)
     start = j["agency_url"]
-    queue: list = [(0, 0, 0, start)]   # (-follow_score, depth, tiebreak, url)
-    queued, tiebreak = {start}, 0
-    seen_cands: set = set()
 
-    while queue and len(res.pages) < limits["max_pages_per_jurisdiction"]:
-        _, depth, _, url = heapq.heappop(queue)
-        try:
-            resp, _ = fetcher.get(url)
-        except fetch.FetchError as e:
-            res.errors.append({"url": url, "error": str(e)})
+    # 1. Homepage. A redirect to a new site means the agency moved: adopt that site and report it.
+    try:
+        resp, _ = fetcher.get(start, allow_offsite_redirect=True)
+    except fetch.FetchError as e:
+        res.start_error = str(e)
+        res.errors.append({"url": start, "error": str(e)})
+        return res
+    res.start_method = resp.method
+    new_host = (urlparse(resp.final_url).hostname or "").lower()
+    if new_host and new_host not in hosts:
+        res.moved_to = resp.final_url
+        bare = new_host.removeprefix("www.")
+        hosts |= {bare, "www." + bare}
+        fetcher.allowed |= {bare, "www." + bare}
+        if prefix and not urlparse(resp.final_url).path.startswith(prefix):
+            prefix = ""  # old path prefix does not apply on the new site
+    # JS-built homepage: almost no links in the raw HTML. Try a real browser once.
+    if resp.method == "http" and resp.content_type == "text/html" and fetcher.browser is not None:
+        if len(BeautifulSoup(resp.body, "lxml").find_all("a", href=True)) < 5:
+            try:
+                resp, _ = fetcher.get(resp.final_url, force_browser=True)
+                res.start_method = "browser (page built with JavaScript)"
+            except fetch.FetchError as e:
+                res.errors.append({"url": start, "error": f"JavaScript page, browser failed: {e}"})
+
+    queue: list = []
+    queued, tiebreak = {start, resp.final_url}, 0
+    seen_cands: set = set()
+    first = resp
+
+    # 2. Sitemap: lets the crawl jump straight to deep LIHTC pages instead of wandering menus.
+    p0 = urlparse(resp.final_url)
+    for u in sitemap_urls(fetcher, f"{p0.scheme}://{p0.netloc}", limits.get("max_sitemap_urls", 5000)):
+        pu = urlparse(u)
+        if (pu.hostname or "").lower() not in hosts or file_format(u) or u in queued:
             continue
+        if prefix and not pu.path.startswith(prefix):
+            continue
+        if any(rx.search(u) for rx in rules["_skip"]):
+            continue
+        score = 5 * sum(len(rx.findall(pu.path)) for rx in rules["_strong"])
+        if score:
+            queue.append((score, u))
+    queue.sort(key=lambda x: (-x[0], len(x[1])))
+    seeded = queue[: limits.get("sitemap_seed_pages", 15)]
+    queue = []
+    for score, u in seeded:
+        tiebreak += 1
+        queued.add(u)
+        heapq.heappush(queue, (-score, 1, tiebreak, u))
+
+    # 3. Focused crawl, best-scoring links first.
+    pending_first = True
+    while (pending_first or queue) and len(res.pages) < limits["max_pages_per_jurisdiction"]:
+        if pending_first:
+            pending_first, depth, url = False, 0, start
+            resp = first
+        else:
+            _, depth, _, url = heapq.heappop(queue)
+            try:
+                resp, _ = fetcher.get(url)
+            except fetch.FetchError as e:
+                if not str(e).startswith("content type not allowed"):  # image/video links: not a failure
+                    res.errors.append({"url": url, "error": str(e)})
+                continue
         if resp.content_type != "text/html":
             continue
         now = archive.utcnow().isoformat()
@@ -133,15 +257,14 @@ def crawl_jurisdiction(j: dict, rules: dict, fetcher: fetch.Fetcher) -> CrawlRes
         page_context = f"{title} {heading} {urlparse(resp.final_url).path}"
 
         # The page itself can be the QAP / award / program landing page.
-        for c in classify(f"{title} {heading}", resp.final_url, page_context, rules):
+        page_text = f"{title} {heading}"
+        for c in classify(page_text, resp.final_url, page_context, rules):
             key = (c["category"], resp.final_url)
             if key not in seen_cands:
                 seen_cands.add(key)
-                res.candidates.append({**c, "url": resp.final_url, "link_text": heading or title, "kind": "page",
-                                       "file_format": "html", "found_on_url": resp.final_url,
-                                       "found_on_sha256": sha, "years": years_in(f"{title} {heading}"),
-                                       "draft_marker": any(rx.search(f"{title} {heading}") for rx in rules["_draft"]),
-                                       "offsite": False, "depth": depth, "retrieved_at": now})
+                res.candidates.append(_candidate(
+                    c, resp.final_url, heading or title, "page", "html", resp.final_url, sha, years_in(page_text),
+                    any(rx.search(page_text) for rx in rules["_draft"]), False, depth, now))
 
         for t in soup(["script", "style", "noscript"]):
             t.decompose()
@@ -163,13 +286,11 @@ def crawl_jurisdiction(j: dict, rules: dict, fetcher: fetch.Fetcher) -> CrawlRes
                 if key in seen_cands:
                     continue
                 seen_cands.add(key)
-                res.candidates.append({**c, "url": link, "link_text": text, "kind": "document" if fmt else "page",
-                                       "file_format": fmt or "html", "found_on_url": resp.final_url,
-                                       "found_on_sha256": sha,
-                                       # years from link text and file name only: folder dates are upload dates
-                                       "years": years_in(f"{text} {filename}"),
-                                       "draft_marker": any(rx.search(f"{text} {filename}") for rx in rules["_draft"]),
-                                       "offsite": not onsite, "depth": depth + 1, "retrieved_at": now})
+                # years from link text and file name only: folder dates are upload dates
+                res.candidates.append(_candidate(
+                    c, link, text, "document" if fmt else "page", fmt or "html", resp.final_url, sha,
+                    years_in(f"{text} {filename}"), any(rx.search(f"{text} {filename}") for rx in rules["_draft"]),
+                    not onsite, depth + 1, now))
             if fmt or not onsite or link in queued or depth + 1 > limits["max_depth"]:
                 continue
             if prefix and not p.path.startswith(prefix):
@@ -195,9 +316,11 @@ def save(conn, run_id: str, res: CrawlResult) -> None:
         [(run_id, jid, c["category"], c["url"], c["link_text"], c["kind"], c["file_format"], c["found_on_url"],
           c["found_on_sha256"], c["score"], ",".join(map(str, c["years"])), int(c["draft_marker"]),
           int(c["offsite"]), c["depth"], c["retrieved_at"]) for c in res.candidates])
-    conn.execute("INSERT OR REPLACE INTO crawl_status VALUES (?,?,?,?,?,?)",
+    conn.execute("INSERT OR REPLACE INTO crawl_status (run_id, jurisdiction_id, pages_fetched, errors, first_error, "
+                 "finished_at, start_error, moved_to, start_method) VALUES (?,?,?,?,?,?,?,?,?)",
                  (run_id, jid, len(res.pages), len(res.errors),
-                  res.errors[0]["error"][:500] if res.errors else None, archive.utcnow().isoformat()))
+                  res.errors[0]["error"][:500] if res.errors else None, archive.utcnow().isoformat(),
+                  (res.start_error or "")[:500] or None, res.moved_to, res.start_method))
     conn.commit()
 
 
@@ -220,7 +343,8 @@ def crawl_all(jurisdictions: list[dict], settings: dict, rules: dict, db_path: P
             try:
                 res = fut.result()
             except Exception as e:  # one bad site must not stop the other 54
-                res = CrawlResult(jid, errors=[{"url": "", "error": f"crawler error: {type(e).__name__}: {e}"}])
+                msg = f"crawler error: {type(e).__name__}: {e}"
+                res = CrawlResult(jid, errors=[{"url": "", "error": msg}], start_error=msg)
             save(conn, run_id, res)  # database writes stay on the main thread
             progress(f"{jid}: {len(res.pages)} pages, {len(res.candidates)} candidates, {len(res.errors)} errors")
     archive.finish_run(conn, run_id)
@@ -235,6 +359,7 @@ def main(argv=None) -> int:
     ap.add_argument("--workers", type=int)
     ap.add_argument("--db", default=str(ROOT / "data" / "dl3.db"))
     a = ap.parse_args(argv)
+    fetch.use_os_trust_store()
     js = load_jurisdictions()
     if a.only:
         wanted = {x.upper() for x in a.only}

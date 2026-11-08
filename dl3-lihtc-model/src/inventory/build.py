@@ -18,7 +18,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from ..fetch import archive, hud_allocators
-from .crawl import load_jurisdictions
+from .crawl import load_jurisdictions, load_rules, plan_years
 
 ROOT = Path(__file__).resolve().parents[2]
 NEEDS = "needs verification"
@@ -31,6 +31,7 @@ COLUMNS = [
     ("allocating_agency", "Agency that allocates credits"),
     ("agency_url", "Agency homepage"),
     ("agency_source", "Where the agency name/URL came from"),
+    ("agency_moved_to", "Homepage redirected here in the latest crawl: update agency_url after checking"),
     ("hud_check", "Comparison with HUD's allocating-agency list (P1)"),
     ("hud_listed_urls", "URLs HUD lists for this state"),
     ("other_hud_agencies", "Other agencies HUD lists for this state (possible sub-allocators)"),
@@ -38,9 +39,11 @@ COLUMNS = [
     ("bond_issuer_4pct", "4% bond issuer(s)"),
     ("lihtc_program_url", "Agency LIHTC program page"),
     ("qap_page_url", "QAP landing page"),
-    ("qap_document_urls", "Most recent QAP documents found (newest first)"),
+    ("qap_document_urls", "Most recent QAP documents found (newest plan first; notices, redlines, appendices after)"),
     ("plan_years", "Plan year(s) named on the newest QAP document"),
     ("qap_draft_or_final", "Draft/final status of the newest QAP document"),
+    ("qap_current_nondraft_url", "Newest QAP document NOT marked draft: the rule in force until a draft is adopted"),
+    ("qap_current_nondraft_years", "Plan year(s) of that document"),
     ("underwriting_manual_url", "Underwriting manual / guide"),
     ("award_list_urls", "Award / reservation lists found"),
     ("award_formats", "File formats of award lists"),
@@ -51,8 +54,9 @@ COLUMNS = [
     ("stated_fee_cap", "Light screen: stated developer fee cap"),
     ("per_project_credit_cap", "Light screen: per-project credit cap"),
     ("pages_crawled", "Pages read in the latest crawl"),
-    ("crawl_errors", "Failed page fetches in the latest crawl"),
-    ("first_crawl_error", "First error message"),
+    ("crawl_method", "How the homepage was read: http, or browser (bot check, certificate or JavaScript)"),
+    ("crawl_errors", "Failed page fetches in the latest crawl (broken links on the agency site count here)"),
+    ("first_crawl_error", "Why the homepage failed, else the first failed page"),
     ("last_crawled_at", "When the latest crawl finished (UTC)"),
     ("evidence", "Page each auto-found value was found on"),
     ("reviewed_fields", "Fields confirmed by a reviewer (field: reviewer, date)"),
@@ -103,8 +107,30 @@ def _rank(c):
     return (-(max(ys) if ys else 0), -c["score"], c["depth"], c["offsite"], c["url"])
 
 
-def _best(cands, category, kind=None, onsite_first=True):
-    pool = [c for c in cands if c["category"] == category and (kind is None or c["kind"] == kind)]
+def _filename(url: str) -> str:
+    from urllib.parse import unquote
+    return unquote(urlparse(url).path.rsplit("/", 1)[-1])
+
+
+def _is_ancillary(c, rules) -> bool:
+    t = f"{c['link_text'] or ''} {_filename(c['url'])}"
+    return any(rx.search(t) for rx in rules["_ancillary"])
+
+
+def _usable(c, rules) -> bool:
+    host = _host(c["url"])
+    if any(host == h or host.endswith("." + h) for h in rules["_exclude_hosts"]):
+        return False
+    return not any(rx.search(c["link_text"] or "") for rx in rules["_exclude_text"])
+
+
+def _plan_years(c) -> str:
+    return _years_text(set(plan_years(f"{c['link_text'] or ''} {_filename(c['url'])}")))
+
+
+def _best(cands, category, kind=None, onsite_first=True, onsite_only=False):
+    pool = [c for c in cands if c["category"] == category and (kind is None or c["kind"] == kind)
+            and not (onsite_only and c["offsite"])]
     if not pool:
         return None
     key = (lambda c: (c["offsite"], -c["score"], c["depth"], c["url"])) if onsite_first else _rank
@@ -125,7 +151,8 @@ def load_overrides(path: Path | None = None) -> list[dict]:
     return rows
 
 
-def build_rows(jurisdictions, hud_rows, status, cands, overrides) -> list[dict]:
+def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None) -> list[dict]:
+    rules = rules or load_rules()
     hud_by_state = defaultdict(list)
     for h in hud_rows:
         hud_by_state[h["state"]].append(h)
@@ -142,7 +169,8 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides) -> list[dict]:
 
     rows = []
     for j in jurisdictions:
-        jid, cs = j["jurisdiction_id"], cands.get(j["jurisdiction_id"], [])
+        jid = j["jurisdiction_id"]
+        cs = [c for c in cands.get(jid, []) if _usable(c, rules)]
         st = status.get(jid)
         r = dict.fromkeys(FIELDS, "")
         r.update({k: j.get(k, "") for k in ("jurisdiction_id", "state", "jurisdiction_type", "in_50_state_scope",
@@ -177,18 +205,30 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides) -> list[dict]:
                 r[field_name] = value if value is not None else cand["url"]
                 evidence.append(f"{field_name} <- {cand['found_on_url']}")
 
-        put("lihtc_program_url", _best(cs, "lihtc_program", "page"))
-        put("qap_page_url", _best(cs, "qap", "page"))
-        qdocs = sorted([c for c in cs if c["category"] == "qap" and c["kind"] == "document"], key=_rank)[:3]
+        put("lihtc_program_url", _best(cs, "lihtc_program", "page", onsite_only=True))
+        put("qap_page_url", _best(cs, "qap", "page", onsite_only=True))
+        all_qdocs = [c for c in cs if c["category"] == "qap" and c["kind"] == "document"]
+        qdocs = sorted(all_qdocs, key=lambda c: (_is_ancillary(c, rules), _rank(c)))[:3]
         if qdocs:
             r["qap_document_urls"] = "; ".join(
-                f"{c['url']}" + (f" [{_years_text(set(_years(c)))}]" if _years(c) else "")
-                + (" [draft]" if c["draft_marker"] else "") for c in qdocs)
+                f"{c['url']}" + (f" [{_plan_years(c)}]" if _plan_years(c) else "")
+                + (" [draft]" if c["draft_marker"] else "")
+                + (" [related document]" if _is_ancillary(c, rules) else "") for c in qdocs)
             evidence.append(f"qap_document_urls <- {qdocs[0]['found_on_url']}")
             top = qdocs[0]
-            r["plan_years"] = _years_text(set(_years(top))) or NEEDS
-            r["qap_draft_or_final"] = ("draft (link text says draft/proposed)" if top["draft_marker"]
-                                       else f"unknown: {NEEDS} (never assumed final)")
+            r["plan_years"] = _plan_years(top) or NEEDS
+            if _is_ancillary(top, rules):
+                r["qap_draft_or_final"] = f"only related documents found (notice/redline/appendix): {NEEDS}"
+            elif top["draft_marker"]:
+                r["qap_draft_or_final"] = "draft (link text says draft/proposed)"
+            else:
+                r["qap_draft_or_final"] = f"unknown: {NEEDS} (never assumed final)"
+            current = sorted([c for c in all_qdocs if not c["draft_marker"] and not _is_ancillary(c, rules)],
+                             key=_rank)
+            if current:
+                r["qap_current_nondraft_url"] = current[0]["url"]
+                r["qap_current_nondraft_years"] = _plan_years(current[0]) or NEEDS
+                evidence.append(f"qap_current_nondraft_url <- {current[0]['found_on_url']}")
             if not r["qap_page_url"]:
                 r["qap_page_url"] = top["found_on_url"]
         put("underwriting_manual_url", _best(cs, "underwriting", "document") or _best(cs, "underwriting"))
@@ -205,7 +245,9 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides) -> list[dict]:
         r["per_project_credit_cap"] = NEEDS
         if st:
             r.update(pages_crawled=st["pages_fetched"], crawl_errors=st["errors"],
-                     first_crawl_error=st["first_error"] or "", last_crawled_at=st["finished_at"])
+                     first_crawl_error=st.get("start_error") or st["first_error"] or "",
+                     last_crawled_at=st["finished_at"], crawl_method=st.get("start_method") or "",
+                     agency_moved_to=st.get("moved_to") or "")
         r["evidence"] = "\n".join(evidence)
 
         reviewed = ov.get(jid, {})
@@ -223,7 +265,7 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides) -> list[dict]:
         elif not st:
             r["verification_status"] = "not yet crawled"
         elif not st["pages_fetched"]:
-            r["verification_status"] = "crawl failed: check agency URL"
+            r["verification_status"] = "crawl failed: see first_crawl_error"
         elif not (qdocs or r["qap_page_url"]):
             r["verification_status"] = "QAP not found automatically: manual search"
         else:

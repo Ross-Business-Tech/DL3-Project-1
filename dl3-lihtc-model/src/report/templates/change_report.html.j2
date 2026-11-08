@@ -16,6 +16,7 @@ pre{background:#f6f6f6;padding:.5rem;overflow:auto;font-size:13px}.add{color:#0a
 <pre>{% for l in c.text_diff.unified %}<span class="{{ 'add' if l.startswith('+') and not l.startswith('+++') else ('del' if l.startswith('-') and not l.startswith('---') else '') }}">{{ l }}</span>
 {% endfor %}</pre>{% endif %}
 {% else %}<p>No changed sources in this run.</p>{% endfor %}
+{% if furniture_only %}<p>Re-fetched with different file bytes but identical visible text (counted as unchanged): {{ furniture_only|join(', ') }}.</p>{% endif %}
 <h2>Failed retrievals (manual review queued)</h2>
 {% if failures %}<table><tr><th>Source</th><th>URL</th><th>Attempts</th><th>Error</th></tr>
 {% for f in failures %}<tr><td>{{ f.source_id }}</td><td>{{ f.url }}</td><td>{{ f.attempts }}</td><td>{{ f.error }}</td></tr>{% endfor %}</table>

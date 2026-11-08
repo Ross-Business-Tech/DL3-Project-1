@@ -9,6 +9,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import time
 import urllib.robotparser
 from dataclasses import dataclass, field
@@ -44,6 +45,13 @@ def content_matches_type(body: bytes, content_type: str | None) -> bool:
 class FetchError(Exception):
     """Permanent or exhausted failure for one URL."""
 
+    def __init__(self, message: str, attempts: int = 1, browser_eligible: bool = False):
+        super().__init__(message)
+        self.attempts = attempts
+        # True when a real browser could plausibly succeed: bot-check holding pages (202/403),
+        # incomplete TLS certificate chains (browsers fetch the missing certificate), or JS-only pages.
+        self.browser_eligible = browser_eligible
+
 
 @dataclass
 class Response:
@@ -51,6 +59,17 @@ class Response:
     status: int
     content_type: str | None
     final_url: str
+    method: str = "http"   # http | browser
+
+
+# Bot-check / "please wait" holding pages. Never archived as if they were the document.
+CHALLENGE_MARKERS = re.compile(
+    rb"(enable javascript|checking your browser|just a moment|request unsuccessful|incapsula|"
+    rb"captcha|challenge-platform|_cf_chl|bm-verify|akamai)", re.I)
+
+
+def looks_like_challenge(body: bytes, content_type: str | None) -> bool:
+    return content_type == "text/html" and len(body) < 20000 and bool(CHALLENGE_MARKERS.search(body[:20000]))
 
 
 @dataclass
@@ -65,6 +84,20 @@ class RunSummary:
 
 def load_settings(path: Path | None = None) -> dict:
     return yaml.safe_load((path or ROOT / "config" / "settings.yaml").read_text())
+
+
+def use_os_trust_store() -> bool:
+    """Verify TLS with the operating system's certificate store (macOS Keychain / Windows), like a browser.
+
+    Fixes sites that send an incomplete certificate chain (seen: ilga.gov, dca.ga.gov) without ever
+    turning verification off. No-op if the optional `truststore` package is missing.
+    """
+    try:
+        import truststore
+    except ImportError:
+        return False
+    truststore.inject_into_ssl()
+    return True
 
 
 def load_register(path: Path | None = None) -> list[dict]:
@@ -87,6 +120,79 @@ def user_agent() -> str:
     return f"DL3-LIHTC-Research-Bot/0.1 (UMich AI Sprint; {contact})" if contact else "DL3-LIHTC-Research-Bot/0.1 (UMich AI Sprint)"
 
 
+class Browser:
+    """Lazily started headless Chromium (Playwright), one per Fetcher/thread. Used only as a fallback."""
+
+    def __init__(self, timeout_s: float):
+        self.timeout_ms = int(timeout_s * 1000)
+        self._pw = self._browser = self._ctx = None
+        self.unavailable: str | None = None
+
+    def _start(self):
+        if self._ctx is None:
+            try:
+                from playwright.sync_api import sync_playwright
+            except ImportError as e:
+                raise FetchError("browser fallback needs Playwright: pip install playwright && "
+                                 "python -m playwright install chromium") from e
+            try:
+                self._pw = sync_playwright().start()
+                exe = os.environ.get("DL3_CHROMIUM_PATH") or None
+                self._browser = self._pw.chromium.launch(executable_path=exe)
+                self._ctx = self._browser.new_context(accept_downloads=False)
+            except Exception as e:
+                self.close()
+                first = str(e).splitlines()[0][:200]
+                raise FetchError(f"browser could not start ({first}); run: python -m playwright install chromium") from e
+        return self._ctx
+
+    def get(self, url: str) -> Response:
+        if self.unavailable:
+            raise FetchError(self.unavailable)
+        try:
+            ctx = self._start()
+        except FetchError as e:
+            self.unavailable = str(e)  # do not try to launch again for every page
+            raise
+        page = ctx.new_page()
+        try:
+            resp = page.goto(url, timeout=self.timeout_ms, wait_until="domcontentloaded")
+            try:  # let JS-built menus and bot checks finish; fine if the network never goes fully idle
+                page.wait_for_load_state("networkidle", timeout=min(self.timeout_ms, 15000))
+            except Exception:
+                pass
+            if resp is None:
+                raise FetchError("browser: no response")
+            ct = (resp.headers.get("content-type") or "").split(";")[0].strip().lower() or None
+            if ct != "text/html":
+                raise FetchError(f"browser fallback only handles web pages, got {ct}")
+            body = page.content().encode("utf-8")
+            if resp.status >= 400:
+                raise FetchError(f"browser: HTTP {resp.status}")
+            if looks_like_challenge(body, ct):
+                raise FetchError("browser: still on a bot-check page")
+            return Response(body, resp.status, ct, page.url, method="browser")
+        except FetchError:
+            raise
+        except Exception as e:
+            raise FetchError(f"browser: {type(e).__name__}: {str(e).splitlines()[0][:200]}") from e
+        finally:
+            page.close()
+
+    def close(self):
+        for obj in (self._ctx, self._browser):
+            try:
+                obj and obj.close()
+            except Exception:
+                pass
+        if self._pw:
+            try:
+                self._pw.stop()
+            except Exception:
+                pass
+        self._pw = self._browser = self._ctx = None
+
+
 class Fetcher:
     def __init__(self, settings: dict, allowed: set[str], session: requests.Session | None = None,
                  sleep=time.sleep, clock=time.monotonic):
@@ -96,7 +202,12 @@ class Fetcher:
         self.session.headers["User-Agent"] = user_agent()
         self._sleep, self._clock = sleep, clock
         self._last_hit: dict[str, float] = {}
-        self._robots: dict[str, urllib.robotparser.RobotFileParser | None] = {}
+        self._robots: dict[str, tuple[urllib.robotparser.RobotFileParser | None, str]] = {}
+        self.browser = Browser(self.cfg["timeout_seconds"]) if self.cfg.get("browser_fallback") else None
+
+    def close(self) -> None:
+        if self.browser:
+            self.browser.close()
 
     # -- guards -------------------------------------------------------------
     def check_allowed(self, url: str) -> None:
@@ -106,27 +217,33 @@ class Fetcher:
         if (p.hostname or "").lower() not in self.allowed:
             raise FetchError(f"host not on allowlist: {p.hostname}")
 
-    def _robots_ok(self, url: str) -> bool:
-        if not self.cfg.get("respect_robots_txt", True):
-            return True
-        p = urlparse(url)
-        base = f"{p.scheme}://{p.netloc}"
+    def robots(self, base: str) -> tuple[urllib.robotparser.RobotFileParser | None, str]:
+        """Parsed robots.txt per RFC 9309: 2xx parsed; 4xx (incl. 401/403) = no rules; 5xx/unreachable = disallow."""
         if base not in self._robots:
             rp = urllib.robotparser.RobotFileParser()
             try:
                 r = self.session.get(base + "/robots.txt", timeout=self.cfg["timeout_seconds"])
-                if r.status_code == 200:
+                if 200 <= r.status_code < 300:
                     rp.parse(r.text.splitlines())
-                    self._robots[base] = rp
-                elif r.status_code in (401, 403):
-                    rp.disallow_all = True
-                    self._robots[base] = rp
+                    self._robots[base] = (rp, f"robots.txt rules at {base}/robots.txt")
+                elif 400 <= r.status_code < 500:
+                    self._robots[base] = (None, f"robots.txt unavailable (HTTP {r.status_code}): no rules apply")
                 else:
-                    self._robots[base] = None  # no robots file: allowed
-            except requests.RequestException:
-                self._robots[base] = None
-        rp = self._robots[base]
-        return True if rp is None else rp.can_fetch(self.session.headers["User-Agent"], url)
+                    rp.disallow_all = True
+                    self._robots[base] = (rp, f"robots.txt server error (HTTP {r.status_code}): treated as disallow")
+            except requests.exceptions.SSLError:
+                self._robots[base] = (None, "robots.txt TLS error: page fetch will report it")
+            except requests.RequestException as e:
+                rp.disallow_all = True
+                self._robots[base] = (rp, f"robots.txt unreachable ({type(e).__name__}): treated as disallow")
+        return self._robots[base]
+
+    def _robots_ok(self, url: str) -> tuple[bool, str]:
+        if not self.cfg.get("respect_robots_txt", True):
+            return True, "robots.txt checking off"
+        p = urlparse(url)
+        rp, why = self.robots(f"{p.scheme}://{p.netloc}")
+        return (True, why) if rp is None else (rp.can_fetch(self.session.headers["User-Agent"], url), why)
 
     def _throttle(self, host: str) -> None:
         gap = self.cfg["min_seconds_between_requests_per_host"]
@@ -138,41 +255,82 @@ class Fetcher:
         self._last_hit[host] = self._clock()
 
     # -- one request with retries ------------------------------------------
-    def get(self, url: str) -> tuple[Response, int]:
-        """Return (response, attempts). Raises FetchError after bounded retries."""
+    def get(self, url: str, allow_offsite_redirect: bool = False, force_browser: bool = False) -> tuple[Response, int]:
+        """Return (response, attempts). Raises FetchError after bounded retries.
+
+        allow_offsite_redirect: accept a redirect to a host outside the allowlist (used only for an agency's
+        own homepage, which tells us where the agency moved). The caller decides whether to adopt that host.
+        """
         self.check_allowed(url)
-        if not self._robots_ok(url):
-            raise FetchError("disallowed by robots.txt")
+        ok, why = self._robots_ok(url)
+        if not ok:
+            raise FetchError(f"disallowed by robots.txt ({why})")
+        if force_browser:
+            return self._via_browser(url, allow_offsite_redirect, FetchError("forced", 0, True))
+        try:
+            return self._via_http(url, allow_offsite_redirect)
+        except FetchError as e:
+            if e.browser_eligible and self.browser is not None:
+                return self._via_browser(url, allow_offsite_redirect, e)
+            raise
+
+    def _via_browser(self, url, allow_offsite_redirect, original: FetchError) -> tuple[Response, int]:
+        if self.browser is None:
+            raise original
+        self._throttle(urlparse(url).hostname or "")
+        try:
+            resp = self.browser.get(url)
+        except FetchError as be:
+            raise FetchError(f"{original}; browser retry failed: {be}", original.attempts + 1) from be
+        if not allow_offsite_redirect:
+            self.check_allowed(resp.final_url)
+        ok, why = self._robots_ok(resp.final_url)
+        if not ok:
+            raise FetchError(f"disallowed by robots.txt after redirect ({why})", original.attempts + 1)
+        return resp, original.attempts + 1
+
+    def _via_http(self, url: str, allow_offsite_redirect: bool) -> tuple[Response, int]:
         retries, backoff = self.cfg["max_retries"], self.cfg["backoff_seconds"]
-        last_err = "unknown error"
+        last_err, eligible = "unknown error", False
         for attempt in range(retries + 1):
             if attempt:
                 self._sleep(backoff[min(attempt - 1, len(backoff) - 1)])
             self._throttle(urlparse(url).hostname or "")
+            n = attempt + 1
             try:
                 r = self.session.get(url, timeout=self.cfg["timeout_seconds"], stream=True, allow_redirects=True)
-                self.check_allowed(r.url)  # redirects may not leave the allowlist
+                if not allow_offsite_redirect:
+                    self.check_allowed(r.url)  # redirects may not leave the allowlist
+                elif r.url != url:
+                    ok, why = self._robots_ok(r.url)
+                    if not ok:
+                        raise FetchError(f"disallowed by robots.txt after redirect ({why})", n)
                 if r.status_code in (429, 500, 502, 503, 504):
-                    last_err = f"HTTP {r.status_code}"
+                    last_err, eligible = f"HTTP {r.status_code}", r.status_code in (429, 503)
                     continue
-                if r.status_code != 200:
-                    raise FetchError(f"HTTP {r.status_code}")  # 4xx/3xx: permanent, no retry
+                if r.status_code != 200:  # 202 = bot-check holding page; 401/403 often bot protection
+                    raise FetchError(f"HTTP {r.status_code}", n, browser_eligible=r.status_code in (202, 401, 403))
                 ct = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower() or None
                 if ct and ct not in self.cfg["allowed_content_types"]:
-                    raise FetchError(f"content type not allowed: {ct}")
+                    raise FetchError(f"content type not allowed: {ct}", n)
                 body = bytearray()
                 for chunk in r.iter_content(65536):
                     body += chunk
                     if len(body) > self.cfg["max_bytes"]:
-                        raise FetchError(f"exceeds max_bytes ({self.cfg['max_bytes']})")
+                        raise FetchError(f"exceeds max_bytes ({self.cfg['max_bytes']})", n)
                 if not content_matches_type(bytes(body), ct):
-                    raise FetchError(f"quarantined: content does not look like declared type {ct}")
-                return Response(bytes(body), r.status_code, ct, r.url), attempt + 1
+                    raise FetchError(f"quarantined: content does not look like declared type {ct}", n)
+                if looks_like_challenge(bytes(body), ct):
+                    raise FetchError("bot-check page instead of content", n, browser_eligible=True)
+                return Response(bytes(body), r.status_code, ct, r.url), n
             except FetchError:
                 raise
+            except requests.exceptions.SSLError as e:
+                # Not retried: a bad certificate chain will not fix itself in 8 seconds.
+                raise FetchError(f"TLS certificate problem: {str(e)[:300]}", n, browser_eligible=True) from e
             except requests.RequestException as e:
-                last_err = f"{type(e).__name__}: {e}"
-        raise FetchError(f"gave up after {retries + 1} attempts: {last_err}")
+                last_err, eligible = f"{type(e).__name__}: {e}", False
+        raise FetchError(f"gave up after {retries + 1} attempts: {last_err}", retries + 1, browser_eligible=eligible)
 
 
 def discover_links(html: bytes, base_url: str, allowed: set[str]) -> list[tuple[str, str]]:
@@ -193,6 +351,7 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
         fetcher: Fetcher | None = None, only: set[str] | None = None,
         follow_documents: bool = False, run_id: str | None = None) -> RunSummary:
     conn = archive.connect(db_path)
+    own_fetcher = fetcher is None
     fetcher = fetcher or Fetcher(settings, allowed_hosts(register))
     summary = RunSummary()
     for src in register:
@@ -217,6 +376,8 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
                     _fetch_one(conn, fetcher, archive_root, child, url, src["source_id"], summary, run_id)
                 conn.commit()
     conn.close()
+    if own_fetcher:
+        fetcher.close()
     return summary
 
 
@@ -225,17 +386,18 @@ def _fetch_one(conn, fetcher, archive_root, src, url, parent_id, summary: RunSum
     try:
         resp, attempts = fetcher.get(url)
     except FetchError as e:
-        archive.record_failure(conn, sid, url, fetcher.cfg["max_retries"] + 1, str(e), run_id=run_id)
+        archive.record_failure(conn, sid, url, e.attempts, str(e), run_id=run_id)
         summary.failed += 1
         summary.details.append({"source_id": sid, "result": "failed", "error": str(e)})
         return
     res = archive.store_snapshot(conn, archive_root, source=src, data=resp.body, requested_url=url,
                                  final_url=resp.final_url, content_type=resp.content_type,
-                                 http_status=resp.status, parent_source_id=parent_id, run_id=run_id)
+                                 http_status=resp.status, parent_source_id=parent_id, run_id=run_id,
+                                 retrieval_method=resp.method)
     summary.fetched += 1
     summary.changed += int(res.changed)
     summary.unchanged += int(not res.changed)
-    summary.details.append({"source_id": sid, "result": "new" if res.first_snapshot else
+    summary.details.append({"source_id": sid, "method": resp.method, "result": "new" if res.first_snapshot else
                             ("changed" if res.changed else "unchanged"), "sha256": res.sha256[:8], "path": res.archive_path})
 
 
@@ -248,6 +410,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--archive", default=str(ROOT / "archive"))
     ap.add_argument("--register", default=str(ROOT / "config" / "source_register.csv"))
     args = ap.parse_args(argv)
+    use_os_trust_store()
     s = run(load_register(Path(args.register)), load_settings(), Path(args.db), Path(args.archive),
             only=set(args.only) if args.only else None, follow_documents=args.follow_documents)
     print(json.dumps({"fetched": s.fetched, "changed": s.changed, "unchanged": s.unchanged,
