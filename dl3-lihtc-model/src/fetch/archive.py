@@ -33,14 +33,37 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+# Columns added after the first release. CREATE TABLE IF NOT EXISTS never alters an existing table,
+# so older databases get these added in place (data is kept).
+MIGRATIONS = [
+    ("source", "plan_year", "TEXT"), ("source", "adoption_date", "TEXT"), ("source", "effective_dates", "TEXT"),
+    ("source", "amendment_date", "TEXT"), ("source", "superseded_by", "TEXT"),
+    ("snapshot", "run_id", "TEXT"), ("fetch_failure", "run_id", "TEXT"),
+]
+
+
+def migrate(conn: sqlite3.Connection) -> None:
+    for table, col, ddl in MIGRATIONS:
+        cols = {r[1] for r in conn.execute(f"PRAGMA table_info({table})")}
+        if cols and col not in cols:
+            conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {ddl}")
+    conn.commit()
+
+
 def connect(db_path: str | Path) -> sqlite3.Connection:
     db_path = Path(db_path)
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
-    conn.executescript(SCHEMA_PATH.read_text())
+    _create_tables(conn)
     return conn
+
+
+def _create_tables(conn: sqlite3.Connection) -> None:
+    """Create missing tables, upgrade older ones, then create indexes (which may need migrated columns)."""
+    conn.executescript(SCHEMA_PATH.read_text())
+    migrate(conn)
 
 
 def _ext(content_type: str | None) -> str:

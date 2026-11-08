@@ -224,3 +224,27 @@ def test_spec_source_record_fields_present(site, tmp_path):
     snap = archive.latest_snapshot(conn, "T1")
     for col in ("url", "retrieved_at", "sha256", "doc_status", "archive_path"):  # Section 4 minimum fields
         assert snap[col]
+
+
+def test_old_database_is_upgraded_in_place(site, tmp_path):
+    import sqlite3
+    old = sqlite3.connect(tmp_path / "t.db")  # schema from the first release: no run_id, no plan_year
+    old.executescript("""
+      CREATE TABLE source (source_id TEXT PRIMARY KEY, jurisdiction TEXT NOT NULL, state TEXT NOT NULL,
+        doc_type TEXT NOT NULL, title TEXT NOT NULL, url TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'unknown',
+        critical INTEGER NOT NULL DEFAULT 0, notes TEXT);
+      CREATE TABLE snapshot (snapshot_id INTEGER PRIMARY KEY AUTOINCREMENT, source_id TEXT NOT NULL, url TEXT NOT NULL,
+        final_url TEXT NOT NULL, retrieved_at TEXT NOT NULL, sha256 TEXT NOT NULL, content_type TEXT,
+        byte_size INTEGER NOT NULL, http_status INTEGER NOT NULL, archive_path TEXT NOT NULL,
+        is_duplicate INTEGER NOT NULL DEFAULT 0, parent_source_id TEXT, doc_status TEXT NOT NULL DEFAULT 'unknown');
+      CREATE TABLE fetch_failure (failure_id INTEGER PRIMARY KEY AUTOINCREMENT, source_id TEXT NOT NULL, url TEXT NOT NULL,
+        attempted_at TEXT NOT NULL, attempts INTEGER NOT NULL, error TEXT NOT NULL,
+        manual_review_queued INTEGER NOT NULL DEFAULT 1);
+      INSERT INTO source VALUES ('OLD','x','ZZ','qap','old','http://x','final',0,'');
+    """)
+    old.commit(); old.close()
+    site.routes["/qap"] = (200, "text/html", b"hello")
+    assert go(site, tmp_path, reg(site)).fetched == 1
+    conn = archive.connect(tmp_path / "t.db")
+    assert conn.execute("SELECT COUNT(*) FROM source").fetchone()[0] == 2  # old rows kept
+    assert archive.latest_snapshot(conn, "T1")["run_id"] is None
