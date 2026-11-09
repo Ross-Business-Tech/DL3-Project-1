@@ -90,3 +90,31 @@ export function recountFromAwards(awards, { include = () => true } = {}) {
   }
   return out
 }
+
+/**
+ * Urban counts that are certain: only awards that are known new construction AND pass all three
+ * urban tests are counted. These are lower bounds. They can never be wrong, however incomplete the
+ * award list is, because an award that is missing from a list cannot make a counted award disappear.
+ * `classify(award)` returns { status: 'urban' | 'not-urban' | 'unknown' } (see urban.js).
+ * Returns Map("State|9%|2023" -> { eligibleAwardsUrbanLo, awardsAbove100UrbanLo }).
+ */
+export function urbanLowerBounds(awards, classify) {
+  const out = new Map()
+  const groups = new Map()
+  for (const a of awards) {
+    const key = `${a.state}|${a.pathway}|${a.year}`
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key).push(a)
+  }
+  for (const [key, rows] of groups) {
+    const parents = new Map()
+    for (const a of rows) {
+      if (a.newConstruction !== true || classify(a).status !== 'urban') continue
+      if (!parents.has(a.parent)) parents.set(a.parent, [])
+      parents.get(a.parent).push(a)
+    }
+    const above = [...parents.values()].filter((p) => p.some((a) => a.units !== null && a.units > 100))
+    out.set(key, { eligibleAwardsUrbanLo: parents.size, awardsAbove100UrbanLo: above.length })
+  }
+  return out
+}

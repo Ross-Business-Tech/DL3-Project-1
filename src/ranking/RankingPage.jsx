@@ -348,6 +348,11 @@ export default function RankingPage() {
           </table>
           <ul className="small">
             <li>Each factor is scored 0 to 5. Score = sum of (weight × score) ÷ 5, out of 100.</li>
+            <li>
+              “Urban” means all three: inside a Census Urbanized Area ({result.settings.urbanDefinition.boundaryVintage} boundaries); inside a principal city or a DL3-approved neighborhood or transit corridor; and a dense enough tract
+              ({result.settings.urbanDefinition.tractDensityFloorPerSqMile.toLocaleString('en-US')}+ residents per square mile) or fixed-route transit within {result.settings.urbanDefinition.transitDistanceMiles} mile.
+              {result.settings.urbanDefinition.approved ? '' : ' This definition is proposed, not yet approved, and its density number is a placeholder, so scores that rest on it are shown as proposals and do not count yet.'}
+            </li>
             <li>A state must have room for a project of 101+ units, a developer fee above 10% of development cost, a sponsor path, and workable financing, with sources checked in the last {result.settings.staleAfterDays} days.</li>
             <li>A failure that rests on low-confidence evidence is held for verification, not excluded.</li>
             <li>Missing factors give a range, never a guess. A rank is withheld when missing evidence could change it.</li>

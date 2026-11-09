@@ -36,6 +36,25 @@ export const GATE_OWNERS = {
   freshness: 'Research (re-check the sources)',
 }
 
+// The urban definition (guide 6B: "Andrew approves the final definition"). PROPOSED, NOT APPROVED.
+// A project site is urban only if ALL THREE tests pass. A test that cannot be answered is
+// "unknown", never a pass. Set `approved: true` only when Andrew signs off.
+export const URBAN_DEFINITION = {
+  approved: false,
+  proposedBy: 'DL3 student team',
+  summary:
+    'A site is urban if it is inside a Census Urbanized Area, sits within a principal city or a DL3-approved neighborhood or transit corridor, and has the density or transit access to support a 100+ unit, mid-rise or larger building.',
+  // Test 1: inside an Urbanized Area (population 50,000+) under this boundary vintage. Urban
+  // clusters fail. Re-run when 2030 boundaries are released.
+  boundaryVintage: '2020',
+  minUrbanAreaPopulation: 50000,
+  // Test 3: tract density floor OR fixed-route transit within this distance. PLACEHOLDER numbers:
+  // calibrate against sites DL3 already considers urban in Chicago before locking them.
+  tractDensityFloorPerSqMile: 3000,
+  transitDistanceMiles: 0.5,
+  placeholderThresholds: true,
+}
+
 export const SETTINGS = {
   // Section 5D: "more than 100" means at least 101 units.
   minUnits: 101,
@@ -64,6 +83,7 @@ export const SETTINGS = {
   // Judgments that are proposed but not yet approved by a person do not count toward the score
   // unless this is true (useful for a preview; never for a final ranking).
   countProposed: false,
+  urbanDefinition: URBAN_DEFINITION,
 }
 
 export const PATHWAYS = ['9%', '4%']

@@ -49,7 +49,12 @@ export function scoreScale(record, settings) {
   const rows = Array.isArray(record.awardHistory) ? record.awardHistory : []
   const perYear = years.map((year) => {
     const row = rows.find((h) => h.year === year && h.complete !== false)
-    if (!row || !isCount(row.awardsAbove100Units)) return { year, state: 'missing' }
+    if (!row) return { year, state: 'missing' }
+    // Certain urban evidence from the award list and the site facts (see urban.js) beats everything.
+    if (isCount(row.awardsAbove100UrbanLo) && row.awardsAbove100UrbanLo > 0) {
+      return { year, state: 'large', count: row.awardsAbove100UrbanLo, viaDefinition: true }
+    }
+    if (!isCount(row.awardsAbove100Units)) return { year, state: 'missing' }
     // A count of zero is safe to use before the urban filter is applied: filtering can only take
     // awards away, never add them. A positive count has to wait for the urban definition.
     if (row.awardsAbove100Units === 0) return { year, state: 'none', count: 0 }
@@ -67,30 +72,43 @@ export function scoreScale(record, settings) {
     needs.push(`Urban award counts above 100 units for ${perYear.filter((y) => y.state === 'missing').map((y) => y.year).join(', ')}`)
   }
   if (perYear.some((y) => y.state === 'unfiltered')) {
-    needs.push('Apply the approved urban definition to the award counts (they are not filtered to urban projects yet)')
+    needs.push('Apply the urban definition to the 100+ unit awards (site facts for each award are needed: Census urban area, principal city or approved area, density or transit)')
   }
   const base = [`A project of ${units} units is feasible`, ...summary]
 
+  // Scores built on awards judged urban by the PROPOSED definition do not count until it is approved.
+  const dependsOnDefinition = perYear.some((y) => y.viaDefinition)
+  const approved = settings.urbanDefinition?.approved === true
+  const finish = (res) =>
+    dependsOnDefinition && !approved && (res.status === 'final' || res.status === 'bounded')
+      ? {
+          ...res,
+          status: 'proposed',
+          reasons: [...res.reasons, 'Uses awards judged urban under the proposed definition, which has not been approved yet'],
+          needs: [...res.needs, 'Approval of the urban definition'],
+        }
+      : res
+
   if (large >= strong) {
-    return result(key, { score: 5, status: 'final', reasons: [...base, `Awards above 100 units in ${large} of ${years.length} years`] })
+    return finish(result(key, { score: 5, status: 'final', reasons: [...base, `Awards above 100 units in ${large} of ${years.length} years`] }))
   }
   if (large + unknown.length >= strong) {
     // Not decided yet: the missing years could still push it to 5.
     const lo = large >= 1 ? 3 : 1
-    return result(key, {
+    return finish(result(key, {
       interval: { lo, hi: 5 },
       status: 'bounded',
       reasons: [...base, `Could still reach ${strong} of ${years.length} years once the missing years are filled in`],
       needs,
-    })
+    }))
   }
   if (large >= 1) {
-    return result(key, {
+    return finish(result(key, {
       score: 3,
       status: 'final',
       reasons: [...base, `Isolated large-project awards: ${large} of ${years.length} years, so it cannot reach ${strong}`],
       needs: [],
-    })
+    }))
   }
   // Feasible on paper, but no 100+ unit award in any year we know: the guide gives no anchor.
   return result(key, {

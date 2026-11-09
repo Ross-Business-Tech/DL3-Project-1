@@ -30,6 +30,19 @@ score to a range, the tool keeps the range. It never guesses, and unknown never 
 
 "Isolated" is read as "fewer than 3 of the 5 years". That reading is a proposal to confirm with Andrew.
 
+## The urban definition (proposed, not yet approved)
+
+A project site is urban only if **all three** tests pass (guide 6B; Andrew approves the final version):
+
+1. **Census urban area:** the geocoded site is inside an Urbanized Area (population 50,000+) under the 2020 Census boundaries. Urban clusters fail. Re-run when 2030 boundaries are released.
+2. **Place:** inside the city limits of a principal city, or inside a DL3-approved neighborhood or transit corridor.
+3. **Built environment:** the tract has at least 3,000 residents per square mile, or fixed-route transit is within half a mile. **The 3,000 is a placeholder** to calibrate against sites DL3 already treats as urban in Chicago.
+
+A test that cannot be answered is *unknown*, never a pass. Any failed test makes the site not urban. The tool counts an award toward Scale only when it is known new construction and certainly urban. Those counts are lower bounds, so they stay valid however incomplete an award list is.
+While `approved` is false in `config.js`, a Scale score that rests on this definition is a **proposal and does not count** in the total.
+
+Facts go in `data/site_facts.csv` (one row per city, project `*`, or per project): `state, city, project, inUrbanizedArea, principalCity, inApprovedArea, tractDensity, nearFixedRouteTransit, boundaryVintage, source, retrieved, notes`. Rows without a source URL, retrieval date, and the 2020 boundary vintage are rejected.
+
 ## Where the data goes
 
 - `data/partc.csv`: the state sheet (fee rules, unit limits, sponsor and financing paths, source dates).
