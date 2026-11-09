@@ -219,6 +219,52 @@ function blockers(items) {
   return [...counts.values()].sort((a, b) => b.unknown + b.fail - (a.unknown + a.fail))
 }
 
+// How a state's developer fee looks against the 10% rule, in plain words.
+function feeResult(r) {
+  const check = r.gates.checks.find((c) => c.key === 'fee')
+  if (r.benchmarkOnly) return { text: 'Benchmark only', tone: '' }
+  if (check.status === 'pass') return { text: 'Passes', tone: 'good' }
+  if (check.status === 'fail') return { text: r.gates.status === 'Fail' ? 'Fails, excluded' : 'Fails, held for verification', tone: 'warn' }
+  if (/not verified yet/.test(check.detail)) return { text: 'Would pass, rule not verified', tone: 'warn' }
+  if (r.feeScreen?.fee == null) return { text: 'No fee rule found', tone: 'warn' }
+  return { text: 'Not established', tone: 'warn' }
+}
+
+function FeeScreenList({ rows }) {
+  return (
+    <ul className="fee-list">
+      {rows.map((r) => {
+        const check = r.gates.checks.find((c) => c.key === 'fee')
+        const result = feeResult(r)
+        const s = r.feeScreen
+        const ratio = check.ratio ?? s.ratio ?? null
+        return (
+          <li key={r.id}>
+            <details className="fee-row">
+              <summary>
+                <span className="fee-state">{r.state}</span>
+                <span className="fee-pct">{ratio !== null ? `${(ratio * 100).toFixed(2)}%` : '–'}</span>
+                <span className={`chip ${result.tone}`}>{result.text}</span>
+              </summary>
+              <div className="fee-body small">
+                <p><strong>Rule:</strong> {s.ruleText ?? 'No fee rule found.'}</p>
+                {s.encoding && <p><strong>How it was modelled:</strong> {s.encoding}</p>}
+                {s.fee !== null && <p><strong>Fee at the example project (dashboard):</strong> {money(s.fee)}</p>}
+                <p><strong>This tool’s reading:</strong> {check.detail}.</p>
+                {s.ruleVerified === false && s.binding && <p><strong>Dashboard note:</strong> {s.binding}</p>}
+                <p>
+                  <strong>Review:</strong> {s.status}; {s.qa === 'not reviewed' ? 'not independently reviewed' : `independent review: ${s.qa}`}. Confidence: {r.confidence}.
+                  {s.url && <> <a href={s.url} target="_blank" rel="noopener noreferrer">Fee rule source</a></>}
+                </p>
+              </div>
+            </details>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
 export default function RankingPage() {
   const [dataset, setDataset] = useState('real')
   const real = useMemo(() => rankRecords(REAL_DATA.records, { asOf: TODAY }), [])
@@ -227,10 +273,24 @@ export default function RankingPage() {
   const [pathway, setPathway] = useState('9%')
   const list = result.lists.find((l) => l.pathway === pathway) ?? result.lists[0]
 
-  const researched = list.needsVerification.filter((r) => r.researched)
+  // Three depths of evidence: researched in depth, fee screen only (draft from the team dashboard), nothing yet.
+  const researched = list.needsVerification.filter((r) => r.researched && !r.screenOnly)
+  const screened = list.needsVerification.filter((r) => r.screenOnly)
   const unresearched = list.needsVerification.filter((r) => !r.researched)
+  const feeRows = [...list.ranked, ...list.needsVerification, ...list.excluded, ...list.benchmark]
+    .filter((r) => r.feeScreen)
+    .sort((a, b) => a.state.localeCompare(b.state))
+  const feeTally = { pass: 0, fail: 0, unverified: 0, none: 0 }
+  for (const r of feeRows) {
+    const t = feeResult(r).text
+    if (t === 'Benchmark only') continue
+    if (t === 'Passes') feeTally.pass++
+    else if (t.startsWith('Fails')) feeTally.fail++
+    else if (t.startsWith('Would pass')) feeTally.unverified++
+    else feeTally.none++
+  }
   const totalPass = result.lists.reduce((n, l) => n + l.counts.pass, 0)
-  const researchedNames = [...new Set(REAL_DATA.records.filter((r) => r.researched).map((r) => r.state))]
+  const researchedNames = [...new Set(REAL_DATA.records.filter((r) => r.researched && !r.screenOnly).map((r) => r.state))]
 
   const queue = result.reviewQueue.filter((q) => q.pathway === list.pathway)
   const byOwner = [...new Set(queue.map((q) => q.owner))].map((owner) => ({ owner, items: queue.filter((q) => q.owner === owner) }))
@@ -257,8 +317,8 @@ export default function RankingPage() {
         </div>
         {dataset === 'real' ? (
           <p className="banner">
-            Draft research data, retrieved Nov 8, 2026, not yet reviewed by DL3. Only {REAL_DATA.stats.researchedStates} of {REAL_DATA.stats.states} states
-            ({researchedNames.join(', ')}) have been researched; the rest list the agency only.
+            Draft research data, not yet reviewed by DL3. Only {REAL_DATA.stats.researchedStates} of {REAL_DATA.stats.states} states
+            ({researchedNames.join(', ')}) are researched in depth. The other states have only a fee screen (a draft from the team dashboard; only the fee check uses it) or nothing yet.
             {totalPass === 0 && ' No state has passed every check yet, so nothing is ranked.'}
           </p>
         ) : (
@@ -279,7 +339,7 @@ export default function RankingPage() {
 
       <p className="small summary">
         {list.counts.total} states in the {list.pathway} pathway: {list.counts.pass} passed every check, {list.counts.needsVerification} need verification
-        ({researched.length} researched, {unresearched.length} not yet researched), {list.counts.fail} failed a check.
+        ({researched.length} researched in depth, {screened.length} fee screen only, {unresearched.length} nothing yet), {list.counts.fail} failed a check.
         {list.counts.benchmark > 0 && ` Illinois is shown for benchmarking only.`}
       </p>
 
@@ -312,16 +372,30 @@ export default function RankingPage() {
         </Section>
       )}
 
-      {list.excluded.length > 0 && (
+      {list.excluded.some((r) => !r.screenOnly) && (
         <Section title="Excluded" hint="Failed a check on evidence that is not low confidence, so they are left out however well they might score. Kept here for the coverage report.">
-          <ul className="plain">{list.excluded.map((r) => <CheckCard key={r.id} r={r} />)}</ul>
+          <ul className="plain">{list.excluded.filter((r) => !r.screenOnly).map((r) => <CheckCard key={r.id} r={r} />)}</ul>
+        </Section>
+      )}
+
+      {feeRows.length > 0 && (
+        <Section
+          title="Fee screen for every state (draft)"
+          hint="From the team dashboard, not produced by this tool. Fee is for the guide's example project (120 units, $40,000,000 total development cost; where a rule needs an eligible base, 75% of cost). Only the fee check uses it: sponsor path, financing and project size are still unknown for these states. A fee that passes only on a rule the dashboard calls unverified does not count as a pass."
+        >
+          <details className="details">
+            <summary>
+              {feeTally.pass} pass · {feeTally.fail} fail · {feeTally.unverified} would pass on an unverified rule · {feeTally.none} no fee established (Illinois, benchmark only, is listed but not counted)
+            </summary>
+            <FeeScreenList rows={feeRows} />
+          </details>
         </Section>
       )}
 
       {unresearched.length > 0 && (
-        <Section title="Not researched yet">
+        <Section title="Nothing found yet">
           <details className="details">
-            <summary>{unresearched.length} states have only an agency name so far</summary>
+            <summary>{unresearched.length} {unresearched.length === 1 ? 'state has' : 'states have'} no fee rule or other data yet (agency name only)</summary>
             <ul className="names small">
               {unresearched.map((r) => (
                 <li key={r.id}><strong>{r.state}</strong> · {r.allocator}</li>

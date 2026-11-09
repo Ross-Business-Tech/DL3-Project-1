@@ -89,6 +89,16 @@
 .side-row .details summary { color: var(--text-h); }
 .download + .download { margin-top: 8px; }
 
+.fee-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.fee-row { border-bottom: 1px solid var(--border); }
+.fee-row summary { list-style: none; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 8px 0; min-height: 44px; color: var(--text-h); }
+.fee-row summary::-webkit-details-marker { display: none; }
+.fee-state { font-weight: 600; }
+.fee-pct { grid-column: 2; grid-row: 1; text-align: right; }
+.fee-row .chip { grid-column: 1 / -1; justify-self: start; }
+.fee-body { padding: 0 0 10px; }
+.fee-body p { margin: 4px 0; }
+
 .names { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .names { grid-template-columns: 1fr 1fr; } }
 .names strong { color: var(--text-h); }

@@ -112,11 +112,20 @@ export function evaluateGates(record, { asOf, settings = SETTINGS }) {
   })
 
   const fee = feeTest(record.approvedGrossFee, record.totalDevelopmentCost, settings)
+  // Unknown rules cannot receive a pass (guide 5D): a fee that clears 10% only on a rule that is
+  // not verified yet stays unknown. It can still fail, and then it is held for verification.
+  const unverifiedPass = fee.status === 'pass' && record.feeRuleVerified === false
   checks.push({
     key: 'fee',
     label: `Developer fee above ${settings.minFeePercent}% of total development cost`,
-    status: fee.status,
-    detail: fee.ratio === null ? 'Approved fee or development cost missing' : `Fee is ${(fee.ratio * 100).toFixed(2)}% of total development cost`,
+    ratio: fee.ratio,
+    status: unverifiedPass ? 'unknown' : fee.status,
+    detail:
+      fee.ratio === null
+        ? 'Approved fee or development cost missing'
+        : unverifiedPass
+          ? `Fee would be ${(fee.ratio * 100).toFixed(2)}% of total development cost, but the fee rule is not verified yet`
+          : `Fee is ${(fee.ratio * 100).toFixed(2)}% of total development cost`,
   })
 
   checks.push({
@@ -288,7 +297,7 @@ function withHistoryFunding(record, settings) {
 function buildReviewQueue(assessed) {
   const queue = []
   for (const a of assessed) {
-    if (a.benchmarkOnly || !a.researched || a.gates.status === 'Fail') continue
+    if (a.benchmarkOnly || !a.researched || a.screenOnly || a.gates.status === 'Fail') continue
     for (const comp of COMPONENTS) {
       const c = a.criteria[comp.key]
       if (c.status === 'final') continue
@@ -443,6 +452,8 @@ export function rankRecords(records, options = {}) {
       overrides: r.overrides ?? [],
       notes: r.notes ?? null,
       programCaps: r.programCaps ?? null,
+      feeScreen: r.feeScreen ?? null,
+      screenOnly: r.screenOnly === true,
       researched: r.researched ?? true,
       benchmarkOnly: r.benchmarkOnly === true,
       gates,

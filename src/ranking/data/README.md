@@ -26,6 +26,20 @@ retrieval date, and `loadPartC.test.js` re-counts the yearly table from the awar
 cost cap, bond volume cap and developer fee limit, with the source. The credit-per-unit figures are checked
 against the maximum credit on every test run. No unit cap was stated in any of the six programs.
 
+`national_fee_screen.json` is a draft fee-only screen for all 50 states, copied from the team dashboard
+(`dashboard.html`, run 2026-11-01). It gives the developer fee each program's rule allows for the guide's example
+project (120 units, $40M total development cost), with the rule text and a source link. How it is used:
+- It fills in states we have not researched (87 of the 100 rows) with a fee, the example cost, and the run date.
+  It never overwrites Michigan, Ohio or Indiana. Where it differs from our research, the difference is listed by
+  `buildRecords().feeComparison` (Indiana 9%, Indiana 4%, Ohio 4%).
+- Confidence is Medium only when the dashboard marks the state Verified AND it passed an independent review (17 states).
+  Everything else is Low. A fee that fails on a Low-confidence rule is held for verification, not excluded.
+- A fee that passes only on a rule the dashboard itself calls "unverified" counts as unknown, never a pass.
+- Sponsor path, financing, project size and every 0-5 score stay unknown for these states.
+- 7 rows have no fee rule at all (Idaho and Oklahoma, plus one pathway each for Florida, Maine and Massachusetts).
+- The dashboard's own review covered only 22 of the 50 states, and it assumed a sponsor path for its pilots that our
+  research marks as needing DL3's input, so none of that is used.
+
 `site_facts.csv` is the Census and transit facts the urban definition needs. It is empty (header only) until
 the research team fills it; see `../SCORING.md`.
 

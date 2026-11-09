@@ -3,7 +3,7 @@
 const COLUMNS = [
   'Pathway', 'List', 'Rank', 'State', 'Allocator', 'Score', 'Evidence coverage', 'Confidence',
   'Eligibility', 'Shortlist', 'Tie', 'Unstable under weight changes', 'Reason', 'Next deadline',
-  'Action', 'Researched', 'Source notes', 'Run date', 'Model version',
+  'Action', 'Research depth', 'Source notes', 'Run date', 'Model version',
 ]
 
 const round = (n) => Number(n.toFixed(1))
@@ -55,7 +55,7 @@ export function toCsv(result) {
         r.reason,
         r.nextDeadline,
         r.action,
-        r.researched ? 'Yes' : 'No',
+        !r.researched ? 'Nothing yet' : r.screenOnly ? 'Fee screen only (draft)' : 'In depth',
         r.notes,
         r.date,
         result.modelVersion,
