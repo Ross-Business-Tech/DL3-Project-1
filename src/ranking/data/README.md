@@ -19,13 +19,23 @@ Known quirks, handled by `../loadPartC.js`:
 
 `award_history.csv` is the yearly award table (36 rows: Michigan, Ohio and Indiana, 9% and 4%, 2021 to 2026
 year-to-date) that the Scale and Funding scores are calculated from. `awards.csv` is the award-by-award list
-(603 awards) it was built from. Both are kept exactly as received. Every row carries a source URL and a
+(632 awards) it was built from. Both are kept exactly as received. Every row carries a source URL and a
 retrieval date, and `loadPartC.test.js` re-counts the yearly table from the award list on every test run.
+
+`program_caps.csv` (6 rows) says what each program's rules allow for one project: maximum credit, unit cap,
+cost cap, bond volume cap and developer fee limit, with the source. The credit-per-unit figures are checked
+against the maximum credit on every test run. No unit cap was stated in any of the six programs.
+
+`site_facts.csv` is the Census and transit facts the urban definition needs. It is empty (header only) until
+the research team fills it; see `../SCORING.md`.
 
 Things to know about this data:
 - 23 of the 36 yearly rows are UNKNOWN: Michigan lists do not state construction type, Ohio's 4% lists mostly
   do not, and Indiana's 4% lists are incomplete.
-- `qualifiedApplications` is UNKNOWN in every row, so Funding cannot be calculated yet.
+- `qualifiedApplications` is filled only for Indiana 9% (all six years) and Indiana 4% (2025 and 2026). Those
+  counts cover every application in the state, including rehab, while `eligibleAwards` counts new construction
+  only, so they are not like-for-like. Funding stays unresolved until the counts are urban and comparable.
+- Some `notes` still say "qualifiedApplications UNKNOWN" next to a number that was filled in later. Trust the column.
 - `urbanFiltered` is false in every row (the urban definition is not approved yet). A count of zero is still used
   for Scale, because filtering can only remove awards; a positive count waits for the definition.
 - Indiana's `year` is IHCDA's credit-year label; its notes say the calendar award year is one year earlier.

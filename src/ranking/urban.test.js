@@ -112,7 +112,7 @@ const scaleOf = (built, settings) => {
 test('on the real files today, no site facts exist, so the urban definition changes nothing', () => {
   const built = buildRecords(files())
   assert.deepEqual(built.warnings, [])
-  assert.equal(built.stats.awards, 603)
+  assert.equal(built.stats.awards, 632)
   assert.equal(built.stats.siteFactRows, 0)
   const scale = scaleOf(built)
   assert.deepEqual([scale.status, scale.interval], ['bounded', { lo: 1, hi: 5 }])

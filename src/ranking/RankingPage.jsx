@@ -20,6 +20,37 @@ function criterionText(c) {
   return 'Unknown'
 }
 
+const money = (n) => `$${n.toLocaleString('en-US')}`
+
+// What the program's rules allow for a single project, with the source it came from.
+function ProgramLimits({ caps }) {
+  if (!caps) return null
+  const unitCap = caps.unitCap === 'none-stated' ? 'No cap stated in the rules' : caps.unitCap === 'unknown' ? 'Not checked yet' : `${caps.unitCap} units`
+  const rows = [
+    ['Maximum credit per project', caps.maxCreditText ?? 'Not found'],
+    ['Unit cap', unitCap],
+    ['Cost cap', caps.costCapText ?? 'Not found'],
+    ['Bond volume cap per project', caps.bondVolumeCap !== null ? money(caps.bondVolumeCap) : 'Not found'],
+    ['Developer fee limit', caps.developerFeeLimitText ?? 'Not found'],
+    ['Maximum credit per unit', caps.creditPerUnitAt120 !== null ? `${money(caps.creditPerUnitAt120)} at 120 units, ${money(caps.creditPerUnitAt200)} at 200 units` : 'Not calculable'],
+  ]
+  return (
+    <>
+      <p className="small"><strong>What the program rules allow for one project</strong></p>
+      <table className="parts">
+        <tbody>
+          {rows.map(([label, value]) => (
+            <tr key={label}><td>{label}</td><td className="num wrap">{value}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="small">
+        Source: <a href={caps.source} target="_blank" rel="noopener noreferrer">official document</a>, retrieved {caps.retrieved}. Fee limits are in each program’s own terms (often a share of eligible basis), not DL3’s 10%-of-total-cost test.
+      </p>
+    </>
+  )
+}
+
 function CriteriaList({ criteria }) {
   return (
     <>
@@ -82,6 +113,7 @@ function Details({ r }) {
     <details className="details">
       <summary>Why this score</summary>
       <CriteriaList criteria={r.criteria} />
+      <ProgramLimits caps={r.programCaps} />
       {Object.entries(r.evidence).map(([key, text]) => (
         <p className="small" key={key}>
           <strong>{COMPONENTS.find((c) => c.key === key)?.label}:</strong> {text}
@@ -155,6 +187,7 @@ function CheckCard({ r }) {
         <CheckList checks={r.gates.checks} />
         <p className="small"><strong>Scoring status</strong> (not used until the checks pass):</p>
         <CriteriaList criteria={r.criteria} />
+        <ProgramLimits caps={r.programCaps} />
         {r.nextDeadline && <p className="small"><strong>Next deadline:</strong> {r.nextDeadline}</p>}
         {r.notes && <p className="small"><strong>Research notes:</strong> {r.notes}</p>}
       </details>

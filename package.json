@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "smoke": "node scripts/smoke-test.cjs",
     "publish:preview": "node scripts/herenow-publish.mjs preview",
-    "test": "node --test src/ranking/engine.test.js src/ranking/loadPartC.test.js src/ranking/scoring.test.js src/ranking/urban.test.js"
+    "test": "node --test src/ranking/engine.test.js src/ranking/loadPartC.test.js src/ranking/scoring.test.js src/ranking/urban.test.js src/ranking/programCaps.test.js"
   },
   "dependencies": {
     "react": "^19.3.1",

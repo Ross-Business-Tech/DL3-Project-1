@@ -6,6 +6,7 @@ import { parseCsv, recordsFromPartC } from './loadPartC.js'
 import { rankRecords } from './engine.js'
 import { attachAwardHistory, awardHistoryFromCsv } from './loadAwardHistory.js'
 import { parseAwards, recountFromAwards } from './awardAudit.js'
+import { buildRecords } from './buildData.js'
 
 const csv = readFileSync(new URL('./data/partc.csv', import.meta.url), 'utf8')
 const { records, warnings, stats } = recordsFromPartC(csv)
@@ -102,7 +103,7 @@ test('the yearly award table loads cleanly and attaches to Michigan, Ohio and In
 test('AUDIT: every yearly count that has a number matches a recount from the award-by-award list', () => {
   const { awards, warnings } = parseAwards(read('awards.csv'))
   assert.deepEqual(warnings, [])
-  assert.equal(awards.length, 603)
+  assert.equal(awards.length, 632)
   const recount = recountFromAwards(awards)
   const { rows } = awardHistoryFromCsv(read('award_history.csv'))
   const numeric = rows.filter((r) => r.eligibleAwards !== null)
@@ -113,6 +114,24 @@ test('AUDIT: every yearly count that has a number matches a recount from the awa
   }
   // Every sourced row carries a source URL and a retrieval date
   assert.ok(awards.every((a) => a.source.startsWith('http') && a.retrieved))
+})
+
+test('AUDIT: no application count is smaller than the awards it produced', () => {
+  const { rows } = awardHistoryFromCsv(read('award_history.csv'))
+  const withApps = rows.filter((r) => r.qualifiedApplications !== null)
+  assert.equal(withApps.length, 8) // Indiana 9% 2021-2026, Indiana 4% 2025 and 2026
+  for (const r of withApps) {
+    if (r.eligibleAwards !== null) assert.ok(r.qualifiedApplications >= r.eligibleAwards, `${r.state} ${r.pathway} ${r.year}`)
+  }
+  // Indiana's 2025 and 2026 round counts match the earlier research pack (33 and 37)
+  const get = (y) => rows.find((r) => r.state === 'Indiana' && r.pathway === '9%' && r.year === y).qualifiedApplications
+  assert.deepEqual([get(2025), get(2026)], [33, 37])
+})
+
+test('Funding stays unresolved on the real data: application counts exist but are not urban and comparable yet', () => {
+  const out = rankRecords(buildRecords({ partcCsv: csv, awardHistoryCsv: read('award_history.csv'), awardsCsv: read('awards.csv'), siteFactsCsv: read('site_facts.csv') }).records, { asOf: '2026-11-09' })
+  const indiana9 = out.lists.find((l) => l.pathway === '9%').needsVerification.find((r) => r.id === 'indiana-9')
+  assert.equal(indiana9.criteria.funding.status, 'unresolved')
 })
 
 test('AUDIT: counts that are only lower bounds are the ones with awards of unstated construction type', () => {

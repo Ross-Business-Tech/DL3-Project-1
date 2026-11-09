@@ -6,14 +6,16 @@ import { URBAN_DEFINITION } from './config.js'
 import { parseAwards, urbanLowerBounds } from './awardAudit.js'
 import { attachAwardHistory, awardHistoryFromCsv } from './loadAwardHistory.js'
 import { recordsFromPartC } from './loadPartC.js'
+import { attachProgramCaps, programCapsFromCsv } from './loadProgramCaps.js'
 import { siteFactsFromCsv } from './loadSiteFacts.js'
 import { evaluateUrban, factsForAward } from './urban.js'
 
-export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv }, definition = URBAN_DEFINITION) {
+export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv }, definition = URBAN_DEFINITION) {
   const sheet = recordsFromPartC(partcCsv)
   const history = awardHistoryFromCsv(awardHistoryCsv)
   const awards = parseAwards(awardsCsv)
   const siteFacts = siteFactsFromCsv(siteFactsCsv, definition)
+  const programCaps = programCapsFromCsv(programCapsCsv ?? '')
 
   // For every state, pathway and year: how many awards above 100 units are CERTAINLY urban
   // new construction, judged from the award list and the site facts.
@@ -25,14 +27,16 @@ export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCs
   })
 
   const merged = attachAwardHistory(sheet.records, rows)
+  const withCaps = attachProgramCaps(merged.records, programCaps.caps)
   return {
-    records: merged.records,
-    warnings: [...sheet.warnings, ...history.warnings, ...awards.warnings, ...siteFacts.warnings, ...merged.warnings],
+    records: withCaps.records,
+    warnings: [...sheet.warnings, ...history.warnings, ...awards.warnings, ...siteFacts.warnings, ...programCaps.warnings, ...merged.warnings, ...withCaps.warnings],
     stats: {
       ...sheet.stats,
       awardHistoryRows: history.rows.length,
       awards: awards.awards.length,
       siteFactRows: siteFacts.facts.length,
+      programCapRows: programCaps.caps.length,
     },
   }
 }

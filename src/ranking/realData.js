@@ -3,7 +3,8 @@
 import awardHistoryCsv from './data/award_history.csv?raw'
 import awardsCsv from './data/awards.csv?raw'
 import partcCsv from './data/partc.csv?raw'
+import programCapsCsv from './data/program_caps.csv?raw'
 import siteFactsCsv from './data/site_facts.csv?raw'
 import { buildRecords } from './buildData.js'
 
-export const REAL_DATA = buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv })
+export const REAL_DATA = buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv })

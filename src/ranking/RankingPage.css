@@ -133,6 +133,7 @@
 .parts { width: 100%; border-collapse: collapse; font-size: 14px; margin: 4px 0 8px; }
 .parts td { padding: 4px 0; border-bottom: 1px solid var(--border); }
 .parts .num { text-align: right; white-space: nowrap; padding-left: 12px; }
+.parts .num.wrap { white-space: normal; max-width: 60%; }
 
 .side { margin-top: 8px; }
 .side-row { display: grid; gap: 2px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; }

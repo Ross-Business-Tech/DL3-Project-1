@@ -100,11 +100,15 @@ export function evaluateGates(record, { asOf, settings = SETTINGS }) {
   const checks = []
 
   const units = record.maxFeasibleUnits
+  const cap = record.programCaps?.unitCap // a number only when the program rules cap project size
+  const capped = isNum(cap) && cap < settings.minUnits
   checks.push({
     key: 'units',
     label: `More than 100 units (at least ${settings.minUnits})`,
-    status: isNum(units) ? (units >= settings.minUnits ? 'pass' : 'fail') : 'unknown',
-    detail: isNum(units) ? `Largest plausible urban project: ${units} units` : 'Largest feasible project size not known',
+    status: capped ? 'fail' : isNum(units) ? (units >= settings.minUnits ? 'pass' : 'fail') : 'unknown',
+    detail: capped
+      ? `The program caps projects at ${cap} units`
+      : isNum(units) ? `Largest plausible urban project: ${units} units` : 'Largest feasible project size not known',
   })
 
   const fee = feeTest(record.approvedGrossFee, record.totalDevelopmentCost, settings)
@@ -142,7 +146,7 @@ export function evaluateGates(record, { asOf, settings = SETTINGS }) {
         ? 'No source retrieval dates recorded'
         : stale.length > 0
           ? `${stale.length} of ${dates.length} critical sources are stale or have an unreadable date`
-          : `Oldest source is ${Math.max(...ages)} days old`,
+          : `Oldest source is ${Math.max(...ages)} day${Math.max(...ages) === 1 ? '' : 's'} old`,
   })
 
   // A failure resting on low-confidence evidence (guide 9A: "critical evidence is missing,
@@ -438,6 +442,7 @@ export function rankRecords(records, options = {}) {
       derived: r.scores?.funding === undefined && funding ? { ...r.derived, funding } : (r.derived ?? {}),
       overrides: r.overrides ?? [],
       notes: r.notes ?? null,
+      programCaps: r.programCaps ?? null,
       researched: r.researched ?? true,
       benchmarkOnly: r.benchmarkOnly === true,
       gates,
