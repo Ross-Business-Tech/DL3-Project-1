@@ -17,4 +17,9 @@ Known quirks, handled by `../loadPartC.js`:
 - Illinois is flagged benchmark-only (guide section 1).
 - The sheet has no 0-5 component scores, so every ranking factor is unknown until someone scores it.
 
+`award_history.csv` is the yearly award table that the Scale and Funding scores are calculated from. It is
+empty (header only) until the research team fills it. One row per state, credit pathway and year; every row
+needs a source URL and a retrieval date, and its counts must already be limited to urban, DL3-product awards.
+See `../SCORING.md` for the exact columns and rules.
+
 All of this is public agency information. Never add personal data about individuals.

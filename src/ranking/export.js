@@ -25,6 +25,16 @@ function cell(value) {
   return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text
 }
 
+// The "still needed" list as a spreadsheet, so DL3, the reviewer and the research team can each
+// take their rows.
+export function toQueueCsv(result) {
+  const rows = [['Owner', 'State', 'Pathway', 'Type', 'Item', 'Status', 'What is needed', 'Why it is open']]
+  for (const q of result.reviewQueue) {
+    rows.push([q.owner, q.state, q.pathway, q.kind === 'gate' ? 'Screening gate' : 'Scoring criterion', q.item, q.status, q.needs.join('; '), q.reasons.join('; ')])
+  }
+  return rows.map((row) => row.map(cell).join(',')).join('\n') + '\n'
+}
+
 export function toCsv(result) {
   const rows = [COLUMNS]
   for (const list of result.lists) {

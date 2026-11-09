@@ -12,7 +12,8 @@
 //                        when the uncertainty could change where the record lands.
 //   4. Sensitivity (7B)  Each weight +/-20%, renormalized to 100. Results that move are flagged.
 
-import { COMPONENTS, SETTINGS, MODEL_VERSION } from './config.js'
+import { COMPONENTS, CRITERIA_OWNERS, GATE_OWNERS, SETTINGS, MODEL_VERSION } from './config.js'
+import { fundingFromHistory, scoreCriteria } from './scoring.js'
 
 const EPS = 1e-9
 const isNum = (x) => typeof x === 'number' && Number.isFinite(x)
@@ -159,45 +160,64 @@ export function evaluateGates(record, { asOf, settings = SETTINGS }) {
 
 // -------------------------------------------------------------------- scoring (7A, 7B)
 
-const isValidScore = (s) => Number.isInteger(s) && s >= 0 && s <= 5
+// A valid score is a whole number from 0 to 5 (Venture Development may be an average, like 3.4).
+const isValidScore = (s, comp) => isNum(s) && s >= 0 && s <= 5 && (comp?.fractional === true || Number.isInteger(s))
+// A criterion the evidence only pins to a range, such as Scale between 3 and 5.
+const isInterval = (s) => s !== null && typeof s === 'object' && isNum(s.lo) && isNum(s.hi) && s.lo >= 0 && s.hi <= 5 && s.lo <= s.hi
 
-// Total = sum(weight x score) / 5. Unknown components are bounded, never averaged away.
+// Total = sum(weight x score) / 5. Unknown components are bounded (0 for the low end, 5 for the
+// high end), never averaged away; a component known only as a range contributes that range.
 export function scoreComponents(scores, weights) {
   let lo = 0
+  let hi = 0
   let knownWeight = 0
-  let unknownWeight = 0
+  let totalWeight = 0
   const unknown = []
-  for (const { key } of COMPONENTS) {
-    const w = weights[key]
-    const s = scores?.[key]
-    if (isValidScore(s)) {
+  for (const comp of COMPONENTS) {
+    const w = weights[comp.key]
+    const s = scores?.[comp.key]
+    totalWeight += w
+    if (isValidScore(s, comp)) {
       lo += (w * s) / 5
+      hi += (w * s) / 5
       knownWeight += w
+    } else if (isInterval(s)) {
+      lo += (w * s.lo) / 5
+      hi += (w * s.hi) / 5
+      unknown.push(comp.key)
     } else {
-      unknownWeight += w
-      unknown.push(key)
+      hi += w // unknown scored 5 => weight x 5 / 5
+      unknown.push(comp.key)
     }
   }
-  const hi = lo + unknownWeight // unknown scored 5 => weight x 5 / 5
   return {
     lo,
     hi,
     point: unknown.length === 0 ? lo : null,
-    coverage: knownWeight / (knownWeight + unknownWeight),
+    coverage: knownWeight / totalWeight,
     unknown,
   }
 }
 
-// 7A: scores of 1, 2 and 4 need written evidence; anything that is not a whole 0-5 is ignored.
+// 7A: scores of 1, 2 and 4 need written evidence; anything that is not a valid score is ignored.
+// Only scores someone typed in are checked: calculated scores explain themselves.
 function scoreWarnings(record) {
   const warnings = []
-  for (const { key, label } of COMPONENTS) {
-    const s = record.scores?.[key]
-    if (s === undefined || s === null) continue
-    if (!isValidScore(s)) warnings.push(`${label}: "${s}" is not a whole number from 0 to 5, so it was treated as unknown`)
-    else if ([1, 2, 4].includes(s) && !record.evidence?.[key]) warnings.push(`${label}: a score of ${s} needs written evidence`)
+  for (const comp of COMPONENTS) {
+    const s = record.scores?.[comp.key]
+    if (s === undefined || s === null || isInterval(s)) continue
+    if (!isValidScore(s, comp)) warnings.push(`${comp.label}: "${s}" is not a valid 0 to 5 score, so it was treated as unknown`)
+    else if ([1, 2, 4].includes(s) && !record.evidence?.[comp.key]) warnings.push(`${comp.label}: a score of ${s} needs written evidence`)
   }
   return warnings
+}
+
+// A score typed into the record always wins over a calculated or proposed one.
+function enteredResult(comp, value) {
+  const base = { key: comp.key, method: 'entered', score: null, interval: null, reasons: [], needs: [] }
+  if (isValidScore(value, comp)) return { ...base, score: value, status: 'final', reasons: ['Score entered directly'] }
+  if (isInterval(value)) return { ...base, interval: value, status: 'bounded', reasons: ['Range entered directly'] }
+  return { ...base, status: 'unresolved', reasons: [value === null ? 'Entered as unknown' : 'Not a valid score, so it was treated as unknown'] }
 }
 
 // ------------------------------------------------- funding and competition index (7A)
@@ -249,14 +269,41 @@ export function fundingAccess(records, settings = SETTINGS) {
   return results
 }
 
-function withDerivedFunding(records, settings) {
-  const derived = fundingAccess(records, settings)
-  return records.map((r) => {
-    if (r.scores?.funding !== undefined) return r // an explicit score always wins
-    const d = derived.get(r.id)
-    if (!d) return r
-    return { ...r, scores: { ...r.scores, funding: d.score }, derived: { ...r.derived, funding: d } }
-  })
+// When a state has no funding counts of its own but does have a yearly award history, take the
+// averages from that table (complete years only, urban-filtered rows only).
+function withHistoryFunding(record, settings) {
+  const f = record.funding
+  if (f && (isNum(f.eligibleAwardsPerYear) || isNum(f.qualifiedApplicationsPerYear))) return record
+  const fromHistory = fundingFromHistory(record, settings)
+  return fromHistory ? { ...record, funding: fromHistory } : record
+}
+
+// What is still needed to finish scoring, for researched states only (the unresearched ones
+// would bury the list): open criteria and open gate checks, with who can supply each.
+// States that already failed a gate are left out: nobody needs to score an excluded state.
+function buildReviewQueue(assessed) {
+  const queue = []
+  for (const a of assessed) {
+    if (a.benchmarkOnly || !a.researched || a.gates.status === 'Fail') continue
+    for (const comp of COMPONENTS) {
+      const c = a.criteria[comp.key]
+      if (c.status === 'final') continue
+      queue.push({
+        id: a.id, state: a.state, pathway: a.pathway, kind: 'criterion', key: comp.key, item: comp.label,
+        owner: CRITERIA_OWNERS[comp.key], status: c.status, needs: c.needs, reasons: c.reasons,
+      })
+    }
+    for (const check of a.gates.checks) {
+      const open = check.status === 'unknown' || (check.status === 'fail' && a.gates.lowConfidenceFail)
+      if (!open) continue
+      queue.push({
+        id: a.id, state: a.state, pathway: a.pathway, kind: 'gate', key: check.key, item: check.label,
+        owner: GATE_OWNERS[check.key], status: check.status === 'fail' ? 'low-confidence fail' : 'unknown',
+        needs: [check.detail], reasons: [],
+      })
+    }
+  }
+  return queue.sort((x, y) => x.owner.localeCompare(y.owner) || x.state.localeCompare(y.state) || x.pathway.localeCompare(y.pathway))
 }
 
 // ------------------------------------------------------------ ranking (7B)
@@ -332,21 +379,51 @@ function openChecksText(a) {
  *   { id, state, pathway: '9%' | '4%', allocator, confidence: 'High'|'Medium'|'Low',
  *     maxFeasibleUnits, approvedGrossFee, totalDevelopmentCost, sponsorPath, financingPath,
  *     criticalSourceDates: ['2026-10-20', ...],
- *     scores: { economics, funding, access, scale, urban, execution, venture }  // whole 0-5, null = unknown
- *     evidence: { <component>: 'written evidence' },
- *     funding: { eligibleAwardsPerYear, qualifiedApplicationsPerYear },  // derives `funding` if absent
+ *
+ *   How each 0-5 criterion gets its score (see scoring.js). In order of precedence:
+ *     scores: { economics, funding, access, scale, urban, execution, venture }
+ *         a score typed in directly (whole 0-5, null = unknown); always wins
+ *     awardHistory: [{ year, yearComplete, eligibleAwards, awardsAbove100, qualifiedApplications, urbanFiltered }]
+ *         -> Scale (and, if `funding` is absent, Funding) are calculated from it
+ *     funding: { eligibleAwardsPerYear, qualifiedApplicationsPerYear } -> Funding is calculated
+ *     economics: { retainedNetCash, presentValue, downsidePasses } -> Economics, once DL3's hurdles are set
+ *     judgments: { access|urban|execution: { score, evidence, proposedBy, approvedBy, approvedOn } }
+ *     venture: { <five factors>: { score, evidence }, approvedBy, approvedOn }
+ *     evidence: { <component>: 'written evidence' }   // for typed-in scores of 1, 2 or 4
  *     nextDeadline, recommendedAction, overrides: [] }
  *
  * options: { asOf: 'YYYY-MM-DD', weights, settings }
  */
 export function rankRecords(records, options = {}) {
-  const settings = { ...SETTINGS, ...options.settings }
+  const settings = {
+    ...SETTINGS,
+    ...options.settings,
+    economicsHurdles: { ...SETTINGS.economicsHurdles, ...options.settings?.economicsHurdles },
+  }
   const weights = checkWeights(options.weights ?? defaultWeights())
   const asOf = options.asOf ?? new Date().toISOString().slice(0, 10)
 
-  const prepared = withDerivedFunding(records, settings)
+  const prepared = records.map((r) => withHistoryFunding(r, settings))
+  const fundingByRecord = fundingAccess(prepared, settings)
   const assessed = prepared.map((r) => {
     const gates = evaluateGates(r, { asOf, settings })
+
+    // One 0-5 result per criterion; what feeds the ranking is the usable part of each.
+    const funding = fundingByRecord.get(r.id)
+    const criteria = scoreCriteria(r, settings, funding)
+    const scores = {}
+    for (const comp of COMPONENTS) {
+      const typed = r.scores?.[comp.key]
+      if (typed !== undefined) {
+        criteria[comp.key] = enteredResult(comp, typed)
+        scores[comp.key] = typed
+        continue
+      }
+      const c = criteria[comp.key]
+      const counts = c.status === 'final' || c.status === 'bounded' || (c.status === 'proposed' && settings.countProposed)
+      scores[comp.key] = counts ? (c.interval ?? c.score) : null
+    }
+
     return {
       id: r.id,
       state: r.state,
@@ -355,15 +432,16 @@ export function rankRecords(records, options = {}) {
       confidence: r.confidence ?? 'Low',
       nextDeadline: r.nextDeadline ?? null,
       recommendedAction: r.recommendedAction ?? null,
-      scores: r.scores ?? {},
+      scores,
+      criteria,
       evidence: r.evidence ?? {},
-      derived: r.derived ?? {},
+      derived: r.scores?.funding === undefined && funding ? { ...r.derived, funding } : (r.derived ?? {}),
       overrides: r.overrides ?? [],
       notes: r.notes ?? null,
       researched: r.researched ?? true,
       benchmarkOnly: r.benchmarkOnly === true,
       gates,
-      score: scoreComponents(r.scores, weights),
+      score: scoreComponents(scores, weights),
       warnings: scoreWarnings(r),
     }
   })
@@ -481,7 +559,7 @@ export function rankRecords(records, options = {}) {
     }
   })
 
-  return { modelVersion: MODEL_VERSION, asOf, weights, settings, lists }
+  return { modelVersion: MODEL_VERSION, asOf, weights, settings, lists, reviewQueue: buildReviewQueue(assessed) }
 }
 
 // ----------------------------------------------------- overrides (7B: "log overrides")

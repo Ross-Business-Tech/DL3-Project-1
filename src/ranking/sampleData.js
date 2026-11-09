@@ -26,24 +26,34 @@ function record(overrides) {
 
 const note = 'Sample evidence note'
 
+// Made-up yearly award table. Each number is the count of awards above 100 units that year.
+const history = (...largeByYear) =>
+  largeByYear.map((large, i) => ({
+    year: 2021 + i, complete: true, eligibleAwards: 6, awardsAbove100Units: large, qualifiedApplications: 18,
+    urbanFiltered: true, source: 'Made-up sample', retrieved: SAMPLE_AS_OF,
+  }))
+
 export const SAMPLE_RECORDS = [
   // ---- 9% pathway
   record({
     id: 'a-9', state: 'Sample State A', pathway: '9%',
-    scores: { economics: 4, access: 4, scale: 5, urban: 3, execution: 4, venture: 3 },
+    scores: { economics: 4, access: 4, urban: 3, execution: 4, venture: 3 },
+    awardHistory: history(2, 0, 1, 0, 3), // Scale is calculated from this: 3 of 5 years -> 5
     evidence: { economics: note, access: note, execution: note },
     funding: { eligibleAwardsPerYear: 12, qualifiedApplicationsPerYear: 30 },
   }),
   record({
     id: 'b-9', state: 'Sample State B', pathway: '9%',
-    scores: { economics: 5, access: 3, scale: 3, urban: 4, execution: 3, venture: 4 },
+    scores: { economics: 5, access: 3, urban: 4, execution: 3, venture: 4 },
+    awardHistory: history(0, 0, 2, 0, 0), // one year with a 100+ unit award -> isolated -> 3
     evidence: { urban: note, venture: note },
     funding: { eligibleAwardsPerYear: 9, qualifiedApplicationsPerYear: 36 },
   }),
   record({
     // Same numbers as State A on purpose: shows how ties are reported.
     id: 'c-9', state: 'Sample State C', pathway: '9%',
-    scores: { economics: 4, access: 4, scale: 5, urban: 3, execution: 4, venture: 3 },
+    scores: { economics: 4, access: 4, urban: 3, execution: 4, venture: 3 },
+    awardHistory: history(2, 0, 1, 0, 3), // Scale is calculated from this: 3 of 5 years -> 5
     evidence: { economics: note, access: note, execution: note },
     funding: { eligibleAwardsPerYear: 12, qualifiedApplicationsPerYear: 30 },
   }),

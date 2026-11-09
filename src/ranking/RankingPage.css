@@ -83,6 +83,12 @@
 .ck-pass { color: var(--good); }
 .ck-fail, .ck-unknown { color: var(--warn); }
 
+.needs { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
+.needs strong { color: var(--text-h); }
+.side-row .details { margin: 0; }
+.side-row .details summary { color: var(--text-h); }
+.download + .download { margin-top: 8px; }
+
 .names { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .names { grid-template-columns: 1fr 1fr; } }
 .names strong { color: var(--text-h); }

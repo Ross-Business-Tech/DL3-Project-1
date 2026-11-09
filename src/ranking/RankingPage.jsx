@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { COMPONENTS } from './config.js'
 import { rankRecords } from './engine.js'
-import { rankText, scoreText, toCsv } from './export.js'
+import { rankText, scoreText, toCsv, toQueueCsv } from './export.js'
 import { REAL_DATA } from './realData.js'
 import { SAMPLE_AS_OF, SAMPLE_RECORDS } from './sampleData.js'
 import './RankingPage.css'
@@ -9,6 +9,51 @@ import './RankingPage.css'
 const round = (n) => Number(n.toFixed(1))
 const TODAY = new Date().toISOString().slice(0, 10)
 const STATUS_TEXT = { pass: '✓ Pass', fail: '✗ Fail', unknown: '? Unknown' }
+const METHOD_TEXT = { calculated: 'calculated', entered: 'typed in', judgment: 'judgment' }
+
+// How one criterion's 0-5 result reads on screen.
+function criterionText(c) {
+  const range = c.interval ? `${round(c.interval.lo)}–${round(c.interval.hi)}` : null
+  if (c.status === 'final') return `${round(c.score)} / 5`
+  if (c.status === 'bounded') return `${range} / 5`
+  if (c.status === 'proposed') return `Proposed ${range ?? round(c.score)}`
+  return 'Unknown'
+}
+
+function CriteriaList({ criteria }) {
+  return (
+    <>
+      <table className="parts">
+        <tbody>
+          {COMPONENTS.map((comp) => {
+            const c = criteria[comp.key]
+            return (
+              <tr key={comp.key}>
+                <td>
+                  {comp.label}
+                  <span className="small block">{c.status === 'unresolved' ? 'needs input' : METHOD_TEXT[c.method]}{c.status === 'proposed' && ', awaiting approval'}</span>
+                </td>
+                <td className="num">{comp.weight}%</td>
+                <td className="num">{criterionText(c)}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      {COMPONENTS.map((comp) => {
+        const c = criteria[comp.key]
+        if (c.status === 'final' && c.method === 'entered') return null
+        const lines = c.status === 'final' ? c.reasons : c.needs
+        if (lines.length === 0) return null
+        return (
+          <p className="small" key={comp.key}>
+            <strong>{comp.label}{c.status === 'final' ? '' : ' still needs'}:</strong> {lines.join(' · ')}
+          </p>
+        )
+      })}
+    </>
+  )
+}
 
 function ScoreBar({ score }) {
   return (
@@ -33,36 +78,15 @@ function CheckList({ checks }) {
 }
 
 function Details({ r }) {
-  const funding = r.derived.funding
   return (
     <details className="details">
       <summary>Why this score</summary>
-      <table className="parts">
-        <tbody>
-          {COMPONENTS.map((c) => {
-            const s = r.scores[c.key]
-            const known = r.score.unknown.includes(c.key) === false
-            return (
-              <tr key={c.key}>
-                <td>{c.label}</td>
-                <td className="num">{c.weight}%</td>
-                <td className="num">{known ? `${s} / 5` : 'Unknown'}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <CriteriaList criteria={r.criteria} />
       {Object.entries(r.evidence).map(([key, text]) => (
         <p className="small" key={key}>
           <strong>{COMPONENTS.find((c) => c.key === key)?.label}:</strong> {text}
         </p>
       ))}
-      {funding?.note && <p className="small">{funding.note}.</p>}
-      {funding?.index != null && (
-        <p className="small">
-          Funding index {round(funding.index)} of 100 (award rate {round(funding.awardRate * 100)}%, from {funding.universe} jurisdictions).
-        </p>
-      )}
       {r.stability.changes.length > 0 && (
         <>
           <p className="small"><strong>Changes when a weight moves 20%:</strong></p>
@@ -127,8 +151,10 @@ function CheckCard({ r }) {
       </div>
       <p className="small">{r.reason}</p>
       <details className="details">
-        <summary>The five checks</summary>
+        <summary>The five checks and scoring status</summary>
         <CheckList checks={r.gates.checks} />
+        <p className="small"><strong>Scoring status</strong> (not used until the checks pass):</p>
+        <CriteriaList criteria={r.criteria} />
         {r.nextDeadline && <p className="small"><strong>Next deadline:</strong> {r.nextDeadline}</p>}
         {r.notes && <p className="small"><strong>Research notes:</strong> {r.notes}</p>}
       </details>
@@ -173,14 +199,19 @@ export default function RankingPage() {
   const totalPass = result.lists.reduce((n, l) => n + l.counts.pass, 0)
   const researchedNames = [...new Set(REAL_DATA.records.filter((r) => r.researched).map((r) => r.state))]
 
-  function download() {
-    const url = URL.createObjectURL(new Blob([toCsv(result)], { type: 'text/csv' }))
+  const queue = result.reviewQueue.filter((q) => q.pathway === list.pathway)
+  const byOwner = [...new Set(queue.map((q) => q.owner))].map((owner) => ({ owner, items: queue.filter((q) => q.owner === owner) }))
+
+  function save(name, text) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/csv' }))
     const a = document.createElement('a')
     a.href = url
-    a.download = `dl3-state-ranking-${dataset}-${result.asOf}.csv`
+    a.download = name
     a.click()
     URL.revokeObjectURL(url)
   }
+  const download = () => save(`dl3-state-ranking-${dataset}-${result.asOf}.csv`, toCsv(result))
+  const downloadQueue = () => save(`dl3-open-items-${dataset}-${result.asOf}.csv`, toQueueCsv(result))
 
   return (
     <main className="ranking">
@@ -277,6 +308,31 @@ export default function RankingPage() {
               </li>
             ))}
           </ul>
+        </Section>
+      )}
+
+      {queue.length > 0 && (
+        <Section
+          title="Still needed to finish scoring"
+          hint={`${queue.length} open items for the researched states in the ${list.pathway} pathway, grouped by who can supply them.`}
+        >
+          <ul className="plain">
+            {byOwner.map(({ owner, items }) => (
+              <li key={owner} className="side-row">
+                <details className="details">
+                  <summary><strong>{owner}</strong> · {items.length} {items.length === 1 ? 'item' : 'items'}</summary>
+                  <ul className="needs small">
+                    {items.map((q) => (
+                      <li key={`${q.id}-${q.kind}-${q.key}`}>
+                        <strong>{q.state}</strong>, {q.item}: {q.needs.length > 0 ? q.needs.join('; ') : q.reasons.join('; ')}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ))}
+          </ul>
+          <button className="download" onClick={downloadQueue}>Download open items (CSV)</button>
         </Section>
       )}
 

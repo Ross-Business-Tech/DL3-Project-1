@@ -4,6 +4,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { parseCsv, recordsFromPartC } from './loadPartC.js'
 import { rankRecords } from './engine.js'
+import { attachAwardHistory, awardHistoryFromCsv } from './loadAwardHistory.js'
 
 const csv = readFileSync(new URL('./data/partc.csv', import.meta.url), 'utf8')
 const { records, warnings, stats } = recordsFromPartC(csv)
@@ -82,4 +83,27 @@ test('Indiana and Ohio 4% need verification; Illinois is benchmark only; the res
   assert.equal(where('illinois-4'), 'benchmark')
   assert.deepEqual(list('4%').counts, { total: 49, pass: 0, needsVerification: 49, fail: 0, benchmark: 1 })
   assert.deepEqual(list('9%').counts, { total: 49, pass: 0, needsVerification: 47, fail: 2, benchmark: 1 })
+})
+
+test('the award history template loads and is empty until the research team fills it', () => {
+  const text = readFileSync(new URL('./data/award_history.csv', import.meta.url), 'utf8')
+  const history = awardHistoryFromCsv(text)
+  assert.deepEqual(history, { rows: [], warnings: [] })
+  assert.deepEqual(attachAwardHistory(records, history.rows).records, records)
+})
+
+test('on the real data, the still-needed list shows what each researched state is missing', () => {
+  const queue = result.reviewQueue
+  assert.deepEqual([...new Set(queue.map((q) => q.state))].sort(), ['Indiana', 'Michigan', 'Ohio'])
+  // Indiana 4% has a feasible 234-unit project but no award history: Scale is a range, not a guess
+  const scale = queue.find((q) => q.id === 'indiana-4' && q.key === 'scale')
+  assert.equal(scale.status, 'bounded')
+  assert.match(scale.needs.join(' '), /2021, 2022, 2023, 2024, 2025/)
+  // Michigan 4% has no confirmed feasible project size, so its Scale cannot even start
+  assert.equal(queue.find((q) => q.id === 'michigan-4' && q.key === 'scale').status, 'unresolved')
+  // excluded states (Michigan 9%, Ohio 9%) are not asked for anything
+  assert.ok(!queue.some((q) => q.id === 'michigan-9' || q.id === 'ohio-9'))
+  // every remaining state's sponsor path is a DL3 question
+  assert.ok(queue.filter((q) => q.key === 'sponsor').every((q) => /DL3/.test(q.owner)))
+  assert.equal(queue.filter((q) => q.key === 'sponsor').length, 4)
 })
