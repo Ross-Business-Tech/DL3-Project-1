@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { parseCsv, recordsFromPartC } from './loadPartC.js'
 import { rankRecords } from './engine.js'
 import { attachAwardHistory, awardHistoryFromCsv } from './loadAwardHistory.js'
+import { parseAwards, recountFromAwards } from './awardAudit.js'
 
 const csv = readFileSync(new URL('./data/partc.csv', import.meta.url), 'utf8')
 const { records, warnings, stats } = recordsFromPartC(csv)
@@ -85,11 +86,49 @@ test('Indiana and Ohio 4% need verification; Illinois is benchmark only; the res
   assert.deepEqual(list('9%').counts, { total: 49, pass: 0, needsVerification: 47, fail: 2, benchmark: 1 })
 })
 
-test('the award history template loads and is empty until the research team fills it', () => {
-  const text = readFileSync(new URL('./data/award_history.csv', import.meta.url), 'utf8')
-  const history = awardHistoryFromCsv(text)
-  assert.deepEqual(history, { rows: [], warnings: [] })
-  assert.deepEqual(attachAwardHistory(records, history.rows).records, records)
+const read = (name) => readFileSync(new URL(`./data/${name}`, import.meta.url), 'utf8')
+
+test('the yearly award table loads cleanly and attaches to Michigan, Ohio and Indiana', () => {
+  const history = awardHistoryFromCsv(read('award_history.csv'))
+  assert.deepEqual(history.warnings, [])
+  assert.equal(history.rows.length, 36)
+  assert.deepEqual([...new Set(history.rows.map((r) => r.state))].sort(), ['Indiana', 'Michigan', 'Ohio'])
+  const attached = attachAwardHistory(records, history.rows)
+  assert.deepEqual(attached.warnings, [])
+  assert.equal(attached.records.find((r) => r.id === 'indiana-9').awardHistory.length, 6) // 2021-2025 plus 2026 year to date
+  assert.equal(attached.records.find((r) => r.id === 'alabama-9').awardHistory, undefined)
+})
+
+test('AUDIT: every yearly count that has a number matches a recount from the award-by-award list', () => {
+  const { awards, warnings } = parseAwards(read('awards.csv'))
+  assert.deepEqual(warnings, [])
+  assert.equal(awards.length, 603)
+  const recount = recountFromAwards(awards)
+  const { rows } = awardHistoryFromCsv(read('award_history.csv'))
+  const numeric = rows.filter((r) => r.eligibleAwards !== null)
+  assert.equal(numeric.length, 13) // the other 23 of 36 rows are UNKNOWN
+  for (const r of numeric) {
+    const got = recount.get(`${r.state}|${r.pathway}|${r.year}`)
+    assert.deepEqual([got.eligibleAwards, got.awardsAbove100Units], [r.eligibleAwards, r.awardsAbove100Units], `${r.state} ${r.pathway} ${r.year}`)
+  }
+  // Every sourced row carries a source URL and a retrieval date
+  assert.ok(awards.every((a) => a.source.startsWith('http') && a.retrieved))
+})
+
+test('AUDIT: counts that are only lower bounds are the ones with awards of unstated construction type', () => {
+  const recount = recountFromAwards(parseAwards(read('awards.csv')).awards)
+  const { rows } = awardHistoryFromCsv(read('award_history.csv'))
+  const lowerBound = rows.filter((r) => r.eligibleAwards !== null && recount.get(`${r.state}|${r.pathway}|${r.year}`).unknownTypeRows > 0)
+  // Ohio 9% reports numbers for years that include service-enriched awards of unstated type
+  assert.ok(lowerBound.length > 0 && lowerBound.every((r) => r.state === 'Ohio' && r.pathway === '9%'))
+})
+
+test('a definition (such as "urban") can be applied to the awards to rebuild the counts', () => {
+  const { awards } = parseAwards(read('awards.csv'))
+  const all = recountFromAwards(awards).get('Indiana|4%|2025')
+  const noAgeRestricted = recountFromAwards(awards, { include: (a) => a.ageRestricted === false }).get('Indiana|4%|2025')
+  assert.deepEqual([all.eligibleAwards, all.awardsAbove100Units], [9, 7])
+  assert.ok(noAgeRestricted.awardsAbove100Units < all.awardsAbove100Units) // filtering only ever removes awards
 })
 
 test('on the real data, the still-needed list shows what each researched state is missing', () => {

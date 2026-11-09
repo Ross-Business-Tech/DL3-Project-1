@@ -49,10 +49,12 @@ export function scoreScale(record, settings) {
   const rows = Array.isArray(record.awardHistory) ? record.awardHistory : []
   const perYear = years.map((year) => {
     const row = rows.find((h) => h.year === year && h.complete !== false)
-    if (!row) return { year, state: 'missing' }
+    if (!row || !isCount(row.awardsAbove100Units)) return { year, state: 'missing' }
+    // A count of zero is safe to use before the urban filter is applied: filtering can only take
+    // awards away, never add them. A positive count has to wait for the urban definition.
+    if (row.awardsAbove100Units === 0) return { year, state: 'none', count: 0 }
     if (row.urbanFiltered !== true) return { year, state: 'unfiltered' }
-    if (!isCount(row.awardsAbove100Units)) return { year, state: 'missing' }
-    return { year, state: row.awardsAbove100Units > 0 ? 'large' : 'none', count: row.awardsAbove100Units }
+    return { year, state: 'large', count: row.awardsAbove100Units }
   })
   const large = perYear.filter((y) => y.state === 'large').length
   const unknown = perYear.filter((y) => y.state === 'missing' || y.state === 'unfiltered')

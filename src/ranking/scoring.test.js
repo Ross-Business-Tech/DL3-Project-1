@@ -70,6 +70,17 @@ test('Scale: awards not filtered to urban projects do not count', () => {
   assert.match(r.needs.join(' '), /urban definition/)
 })
 
+test('Scale: a count of zero is trusted before the urban filter is applied, a positive count is not', () => {
+  // 5 years of zero awards above 100 units, unfiltered: zero stays zero under any filter
+  const zeros = scale({ awardHistory: hist(0, 0, 0, 0, 0).map((h) => ({ ...h, urbanFiltered: false })) })
+  assert.deepEqual(zeros.interval, { lo: 1, hi: 2 }) // feasible, but no large awards in any known year
+  // one unfiltered positive year stays unknown, so the score is still a range
+  const mixed = scale({ awardHistory: [...hist(0, 0, 0, 0).map((h) => ({ ...h, urbanFiltered: false })), yr(2025, 2, { urbanFiltered: false })] })
+  assert.equal(mixed.status, 'bounded')
+  assert.deepEqual(mixed.interval, { lo: 1, hi: 3 })
+  assert.match(mixed.needs.join(' '), /urban definition/)
+})
+
 test('Scale: 2026 year-to-date and years outside the window never count toward 3 of 5', () => {
   const r = scale({ awardHistory: [yr(2026, 5, { complete: false }), yr(2020, 5), yr(2021, 1), yr(2022, 1)] })
   assert.equal(r.status, 'bounded') // only 2 large years inside 2021-2025; 2020 and 2026 are ignored
@@ -179,11 +190,12 @@ test('Award history file: good rows load; uncited, impossible and duplicate rows
 })
 
 test('Award history rows attach to the matching state and pathway; unmatched rows are reported', () => {
-  const { rows } = awardHistoryFromCsv(HEADER + `Michigan,9%,2023,true,6,2,18,true,${SRC},ok\n` + `Nowhere,9%,2023,true,6,2,18,true,${SRC},ok\n`)
+  const { rows } = awardHistoryFromCsv(HEADER + `Michigan,9%,2023,true,6,2,18,true,${SRC},ok\n` + `TX,9%,2023,true,6,2,18,true,${SRC},ok\n`)
+  assert.deepEqual(rows.map((r) => r.state), ['Michigan', 'Texas']) // two-letter codes are understood
   const { records, warnings } = attachAwardHistory([{ state: 'Michigan', pathway: '9%' }, { state: 'Michigan', pathway: '4%' }], rows)
   assert.equal(records[0].awardHistory.length, 1)
   assert.equal(records[1].awardHistory, undefined)
-  assert.match(warnings[0], /Nowhere 9%/)
+  assert.match(warnings[0], /Texas 9%/)
 })
 
 const base = {

@@ -26,15 +26,17 @@ score to a range, the tool keeps the range. It never guesses, and unknown never 
 - Missing years leave a range (for example 3 to 5) until they are filled in.
 - 2026 year-to-date and any year outside the window never count toward "3 of 5".
 - Only awards already limited to **urban, DL3-product** projects count. A row must say `urbanFiltered = true`.
+  One exception: a count of **zero** is used even before filtering, because filtering can only remove awards.
 
 "Isolated" is read as "fewer than 3 of the 5 years". That reading is a proposal to confirm with Andrew.
 
 ## Where the data goes
 
 - `data/partc.csv`: the state sheet (fee rules, unit limits, sponsor and financing paths, source dates).
+- `data/awards.csv`: the award-by-award list (one row per award, with city and unit count). `awardAudit.js` recounts the yearly table from it, and is where DL3's approved urban definition plugs in.
 - `data/award_history.csv`: **one row per state, credit pathway and year.** Every row needs a source URL and a retrieval date, or it is rejected. Columns:
   `state, pathway, year, yearComplete, eligibleAwards, awardsAbove100Units, qualifiedApplications, urbanFiltered, source, retrieved, notes`.
-  Use `UNKNOWN` for a count you cannot find. Never estimate one.
+  `state` may be a name or a two-letter code. Use `UNKNOWN` for a count you cannot find. Never estimate one.
 - Judgments, Venture factors and DL3's economics inputs go on the record as described at the top of `engine.js`.
 
 The page's **Still needed to finish scoring** section (and its CSV) lists every open item per state, grouped by who can supply it.

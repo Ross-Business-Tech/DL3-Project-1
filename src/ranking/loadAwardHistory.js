@@ -10,6 +10,7 @@
 //   - yearComplete is false for the current year so far; those rows never count toward "3 of 5"
 
 import { parseCsv } from './loadPartC.js'
+import { stateName } from './usStates.js'
 
 export const AWARD_HISTORY_COLUMNS = [
   'state', 'pathway', 'year', 'yearComplete', 'eligibleAwards', 'awardsAbove100Units',
@@ -44,6 +45,8 @@ export function awardHistoryFromCsv(csvText) {
     if (fields.length !== AWARD_HISTORY_COLUMNS.length) return skip(`it has ${fields.length} columns instead of ${AWARD_HISTORY_COLUMNS.length}`)
     const f = Object.fromEntries(AWARD_HISTORY_COLUMNS.map((c, i) => [c, clean(fields[i])]))
 
+    const state = stateName(f.state)
+    if (!state) return skip(`"${f.state}" is not a state name or two-letter code`)
     if (f.pathway !== '9%' && f.pathway !== '4%') return skip(`pathway must be 9% or 4%, not "${f.pathway}"`)
     if (!/^\d{4}$/.test(f.year)) return skip(`year must be four digits, not "${f.year}"`)
     if (!/^https?:\/\//i.test(f.source)) return skip('it has no source URL')
@@ -63,12 +66,12 @@ export function awardHistoryFromCsv(csvText) {
     if (eligible.value !== null && apps.value !== null && apps.value < eligible.value) {
       return skip('qualifiedApplications is smaller than eligibleAwards')
     }
-    const key = `${f.state}|${f.pathway}|${f.year}`
-    if (seen.has(key)) return skip(`${f.state} ${f.pathway} ${f.year} appears twice`)
+    const key = `${state}|${f.pathway}|${f.year}`
+    if (seen.has(key)) return skip(`${state} ${f.pathway} ${f.year} appears twice`)
     seen.add(key)
 
     rows.push({
-      state: f.state,
+      state,
       pathway: f.pathway,
       year: Number(f.year),
       complete: complete === 'true',
