@@ -95,10 +95,12 @@ def test_locate_ranks_pages_and_quotes_verbatim():
     assert hits[0]["score"] == 2 and "Developer fee limit" in hits[0]["quote"]
 
 
-def test_scanned_pdf_page_flagged_for_ocr():
+def test_scanned_pdf_page_flagged_for_ocr(tmp_path, monkeypatch):
+    monkeypatch.setenv("DL3_OCR_CACHE", str(tmp_path / "ocr"))
     doc = pymupdf.open()
     pg = doc.new_page()
     pix = pymupdf.Pixmap(pymupdf.csRGB, pymupdf.IRect(0, 0, 50, 50), False)
+    pix.clear_with(255)  # a truly blank (white) image; an uncleared pixmap is random noise
     pg.insert_image(pg.rect, pixmap=pix)
     assert pages_from_bytes(doc.tobytes(), "application/pdf")[0].needs_ocr
 

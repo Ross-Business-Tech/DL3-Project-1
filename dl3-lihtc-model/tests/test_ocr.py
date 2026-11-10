@@ -59,7 +59,9 @@ def test_ocr_can_be_switched_off(monkeypatch):
 def test_blank_image_page_stays_flagged():
     doc = pymupdf.open()
     pg = doc.new_page()
-    pg.insert_image(pg.rect, pixmap=pymupdf.Pixmap(pymupdf.csRGB, pymupdf.IRect(0, 0, 50, 50), False))
+    pix = pymupdf.Pixmap(pymupdf.csRGB, pymupdf.IRect(0, 0, 50, 50), False)
+    pix.clear_with(255)  # white; an uncleared pixmap is random noise
+    pg.insert_image(pg.rect, pixmap=pix)
     assert pdf_text.pages_from_bytes(doc.tobytes(), "application/pdf")[0].needs_ocr
 
 
