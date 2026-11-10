@@ -44,8 +44,10 @@ llm:
     anthropic: {input: 4.00, output: 20.00, cache_write: 5.00, cache_read: 0.20}
   # Which prompts run on which document types (doc_type in config/source_register.csv).
   topics_by_doc_type:
-    qap: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]
-    qap_doc: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]
+    qap: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]       # a QAP document itself
+    qap_doc: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]   # QAP promoted from inventory
+    qap_page: [deadlines]       # QAP landing page: links and dates, not the rules
+    qap_page_doc: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]  # PDFs linked from it
     underwriting: [fee_rule, unit_credit_caps]
     application: [deadlines, sponsor_eligibility]
     program_page: [deadlines]

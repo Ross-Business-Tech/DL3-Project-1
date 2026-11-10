@@ -1,7 +1,8 @@
+# Anchored with a leading / so they only match these top-level folders (an unanchored "review/" once hid src/review/).
 .env
-archive/
-data/*.db
-outputs/
+/archive/
+/data/*.db
+/outputs/
+/review/
 __pycache__/
 .pytest_cache/
-review/
