@@ -88,9 +88,17 @@ def plan_years(text: str) -> list[int]:
     return ys[-1:] if ys else []
 
 
+DOWNLOAD_PATH = re.compile(r"(/download/?$|/download_file/|/-/media/|/getattachment/|/documentcenter/view/)", re.I)
+
+
 def file_format(url: str) -> str | None:
+    """File type from the URL. CMS download links without an extension (".../download",
+    "download_file/view/...") are documents of unknown type: "file"."""
     path = urlparse(url).path.lower()
-    return next((fmt for ext, fmt in DOC_FORMATS.items() if path.endswith(ext)), None)
+    fmt = next((fmt for ext, fmt in DOC_FORMATS.items() if path.endswith(ext)), None)
+    if fmt is None and DOWNLOAD_PATH.search(path):
+        return "file"
+    return fmt
 
 
 def jurisdiction_rules(j: dict, rules: dict) -> dict:
@@ -229,6 +237,13 @@ def _crawl(j: dict, rules: dict, fetcher: fetch.Fetcher) -> CrawlResult:
         tiebreak += 1
         queued.add(u)
         heapq.heappush(queue, (-score, 1, tiebreak, u))
+
+    # Extra starting pages a person found for this jurisdiction (e.g. by web search): crawl these first.
+    for u in [x.strip() for x in (j.get("extra_start_urls") or "").split(";") if x.strip()]:
+        if (urlparse(u).hostname or "").lower() in hosts and u not in queued:
+            queued.add(u)
+            tiebreak += 1
+            heapq.heappush(queue, (-1000, 1, tiebreak, u))
 
     # 3. Focused crawl, best-scoring links first.
     pending_first = True

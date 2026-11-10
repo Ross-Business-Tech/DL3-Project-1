@@ -269,3 +269,35 @@ def test_only_related_documents_found_is_flagged():
     r = rows_for([cand("ZZ", "qap", "https://agency/2025-qap-notice-of-public-hearing.pdf",
                        "2025 QAP notice of public hearing", years="2025")])
     assert r["qap_draft_or_final"].startswith("only related documents") and r["qap_current_nondraft_url"] == ""
+
+
+# --- second real run (2026-11-09): AK, WV, ND, GA ---------------------------------------------------
+def test_extra_start_urls_crawled_first(site, tmp_path):
+    site.routes["/"] = html("".join(f'<a href="/housing/p{i}">Housing program {i}</a>' for i in range(60)))
+    site.routes["/pros/homelessness/development-grants/goal"] = html(
+        '<a href="/download_file/view/9334/546">Alaska GOAL Qualified Allocation Plan 2026</a>', "GOAL")
+    js = [jur(site, extra_start_urls=site.base + "/pros/homelessness/development-grants/goal")]
+    rules = crawl.load_rules()
+    rules["crawl"] = {**rules["crawl"], "max_pages_per_jurisdiction": 3}
+    run_crawl(site, tmp_path, js, rules)
+    r = inventory(tmp_path, js)["ZZ"]
+    assert r["qap_document_urls"].startswith(site.base + "/download_file/view/9334/546")
+    assert r["plan_years"] == "2026"
+
+
+def test_cms_download_links_are_documents_not_pages():
+    assert crawl.file_format("https://dca.georgia.gov/document/qualified-allocation-plans-qaps/2022qap/download") == "file"
+    assert crawl.file_format("https://www.ahfc.us/download_file/view/9334/546") == "file"
+    assert crawl.file_format("https://www.chfainfo.com/getattachment/0978/2027-2028-QAP.pdf") == "pdf"
+    assert crawl.file_format("https://example.gov/developers/download-center") is None
+
+
+def test_allocation_plan_alias_and_old_document_host():
+    by = {j["jurisdiction_id"]: j for j in crawl.load_jurisdictions()}
+    assert "ndhfa.org" in crawl.hosts_for(by["ND"]) and "www.ndhfa.org" in crawl.hosts_for(by["ND"])
+    rules = crawl.jurisdiction_rules(by["WV"], crawl.load_rules())
+    cats = {c["category"] for c in crawl.classify("2025 and 2026 Allocation Plan", "https://www.wvhdf.com/x.pdf", "", rules)}
+    assert "qap" in cats
+    plain = {c["category"] for c in crawl.classify("2025 and 2026 Allocation Plan", "https://x/x.pdf", "", crawl.load_rules())}
+    assert "qap" not in plain  # alias is per state, not global (HOME/HTF also have "allocation plans")
+    assert by["GA"]["agency_url"] == "https://dca.georgia.gov/"
