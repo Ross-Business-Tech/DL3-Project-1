@@ -159,7 +159,7 @@ def cached_call(conn, snap, bundle, model):
         (snap["sha256"], snap["source_id"], bundle["version"], model)).fetchone()
 
 
-def store(conn, snap, bundle, cfg, pages_sent, res: LLMResult, page_text, run_id) -> dict:
+def store(conn, snap, bundle, cfg, pages_sent, res: LLMResult, page_text, run_id, ocr_pages=frozenset()) -> dict:
     now = archive.utcnow().isoformat()
     parsed, error = None, res.error
     if res.text is not None:
@@ -185,6 +185,8 @@ def store(conn, snap, bundle, cfg, pages_sent, res: LLMResult, page_text, run_id
             ok, num_ok, note = validate(it, value, page_text)
             if ok and is_table and norm(it.get("project_name", "")) not in norm(page_text[it["page"]]):
                 note = (note + "; " if note else "") + "project name not found on page: check"
+            if ok and it.get("page") in ocr_pages:
+                note = (note + "; " if note else "") + "page is a scan read by OCR: check the quote against the image"
             status = "pending_review" if ok else "rejected_validation"
             counts[status] += 1
             conn.execute(
@@ -254,6 +256,9 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
         summary["documents"] += 1
         doc = document_text(snap, chosen)
         page_text = {p.number: p.text for p in chosen}
+        ocr_pages = {p.number for p in chosen if p.ocr}
+        if ocr_pages:
+            pages_sent += f"; OCR pages {','.join(map(str, sorted(ocr_pages)))}"
         for topic in doc_topics:
             bundle = prompt_bundle(topic)
             if not force and cached_call(conn, snap, bundle, cfg["model"]):
@@ -266,7 +271,7 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
             if client is None:
                 client = make_client(cfg)
             res = client.extract(bundle["system"], doc, bundle["instruction"], bundle["schema"])
-            out = store(conn, snap, bundle, cfg, pages_sent, res, page_text, run_id)
+            out = store(conn, snap, bundle, cfg, pages_sent, res, page_text, run_id, ocr_pages)
             summary["calls"] += 1
             summary["usage"].append(res.usage)
             summary["errors"] += int(out["error"] is not None)

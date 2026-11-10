@@ -6,6 +6,7 @@ Run from `dl3-lihtc-model/`. One person runs refreshes so there is one database.
 ```bash
 pip install -r requirements.txt
 python -m playwright install chromium
+brew install tesseract                        # Mac: lets the pipeline read scanned PDF pages (OCR)
 ```
 Put `GEMINI_API_KEY` and `GEMINI_MODEL` in `.env` (never commit it).
 
@@ -25,6 +26,7 @@ python -m src.review.build_packet             # spreadsheet of new findings to r
 python -m src.review.import_review            # after the reviewer saves it into review/returned/
 python -m src.awards.parse_awards --export    # award rows to check against the originals
 python -m src.report.coverage MI OH NYC       # what is collected and what is missing
+python -m src.report.export_web               # files for the website -> data/web/ (see docs/web_integration.md)
 ```
 Each run writes `outputs/runs/<date>_<id>/change_report.html`: changed source text, failed retrievals and
 source freshness. Unchanged documents are not sent to the LLM again.

@@ -79,4 +79,5 @@ field), `unmapped`, `rows_parsed`, `rows_flagged`, `note`.
   A missing application count means the award rate is unknown.
 - Sponsor matching across years, geocoding and urban classification, competition statistics: not built.
 - DL3 inputs (fee share, overhead, hurdle, execution capability, Venture Development scores): from DL3.
-- Scanned PDF pages are flagged as needing OCR; OCR itself is not run.
+- Scanned PDF pages are read by OCR when Tesseract is installed (findings from them carry a validation note);
+  without Tesseract they stay flagged and unread.

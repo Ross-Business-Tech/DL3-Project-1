@@ -2,6 +2,7 @@
 .env
 /archive/
 /data/*.db
+/data/ocr_cache/
 /outputs/
 /review/
 __pycache__/

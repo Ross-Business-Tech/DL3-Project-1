@@ -56,7 +56,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
 
     hud_rows = 0
     if refresh_hud:
-        for sid in ("P1", "P1b"):  # same HUD list at two addresses; use the first that parses
+        for sid in ("P1",):  # HUD allocating-agency list
             p1 = archive.latest_snapshot(conn, sid)
             if p1 and p1["content_type"] == "text/html" and p1["run_id"] == run_id:
                 rows = hud_allocators.parse_allocators((archive_root / p1["archive_path"]).read_bytes(),

@@ -193,3 +193,19 @@ the run order.
 pages, and every award list the crawl found for 2021-2026 (up to 40), not just the first five.
 Extra extraction prompts: `scoring_criteria`, `credit_availability` (credit ceiling, bond cap, 4% process),
 `news_items`.
+
+## Scanned PDFs (OCR)
+
+Install Tesseract once (`brew install tesseract` on a Mac). Image-only PDF pages are then read automatically
+at 300 dpi; results are cached in `data/ocr_cache/` so each page is read once. Findings from OCR pages carry
+the note "page is a scan read by OCR: check the quote against the image". Without Tesseract, scanned pages
+stay flagged and unread. Set `DL3_OCR=off` to disable.
+
+## Files for the website
+
+```bash
+python -m src.report.export_web     # data/web/: awards.csv, rules.csv, sources.csv, manifest.json
+```
+
+The website is static and cannot run this pipeline; it reads these files. `awards.csv` uses the same columns
+as the website's `src/ranking/data/awards.csv`. See `docs/web_integration.md`.
