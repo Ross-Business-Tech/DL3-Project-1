@@ -30,6 +30,16 @@ score to a range, the tool keeps the range. It never guesses, and unknown never 
 
 "Isolated" is read as "fewer than 3 of the 5 years". That reading is a proposal to confirm with Andrew.
 
+## Preview scores (placeholders, not a result)
+
+The page's **Preview scores** button shows what the tool produces today if a few things DL3 has not decided are filled in with stand-ins. Every stand-in is a box on the page that you can change, and everything re-scores.
+
+- **Developer economics is calculated for every state with a verified fee:** fee × DL3's share × (1 − share paid later), compared with a cash target. The 60% and 40% are the guide's own illustration (5C), and the cash target is a stand-in for DL3's real number. The present-value test is not applied.
+- **Optional what-if:** any criterion with no evidence is assumed to score 3. It is labeled "Assumed 3" wherever it appears, and it is never counted as evidence.
+- **Optional:** also rank states researched in depth whose checks are still open. A state that failed a check is never ranked, and none of these is ever "actionable."
+
+Preview leaves the normal results alone: with it off, nothing changes. "Evidence complete" counts only scores that rest on real evidence, so a preview cannot look more complete than it is.
+
 ## The urban definition (proposed, not yet approved)
 
 A project site is urban only if **all three** tests pass (guide 6B; Andrew approves the final version):

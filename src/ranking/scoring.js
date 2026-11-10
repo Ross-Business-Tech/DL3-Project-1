@@ -139,9 +139,11 @@ export function scoreEconomics(record, settings) {
     return result(key, { score: 0, status: 'final', reasons: ['No positive retained net fee cash'] })
   }
   const needs = []
+  const needPv = settings.requirePresentValue !== false // preview may skip the present-value test
+  const pvNote = needPv ? '' : ' (present-value test not applied)'
   if (!isNum(h.minRetainedCash)) needs.push('DL3-approved minimum retained-cash hurdle')
-  if (!isNum(h.minPresentValue)) needs.push('DL3-approved present-value hurdle')
-  if (!isNum(e.presentValue)) needs.push('Present value of expected fee receipts for this state')
+  if (needPv && !isNum(h.minPresentValue)) needs.push('DL3-approved present-value hurdle')
+  if (needPv && !isNum(e.presentValue)) needs.push('Present value of expected fee receipts for this state')
   if (needs.length > 0) {
     return result(key, {
       interval: { lo: 1, hi: 5 },
@@ -150,30 +152,30 @@ export function scoreEconomics(record, settings) {
       needs,
     })
   }
-  const meets = e.retainedNetCash >= h.minRetainedCash && e.presentValue >= h.minPresentValue
+  const meets = e.retainedNetCash >= h.minRetainedCash && (!needPv || e.presentValue >= h.minPresentValue)
   if (!meets) {
     return result(key, {
       interval: { lo: 1, hi: 2 },
       status: 'bounded',
-      reasons: ['Positive cash but below DL3’s hurdles: a 1 or 2 needs written evidence'],
+      reasons: [`Positive cash but below DL3’s hurdles${pvNote}: a 1 or 2 needs written evidence`],
       needs: ['A reviewer to give a 1 or 2 with written evidence'],
     })
   }
   const m = h.strongMultiple
-  const strongEnough = e.retainedNetCash >= m * h.minRetainedCash && e.presentValue >= m * h.minPresentValue
+  const strongEnough = e.retainedNetCash >= m * h.minRetainedCash && (!needPv || e.presentValue >= m * h.minPresentValue)
   if (!strongEnough) {
-    return result(key, { score: 3, status: 'final', reasons: ['Meets DL3’s cash and present-value hurdles (a 4 would need written evidence)'] })
+    return result(key, { score: 3, status: 'final', reasons: [`Meets DL3’s ${needPv ? 'cash and present-value hurdles' : 'cash hurdle'}${pvNote} (a 4 would need written evidence)`] })
   }
   if (e.downsidePasses === true) {
-    return result(key, { score: 5, status: 'final', reasons: [`At least ${m}x both hurdles, and the approved downside test passes`] })
+    return result(key, { score: 5, status: 'final', reasons: [`At least ${m}x the hurdle${needPv ? 's' : ''}${pvNote}, and the approved downside test passes`] })
   }
   if (e.downsidePasses === false) {
-    return result(key, { score: 3, status: 'final', reasons: [`Clears ${m}x the hurdles, but fails the approved downside test, so it stays at 3`] })
+    return result(key, { score: 3, status: 'final', reasons: [`Clears ${m}x the hurdle${needPv ? 's' : ''}${pvNote}, but fails the approved downside test, so it stays at 3`] })
   }
   return result(key, {
     interval: { lo: 3, hi: 5 },
     status: 'bounded',
-    reasons: [`At least ${m}x both hurdles; a 5 also needs the approved downside test`],
+    reasons: [`At least ${m}x the hurdle${needPv ? 's' : ''}${pvNote}; a 5 also needs the approved downside test`],
     needs: ['The approved downside test result'],
   })
 }

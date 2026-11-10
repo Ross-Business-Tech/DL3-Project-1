@@ -84,6 +84,24 @@ export const SETTINGS = {
   // unless this is true (useful for a preview; never for a final ranking).
   countProposed: false,
   urbanDefinition: URBAN_DEFINITION,
+
+  // ---- PREVIEW settings (all off by default; the page's "Preview scores" mode switches them on).
+  // They exist so the tool can show scores today using PLACEHOLDERS that DL3 has not approved.
+  // Nothing produced with them is a result.
+  //
+  // Economics from the fee: DL3 retains `dl3Share` of the approved fee; `deferredShare` of that is
+  // paid later, so the cash in hand is the rest, less overhead and pursuit costs. The 60% / 40%
+  // are the guide's own illustration (5C: "illustration only"), not DL3's terms.
+  deriveEconomicsFromFee: false,
+  economicsAssumptions: { dl3Share: 0.6, deferredShare: 0.4, overheadAndPursuitCosts: 0 },
+  // Guide 7A needs a cash AND a present-value hurdle. Preview can run on cash alone.
+  requirePresentValue: true,
+  // What-if: score every criterion that has no evidence at this value (the "3" anchor), so a
+  // preview order can be shown. null = leave unknown criteria unknown.
+  fillUnknownScore: null,
+  // Preview ranking: also rank states researched in depth whose checks are still OPEN (unknown),
+  // not just those that passed. A state that FAILED a check is still never ranked.
+  previewIncludeOpenChecks: false,
 }
 
 export const PATHWAYS = ['9%', '4%']

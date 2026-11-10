@@ -9,11 +9,12 @@ import './RankingPage.css'
 const round = (n) => Number(n.toFixed(1))
 const TODAY = new Date().toISOString().slice(0, 10)
 const STATUS_TEXT = { pass: '✓ Pass', fail: '✗ Fail', unknown: '? Unknown' }
-const METHOD_TEXT = { calculated: 'calculated', entered: 'typed in', judgment: 'judgment' }
+const METHOD_TEXT = { calculated: 'calculated', entered: 'typed in', judgment: 'judgment', assumed: 'what-if assumption' }
 
 // How one criterion's 0-5 result reads on screen.
 function criterionText(c) {
   const range = c.interval ? `${round(c.interval.lo)}–${round(c.interval.hi)}` : null
+  if (c.status === 'assumed') return `Assumed ${round(c.score)}`
   if (c.status === 'final') return `${round(c.score)} / 5`
   if (c.status === 'bounded') return `${range} / 5`
   if (c.status === 'proposed') return `Proposed ${range ?? round(c.score)}`
@@ -154,9 +155,10 @@ function RankedCard({ r }) {
       <ScoreBar score={r.score} />
       <div className="chips">
         <span className={`chip conf-${r.confidence.toLowerCase()}`}>{r.confidence} confidence</span>
+        {r.previewOnly && <span className="chip warn">Preview only: checks still open</span>}
         {r.actionable && <span className="chip good">Actionable shortlist</span>}
         {r.tied && <span className="chip">Tied</span>}
-        {r.provisional && <span className="chip warn">Evidence {Math.round(r.score.coverage * 100)}% complete</span>}
+        {r.provisional && <span className="chip warn">Evidence {Math.round((r.evidenceCoverage ?? r.score.coverage) * 100)}% complete</span>}
         {r.stability.unstable && <span className="chip warn">Unstable if weights change</span>}
         {r.overridden && <span className="chip">Override logged</span>}
       </div>
@@ -266,10 +268,28 @@ function FeeScreenList({ rows }) {
 }
 
 export default function RankingPage() {
-  const [dataset, setDataset] = useState('real')
+  const [dataset, setDataset] = useState('real') // 'real' | 'preview' | 'sample'
+  // PREVIEW placeholders. Every one is a stand-in for something DL3 has not decided yet.
+  const [what, setWhat] = useState({ dl3Share: 60, deferred: 40, hurdle: 1000000, fillThree: true, includeOpen: true })
   const real = useMemo(() => rankRecords(REAL_DATA.records, { asOf: TODAY }), [])
+  const preview = useMemo(
+    () =>
+      rankRecords(REAL_DATA.records, {
+        asOf: TODAY,
+        settings: {
+          deriveEconomicsFromFee: true,
+          requirePresentValue: false,
+          economicsAssumptions: { dl3Share: what.dl3Share / 100, deferredShare: what.deferred / 100 },
+          economicsHurdles: { minRetainedCash: what.hurdle },
+          fillUnknownScore: what.fillThree ? 3 : null,
+          previewIncludeOpenChecks: what.includeOpen,
+        },
+      }),
+    [what],
+  )
   const sample = useMemo(() => rankRecords(SAMPLE_RECORDS, { asOf: SAMPLE_AS_OF }), [])
-  const result = dataset === 'real' ? real : sample
+  const result = dataset === 'real' ? real : dataset === 'preview' ? preview : sample
+  const setNumber = (field, max) => (e) => setWhat({ ...what, [field]: Math.min(max, Math.max(0, Number(e.target.value) || 0)) })
   const [pathway, setPathway] = useState('9%')
   const list = result.lists.find((l) => l.pathway === pathway) ?? result.lists[0]
 
@@ -313,9 +333,44 @@ export default function RankingPage() {
         <h1>State ranking</h1>
         <div className="seg" role="group" aria-label="Which data to show">
           <button aria-pressed={dataset === 'real'} className={dataset === 'real' ? 'on' : ''} onClick={() => setDataset('real')}>Real data (draft)</button>
-          <button aria-pressed={dataset === 'sample'} className={dataset === 'sample' ? 'on' : ''} onClick={() => setDataset('sample')}>Sample data (made up)</button>
+          <button aria-pressed={dataset === 'preview'} className={dataset === 'preview' ? 'on' : ''} onClick={() => setDataset('preview')}>Preview scores</button>
+          <button aria-pressed={dataset === 'sample'} className={dataset === 'sample' ? 'on' : ''} onClick={() => setDataset('sample')}>Sample (made up)</button>
         </div>
-        {dataset === 'real' ? (
+        {dataset === 'preview' ? (
+          <>
+            <p className="banner">
+              <strong>Preview, not a result.</strong> These scores use placeholders DL3 has not approved. Change them below and everything re-scores.
+              {!what.fillThree && ' Criteria with no evidence stay unknown, so scores are ranges.'}
+              {what.fillThree && ' Every criterion with no evidence is assumed to score 3, so most of each score is an assumption.'}
+              {what.includeOpen && ' States researched in depth whose checks are still open are included; a state that failed a check never is.'}
+            </p>
+            <div className="whatif">
+              <label>
+                <span>DL3’s share of each fee (%)</span>
+                <input type="number" inputMode="numeric" min="0" max="100" value={what.dl3Share} onChange={setNumber('dl3Share', 100)} />
+              </label>
+              <label>
+                <span>Share of that paid later (%)</span>
+                <input type="number" inputMode="numeric" min="0" max="100" value={what.deferred} onChange={setNumber('deferred', 100)} />
+              </label>
+              <label>
+                <span>Cash DL3 needs in hand ($)</span>
+                <input type="number" inputMode="numeric" min="0" step="100000" value={what.hurdle} onChange={setNumber('hurdle', 1e9)} />
+              </label>
+              <label className="check">
+                <input type="checkbox" checked={what.fillThree} onChange={(e) => setWhat({ ...what, fillThree: e.target.checked })} />
+                <span>Assume 3 for any criterion with no evidence</span>
+              </label>
+              <label className="check">
+                <input type="checkbox" checked={what.includeOpen} onChange={(e) => setWhat({ ...what, includeOpen: e.target.checked })} />
+                <span>Include states whose checks are still open</span>
+              </label>
+              <p className="small">
+                Placeholders: 60% and 40% are the guide’s own illustration, and the cash target is a stand-in for DL3’s real number. The present-value test is not applied. Developer economics is calculated from each state’s fee; the other six criteria have no data yet.
+              </p>
+            </div>
+          </>
+        ) : dataset === 'real' ? (
           <p className="banner">
             Draft research data, not yet reviewed by DL3. Only {REAL_DATA.stats.researchedStates} of {REAL_DATA.stats.states} states
             ({researchedNames.join(', ')}) are researched in depth. The other states have only a fee screen (a draft from the team dashboard; only the fee check uses it) or nothing yet.
@@ -338,7 +393,7 @@ export default function RankingPage() {
       </div>
 
       <p className="small summary">
-        {list.counts.total} states in the {list.pathway} pathway: {list.counts.pass} passed every check, {list.counts.needsVerification} need verification
+        {list.counts.total} states in the {list.pathway} pathway: {list.counts.pass} passed every check{list.counts.previewRanked ? `, ${list.counts.previewRanked} ranked as a preview with checks still open` : ''}, {list.counts.needsVerification} need verification
         ({researched.length} researched in depth, {screened.length} fee screen only, {unresearched.length} nothing yet), {list.counts.fail} failed a check.
         {list.counts.benchmark > 0 && ` Illinois is shown for benchmarking only.`}
       </p>

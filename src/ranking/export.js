@@ -46,7 +46,7 @@ export function toCsv(result) {
         r.state,
         r.allocator,
         kind === 'Benchmark only' ? '' : scoreText(r.score),
-        kind === 'Benchmark only' ? '' : `${Math.round(r.score.coverage * 100)}%`,
+        kind === 'Benchmark only' ? '' : `${Math.round((r.evidenceCoverage ?? r.score.coverage) * 100)}%`,
         r.confidence,
         kind === 'Benchmark only' ? 'Benchmark only' : r.gates.status,
         kind === 'Ranked' ? r.shortlistStatus + (r.actionable ? ' (actionable)' : '') : '',

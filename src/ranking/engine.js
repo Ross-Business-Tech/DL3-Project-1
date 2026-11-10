@@ -291,6 +291,17 @@ function withHistoryFunding(record, settings) {
   return fromHistory ? { ...record, funding: fromHistory } : record
 }
 
+// PREVIEW: DL3's cash from the fee, with placeholder terms (see config.js). Only for records that
+// have no economics of their own, and only when the fee rule is not flagged unverified.
+function economicsFromFee(r, settings) {
+  if (r.economics || !settings.deriveEconomicsFromFee) return r.economics
+  if (!isNum(r.approvedGrossFee) || !isNum(r.totalDevelopmentCost) || r.feeRuleVerified === false) return undefined
+  const a = settings.economicsAssumptions
+  const retainedFee = r.approvedGrossFee * a.dl3Share
+  const cashNow = retainedFee * (1 - a.deferredShare)
+  return { retainedNetCash: cashNow - a.overheadAndPursuitCosts, presentValue: null, downsidePasses: null, derived: true }
+}
+
 // What is still needed to finish scoring, for researched states only (the unresearched ones
 // would bury the list): open criteria and open gate checks, with who can supply each.
 // States that already failed a gate are left out: nobody needs to score an excluded state.
@@ -412,6 +423,7 @@ export function rankRecords(records, options = {}) {
     ...SETTINGS,
     ...options.settings,
     economicsHurdles: { ...SETTINGS.economicsHurdles, ...options.settings?.economicsHurdles },
+    economicsAssumptions: { ...SETTINGS.economicsAssumptions, ...options.settings?.economicsAssumptions },
   }
   const weights = checkWeights(options.weights ?? defaultWeights())
   const asOf = options.asOf ?? new Date().toISOString().slice(0, 10)
@@ -423,7 +435,7 @@ export function rankRecords(records, options = {}) {
 
     // One 0-5 result per criterion; what feeds the ranking is the usable part of each.
     const funding = fundingByRecord.get(r.id)
-    const criteria = scoreCriteria(r, settings, funding)
+    const criteria = scoreCriteria({ ...r, economics: economicsFromFee(r, settings) }, settings, funding)
     const scores = {}
     for (const comp of COMPONENTS) {
       const typed = r.scores?.[comp.key]
@@ -434,7 +446,21 @@ export function rankRecords(records, options = {}) {
       }
       const c = criteria[comp.key]
       const counts = c.status === 'final' || c.status === 'bounded' || (c.status === 'proposed' && settings.countProposed)
-      scores[comp.key] = counts ? (c.interval ?? c.score) : null
+      if (counts) {
+        scores[comp.key] = c.interval ?? c.score
+      } else if (isNum(settings.fillUnknownScore) && c.status === 'unresolved') {
+        // PREVIEW what-if: no evidence, so assume the given score and say so everywhere it is shown.
+        scores[comp.key] = settings.fillUnknownScore
+        criteria[comp.key] = {
+          ...c,
+          score: settings.fillUnknownScore,
+          method: 'assumed',
+          status: 'assumed',
+          reasons: [`What-if only: there is no evidence, so this assumes ${settings.fillUnknownScore}`, ...c.reasons],
+        }
+      } else {
+        scores[comp.key] = null
+      }
     }
 
     return {
@@ -458,6 +484,9 @@ export function rankRecords(records, options = {}) {
       benchmarkOnly: r.benchmarkOnly === true,
       gates,
       score: scoreComponents(scores, weights),
+      // How much of the total weight rests on real evidence. Ranges, proposals and what-if
+      // assumptions do not count, so a preview cannot look more complete than it is.
+      evidenceCoverage: COMPONENTS.reduce((sum, c) => sum + (criteria[c.key].status === 'final' ? weights[c.key] : 0), 0) / COMPONENTS.reduce((sum, c) => sum + weights[c.key], 0),
       warnings: scoreWarnings(r),
     }
   })
@@ -466,7 +495,11 @@ export function rankRecords(records, options = {}) {
   const lists = pathways.map((pathway) => {
     // Benchmark-only jurisdictions (the guide's Illinois) are researched but never ranked.
     const group = assessed.filter((a) => a.pathway === pathway && !a.benchmarkOnly)
-    const pool = group.filter((a) => a.gates.status === 'Pass')
+    const passed = group.filter((a) => a.gates.status === 'Pass')
+    // PREVIEW: also rank states researched in depth whose checks are still open. Never one that failed.
+    const pool = settings.previewIncludeOpenChecks
+      ? group.filter((a) => a.gates.status === 'Pass' || (a.gates.status === 'Needs verification' && a.researched && !a.screenOnly))
+      : passed
     const benchmark = assessed
       .filter((a) => a.pathway === pathway && a.benchmarkOnly)
       .map((a) => ({
@@ -499,10 +532,15 @@ export function rankRecords(records, options = {}) {
           }
         }
         const overridden = a.overrides.length > 0
-        const actionable = pos.shortlistStatus === 'in' && pos.rank !== null && a.confidence !== 'Low'
+        const previewOnly = a.gates.status !== 'Pass'
+        const actionable = !previewOnly && pos.shortlistStatus === 'in' && pos.rank !== null && a.confidence !== 'Low'
         let reason
         let action
-        if (actionable) {
+        if (previewOnly) {
+          const open = a.gates.checks.filter((c) => c.status !== 'pass').map((c) => c.label).join('; ')
+          reason = `Preview only: these checks have not cleared yet (${open})`
+          action = 'Clear the open checks before relying on this score'
+        } else if (actionable) {
           reason = `Passes all gates; ranked ${pos.rank}${pos.tied ? ' (tied)' : ''} in the ${pathway} list`
           action = a.recommendedAction ?? 'Prepare a review profile'
         } else if (a.confidence === 'Low' && pos.shortlistStatus === 'in') {
@@ -525,6 +563,7 @@ export function rankRecords(records, options = {}) {
           tied: pos.tied,
           shortlistStatus: pos.shortlistStatus,
           provisional: a.score.point === null,
+          previewOnly,
           actionable,
           overridden,
           stability: { unstable: changes.length > 0, changes },
@@ -539,7 +578,7 @@ export function rankRecords(records, options = {}) {
       )
 
     const needsVerification = group
-      .filter((a) => a.gates.status === 'Needs verification')
+      .filter((a) => a.gates.status === 'Needs verification' && !pool.includes(a)) // preview-ranked ones are listed under the ranking
       .map((a) => ({
         ...a,
         reason: openChecksText(a),
@@ -567,7 +606,8 @@ export function rankRecords(records, options = {}) {
       benchmark,
       counts: {
         total: group.length,
-        pass: pool.length,
+        pass: passed.length,
+        ...(pool.length > passed.length ? { previewRanked: pool.length - passed.length } : {}),
         needsVerification: needsVerification.length,
         fail: excluded.length,
         benchmark: benchmark.length,
