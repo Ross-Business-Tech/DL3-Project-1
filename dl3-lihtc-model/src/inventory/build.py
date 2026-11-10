@@ -50,6 +50,7 @@ COLUMNS = [
     ("award_years_available", "Years named on award lists found"),
     ("application_round_url", "Current application / funding round page"),
     ("bond_program_url", "Multifamily bond / 4% program page"),
+    ("news_page_url", "Agency news / press release page"),
     ("next_round_deadline", "Next round deadline"),
     ("stated_fee_cap", "Light screen: stated developer fee cap"),
     ("per_project_credit_cap", "Light screen: per-project credit cap"),
@@ -300,6 +301,7 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None, ma
             evidence.append(f"award_list_urls <- {awards[0]['found_on_url']}")
         put("application_round_url", _best(cs, "application"))
         put("bond_program_url", _best(cs, "bond_program"))
+        put("news_page_url", _best(cs, "news", "page", onsite_only=True))
         r["next_round_deadline"] = NEEDS
         r["stated_fee_cap"] = NEEDS
         r["per_project_credit_cap"] = NEEDS

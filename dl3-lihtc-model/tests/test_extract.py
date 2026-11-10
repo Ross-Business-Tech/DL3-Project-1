@@ -382,3 +382,53 @@ def test_run_all_with_extract(env, monkeypatch):
                                refresh_hud=False, fetcher=f, extract=True, llm_client=client)
     m = json.loads((out / "run_manifest.json").read_text())
     assert m["extraction"]["pending_review"] == 1 and m["extraction"]["calls"] == 1
+
+
+def test_new_prompts_load_and_are_routed():
+    cfg = fetch.load_settings()["llm"]["topics_by_doc_type"]
+    for t in ("scoring_criteria", "credit_availability", "news_items"):
+        b = extract.prompt_bundle(t)
+        assert b["schema"]["properties"]["findings"]["items"]["properties"]["field"]["enum"]
+    assert "scoring_criteria" in cfg["qap_doc"] and cfg["bond_page"] == ["credit_availability"]
+    assert cfg["news_page"] == ["news_items"]
+    from src.extract import locate
+    assert {"scoring_criteria", "credit_availability", "news_items"} <= set(locate.load_topics())
+
+
+def test_promote_full_award_history_and_pages(tmp_path):
+    from src.inventory import crawl
+    db = tmp_path / "t.db"
+    conn = archive.connect(db)
+    conn.execute("INSERT INTO crawl_status (run_id, jurisdiction_id, pages_fetched, errors, first_error, finished_at) "
+                 "VALUES ('r','MI',30,0,NULL,'2026-11-09')")
+    def cand(url, text, years, cat="award_list", kind="document"):
+        conn.execute("INSERT INTO inventory_candidate VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                     ("r", "MI", cat, url, text, kind, "pdf", "https://m/awards", "x", 2, years, 0, 0, 1, "t"))
+    for y in (2019, 2021, 2022, 2023, 2024, 2025, 2026):
+        cand(f"https://m/awards-{y}.xlsx", f"{y} Awards", str(y))
+    cand("https://m/all-awards.xlsx", "Award history", "")
+    cand("https://youtu.be/x", "2025 awards video", "2025")
+    cand("https://m/awards-page", "Awards", "2025", kind="page")
+    conn.commit()
+    inv = tmp_path / "inv.csv"
+    cols = ["jurisdiction_id", "state", "allocating_agency", "qap_document_urls", "qap_current_nondraft_url",
+            "qap_current_nondraft_years", "plan_years", "underwriting_manual_url", "award_list_urls",
+            "lihtc_program_url", "application_round_url", "bond_program_url", "news_page_url"]
+    with open(inv, "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=cols)
+        w.writeheader()
+        w.writerow({**{c: "" for c in cols}, "jurisdiction_id": "MI", "state": "MI", "allocating_agency": "MSHDA",
+                    "bond_program_url": "https://m/bonds", "news_page_url": "https://m/news",
+                    "lihtc_program_url": "https://m/lihtc.pdf", "award_list_urls": "https://m/awards-2026.xlsx"})
+    reg = tmp_path / "reg.csv"
+    reg.write_text(open(fetch.ROOT / "config" / "source_register.csv").read())
+    new = promote.promote(["MI"], inv, reg, db_path=db, years=(2021, 2026))
+    by_type = {}
+    for r in new:
+        by_type.setdefault(r["doc_type"], []).append(r["url"])
+    assert by_type["bond_page"] == ["https://m/bonds"] and by_type["news_page"] == ["https://m/news"]
+    assert "program_page" not in by_type  # a PDF is not a landing page
+    awards = by_type["award_list"]
+    assert awards[0] == "https://m/awards-2026.xlsx" and "https://m/awards-2021.xlsx" in awards
+    assert "https://m/awards-2019.xlsx" not in awards and "https://youtu.be/x" not in awards
+    assert "https://m/all-awards.xlsx" in awards and "https://m/awards-page" not in awards and len(awards) == 7

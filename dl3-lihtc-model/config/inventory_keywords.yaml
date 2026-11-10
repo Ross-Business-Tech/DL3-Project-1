@@ -65,6 +65,9 @@ categories:
   bond_program:
     patterns: ['tax[- ]exempt\s+bonds?', 'private\s+activity\s+bonds?', 'multi[- ]?family\s+(revenue\s+)?bonds?', '\b4\s*%']
     needs_context: false
+  news:
+    patterns: ['\bnews(room)?\b', 'press\s+releases?', '\bannouncements\b', 'media\s+(center|room)']
+    needs_context: false
 draft_markers: ['draft', 'proposed', 'public\s+comment', 'redline', 'comment\s+period']
 # Candidates from these hosts are never chosen (video, newsletters, link shorteners, social media).
 exclude_hosts:

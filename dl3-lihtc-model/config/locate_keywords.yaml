@@ -27,3 +27,23 @@ topics:
     - 'awards?\s+(list|summary|announcement)'
     - 'tax\s+credit\s+awards'
     - 'projects?\s+awarded'
+  scoring_criteria:
+    - 'points?'
+    - 'scoring'
+    - 'selection\s+criteria'
+    - 'tie[- ]?breaker'
+    - 'threshold'
+    - 'local\s+(government|support|approval|notification)'
+  credit_availability:
+    - 'credit\s+ceiling'
+    - 'per\s+capita'
+    - 'volume\s+cap'
+    - 'tax[- ]exempt\s+bonds?'
+    - 'private\s+activity'
+    - '4\s*%'
+    - 'available\s+(credit|for\s+allocation)'
+  news_items:
+    - 'announc'
+    - 'groundbreaking'
+    - 'grand\s+opening'
+    - 'awarded'

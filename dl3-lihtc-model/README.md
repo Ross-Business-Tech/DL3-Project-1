@@ -177,3 +177,19 @@ python run_all.py --awards                   # as part of a run
 - Flags also cover: text where a number should be, restricted units above total units, negative numbers, no
   credit amount. Macros are never run; formulas use the values saved in the file.
 - PDF award lists go through the LLM `award_table` prompt instead.
+
+## Coverage: is collection done for a jurisdiction?
+
+```bash
+python -m src.report.coverage MI OH NYC     # checklist per jurisdiction; writes outputs/coverage/coverage.csv
+```
+
+Shows sources registered / never retrieved / stale, whether a non-draft QAP and underwriting manual are
+archived, how many findings per rule type are approved or waiting for review, and award rows per year
+2021-2026. See `docs/data_dictionary.md` for what scoring may read and `docs/refresh_instructions.md` for
+the run order.
+
+`python -m src.inventory.promote <IDs>` now also adds the LIHTC program, application round, bond and news
+pages, and every award list the crawl found for 2021-2026 (up to 40), not just the first five.
+Extra extraction prompts: `scoring_criteria`, `credit_availability` (credit ceiling, bond cap, 4% process),
+`news_items`.
