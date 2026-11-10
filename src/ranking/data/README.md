@@ -40,6 +40,16 @@ project (120 units, $40M total development cost), with the rule text and a sourc
 - The dashboard's own review covered only 22 of the 50 states, and it assumed a sponsor path for its pilots that our
   research marks as needing DL3's input, so none of that is used.
 
+`inventory.csv` is the scraping pipeline's 50-state inventory, copied unchanged from branch
+`claude/optimistic-hamilton-7al9rk`, commit `0cbdd31`, file `dl3-lihtc-model/data/inventory/state_inventory.csv`.
+To refresh it, copy the newer file over this one and run `npm test`. It is a map of WHERE documents are, found
+automatically by a crawler and NOT verified. What it gives the tool: document links on each state's card, the plan's
+draft or unknown status, and a hint of where to research next. What it does not have: any rule value. Fee cap, credit
+cap and deadline still say "needs verification" for every jurisdiction, and nothing has been reviewed.
+It undercounts award lists (for Michigan it finds one of the five years 2021 to 2025, but we have sourced counts for
+all five), so "none found" means "not found yet". No scoring uses it. Their extracted rules and reviewer approvals are
+in a local database that is not in the repo; when exported, they can replace the draft fee screen.
+
 `site_facts.csv` is the Census and transit facts the urban definition needs. It is empty (header only) until
 the research team fills it; see `../SCORING.md`.
 

@@ -479,6 +479,7 @@ export function rankRecords(records, options = {}) {
       notes: r.notes ?? null,
       programCaps: r.programCaps ?? null,
       feeScreen: r.feeScreen ?? null,
+      sources: r.sources ?? null,
       screenOnly: r.screenOnly === true,
       researched: r.researched ?? true,
       benchmarkOnly: r.benchmarkOnly === true,

@@ -23,6 +23,39 @@ function criterionText(c) {
 
 const money = (n) => `$${n.toLocaleString('en-US')}`
 
+// Where a reviewer can check a state: the plan, award lists and bond program the scraping pipeline found.
+// Found automatically and NOT verified; the crawler can miss things or pick up a draft.
+function SourceLinks({ sources }) {
+  if (!sources) return null
+  const L = sources.links
+  const seen = new Set()
+  const items = [
+    L.qapCurrent && ['Latest non-draft plan', L.qapCurrent],
+    L.qapPage && ['Plan page', L.qapPage],
+    L.applicationRound && ['Application round', L.applicationRound],
+    L.bondProgram && ['Bond program (4%)', L.bondProgram],
+    L.underwritingManual && ['Underwriting manual', L.underwritingManual],
+    ...L.awardLists.slice(0, 3).map((a, i) => [`Award list${a.label ? ` (${a.label})` : ` ${i + 1}`}`, a.url]),
+  ].filter((x) => x && !seen.has(x[1]) && seen.add(x[1]))
+  if (items.length === 0 && !sources.agency) return <p className="small">The scraping pipeline found no documents for this state yet.</p>
+  return (
+    <>
+      <p className="small"><strong>Where to check this</strong> (found automatically by the scraping pipeline, not verified)</p>
+      <ul className="srcs small">
+        {items.map(([label, url]) => (
+          <li key={url}><a href={url} target="_blank" rel="noopener noreferrer">{label}</a></li>
+        ))}
+      </ul>
+      {sources.qapStatus && sources.qapStatus !== 'unknown' && (
+        <p className="small">Plan status: {sources.qapStatus === 'draft' ? 'the crawler flagged a draft plan, so do not treat it as a rule' : 'only related documents were found, not the plan itself'}.</p>
+      )}
+      {sources.qapStatus === 'unknown' && <p className="small">Plan status: draft or final is not confirmed.</p>}
+      {sources.awardYearsText && <p className="small">Award lists the crawler saw: {sources.awardYearsText}. A hint only; real coverage can be wider.</p>}
+      {sources.crawl.errors > 0 && <p className="small warn">The crawler had {sources.crawl.errors} error{sources.crawl.errors === 1 ? '' : 's'} on this site, so this list may be incomplete.</p>}
+    </>
+  )
+}
+
 // What the program's rules allow for a single project, with the source it came from.
 function ProgramLimits({ caps }) {
   if (!caps) return null
@@ -115,6 +148,7 @@ function Details({ r }) {
       <summary>Why this score</summary>
       <CriteriaList criteria={r.criteria} />
       <ProgramLimits caps={r.programCaps} />
+      <SourceLinks sources={r.sources} />
       {Object.entries(r.evidence).map(([key, text]) => (
         <p className="small" key={key}>
           <strong>{COMPONENTS.find((c) => c.key === key)?.label}:</strong> {text}
@@ -190,6 +224,7 @@ function CheckCard({ r }) {
         <p className="small"><strong>Scoring status</strong> (not used until the checks pass):</p>
         <CriteriaList criteria={r.criteria} />
         <ProgramLimits caps={r.programCaps} />
+        <SourceLinks sources={r.sources} />
         {r.nextDeadline && <p className="small"><strong>Next deadline:</strong> {r.nextDeadline}</p>}
         {r.notes && <p className="small"><strong>Research notes:</strong> {r.notes}</p>}
       </details>
@@ -258,6 +293,7 @@ function FeeScreenList({ rows }) {
                   <strong>Review:</strong> {s.status}; {s.qa === 'not reviewed' ? 'not independently reviewed' : `independent review: ${s.qa}`}. Confidence: {r.confidence}.
                   {s.url && <> <a href={s.url} target="_blank" rel="noopener noreferrer">Fee rule source</a></>}
                 </p>
+                <SourceLinks sources={r.sources} />
               </div>
             </details>
           </li>
@@ -444,6 +480,35 @@ export default function RankingPage() {
             </summary>
             <FeeScreenList rows={feeRows} />
           </details>
+        </Section>
+      )}
+
+      {dataset !== 'sample' && REAL_DATA.inventory.researchNext.length > 0 && (
+        <Section
+          title="Where to research next"
+          hint="From the team's scraping pipeline, which crawled each agency's site to find the plan and award lists. It undercounts: for Michigan it found one of the five years, but we have sourced counts for all five. So 'none' means 'not found yet', not 'does not exist'."
+        >
+          {[
+            ['three-plus', 'Award lists for at least 3 of the 5 years 2021–2025'],
+            ['one-or-two', 'Award lists for 1 or 2 of those years'],
+            ['unclear', 'Award lists found, years unclear'],
+            ['none', 'No award list found yet'],
+          ].map(([key, label]) => {
+            const states = REAL_DATA.inventory.researchNext.filter((s) => s.coverage === key)
+            return (
+              <details className="details" key={key}>
+                <summary>{label}: {states.length} {states.length === 1 ? 'state' : 'states'}</summary>
+                <ul className="names small">
+                  {states.map((s) => (
+                    <li key={s.state}>
+                      <strong>{s.state}</strong>{s.researchedInDepth ? ' (researched in depth)' : ''}
+                      {s.yearsText ? ` · years seen: ${s.yearsText}` : ''}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )
+          })}
         </Section>
       )}
 

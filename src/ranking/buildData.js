@@ -5,13 +5,14 @@
 import { URBAN_DEFINITION } from './config.js'
 import { parseAwards, urbanLowerBounds } from './awardAudit.js'
 import { attachAwardHistory, awardHistoryFromCsv } from './loadAwardHistory.js'
+import { attachInventory, inventoryFromCsv, researchOrder } from './loadInventory.js'
 import { applyFeeScreen } from './loadNationalFee.js'
 import { recordsFromPartC } from './loadPartC.js'
 import { attachProgramCaps, programCapsFromCsv } from './loadProgramCaps.js'
 import { siteFactsFromCsv } from './loadSiteFacts.js'
 import { evaluateUrban, factsForAward } from './urban.js'
 
-export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee }, definition = URBAN_DEFINITION) {
+export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee, inventoryCsv }, definition = URBAN_DEFINITION) {
   const sheet = recordsFromPartC(partcCsv)
   const history = awardHistoryFromCsv(awardHistoryCsv)
   const awards = parseAwards(awardsCsv)
@@ -31,9 +32,12 @@ export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCs
   const fee = nationalFee ? applyFeeScreen(sheet.records, nationalFee) : { records: sheet.records, warnings: [], stats: {}, comparison: [] }
   const merged = attachAwardHistory(fee.records, rows)
   const withCaps = attachProgramCaps(merged.records, programCaps.caps)
+  // The scraping pipeline's inventory: where each state's documents are (found automatically, not verified).
+  const inventory = inventoryFromCsv(inventoryCsv ?? '')
+  const records = attachInventory(withCaps.records, inventory.byState)
   return {
-    records: withCaps.records,
-    warnings: [...sheet.warnings, ...history.warnings, ...awards.warnings, ...siteFacts.warnings, ...programCaps.warnings, ...fee.warnings, ...merged.warnings, ...withCaps.warnings],
+    records,
+    warnings: [...sheet.warnings, ...history.warnings, ...awards.warnings, ...siteFacts.warnings, ...programCaps.warnings, ...fee.warnings, ...merged.warnings, ...withCaps.warnings, ...inventory.warnings],
     stats: {
       ...sheet.stats,
       awardHistoryRows: history.rows.length,
@@ -43,5 +47,6 @@ export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCs
       ...fee.stats,
     },
     feeComparison: fee.comparison,
+    inventory: { stats: inventory.stats, researchNext: researchOrder(inventory.byState, records) },
   }
 }
