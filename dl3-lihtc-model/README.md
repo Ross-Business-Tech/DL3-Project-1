@@ -151,5 +151,7 @@ python -m src.fetch.manual_import ~/Downloads/2026-QAP-amended.pdf --source-id <
 - Status defaults to `unknown`; pass `--status final` or `draft` only when the document itself says so.
 - Manual sources (`retrieval = manual` in the register) are skipped by `run_all.py`, so they do not fail on
   every run; they still appear in the freshness table and go stale after 90 days like any other source.
+- The inventory spreadsheet is rebuilt: the jurisdiction's row shows the imported document marked
+  "[manual import]" with status "manual import: needs review". Importing never marks a QAP final or the row verified.
 - After import the file is compared with the previous version and scanned for candidate rule pages; then run
   `python -m src.extract.extract --only <ID>`.

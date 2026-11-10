@@ -19,7 +19,7 @@ def env(tmp_path):
     jur.write_text("jurisdiction_id,state,jurisdiction_type,in_50_state_scope,allocating_agency,agency_url,path_prefix,"
                    "extra_hosts,suballocator_of,bond_issuer_note,qap_aliases,extra_start_urls,notes\n"
                    "NV,NV,state,yes,Nevada Housing Division,https://housing.nv.gov/,,,,,,,\n")
-    return {"db_path": tmp_path / "t.db", "archive_root": tmp_path / "a", "register_path": reg, "settings": SET,
+    return {"inventory_dir": tmp_path / "inv", "db_path": tmp_path / "t.db", "archive_root": tmp_path / "a", "register_path": reg, "settings": SET,
             "jurisdictions_path": jur, "tmp": tmp_path}
 
 
@@ -168,3 +168,49 @@ def test_cli_messages(env, capsys):
     assert "Nothing is waiting" in capsys.readouterr().out
     assert manual_import.main([str(qap_file(env)), "--source-id", "NOPE", "--by", "T", *args]) == 1
     assert "Not imported" in capsys.readouterr().out
+
+
+def inv_row(env, jid="NV"):
+    return {r["jurisdiction_id"]: r for r in csv.DictReader(open(env["inventory_dir"] / "state_inventory.csv"))}[jid]
+
+
+def test_import_updates_inventory_row(env):
+    conn = archive.connect(env["db_path"])
+    conn.execute("INSERT INTO crawl_status (run_id, jurisdiction_id, pages_fetched, errors, first_error, finished_at, "
+                 "start_error) VALUES ('r','NV',0,1,'x','2026-11-09','disallowed by robots.txt')")
+    conn.commit()
+    r = manual_import.import_file(qap_file(env), **NEW, **kw(env))
+    row = inv_row(env)
+    assert row["qap_document_urls"] == NEW["url"] + " [2026] [manual import]"
+    assert row["plan_years"] == "2026" and row["qap_current_nondraft_url"] == NEW["url"]
+    assert row["qap_draft_or_final"].startswith("unknown")          # importing never makes it final
+    assert row["verification_status"] == "manual import: needs review"
+    assert "manual import" in row["evidence"] and r["source_id"] in row["evidence"]
+    assert row["first_crawl_error"] == "disallowed by robots.txt"   # the crawl failure stays visible
+    assert "Test Person" not in (env["inventory_dir"] / "state_inventory.csv").read_text()
+
+
+def test_draft_manual_qap_does_not_become_current_and_other_doc_types(env):
+    manual_import.import_file(qap_file(env, "d.pdf"), **{**NEW, "url": "https://housing.nv.gov/2027-draft-qap.pdf",
+                              "title": "Nevada 2027 QAP draft"}, status="draft", **kw(env))
+    manual_import.import_file(qap_file(env, "uw.pdf", "Underwriting"), **{**NEW, "doc_type": "underwriting",
+                              "url": "https://housing.nv.gov/uw.pdf", "title": "NV underwriting"}, **kw(env))
+    manual_import.import_file(qap_file(env, "aw.pdf", "Awards"), **{**NEW, "doc_type": "award_list",
+                              "url": "https://housing.nv.gov/awards-2025.pdf", "title": "NV awards 2025"}, **kw(env))
+    row = inv_row(env)
+    assert "[draft] [manual import]" in row["qap_document_urls"] and row["qap_draft_or_final"].startswith("draft")
+    assert row["qap_current_nondraft_url"] == "" and row["plan_years"] == "2027"
+    assert row["underwriting_manual_url"] == "https://housing.nv.gov/uw.pdf"
+    assert row["award_list_urls"] == "https://housing.nv.gov/awards-2025.pdf" and row["award_formats"] == "pdf"
+
+
+def test_reviewer_override_still_wins_over_manual_import(env):
+    from src.inventory import build
+    manual_import.import_file(qap_file(env), **NEW, **kw(env))
+    ov = env["tmp"] / "ov.csv"
+    ov.write_text("jurisdiction_id,field,value,source_url,reviewer,reviewed_on,note\n"
+                  "NV,qap_draft_or_final,final,u,Reviewer,2026-11-10,\n")
+    build.build(db_path=env["db_path"], out_dir=env["inventory_dir"], jurisdictions_path=env["jurisdictions_path"],
+                register_path=env["register_path"], overrides_path=ov)
+    row = inv_row(env)
+    assert row["qap_draft_or_final"] == "final" and row["verification_status"] == "partly verified"

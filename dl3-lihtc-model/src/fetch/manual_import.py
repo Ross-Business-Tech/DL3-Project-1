@@ -101,6 +101,7 @@ def import_file(
     doc_type: str | None = None, title: str | None = None, status: str = "unknown", critical: bool | None = None,
     retrieved_on: str | None = None, note: str | None = None, third_party_host: bool = False,
     manual_only: bool = False, jurisdictions_path: Path | None = None,
+    update_inventory: bool = True, inventory_dir: Path | None = None,
 ) -> dict:
     by = (by or "").strip()
     if not by:
@@ -190,7 +191,12 @@ def import_file(
     located = locate.locate_snapshot(conn, archive_root, snap, locate.load_topics())
     change = diff.compare_latest_for(conn, archive_root, snap)
     conn.close()
-    return {"source_id": row["source_id"], "snapshot_id": res.snapshot_id, "sha256": res.sha256,
+    inventory_path = None
+    if update_inventory:
+        from ..inventory import build
+        inventory_path = build.build(db_path=db_path, out_dir=inventory_dir, jurisdictions_path=jurisdictions_path,
+                                     register_path=register_path)
+    return {"inventory": inventory_path, "source_id": row["source_id"], "snapshot_id": res.snapshot_id, "sha256": res.sha256,
             "archive_path": res.archive_path, "content_type": ct, "doc_status": row["status"],
             "result": "first version" if res.first_snapshot else ("changed" if res.changed else "same as last version"),
             "change": change, "candidate_pages": located.get("candidates", 0),
@@ -270,6 +276,8 @@ def main(argv=None) -> int:
         print(f"  Changed since last version: {d['added_lines']} lines added, {d['removed_lines']} removed")
     if r["new_register_row"]:
         print("  Added to config/source_register.csv as a manual source (run_all.py will not try to download it).")
+    if r["inventory"]:
+        print(f"  Inventory rebuilt: {r['inventory']}")
     print(f"  Next: python -m src.extract.extract --only {r['source_id']}")
     return 0
 

@@ -151,7 +151,67 @@ def load_overrides(path: Path | None = None) -> list[dict]:
     return rows
 
 
-def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None) -> list[dict]:
+def manual_documents(conn, register_path: Path, jurisdiction_ids: list[str]) -> dict:
+    """Manually imported documents (retrieval = manual in the register, with an archived copy), by jurisdiction.
+
+    A source belongs to the jurisdiction whose ID prefixes its source_id (NV_QAP_DOC_ab12cd -> NV)."""
+    out = defaultdict(list)
+    if not Path(register_path).exists():
+        return out
+    with open(register_path, newline="", encoding="utf-8") as fh:
+        reg = [r for r in csv.DictReader(fh) if (r.get("retrieval") or "").strip().lower() == "manual"]
+    for r in reg:
+        jid = next((j for j in sorted(jurisdiction_ids, key=len, reverse=True) if r["source_id"].startswith(j + "_")), None)
+        snap = archive.latest_snapshot(conn, r["source_id"])
+        if jid is None or snap is None or snap["retrieval_method"] != "manual":
+            continue
+        out[jid].append({"source_id": r["source_id"], "doc_type": r["doc_type"], "url": r["url"], "title": r["title"],
+                         "status": (r.get("status") or "unknown").strip().lower(),
+                         "retrieved_on": snap["retrieved_at"][:10],
+                         "years": _years_text(set(plan_years(f"{r.get('plan_year') or ''} {r['title']} {_filename(r['url'])}")))})
+    return out
+
+
+def apply_manual(r: dict, docs: list[dict], evidence: list[str]) -> bool:
+    """Put manually imported documents into an inventory row. Returns True if a QAP was among them.
+    A person chose these documents, so they go ahead of auto-found links; they are still unreviewed."""
+    has_qap = False
+    for d in sorted(docs, key=lambda d: d["retrieved_on"]):
+        ev = f"manual import {d['retrieved_on']} ({d['source_id']})"
+        t = d["doc_type"]
+        if t in ("qap", "qap_doc"):
+            has_qap = True
+            tag = d["url"] + (f" [{d['years']}]" if d["years"] else "") + (" [draft]" if d["status"] == "draft" else "") \
+                + " [manual import]"
+            rest = [x for x in r["qap_document_urls"].split("; ") if x and not x.startswith(d["url"])]
+            r["qap_document_urls"] = "; ".join([tag] + rest)
+            r["plan_years"] = d["years"] or NEEDS
+            r["qap_draft_or_final"] = {"draft": "draft (set at manual import)",
+                                       "final": f"final (set at manual import): {NEEDS}"}.get(
+                d["status"], f"unknown: {NEEDS} (never assumed final)")
+            if d["status"] != "draft":
+                r["qap_current_nondraft_url"], r["qap_current_nondraft_years"] = d["url"], d["years"] or NEEDS
+            evidence.append(f"qap_document_urls <- {ev}")
+        elif t == "qap_page":
+            r["qap_page_url"] = d["url"]
+            evidence.append(f"qap_page_url <- {ev}")
+        elif t == "underwriting":
+            r["underwriting_manual_url"] = d["url"]
+            evidence.append(f"underwriting_manual_url <- {ev}")
+        elif t == "award_list":
+            rest = [x for x in r["award_list_urls"].split("; ") if x and x != d["url"]]
+            r["award_list_urls"] = "; ".join([d["url"]] + rest)
+            fmt = _filename(d["url"]).rsplit(".", 1)[-1].lower() if "." in _filename(d["url"]) else ""
+            r["award_formats"] = ", ".join(sorted({x for x in r["award_formats"].split(", ") + [fmt] if x}))
+            evidence.append(f"award_list_urls <- {ev}")
+        elif t == "application":
+            r["application_round_url"] = d["url"]
+            evidence.append(f"application_round_url <- {ev}")
+    return has_qap
+
+
+def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None, manual=None) -> list[dict]:
+    manual = manual or {}
     rules = rules or load_rules()
     hud_by_state = defaultdict(list)
     for h in hud_rows:
@@ -248,6 +308,7 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None) ->
                      first_crawl_error=st.get("start_error") or st["first_error"] or "",
                      last_crawled_at=st["finished_at"], crawl_method=st.get("start_method") or "",
                      agency_moved_to=st.get("moved_to") or "")
+        manual_qap = apply_manual(r, manual.get(jid, []), evidence)
         r["evidence"] = "\n".join(evidence)
 
         reviewed = ov.get(jid, {})
@@ -262,6 +323,8 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None) ->
             r["verification_status"] = "verified"
         elif reviewed:
             r["verification_status"] = "partly verified"
+        elif manual.get(jid) and (manual_qap or not st or not st["pages_fetched"]):
+            r["verification_status"] = "manual import: needs review"
         elif not st:
             r["verification_status"] = "not yet crawled"
         elif not st["pages_fetched"]:
@@ -341,13 +404,16 @@ def write_outputs(rows, cands, hud_rows, out_dir: Path) -> Path:
 
 
 def build(db_path: Path | None = None, out_dir: Path | None = None, jurisdictions_path: Path | None = None,
-          hud_path: Path | None = None, overrides_path: Path | None = None) -> Path:
+          hud_path: Path | None = None, overrides_path: Path | None = None,
+          register_path: Path | None = None) -> Path:
     conn = archive.connect(db_path or ROOT / "data" / "dl3.db")
     status, cands = latest_candidates(conn)
-    conn.close()
     js = load_jurisdictions(jurisdictions_path)
+    manual = manual_documents(conn, register_path or ROOT / "config" / "source_register.csv",
+                              [j["jurisdiction_id"] for j in js])
+    conn.close()
     hud = hud_allocators.read_csv(hud_path or ROOT / "data" / "reference" / "hud_allocators.csv")
-    rows = build_rows(js, hud, status, cands, load_overrides(overrides_path))
+    rows = build_rows(js, hud, status, cands, load_overrides(overrides_path), manual=manual)
     return write_outputs(rows, cands, hud, out_dir or ROOT / "data" / "inventory")
 
 
