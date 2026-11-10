@@ -70,3 +70,84 @@ class ClaudeClient:
                              error="output hit max_tokens; not parsed (raise llm.max_tokens)")
         text = next((b.text for b in resp.content if b.type == "text"), None)
         return LLMResult(text, resp.model, rid, resp.stop_reason, usage)
+
+
+class GeminiClient:
+    """Google Gemini via the official `google-genai` SDK. Same contract as ClaudeClient.
+
+    Key: GEMINI_API_KEY (from the environment or .env). Model: GEMINI_MODEL, else settings llm.models.gemini.
+    """
+
+    BLOCKING = {"SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT", "SPII", "LANGUAGE", "OTHER",
+                "MALFORMED_RESPONSE"}
+
+    def __init__(self, cfg: dict, client=None):
+        self.cfg = cfg
+        if client is None:
+            import os
+
+            from google import genai
+            from google.genai import types
+            key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+            if not key:
+                raise RuntimeError("Gemini: GEMINI_API_KEY is not set (put it in .env or the environment).")
+            client = genai.Client(api_key=key, http_options=types.HttpOptions(
+                timeout=int(cfg.get("timeout_seconds", 300) * 1000),
+                retry_options=types.HttpRetryOptions(attempts=4, http_status_codes=[429, 500, 502, 503, 504])))
+        self.client = client
+
+    def extract(self, system: str, document: str, instruction: str, schema: dict) -> LLMResult:
+        from google.genai import errors, types
+        config = types.GenerateContentConfig(
+            system_instruction=system,
+            response_mime_type="application/json",
+            response_json_schema=schema,
+            max_output_tokens=self.cfg.get("max_tokens", 16000),
+        )
+        if self.cfg.get("gemini_thinking_level"):
+            config.thinking_config = types.ThinkingConfig(thinking_level=self.cfg["gemini_thinking_level"])
+        # Document first and identical across topics, so Gemini's implicit prefix caching can reuse it.
+        contents = [types.Content(role="user", parts=[types.Part(text=document), types.Part(text=instruction)])]
+        try:
+            resp = self.client.models.generate_content(model=self.cfg["model"], contents=contents, config=config)
+        except errors.ClientError as e:
+            if e.code in (401, 403):
+                raise RuntimeError(f"Gemini: key rejected ({e.code}). Check GEMINI_API_KEY.") from e
+            return LLMResult(None, None, None, None, error=f"Gemini request error {e.code}: {e.message}")
+        except errors.APIError as e:
+            return LLMResult(None, None, None, None, error=f"Gemini API error {e.code}: {e.message}")
+        except Exception as e:  # network failures surface as transport exceptions
+            return LLMResult(None, None, None, None, error=f"Gemini connection error: {type(e).__name__}: {e}")
+
+        um = resp.usage_metadata
+        cached = (getattr(um, "cached_content_token_count", 0) or 0) if um else 0
+        usage = {} if um is None else {
+            "input_tokens": max((um.prompt_token_count or 0) - cached, 0),
+            "output_tokens": (um.candidates_token_count or 0) + (getattr(um, "thoughts_token_count", 0) or 0),
+            "cache_write_tokens": 0, "cache_read_tokens": cached}
+        model, rid = getattr(resp, "model_version", None) or self.cfg["model"], getattr(resp, "response_id", None)
+        fb = getattr(resp, "prompt_feedback", None)
+        if fb is not None and getattr(fb, "block_reason", None):
+            return LLMResult(None, model, rid, "blocked", usage, error=f"Gemini blocked the prompt: {fb.block_reason}")
+        if not resp.candidates:
+            return LLMResult(None, model, rid, None, usage, error="Gemini returned no answer")
+        reason = getattr(resp.candidates[0].finish_reason, "name", str(resp.candidates[0].finish_reason))
+        if reason == "MAX_TOKENS":
+            return LLMResult(None, model, rid, reason, usage, error="output hit max_tokens; not parsed (raise llm.max_tokens)")
+        if reason == "RECITATION":
+            return LLMResult(None, model, rid, reason, usage, error=(
+                "Gemini stopped because the answer repeated document text verbatim (RECITATION). The quotes "
+                "are required; retry with --force, or use the anthropic provider for this document."))
+        if reason in self.BLOCKING:
+            return LLMResult(None, model, rid, reason, usage, error=f"Gemini stopped: {reason}")
+        return LLMResult(resp.text, model, rid, reason, usage)
+
+
+def make_client(cfg: dict):
+    """The client for llm.provider: gemini (default) or anthropic."""
+    provider = cfg.get("provider", "gemini")
+    if provider == "gemini":
+        return GeminiClient(cfg)
+    if provider == "anthropic":
+        return ClaudeClient(cfg)
+    raise ValueError(f"unknown llm.provider '{provider}' (use gemini or anthropic)")

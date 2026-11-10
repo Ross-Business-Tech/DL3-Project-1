@@ -91,10 +91,13 @@ Output: `data/inventory/state_inventory.xlsx` (sheets: Inventory, Candidates, HU
   the rule in force.
 - Snapshots record `retrieval_method` (http / browser) for provenance.
 
-## Rule extraction with Claude (LLM)
+## Rule extraction with an LLM (Gemini by default)
+
+The provider is set in `config/settings.yaml` (`llm.provider: gemini`); the key and model come from `.env`
+(`GEMINI_API_KEY`, `GEMINI_MODEL`; the pipeline reads `dl3-lihtc-model/.env` and the repository-root `.env`).
+Claude is available with `llm.provider: anthropic` (or `LLM_PROVIDER=anthropic`) and `ANTHROPIC_API_KEY`.
 
 ```bash
-export ANTHROPIC_API_KEY=...                       # or: ant auth login
 python -m src.inventory.promote MI OH NYC          # add pilot QAPs, manuals, award lists to the register
 python run_all.py --only MI_QAP_CURRENT MI_UW      # download and archive them
 python -m src.extract.extract --dry-run            # see what would be sent and a rough cost; no API calls
@@ -106,8 +109,13 @@ python -m src.review.import_review
 
 - Prompts: `src/extract/prompts/` (fee rules, credit and unit caps, set-asides, deadlines, sponsor eligibility,
   award tables). Which run on which document type: `config/settings.yaml` -> `llm.topics_by_doc_type`.
-- Model `claude-opus-5-5`, effort `high`, JSON-schema structured output, server-side refusal fallback on.
-  The document is sent once per topic with prompt caching, so topics 2-5 on the same document read it from cache.
+- JSON-schema structured output for both providers. The document is placed first and identical for every topic,
+  so repeated topics on the same document hit the provider's prompt cache (Gemini implicit caching; Claude
+  `cache_control`). Claude also uses effort `high` and server-side refusal fallback.
+- Gemini can stop with `RECITATION` when an answer repeats document text; quotes are required, so that call is
+  logged as an error (never half-parsed) and can be retried with `--force` or sent to the other provider.
+- Cost: Gemini prices are not filled in (`llm.price_per_mtok.gemini: null`), so runs report token counts;
+  add prices from Google's pricing page to get dollar estimates.
 - **Code checks every answer**: the cited page must be one that was sent and the quote must appear verbatim on
   it, or the finding is stored as `rejected_validation` and can never be approved. Numbers in the value that
   are not in the quote are flagged for the reviewer.

@@ -28,7 +28,7 @@ from pathlib import Path
 import yaml
 
 from ..fetch import archive, fetch
-from .llm_client import ClaudeClient, LLMResult
+from .llm_client import LLMResult, make_client
 from .pdf_text import pages_from_bytes
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -204,7 +204,22 @@ def store(conn, snap, bundle, cfg, pages_sent, res: LLMResult, page_text, run_id
     return {"call_id": call_id, "error": error, **counts}
 
 
-def estimate_cost(usage_rows, prices) -> float:
+def resolve_cfg(llm: dict) -> dict:
+    """Provider + model for this run. Env vars (from .env) override settings.yaml."""
+    import os
+    cfg = dict(llm)
+    provider = os.environ.get("LLM_PROVIDER") or cfg.get("provider", "gemini")
+    cfg["provider"] = provider
+    env_model = {"gemini": "GEMINI_MODEL", "anthropic": "ANTHROPIC_MODEL"}.get(provider)
+    cfg["model"] = (os.environ.get(env_model) if env_model else None) or cfg.get("model") or cfg["models"][provider]
+    prices = cfg.get("price_per_mtok") or {}
+    cfg["prices"] = prices.get(provider) if isinstance(prices, dict) and provider in prices else None
+    return cfg
+
+
+def estimate_cost(usage_rows, prices) -> float | None:
+    if not prices:
+        return None
     total = 0.0
     for u in usage_rows:
         total += (u.get("input_tokens") or 0) * prices["input"] + (u.get("output_tokens") or 0) * prices["output"]
@@ -216,7 +231,7 @@ def estimate_cost(usage_rows, prices) -> float:
 def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: set[str] | None = None,
         topics: set[str] | None = None, dry_run: bool = False, force: bool = False, run_id: str | None = None,
         progress=print) -> dict:
-    cfg = settings["llm"]
+    cfg = resolve_cfg(settings["llm"])
     conn = archive.connect(db_path)
     summary = {"documents": 0, "calls": 0, "cached": 0, "errors": 0, "pending_review": 0,
                "rejected_validation": 0, "skipped": [], "usage": [], "estimated_input_tokens": 0}
@@ -249,7 +264,7 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
                 progress(f"[dry run] {snap['source_id']} {topic}: pages {pages_sent}, ~{len(doc) // 4:,} tokens")
                 continue
             if client is None:
-                client = ClaudeClient(cfg)
+                client = make_client(cfg)
             res = client.extract(bundle["system"], doc, bundle["instruction"], bundle["schema"])
             out = store(conn, snap, bundle, cfg, pages_sent, res, page_text, run_id)
             summary["calls"] += 1
@@ -260,11 +275,15 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
             progress(f"{snap['source_id']} {topic}: {out['pending_review']} for review, "
                      f"{out['rejected_validation']} rejected by validation" + (f", ERROR {out['error']}" if out["error"] else ""))
     conn.close()
-    summary["estimated_cost_usd"] = round(estimate_cost(summary["usage"], cfg["price_per_mtok"]), 4)
-    if dry_run:
-        # first topic writes the document to cache, the rest read it; this is an upper bound on input cost
+    cost = estimate_cost(summary["usage"], cfg["prices"])
+    summary["provider"], summary["model"] = cfg["provider"], cfg["model"]
+    summary["tokens"] = {k: sum((u.get(k) or 0) for u in summary["usage"])
+                         for k in ("input_tokens", "output_tokens", "cache_read_tokens")}
+    summary["estimated_cost_usd"] = None if cost is None else round(cost, 4)
+    if dry_run and cfg["prices"]:
+        # upper bound: every topic pays full input price (caching usually makes it much lower)
         summary["estimated_cost_usd_upper_bound"] = round(
-            summary["estimated_input_tokens"] * cfg["price_per_mtok"]["cache_write"] / 1_000_000, 2)
+            summary["estimated_input_tokens"] * cfg["prices"]["input"] / 1_000_000, 2)
     return summary
 
 
@@ -277,6 +296,8 @@ def main(argv=None) -> int:
     ap.add_argument("--db", default=str(ROOT / "data" / "dl3.db"))
     ap.add_argument("--archive", default=str(ROOT / "archive"))
     a = ap.parse_args(argv)
+    from ..env import load_env
+    load_env()
     s = run(Path(a.db), Path(a.archive), fetch.load_settings(), only=set(a.only) if a.only else None,
             topics=set(a.topics) if a.topics else None, dry_run=a.dry_run, force=a.force)
     s.pop("usage")

@@ -15,6 +15,7 @@ from tests.test_fetch import SETTINGS, Site
 FEE_PAGE = ("Section 4.2 Developer Fee. The developer fee shall not exceed 15% of total development cost "
             "excluding land, reserves and the developer fee. Up to 50% of the fee may be deferred.")
 LLM_CFG = {**fetch.load_settings()["llm"]}
+CLAUDE_CFG = {**LLM_CFG, "provider": "anthropic", "model": "claude-opus-5-5"}
 
 
 def pdf(*pages):
@@ -59,7 +60,8 @@ def env(tmp_path):
 
 
 def settings(**llm):
-    return {"llm": {**LLM_CFG, "topics_by_doc_type": {"qap": ["fee_rule"], "award_list": ["award_table"]}, **llm}}
+    return {"llm": {**LLM_CFG, "model": "test-model",
+                    "topics_by_doc_type": {"qap": ["fee_rule"], "award_list": ["award_table"]}, **llm}}
 
 
 def rows(env, status=None):
@@ -259,7 +261,7 @@ def sdk_response(stop="end_turn", text='{"findings": [], "not_found": []}'):
 
 def test_claude_client_request_shape():
     sdk = FakeSDK(sdk_response())
-    res = ClaudeClient(LLM_CFG, client=sdk).extract("SYS", "<document>..</document>", "INSTR", {"type": "object"})
+    res = ClaudeClient(CLAUDE_CFG, client=sdk).extract("SYS", "<document>..</document>", "INSTR", {"type": "object"})
     k = sdk.kwargs
     assert k["model"] == "claude-opus-5-5" and k["system"] == "SYS"
     assert k["betas"] == ["server-side-fallback-2026-07-01"] and k["fallbacks"] == "default"
@@ -271,9 +273,9 @@ def test_claude_client_request_shape():
 
 
 def test_claude_client_refusal_and_truncation_not_parsed():
-    r = ClaudeClient(LLM_CFG, client=FakeSDK(sdk_response("refusal"))).extract("s", "d", "i", {})
+    r = ClaudeClient(CLAUDE_CFG, client=FakeSDK(sdk_response("refusal"))).extract("s", "d", "i", {})
     assert r.text is None and "declined" in r.error
-    r = ClaudeClient(LLM_CFG, client=FakeSDK(sdk_response("max_tokens", '{"findings": ['))).extract("s", "d", "i", {})
+    r = ClaudeClient(CLAUDE_CFG, client=FakeSDK(sdk_response("max_tokens", '{"findings": ['))).extract("s", "d", "i", {})
     assert r.text is None and "max_tokens" in r.error
 
 
@@ -353,7 +355,7 @@ def test_real_sdk_accepts_request_and_parses_response():
 
     sdk = anthropic.Anthropic(api_key="test-key", http_client=httpx2.Client(transport=httpx2.MockTransport(handler)))
     b = extract.prompt_bundle("fee_rule")
-    res = ClaudeClient(LLM_CFG, client=sdk).extract(b["system"], "<document>x</document>", b["instruction"], b["schema"])
+    res = ClaudeClient(CLAUDE_CFG, client=sdk).extract(b["system"], "<document>x</document>", b["instruction"], b["schema"])
     assert res.error is None and json.loads(res.text)["not_found"] == ["deferred_fee_max"] and res.request_id == "req_mock"
     body = seen["body"]
     assert seen["url"].endswith("/v1/messages?beta=true") or seen["url"].endswith("/v1/messages")

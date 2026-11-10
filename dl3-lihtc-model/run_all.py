@@ -110,9 +110,11 @@ def main(argv=None) -> int:
                     help="also crawl agency sites and rebuild data/inventory/state_inventory.xlsx "
                          "(all jurisdictions, or the IDs given, e.g. --inventory MI CHI)")
     ap.add_argument("--extract", action="store_true",
-                    help="extract rules with Claude from archived documents (needs ANTHROPIC_API_KEY); "
+                    help="extract rules with the LLM in settings.yaml (Gemini: GEMINI_API_KEY in .env); "
                          "try python -m src.extract.extract --dry-run first")
     a = ap.parse_args(argv)
+    from src.env import load_env
+    load_env()
     fetch.use_os_trust_store()
     out = run_pipeline(only=set(a.only) if a.only else None, follow_documents=a.follow_documents,
                        refresh_hud=not a.no_hud, inventory=a.inventory is not None,
@@ -123,7 +125,9 @@ def main(argv=None) -> int:
     if m.get("extraction"):
         e = m["extraction"]
         print(f"Extraction: {e['calls']} calls ({e['cached']} reused), {e['pending_review']} findings for review, "
-              f"{e['rejected_validation']} rejected by validation, {e['errors']} errors, ~${e['estimated_cost_usd']}")
+              f"{e['rejected_validation']} rejected by validation, {e['errors']} errors "
+              f"({e['provider']} {e['model']}; tokens {e['tokens']}"
+              + (f"; ~${e['estimated_cost_usd']}" if e.get("estimated_cost_usd") is not None else "") + ")")
         print("Review packet: python -m src.review.build_packet")
     if m.get("inventory"):
         print(f"Inventory: {m['inventory']}")
