@@ -79,6 +79,7 @@ class RunSummary:
     unchanged: int = 0
     failed: int = 0
     discovered: int = 0
+    manual: int = 0
     details: list = field(default_factory=list)
 
 
@@ -359,6 +360,11 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
             continue
         archive.upsert_source(conn, {k: src.get(k) for k in
                               FIELDS})
+        if (src.get("retrieval") or "").strip().lower() == "manual":
+            # The site does not allow automated access; a person imports the file (src/fetch/manual_import.py).
+            summary.manual += 1
+            summary.details.append({"source_id": src["source_id"], "result": "manual source: not fetched automatically"})
+            continue
         _fetch_one(conn, fetcher, archive_root, src, src["url"], None, summary, run_id)
         if follow_documents:
             snap = archive.latest_snapshot(conn, src["source_id"])

@@ -41,7 +41,9 @@ CREATE TABLE IF NOT EXISTS snapshot (
     parent_source_id TEXT,                   -- set when discovered via a landing page
     doc_status     TEXT NOT NULL DEFAULT 'unknown',  -- draft | final | unknown
     run_id         TEXT,
-    retrieval_method TEXT          -- http | browser | manual
+    retrieval_method TEXT,         -- http | browser | manual
+    retrieved_by   TEXT,           -- manual imports: who saved the file from their browser
+    import_note    TEXT            -- manual imports: original file name and any note
 );
 CREATE INDEX IF NOT EXISTS ix_snapshot_source ON snapshot(source_id, retrieved_at);
 

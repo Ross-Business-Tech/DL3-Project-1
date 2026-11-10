@@ -40,6 +40,7 @@ MIGRATIONS = [
     ("source", "amendment_date", "TEXT"), ("source", "superseded_by", "TEXT"),
     ("snapshot", "run_id", "TEXT"), ("fetch_failure", "run_id", "TEXT"),
     ("snapshot", "retrieval_method", "TEXT"),
+    ("snapshot", "retrieved_by", "TEXT"), ("snapshot", "import_note", "TEXT"),
     ("crawl_status", "start_error", "TEXT"), ("crawl_status", "moved_to", "TEXT"),
     ("crawl_status", "start_method", "TEXT"),
 ]
@@ -132,6 +133,8 @@ def store_snapshot(
     parent_source_id: str | None = None,
     run_id: str | None = None,
     retrieval_method: str = "http",
+    retrieved_by: str | None = None,
+    import_note: str | None = None,
 ) -> SnapshotResult:
     retrieved_at = retrieved_at or utcnow()
     digest = sha256_bytes(data)
@@ -147,11 +150,12 @@ def store_snapshot(
     changed = prev is None or prev["sha256"] != digest
     cur = conn.execute(
         """INSERT INTO snapshot (source_id, url, final_url, retrieved_at, sha256, content_type,
-             byte_size, http_status, archive_path, is_duplicate, parent_source_id, doc_status, run_id, retrieval_method)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+             byte_size, http_status, archive_path, is_duplicate, parent_source_id, doc_status, run_id, retrieval_method,
+             retrieved_by, import_note)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
         (source["source_id"], requested_url, final_url, retrieved_at.isoformat(), digest, content_type,
          len(data), http_status, rel.as_posix(), 0 if changed else 1, parent_source_id,
-         source.get("status", "unknown"), run_id, retrieval_method),
+         source.get("status", "unknown"), run_id, retrieval_method, retrieved_by, import_note),
     )
     conn.commit()
     return SnapshotResult(cur.lastrowid, rel.as_posix(), digest, changed, prev is None)

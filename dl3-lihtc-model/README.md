@@ -125,3 +125,31 @@ python -m src.review.import_review
 - Only `approved` findings (named reviewer) are available to calculations: `src.review.import_review.approved_values()`.
   Draft documents keep `doc_status = draft` on every finding.
 - Spreadsheets (award lists in .xlsx) are not sent to the LLM; they are parsed in code (next step).
+
+## Manual import (sites that do not allow automated access)
+
+Some agency sites ask crawlers to stay out (robots.txt) or block them. A person can still open the page in a
+normal browser, save the file, and import it with the same record-keeping as a download:
+
+```bash
+python -m src.fetch.manual_import --list          # what is waiting for a person
+
+# a new document (adds a manual source to config/source_register.csv)
+python -m src.fetch.manual_import ~/Downloads/2026-QAP.pdf \
+    --url https://housing.nv.gov/.../2026-QAP.pdf \
+    --jurisdiction NV --doc-type qap_doc --title "Nevada 2026 QAP" --by "Your Name"
+
+# a new version of an existing source
+python -m src.fetch.manual_import ~/Downloads/2026-QAP-amended.pdf --source-id <ID> --by "Your Name"
+```
+
+- Same checks as a download: allowed file types, content must match the type, size cap, bot-check pages refused.
+- Recorded on the snapshot: SHA-256, the URL it came from, date (`--retrieved-on`, default today),
+  `retrieval_method = manual`, who saved it (`--by`) and the original file name. The name is kept in the local
+  database only, never in the committed register.
+- The URL must be on the agency's own website unless `--third-party-host` is given (then the register notes it).
+- Status defaults to `unknown`; pass `--status final` or `draft` only when the document itself says so.
+- Manual sources (`retrieval = manual` in the register) are skipped by `run_all.py`, so they do not fail on
+  every run; they still appear in the freshness table and go stale after 90 days like any other source.
+- After import the file is compared with the previous version and scanned for candidate rule pages; then run
+  `python -m src.extract.extract --only <ID>`.
