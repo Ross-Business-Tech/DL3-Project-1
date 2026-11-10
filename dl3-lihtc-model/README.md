@@ -90,3 +90,30 @@ Output: `data/inventory/state_inventory.xlsx` (sheets: Inventory, Candidates, HU
   range in the title. `qap_current_nondraft_url` shows the newest plan not marked draft, so a draft never hides
   the rule in force.
 - Snapshots record `retrieval_method` (http / browser) for provenance.
+
+## Rule extraction with Claude (LLM)
+
+```bash
+export ANTHROPIC_API_KEY=...                       # or: ant auth login
+python -m src.inventory.promote MI OH NYC          # add pilot QAPs, manuals, award lists to the register
+python run_all.py --only MI_QAP_CURRENT MI_UW      # download and archive them
+python -m src.extract.extract --dry-run            # see what would be sent and a rough cost; no API calls
+python -m src.extract.extract                      # extract (or: python run_all.py --extract)
+python -m src.review.build_packet                  # review/packets/review_<date>.xlsx
+# reviewer fills decision / reviewer / corrected_value, saves to review/returned/
+python -m src.review.import_review
+```
+
+- Prompts: `src/extract/prompts/` (fee rules, credit and unit caps, set-asides, deadlines, sponsor eligibility,
+  award tables). Which run on which document type: `config/settings.yaml` -> `llm.topics_by_doc_type`.
+- Model `claude-opus-5-5`, effort `high`, JSON-schema structured output, server-side refusal fallback on.
+  The document is sent once per topic with prompt caching, so topics 2-5 on the same document read it from cache.
+- **Code checks every answer**: the cited page must be one that was sent and the quote must appear verbatim on
+  it, or the finding is stored as `rejected_validation` and can never be approved. Numbers in the value that
+  are not in the quote are flagged for the reviewer.
+- Every request is logged in `llm_call` (prompt version, model requested/served, request id, pages sent,
+  tokens, raw output). Results are reused when the document, prompt and model are unchanged, so reruns are free
+  and reproducible.
+- Only `approved` findings (named reviewer) are available to calculations: `src.review.import_review.approved_values()`.
+  Draft documents keep `doc_status = draft` on every finding.
+- Spreadsheets (award lists in .xlsx) are not sent to the LLM; they are parsed in code (next step).

@@ -4,3 +4,4 @@ data/*.db
 outputs/
 __pycache__/
 .pytest_cache/
+review/
