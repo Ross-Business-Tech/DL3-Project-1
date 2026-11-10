@@ -1,0 +1,33 @@
+# How spreadsheet column headers map to award fields. Deterministic; edit without code changes.
+# Each field lists regex patterns tried against the header text (lower-cased, whitespace collapsed).
+# Order matters: the first field whose pattern matches wins, so specific fields come before general ones.
+fields:
+  application_number: ['^(app(lication)?|project|file|tdhca|tracking|development)\s*(#|no\.?|num(ber)?|id)$', '^(#|id|number)$']
+  project_name: ['(project|development|property|proposal|applicant project)\s*name', '^(project|development|property|proposal)$', '^name$']
+  sponsor: ['sponsor', 'developer', 'applicant', '^owner', 'general partner', 'principal']
+  address: ['address', 'street', 'location']
+  city: ['^city', 'municipality', 'city/town', '^town']
+  county: ['county', 'parish', 'borough']
+  zip: ['zip', 'postal']
+  total_units: ['total\s*(#\s*)?(of\s*)?units', '^(#\s*)?(of\s*)?units$', 'unit count', 'number of units', 'all units']
+  restricted_units: ['(lihtc|li|low[- ]income|affordable|restricted|tax credit|htc|rent[- ]restricted)\s*units', 'units.*(lihtc|affordable|restricted)']
+  # Credit amounts. Annual, ten-year and equity are never merged; an unlabeled "credit" column is kept apart.
+  credit_requested: ['request']
+  ten_year_credit: ['(10|ten)[- ]?(yr|year)', 'total\s*(tax\s*)?credits?\s*(over|for)', 'credit.*(10|ten)']
+  equity: ['equity', 'syndication', 'proceeds']
+  annual_credit: ['annual', 'per\s*year', 'yearly', '/\s*y(ea)?r']
+  credit_unlabeled: ['(tax\s*)?credits?\s*(amount|award|allocat|reserv|recommend)', '(amount|award|allocation|reservation)\s*(of\s*)?(tax\s*)?credits?', '^(lihtc|htc|tax credits?|credits?|credit amount|award amount|allocation|reservation|award)$', '(9|4)\s*%\s*(lihtc|htc|credit)']
+  credit_type: ['credit\s*type', '(9|4)\s*%\s*(or|/)\s*(9|4)\s*%', '^type of credit', 'program']
+  set_aside: ['set[- ]?aside', '^pool', 'category', 'region', 'geographic']
+  project_type: ['construction\s*type', 'project\s*type', 'new construction', 'rehab', 'activity', 'target population', 'population']
+  status: ['status', 'result', 'recommend', 'decision', 'outcome', 'awarded\?', 'funded\?']
+  score: ['score', 'points', 'rank']
+  award_year: ['^year$', 'award\s*year', 'allocation\s*year', 'round', 'cycle', 'funding year']
+  award_date: ['award\s*date', 'reservation\s*date', 'board\s*date', 'date\s*(of\s*)?(award|reservation|approval)', '^date$']
+# Headers matching these are never mapped (kept in raw_json only), e.g. "Developer Fee" is not the developer.
+ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'cost', 'loan', 'home funds', 'htf']
+# A header row must contain project_name (or application_number + sponsor) and at least this many mapped columns.
+min_mapped_columns: 3
+header_search_rows: 40
+# Rows whose first text cell matches these are totals, not projects.
+total_row: ['^(sub)?total', '^grand total', '^sum\b', '^totals?\b', '^count\b', '^average']

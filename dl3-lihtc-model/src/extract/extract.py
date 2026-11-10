@@ -243,7 +243,7 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
         pages = pages_from_bytes(raw, snap["content_type"])
         if pages is None:
             summary["skipped"].append(f"{snap['source_id']}: {snap['content_type']} has no text extractor "
-                                      "(spreadsheets are parsed in code, not by the LLM)")
+                                      "(spreadsheets are parsed in code: python -m src.awards.parse_awards)")
             continue
         chosen, pages_sent = select_pages(conn, snap, pages, cfg)
         if not chosen:

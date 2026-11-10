@@ -124,7 +124,7 @@ python -m src.review.import_review
   and reproducible.
 - Only `approved` findings (named reviewer) are available to calculations: `src.review.import_review.approved_values()`.
   Draft documents keep `doc_status = draft` on every finding.
-- Spreadsheets (award lists in .xlsx) are not sent to the LLM; they are parsed in code (next step).
+- Spreadsheets (award lists in .xlsx) are not sent to the LLM; they are parsed in code (below).
 
 ## Manual import (sites that do not allow automated access)
 
@@ -155,3 +155,25 @@ python -m src.fetch.manual_import ~/Downloads/2026-QAP-amended.pdf --source-id <
   "[manual import]" with status "manual import: needs review". Importing never marks a QAP final or the row verified.
 - After import the file is compared with the previous version and scanned for candidate rule pages; then run
   `python -m src.extract.extract --only <ID>`.
+
+## Award spreadsheets (parsed in code, no LLM)
+
+```bash
+python -m src.awards.parse_awards            # every archived award_list that is .xlsx / .xlsm / .xls / .csv
+python -m src.awards.parse_awards --export   # also writes outputs/awards/award_rows.csv for checking
+python run_all.py --awards                   # as part of a run
+```
+
+- Finds the header row on each sheet and maps columns using `config/award_columns.yaml` (edit the patterns there
+  when a state uses an unusual header; the mapping chosen for each sheet is stored in `award_sheet`).
+- **Annual credit, ten-year credit, equity and requested credit are separate columns.** A column that only says
+  "credit" or "award" goes to `credit_unlabeled` and the row is flagged; it is never assumed to be annual.
+- Credit type (9% / 4%) and award year come from a column, else the section heading, sheet name, heading above
+  the table, or file title, and the basis is recorded. If they are not stated, or the title names both, they stay
+  unknown and the row is flagged.
+- Totals, blank lines and repeated headers are skipped; heading rows ("9% Awards", "Nonprofit Set-Aside") are
+  carried as `section`. Nothing is added up.
+- Every row keeps its sheet name and row number (the citation) and all original cells (`raw_json`).
+- Flags also cover: text where a number should be, restricted units above total units, negative numbers, no
+  credit amount. Macros are never run; formulas use the values saved in the file.
+- PDF award lists go through the LLM `award_table` prompt instead.

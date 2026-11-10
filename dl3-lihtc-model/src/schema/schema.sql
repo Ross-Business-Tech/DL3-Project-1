@@ -178,3 +178,45 @@ CREATE TABLE IF NOT EXISTS extraction_not_found (
     call_id INTEGER NOT NULL REFERENCES llm_call(call_id),
     field   TEXT NOT NULL
 );
+
+-- Award spreadsheets parsed in code (no LLM). One row per sheet: the column mapping a reviewer can confirm.
+CREATE TABLE IF NOT EXISTS award_sheet (
+    sheet_id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    snapshot_id   INTEGER NOT NULL REFERENCES snapshot(snapshot_id),
+    source_id     TEXT NOT NULL,
+    sheet_name    TEXT NOT NULL,
+    header_row    INTEGER,           -- 1-based row number in the sheet; NULL if no table was found
+    column_map    TEXT,              -- JSON {field: {"column": "C", "header": "Annual Credit"}}
+    unmapped      TEXT,              -- JSON list of headers kept only in raw_json
+    rows_parsed   INTEGER NOT NULL,
+    rows_flagged  INTEGER NOT NULL,
+    note          TEXT,
+    parser_version TEXT NOT NULL,
+    parsed_at     TEXT NOT NULL
+);
+
+-- One row per project line. Annual credit, ten-year credit and equity are separate columns, never merged.
+CREATE TABLE IF NOT EXISTS award_row (
+    award_row_id  INTEGER PRIMARY KEY AUTOINCREMENT,
+    sheet_id      INTEGER NOT NULL REFERENCES award_sheet(sheet_id),
+    snapshot_id   INTEGER NOT NULL REFERENCES snapshot(snapshot_id),
+    source_id     TEXT NOT NULL,
+    state         TEXT,
+    sheet_name    TEXT NOT NULL,
+    row_number    INTEGER NOT NULL,  -- 1-based row in the sheet: the citation
+    section       TEXT,              -- heading row above this block, as printed
+    application_number TEXT, project_name TEXT, sponsor TEXT,
+    address TEXT, city TEXT, county TEXT, zip TEXT,
+    total_units INTEGER, restricted_units INTEGER,
+    annual_credit REAL, ten_year_credit REAL, equity REAL, credit_requested REAL,
+    credit_unlabeled REAL,           -- a "credit"/"award" column that does not say annual or ten-year
+    credit_type   TEXT,              -- 9% | 4% | unknown
+    credit_type_basis TEXT,          -- column | section | sheet name | file title | none
+    award_year    INTEGER,
+    award_year_basis TEXT,
+    award_date TEXT, set_aside TEXT, project_type TEXT, status TEXT, score TEXT,
+    raw_json      TEXT NOT NULL,     -- every cell of the row by original header
+    flags         TEXT,              -- semicolon-separated reasons a person should look
+    doc_status    TEXT
+);
+CREATE INDEX IF NOT EXISTS ix_award_row ON award_row(source_id, award_year, credit_type);

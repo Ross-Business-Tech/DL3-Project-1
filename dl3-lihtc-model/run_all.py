@@ -33,7 +33,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
                  only: set[str] | None = None, follow_documents: bool = False,
                  refresh_hud: bool = True, fetcher: fetch.Fetcher | None = None,
                  inventory: bool = False, inventory_only: set[str] | None = None,
-                 extract: bool = False, llm_client=None) -> Path:
+                 extract: bool = False, llm_client=None, awards: bool = False) -> Path:
     settings = fetch.load_settings()
     register = fetch.load_register(register_path)
     db_path = db_path or ROOT / "data" / "dl3.db"
@@ -75,6 +75,11 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
         crawl.crawl_all(js, settings, crawl.load_rules(), db_path)
         inventory_path = str(build.build(db_path=db_path))
 
+    award_summary = None
+    if awards:
+        from src.awards import parse_awards
+        award_summary = parse_awards.run(db_path, archive_root, only=only)
+
     extraction = None
     if extract:
         from src.extract import extract as llm_extract
@@ -92,7 +97,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
     manifest = {"run_id": run_id, "started_at": started, "code_version": code_version(),
                 "register": str(register_path or "config/source_register.csv"),
                 "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path,
-                "extraction": extraction,
+                "extraction": extraction, "awards": award_summary,
                 "sources": summary.details,
                 "snapshots": [dict(r) for r in conn.execute(
                     "SELECT snapshot_id, source_id, sha256, retrieved_at, archive_path FROM snapshot WHERE run_id=?", (run_id,))]}
@@ -109,6 +114,7 @@ def main(argv=None) -> int:
     ap.add_argument("--inventory", nargs="*", metavar="ID",
                     help="also crawl agency sites and rebuild data/inventory/state_inventory.xlsx "
                          "(all jurisdictions, or the IDs given, e.g. --inventory MI CHI)")
+    ap.add_argument("--awards", action="store_true", help="parse archived award spreadsheets (code only, no LLM)")
     ap.add_argument("--extract", action="store_true",
                     help="extract rules with the LLM in settings.yaml (Gemini: GEMINI_API_KEY in .env); "
                          "try python -m src.extract.extract --dry-run first")
@@ -119,9 +125,13 @@ def main(argv=None) -> int:
     out = run_pipeline(only=set(a.only) if a.only else None, follow_documents=a.follow_documents,
                        refresh_hud=not a.no_hud, inventory=a.inventory is not None,
                        inventory_only={x.upper() for x in a.inventory} if a.inventory else None,
-                       extract=a.extract)
+                       extract=a.extract, awards=a.awards)
     m = json.loads((out / "run_manifest.json").read_text())
     print(f"Run {m['run_id']}: {m['counts']}\nReport: {out / 'change_report.html'}")
+    if m.get("awards"):
+        w = m["awards"]
+        print(f"Awards: {w['rows']} rows from {w['files']} files ({w['flagged']} flagged, {len(w['errors'])} errors). "
+              "Check: python -m src.awards.parse_awards --export")
     if m.get("extraction"):
         e = m["extraction"]
         print(f"Extraction: {e['calls']} calls ({e['cached']} reused), {e['pending_review']} findings for review, "
