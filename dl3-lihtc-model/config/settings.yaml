@@ -21,3 +21,32 @@ fetch:
     - text/csv
     - application/xml
     - text/xml
+
+# LLM extraction. Rules are extracted from document text with page + verbatim quote; code verifies every
+# quote against the archived page before a finding can reach review. Same prompts and checks for any provider.
+llm:
+  provider: gemini              # gemini | anthropic
+  models:
+    gemini: gemini-3.5-flash-lite   # overridden by GEMINI_MODEL in .env
+    anthropic: claude-opus-5-5      # overridden by ANTHROPIC_MODEL
+  max_tokens: 16000
+  timeout_seconds: 300
+  gemini_thinking_level: null   # e.g. low / high, if the model supports it; null = model default
+  effort: high                  # anthropic only
+  refusal_fallback: true        # anthropic only: server-side fallback if the model declines
+  full_document_max_pages: 200  # send the whole document up to this size; larger ones send located pages only
+  located_pages_max: 40
+  located_neighbor_pages: 1     # rules often continue on the next page
+  # USD per million tokens for the cost estimate printed after a run. Fill in from the provider's price page;
+  # null = report token counts only.
+  price_per_mtok:
+    gemini: null
+    anthropic: {input: 4.00, output: 20.00, cache_write: 5.00, cache_read: 0.20}
+  # Which prompts run on which document types (doc_type in config/source_register.csv).
+  topics_by_doc_type:
+    qap: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]
+    qap_doc: [fee_rule, unit_credit_caps, set_asides, deadlines, sponsor_eligibility]
+    underwriting: [fee_rule, unit_credit_caps]
+    application: [deadlines, sponsor_eligibility]
+    program_page: [deadlines]
+    award_list: [award_table]

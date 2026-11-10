@@ -121,3 +121,58 @@ CREATE TABLE IF NOT EXISTS crawl_status (
     start_method    TEXT,            -- http | browser
     PRIMARY KEY (run_id, jurisdiction_id)
 );
+
+-- Every LLM request: prompt version, model, raw output, usage. Kept even when the output is rejected.
+CREATE TABLE IF NOT EXISTS llm_call (
+    call_id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id          TEXT,
+    snapshot_id     INTEGER NOT NULL REFERENCES snapshot(snapshot_id),
+    topic           TEXT NOT NULL,
+    prompt_version  TEXT NOT NULL,     -- topic@sha8 of (system prompt + topic prompt + schema)
+    model_requested TEXT NOT NULL,
+    model_served    TEXT,              -- differs if a refusal fallback answered
+    request_id      TEXT,
+    pages_sent      TEXT NOT NULL,     -- e.g. "all (84)" or "3,4,17,18"
+    stop_reason     TEXT,
+    input_tokens    INTEGER, output_tokens INTEGER,
+    cache_write_tokens INTEGER, cache_read_tokens INTEGER,
+    raw_output      TEXT,
+    error           TEXT,
+    created_at      TEXT NOT NULL
+);
+
+-- One row per extracted value. Only status='approved' (set by a named reviewer) may feed calculations.
+CREATE TABLE IF NOT EXISTS extraction (
+    extraction_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    call_id         INTEGER NOT NULL REFERENCES llm_call(call_id),
+    snapshot_id     INTEGER NOT NULL REFERENCES snapshot(snapshot_id),
+    source_id       TEXT NOT NULL,
+    topic           TEXT NOT NULL,
+    field           TEXT NOT NULL,     -- rule field, or 'award_row' for award tables
+    value           TEXT,
+    units           TEXT,
+    applies_to      TEXT,              -- 9% | 4% | both | unknown | other
+    page            INTEGER,
+    section         TEXT,
+    quote           TEXT,
+    confidence      TEXT,              -- model's own label: high | medium | low
+    notes           TEXT,
+    row_json        TEXT,              -- award rows: all columns as JSON
+    doc_status      TEXT,              -- draft | final | unknown, copied from the snapshot
+    quote_verified  INTEGER NOT NULL,  -- 1 if the quote was found verbatim on the cited page
+    value_in_quote  INTEGER NOT NULL,  -- 1 if every number in the value appears in the quote
+    status          TEXT NOT NULL,     -- pending_review | rejected_validation | approved | rejected_by_reviewer
+    validation_note TEXT,
+    reviewer        TEXT,
+    reviewed_at     TEXT,
+    reviewer_value  TEXT,              -- reviewer's corrected value, if any
+    review_note     TEXT,
+    created_at      TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ix_extraction ON extraction(source_id, topic, status);
+
+-- Fields the model reported as not stated in the document (useful evidence of absence, never a pass).
+CREATE TABLE IF NOT EXISTS extraction_not_found (
+    call_id INTEGER NOT NULL REFERENCES llm_call(call_id),
+    field   TEXT NOT NULL
+);
