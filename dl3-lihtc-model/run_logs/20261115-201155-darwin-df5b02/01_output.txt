@@ -1,0 +1,45 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python run_all.py --awards --extract
+
+~/Code/DL3-Project-1/.venv/lib/python3.15/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+    columns: project_name='Project Name', city='City', county='County', set_aside='Region', project_type='Population/Subpool', status='Funding Result', sponsor='Lead Developer', total_units='Total Units', annual_credit='Credits Reserved'
+OH_AWARDS_1 / Reservations: 25 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', total_units='Total Units', project_type='Population Served', status='Funding Result', annual_credit='Credits Reserved'
+OH_AWARDS_12 / Sheet2: 24 rows, 0 flagged
+OH_AWARDS_12 / Single Family: hidden sheet, not parsed
+OH_AWARDS_12 / Competitive Bond: hidden sheet, not parsed
+OH_AWARDS_12 / 2014 BGF (hide): hidden sheet, not parsed
+OH_AWARDS_12 / Sheet1: hidden sheet, not parsed
+    columns: project_name='Project Name', city='City', county='County', project_type='Population Served', sponsor='Lead Developer', address='Allocation Pool', status='Funding Result', annual_credit='Credits Reserved', total_units='Total Units'
+OH_AWARDS_16 / Sheet1: 30 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', project_type='Construction Type', total_units='Total Units', sponsor='Lead Developer', status='Funding Result'
+OH_AWARDS_18 / BGF Results: 22 rows, 22 flagged
+    columns: project_name='Project Name', address='Allocation Pool', status='Funding Result', city='City', county='County', project_type='Population Served', sponsor='Lead Developer', total_units='Total Units', annual_credit='Credits Reserved'
+OH_AWARDS_20 / Final Results - Full: 31 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', address='Allocation Pool', annual_credit='Housing Credits Reserved', project_type='Population', total_units='Total Units', sponsor='Developer'
+OH_AWARDS_24 / Results: 36 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', total_units='Total Units', project_type='Population Served', status='Funding Result', sponsor='Lead Developer', total_development_cost='Total Development Costs', annual_credit='Credits Reserved'
+OH_AWARDS_8 / Sheet2: 23 rows, 0 flagged
+OH_AWARDS_8 / Single Family: hidden sheet, not parsed
+OH_AWARDS_8 / Competitive Bond: hidden sheet, not parsed
+OH_AWARDS_8 / 2014 BGF (hide): hidden sheet, not parsed
+OH_AWARDS_8 / Sheet1: hidden sheet, not parsed
+MuPDF error: format error: No default Layer config
+
+MI_PROGRAM deadlines: 0 for review, 0 rejected by validation
+MI_PROGRAM credit_availability: 1 for review, 0 rejected by validation
+P3 deadlines: 0 for review, 0 rejected by validation
+P6 deadlines: 10 for review, 0 rejected by validation
+P7 deadlines: 1 for review, 0 rejected by validation
+P7 sponsor_eligibility: 0 for review, 0 rejected by validation
+P8 deadlines: 7 for review, 0 rejected by validation
+P8 credit_availability: 0 for review, 1 rejected by validation
+Run 4535945e: {'fetched': 71, 'new': 0, 'changed': 0, 'unchanged': 71, 'failed': 0, 'blocking': 0}
+Report: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/runs/20261115_4535945e/change_report.html
+Awards: 191 rows from 7 files (22 flagged, 0 errors). Rows to check: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/award_rows.csv
+  flagged   22 x no tax credit column on this sheet (not a credit award list)
+Extraction: 8 calls (83 reused), 19 findings for review, 1 rejected by validation, 0 errors (gemini gemini-3.5-flash-lite; tokens {'input_tokens': 20777, 'output_tokens': 3073, 'cache_read_tokens': 0})
+  rejected  147 x quote not found verbatim on page N -> quote not on any page (paraphrased or invented)
+  rejected   44 x quote not found verbatim on page N -> words are on the page in order with text between (table or columns)
+  rejected   27 x quote not found verbatim on page N -> quote is on a different page
+Review packet: python -m src.review.build_packet
