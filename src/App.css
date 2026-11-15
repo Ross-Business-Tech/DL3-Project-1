@@ -281,7 +281,7 @@
 }
 
 .segmented button[aria-pressed='true'] {
-  background: var(--navy);
+  background: linear-gradient(90deg, var(--teal), var(--teal-deep));
   color: #fff;
 }
 
