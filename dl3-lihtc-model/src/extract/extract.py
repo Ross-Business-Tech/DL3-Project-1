@@ -123,7 +123,7 @@ def validate(item: dict, value: str, page_text: dict[int, str]) -> tuple[bool, b
 def eligible_snapshots(conn, topics_by_type: dict, only: set[str] | None):
     rows = conn.execute(
         "SELECT s.*, src.doc_type, src.title, src.url AS source_url FROM snapshot s JOIN source src USING(source_id) "
-        "WHERE s.snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) ORDER BY s.source_id"
+        "WHERE s.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) ORDER BY s.source_id"
     ).fetchall()
     for r in rows:
         if only and r["source_id"] not in only:

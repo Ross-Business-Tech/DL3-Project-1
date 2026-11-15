@@ -57,7 +57,7 @@ def new_construction(project_type: str | None) -> str:
 def award_rows(conn):
     q = ("SELECT a.*, src.title, s.final_url, s.retrieved_at FROM award_row a JOIN snapshot s USING(snapshot_id) "
          "JOIN source src ON src.source_id=a.source_id WHERE a.snapshot_id IN "
-         "(SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) ORDER BY a.state, a.award_year, a.source_id, "
+         "(SELECT snapshot_id FROM current_snapshot) ORDER BY a.state, a.award_year, a.source_id, "
          "a.sheet_name, a.row_number")
     for r in conn.execute(q):
         notes = [f"sheet '{r['sheet_name']}' row {r['row_number']}"]
@@ -118,7 +118,7 @@ def rule_rows(conn, include_pending: bool = True):
     statuses = ("approved", "pending_review") if include_pending else ("approved",)
     q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM extraction e JOIN snapshot s "
          f"USING(snapshot_id) JOIN source src ON src.source_id=e.source_id WHERE e.field<>'award_row' AND e.status IN "
-         f"({','.join('?' * len(statuses))}) AND e.snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) "
+         f"({','.join('?' * len(statuses))}) AND e.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
          f"ORDER BY src.state, e.source_id, e.topic, e.field, e.page")
     for r in conn.execute(q, statuses):
         approved = r["status"] == "approved"
@@ -134,7 +134,7 @@ def rule_rows(conn, include_pending: bool = True):
 
 
 def source_rows(conn, limit_days: int):
-    for s in conn.execute("SELECT * FROM source ORDER BY source_id"):
+    for s in conn.execute("SELECT * FROM source WHERE COALESCE(retired, 0) = 0 ORDER BY source_id"):
         if ":" in s["source_id"]:
             continue  # documents discovered under a landing page are listed with their parent in the database
         snap = archive.latest_snapshot(conn, s["source_id"])

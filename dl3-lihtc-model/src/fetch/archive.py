@@ -43,6 +43,7 @@ MIGRATIONS = [
     ("snapshot", "retrieval_method", "TEXT"),
     ("award_row", "total_development_cost", "REAL"), ("award_row", "cost_per_unit", "REAL"),
     ("snapshot", "retrieved_by", "TEXT"), ("snapshot", "import_note", "TEXT"),
+    ("source", "retired", "INTEGER"),
     ("crawl_status", "start_error", "TEXT"), ("crawl_status", "moved_to", "TEXT"),
     ("crawl_status", "start_method", "TEXT"),
 ]
@@ -53,6 +54,13 @@ def migrate(conn: sqlite3.Connection) -> None:
         cols = {r[1] for r in conn.execute(f"PRAGMA table_info({table})")}
         if cols and col not in cols:
             conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {ddl}")
+    # The current content of every source still in the register: its latest snapshot whose content changed
+    # (re-fetching an identical file adds a duplicate snapshot but leaves parsed and extracted results in place).
+    # Retired sources keep their history but drop out of extraction, award parsing, exports and coverage.
+    conn.execute("DROP VIEW IF EXISTS current_snapshot")
+    conn.execute("CREATE VIEW current_snapshot AS SELECT MAX(s.snapshot_id) AS snapshot_id, s.source_id "
+                 "FROM snapshot s JOIN source src USING(source_id) WHERE COALESCE(src.retired, 0) = 0 "
+                 "AND s.is_duplicate = 0 GROUP BY s.source_id")
     conn.commit()
 
 
@@ -104,12 +112,22 @@ def upsert_source(conn: sqlite3.Connection, row: dict) -> None:
            ON CONFLICT(source_id) DO UPDATE SET jurisdiction=excluded.jurisdiction, state=excluded.state,
              doc_type=excluded.doc_type, title=excluded.title, url=excluded.url,
              status=excluded.status, critical=excluded.critical, notes=excluded.notes,
-             plan_year=excluded.plan_year, adoption_date=excluded.adoption_date,
+             retired=0, plan_year=excluded.plan_year, adoption_date=excluded.adoption_date,
              effective_dates=excluded.effective_dates, amendment_date=excluded.amendment_date,
              superseded_by=excluded.superseded_by""",
         row,
     )
     conn.commit()
+
+
+def retire_missing(conn, register_ids: set[str]) -> list[str]:
+    """Mark sources no longer in the register as retired (history kept). Documents discovered under a
+    landing page (ids with ':') follow their parent. Returns the ids newly retired."""
+    gone = [r[0] for r in conn.execute("SELECT source_id FROM source WHERE COALESCE(retired, 0) = 0")
+            if r[0].split(":")[0] not in register_ids]
+    conn.executemany("UPDATE source SET retired = 1 WHERE source_id = ?", [(g,) for g in gone])
+    conn.commit()
+    return gone
 
 
 def latest_snapshot(conn: sqlite3.Connection, source_id: str, before_id: int | None = None):

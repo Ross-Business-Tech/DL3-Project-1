@@ -17,7 +17,7 @@ def rows(conn, statuses=("approved", "pending_review")):
     q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM extraction e "
          f"JOIN snapshot s USING(snapshot_id) JOIN source src ON src.source_id=e.source_id "
          f"WHERE e.field='award_row' AND e.status IN ({','.join('?' * len(statuses))}) "
-         f"AND e.snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) "
+         f"AND e.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
          f"ORDER BY src.state, e.source_id, e.page, e.extraction_id")
     for e in conn.execute(q, statuses):
         d = json.loads(e["row_json"] or "{}")

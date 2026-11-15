@@ -80,6 +80,7 @@ class RunSummary:
     failed: int = 0
     discovered: int = 0
     manual: int = 0
+    retired: list = field(default_factory=list)
     details: list = field(default_factory=list)
 
 
@@ -451,6 +452,8 @@ def run(register: list[dict], settings: dict, db_path: Path, archive_root: Path,
                                           FIELDS})
                     _fetch_one(conn, fetcher, archive_root, child, url, src["source_id"], summary, run_id)
                 conn.commit()
+    if only is None:  # a full run: anything no longer in the register is retired
+        summary.retired = archive.retire_missing(conn, {r["source_id"] for r in register})
     conn.close()
     if own_fetcher:
         fetcher.close()

@@ -22,6 +22,8 @@ def test_award_export_has_latest_snapshot_only(tmp_path):
     pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
     rows = list(csv.DictReader(open(pa.export(tmp_path / "t.db", tmp_path / "out"))))
     assert len(rows) == 1
+    conn = archive.connect(tmp_path / "t.db")
+    assert conn.execute("SELECT COUNT(*) FROM award_sheet").fetchone()[0] == 1   # identical file not re-parsed
 
 
 def test_unconfirmed_ohio_header_flagged_confirmed_header_annual(tmp_path):
@@ -158,3 +160,33 @@ def test_years_in_underscored_file_names():
     assert pa.year_in("mshda_li_sr_2025_apr1_lihtc_res.pdf") == 2025
     assert plan_years("mshda_li_qap_2026_2027_qap_final.pdf") == [2026, 2027]
     assert years_in("res_2024.pdf") == [2024] and years_in("form 120245") == []
+
+
+def test_sources_dropped_from_register_are_retired_everywhere(tmp_path):
+    site = Site()
+    try:
+        site.routes["/a.xlsx"] = (200, pa.XLSX, xlsx(OHIO))
+        site.routes["/b.xlsx"] = (200, pa.XLSX, xlsx({"2024 9%": [["Project Name", "Sponsor", "Annual Credit"], ["Old", "X", 5]]}))
+        def register(*ids):
+            return [{"source_id": i, "jurisdiction": "OHFA", "state": "OH", "doc_type": "award_list", "title": f"2025 9% {i}",
+                     "url": site.base + ("/a.xlsx" if i == "OH_AWARDS_1" else "/b.xlsx"), "status": "unknown",
+                     "critical": 0, "notes": ""} for i in ids]
+        settings = {"fetch": {**SETTINGS["fetch"], "allowed_content_types": [pa.XLSX]}}
+        f = fetch.Fetcher(settings, {"127.0.0.1"}, sleep=lambda s: None)
+        fetch.run(register("OH_AWARDS_1", "OH_AWARDS_2"), settings, tmp_path / "t.db", tmp_path / "a", fetcher=f)
+        pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
+        s = fetch.run(register("OH_AWARDS_1"), settings, tmp_path / "t.db", tmp_path / "a", fetcher=f)  # B dropped
+        assert s.retired == ["OH_AWARDS_2"]
+        partial = fetch.run(register("OH_AWARDS_1"), settings, tmp_path / "t.db", tmp_path / "a", fetcher=f, only={"OH_AWARDS_1"})
+        assert partial.retired == []
+    finally:
+        site.srv.shutdown()
+    conn = archive.connect(tmp_path / "t.db")
+    assert conn.execute("SELECT COUNT(*) FROM snapshot WHERE source_id='OH_AWARDS_2'").fetchone()[0] == 1  # history kept
+    rows = list(csv.DictReader(open(pa.export(tmp_path / "t.db", tmp_path / "out"))))
+    assert {r["source_id"] for r in rows} == {"OH_AWARDS_1"}
+    m = export_web.export(tmp_path / "t.db", tmp_path / "web", fetch.load_settings(), reference_dir=tmp_path / "x")
+    assert m["counts"]["sources"] == 1 and "Old" not in (tmp_path / "web" / "awards.csv").read_text()
+    archive.upsert_source(conn, {"source_id": "OH_AWARDS_2", "jurisdiction": "OHFA", "state": "OH", "doc_type": "award_list",
+                                 "title": "back", "url": "https://x", "status": "unknown", "critical": 0, "notes": ""})
+    assert conn.execute("SELECT retired FROM source WHERE source_id='OH_AWARDS_2'").fetchone()[0] == 0  # re-added: active

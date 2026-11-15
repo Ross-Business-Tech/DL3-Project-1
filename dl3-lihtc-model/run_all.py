@@ -108,7 +108,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
     (out_dir / "change_report.json").write_text(json.dumps(ctx, indent=2, default=str), encoding="utf-8")
     manifest = {"run_id": run_id, "started_at": started, "code_version": code_version(),
                 "register": str(register_path or "config/source_register.csv"),
-                "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path, "top_msas": msa_summary,
+                "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path, "top_msas": msa_summary, "retired_sources": summary.retired,
                 "extraction": extraction, "awards": award_summary,
                 "sources": summary.details,
                 "snapshots": [dict(r) for r in conn.execute(
@@ -140,6 +140,8 @@ def main(argv=None) -> int:
                        extract=a.extract, awards=a.awards)
     m = json.loads((out / "run_manifest.json").read_text())
     print(f"Run {m['run_id']}: {m['counts']}\nReport: {out / 'change_report.html'}")
+    if m.get("retired_sources"):
+        print(f"Retired (no longer in the register, history kept): {', '.join(m['retired_sources'])}")
     if m.get("top_msas"):
         t = m["top_msas"]
         print("Top MSAs: " + (f"ERROR {t['error']}" if "error" in t else

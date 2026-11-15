@@ -271,7 +271,7 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_
 def award_snapshots(conn, only: set[str] | None):
     for r in conn.execute(
             "SELECT s.*, src.doc_type, src.title, src.state FROM snapshot s JOIN source src USING(source_id) "
-            "WHERE s.snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) ORDER BY s.source_id"):
+            "WHERE s.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) ORDER BY s.source_id"):
         if only and r["source_id"] not in only:
             continue
         if r["doc_type"].startswith("award_list") and (r["content_type"] or "") in SHEET_TYPES:
@@ -360,7 +360,7 @@ def export(db_path: Path, out_dir: Path) -> Path:
         w.writeheader()
         for r in conn.execute("SELECT a.*, s.final_url AS source_url, s.retrieved_at, s.sha256 FROM award_row a "
                               "JOIN snapshot s USING(snapshot_id) WHERE a.snapshot_id IN "
-                              "(SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) "
+                              "(SELECT snapshot_id FROM current_snapshot) "
                               "ORDER BY a.source_id, a.sheet_name, a.row_number"):
             w.writerow({c: r[c] for c in EXPORT_COLS})
     conn.close()

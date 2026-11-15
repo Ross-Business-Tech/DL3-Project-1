@@ -38,7 +38,7 @@ def per_unit(row) -> tuple[float, str] | None:
 def summarize(conn) -> list[dict]:
     groups: dict = {}
     for r in conn.execute(
-            "SELECT * FROM award_row WHERE snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id)"):
+            "SELECT * FROM award_row WHERE snapshot_id IN (SELECT snapshot_id FROM current_snapshot)"):
         key = (r["state"] or "UNKNOWN", r["credit_type"] if r["credit_type"] != "unknown" else "UNKNOWN",
                r["award_year"] if r["award_year"] is not None else "UNKNOWN")
         g = groups.setdefault(key, {"n": 0, "costs": [], "units": [], "basis": set(), "sources": set()})

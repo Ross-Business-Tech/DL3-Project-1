@@ -32,7 +32,7 @@ def build_context(conn, archive_root: Path, run_id: str, freshness_days: int) ->
                 changes.append(d)
     failures = [dict(r) for r in conn.execute("SELECT * FROM fetch_failure WHERE run_id=?", (run_id,))]
     fresh = []
-    for r in conn.execute("SELECT source_id, critical FROM source ORDER BY source_id"):
+    for r in conn.execute("SELECT source_id, critical FROM source WHERE COALESCE(retired, 0) = 0 ORDER BY source_id"):
         f = archive.freshness(conn, r["source_id"], bool(r["critical"]), freshness_days)
         f["critical"] = r["critical"]
         fresh.append(f)

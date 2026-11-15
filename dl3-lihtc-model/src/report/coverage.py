@@ -25,7 +25,7 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
     limit = settings["freshness_days"]
     like = jid + r"\_%"
     sources = [dict(r) for r in conn.execute(
-        "SELECT * FROM source WHERE source_id LIKE ? ESCAPE '\\' ORDER BY source_id", (like,))]
+        "SELECT * FROM source WHERE source_id LIKE ? ESCAPE '\\' AND COALESCE(retired, 0) = 0 ORDER BY source_id", (like,))]
     items, missing = [], []
 
     def item(name, value, ok, detail=""):
@@ -79,7 +79,7 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
     by_year = {}
     for r in conn.execute(
             "SELECT award_year, credit_type, COUNT(*) n, SUM(flags IS NOT NULL) f FROM award_row WHERE source_id LIKE ? "
-            "ESCAPE '\\' AND snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) "
+            "ESCAPE '\\' AND snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
             "GROUP BY award_year, credit_type", (like,)):
         by_year.setdefault(r["award_year"], []).append(f"{r['n']} {r['credit_type']}" + (f" ({r['f']} flagged)" if r["f"] else ""))
     from ..awards import pdf_rows
@@ -102,8 +102,7 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
              "year not printed on the row, title or file name")
     cost_n = conn.execute(
         "SELECT COUNT(*) FROM award_row WHERE source_id LIKE ? ESCAPE '\\' AND (cost_per_unit>0 OR "
-        "(total_development_cost>0 AND total_units>0)) AND snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot "
-        "GROUP BY source_id)", (like,)).fetchone()[0]
+        "(total_development_cost>0 AND total_units>0)) AND snapshot_id IN (SELECT snapshot_id FROM current_snapshot)", (like,)).fetchone()[0]
     item("award rows with total development cost", cost_n, cost_n > 0,
          "no cost data in award lists: use the QAP cost limits or application lists")
     if None in by_year:
