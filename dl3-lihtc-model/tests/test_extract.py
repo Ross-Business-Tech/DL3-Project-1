@@ -386,10 +386,11 @@ def test_run_all_with_extract(env, monkeypatch):
 
 def test_new_prompts_load_and_are_routed():
     cfg = fetch.load_settings()["llm"]["topics_by_doc_type"]
-    for t in ("scoring_criteria", "credit_availability", "news_items"):
+    assert "cost_limits" in cfg["qap_doc"] and cfg["bond_cap_report"] == ["bond_volume_cap"]
+    for t in ("scoring_criteria", "credit_availability", "news_items", "cost_limits", "bond_volume_cap"):
         b = extract.prompt_bundle(t)
         assert b["schema"]["properties"]["findings"]["items"]["properties"]["field"]["enum"]
-    assert "scoring_criteria" in cfg["qap_doc"] and cfg["bond_page"] == ["credit_availability"]
+    assert "scoring_criteria" in cfg["qap_doc"] and cfg["bond_page"] == ["credit_availability", "bond_volume_cap"]
     assert cfg["news_page"] == ["news_items"]
     from src.extract import locate
     assert {"scoring_criteria", "credit_availability", "news_items"} <= set(locate.load_topics())
@@ -413,12 +414,13 @@ def test_promote_full_award_history_and_pages(tmp_path):
     inv = tmp_path / "inv.csv"
     cols = ["jurisdiction_id", "state", "allocating_agency", "qap_document_urls", "qap_current_nondraft_url",
             "qap_current_nondraft_years", "plan_years", "underwriting_manual_url", "award_list_urls",
-            "lihtc_program_url", "application_round_url", "bond_program_url", "news_page_url"]
+            "lihtc_program_url", "application_round_url", "bond_program_url", "news_page_url", "volume_cap_urls"]
     with open(inv, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)
         w.writeheader()
         w.writerow({**{c: "" for c in cols}, "jurisdiction_id": "MI", "state": "MI", "allocating_agency": "MSHDA",
                     "bond_program_url": "https://m/bonds", "news_page_url": "https://m/news",
+                    "volume_cap_urls": "https://m/cap-2025.pdf; https://m/bonds",
                     "lihtc_program_url": "https://m/lihtc.pdf", "award_list_urls": "https://m/awards-2026.xlsx"})
     reg = tmp_path / "reg.csv"
     reg.write_text(open(fetch.ROOT / "config" / "source_register.csv").read())
@@ -428,6 +430,7 @@ def test_promote_full_award_history_and_pages(tmp_path):
         by_type.setdefault(r["doc_type"], []).append(r["url"])
     assert by_type["bond_page"] == ["https://m/bonds"] and by_type["news_page"] == ["https://m/news"]
     assert "program_page" not in by_type  # a PDF is not a landing page
+    assert by_type["bond_cap_report"] == ["https://m/cap-2025.pdf"]  # the bond page is not added twice
     awards = by_type["award_list"]
     assert awards[0] == "https://m/awards-2026.xlsx" and "https://m/awards-2021.xlsx" in awards
     assert "https://m/awards-2019.xlsx" not in awards and "https://youtu.be/x" not in awards

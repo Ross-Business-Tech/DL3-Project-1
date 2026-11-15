@@ -50,6 +50,7 @@ COLUMNS = [
     ("award_years_available", "Years named on award lists found"),
     ("application_round_url", "Current application / funding round page"),
     ("bond_program_url", "Multifamily bond / 4% program page"),
+    ("volume_cap_urls", "Bond volume cap pages or reports found on the agency site (often held by another agency)"),
     ("news_page_url", "Agency news / press release page"),
     ("next_round_deadline", "Next round deadline"),
     ("stated_fee_cap", "Light screen: stated developer fee cap"),
@@ -301,6 +302,10 @@ def build_rows(jurisdictions, hud_rows, status, cands, overrides, rules=None, ma
             evidence.append(f"award_list_urls <- {awards[0]['found_on_url']}")
         put("application_round_url", _best(cs, "application"))
         put("bond_program_url", _best(cs, "bond_program"))
+        vcs = sorted([c for c in cs if c["category"] == "volume_cap"], key=_rank)[:3]
+        if vcs:
+            r["volume_cap_urls"] = "; ".join(c["url"] for c in vcs)
+            evidence.append(f"volume_cap_urls <- {vcs[0]['found_on_url']}")
         put("news_page_url", _best(cs, "news", "page", onsite_only=True))
         r["next_round_deadline"] = NEEDS
         r["stated_fee_cap"] = NEEDS

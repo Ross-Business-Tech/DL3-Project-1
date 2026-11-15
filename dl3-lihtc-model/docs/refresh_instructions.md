@@ -26,10 +26,14 @@ python -m src.review.build_packet             # spreadsheet of new findings to r
 python -m src.review.import_review            # after the reviewer saves it into review/returned/
 python -m src.awards.parse_awards --export    # award rows to check against the originals
 python -m src.report.coverage MI OH NYC       # what is collected and what is missing
+python -m src.awards.costs                    # median cost per unit by state, pathway and year
 python -m src.report.export_web               # files for the website -> data/web/ (see docs/web_integration.md)
 ```
 Each run writes `outputs/runs/<date>_<id>/change_report.html`: changed source text, failed retrievals and
 source freshness. Unchanged documents are not sent to the LLM again.
+
+Each December, when the Census Bureau releases a new ACS 5-year estimate, raise the year in the `CENSUS_MSA`
+URL in `config/source_register.csv` and re-run `python run_all.py --only CENSUS_MSA`.
 
 ## When something fails
 - **Failed retrieval**: it is retried, the last good copy is kept, and it appears in the change report and in

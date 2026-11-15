@@ -66,6 +66,15 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
                     hud_rows = len(rows)
                     break
 
+    msa_summary = None
+    cm = archive.latest_snapshot(conn, "CENSUS_MSA")
+    if cm and cm["run_id"] == run_id and not cm["is_duplicate"]:
+        from src.reference import msa
+        try:
+            msa_summary = msa.build(db_path=db_path, archive_root=archive_root)
+        except ValueError as e:  # layout changed: report it, keep the previous reference files
+            msa_summary = {"error": str(e)}
+
     inventory_path = None
     if inventory:
         from src.inventory import build, crawl
@@ -96,7 +105,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
     (out_dir / "change_report.json").write_text(json.dumps(ctx, indent=2, default=str), encoding="utf-8")
     manifest = {"run_id": run_id, "started_at": started, "code_version": code_version(),
                 "register": str(register_path or "config/source_register.csv"),
-                "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path,
+                "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path, "top_msas": msa_summary,
                 "extraction": extraction, "awards": award_summary,
                 "sources": summary.details,
                 "snapshots": [dict(r) for r in conn.execute(
@@ -128,6 +137,10 @@ def main(argv=None) -> int:
                        extract=a.extract, awards=a.awards)
     m = json.loads((out / "run_manifest.json").read_text())
     print(f"Run {m['run_id']}: {m['counts']}\nReport: {out / 'change_report.html'}")
+    if m.get("top_msas"):
+        t = m["top_msas"]
+        print("Top MSAs: " + (f"ERROR {t['error']}" if "error" in t else
+                              f"{t['top_n']} metros, {t['states_in']} states and territories, {t['vintage']}, cutoff {t['cutoff']}"))
     if m.get("awards"):
         w = m["awards"]
         print(f"Awards: {w['rows']} rows from {w['files']} files ({w['flagged']} flagged, {len(w['errors'])} errors). "

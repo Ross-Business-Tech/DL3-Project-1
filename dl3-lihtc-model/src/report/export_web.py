@@ -7,6 +7,8 @@ Files:
 - awards.csv   one row per award line, in the column layout the site's ranking page already uses
                (src/ranking/data/awards.csv on the website branch)
 - rules.csv    extracted QAP rule values with page, quote, source and review state
+- cost_per_unit.csv  median total development cost per unit by state, pathway and year, from award lists
+- top_msas.csv, states_in_top_msas.csv  Census top-100 metro areas (urban screen input)
 - sources.csv  every source: last retrieved, hash, draft/final, freshness
 - manifest.json  when it was made, from which code version, and row counts
 
@@ -142,13 +144,21 @@ def code_version() -> str:
         return "unknown"
 
 
-def export(db_path: Path, out_dir: Path, settings: dict | None = None) -> dict:
+def export(db_path: Path, out_dir: Path, settings: dict | None = None, reference_dir: Path | None = None) -> dict:
     settings = settings or fetch.load_settings()
     conn = archive.connect(db_path)
     out_dir.mkdir(parents=True, exist_ok=True)
     counts = {"awards": _write(out_dir / "awards.csv", AWARD_COLS, award_rows(conn)),
               "rules": _write(out_dir / "rules.csv", RULE_COLS, rule_rows(conn)),
               "sources": _write(out_dir / "sources.csv", SOURCE_COLS, source_rows(conn, settings["freshness_days"]))}
+    from ..awards import costs
+    cost_rows = costs.summarize(conn)
+    counts["cost_per_unit"] = _write(out_dir / "cost_per_unit.csv", costs.COLS, cost_rows)
+    for name in ("top_msas.csv", "states_in_top_msas.csv"):  # Census urban screen inputs, if built
+        src = (reference_dir or ROOT / "data" / "reference") / name
+        if src.exists():
+            (out_dir / name).write_bytes(src.read_bytes())
+            counts[name.removesuffix(".csv")] = max(len(src.read_text(encoding="utf-8").splitlines()) - 1, 0)
     approved = conn.execute("SELECT COUNT(*) FROM extraction WHERE status='approved' AND field<>'award_row'").fetchone()[0]
     conn.close()
     manifest = {"generated_at": archive.utcnow().isoformat(), "code_version": code_version(), "counts": counts,

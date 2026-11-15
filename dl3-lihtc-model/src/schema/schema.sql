@@ -210,6 +210,8 @@ CREATE TABLE IF NOT EXISTS award_row (
     total_units INTEGER, restricted_units INTEGER,
     annual_credit REAL, ten_year_credit REAL, equity REAL, credit_requested REAL,
     credit_unlabeled REAL,           -- a "credit"/"award" column that does not say annual or ten-year
+    total_development_cost REAL,     -- as printed in the file
+    cost_per_unit REAL,              -- only if the file has its own per-unit column; never computed here
     credit_type   TEXT,              -- 9% | 4% | unknown
     credit_type_basis TEXT,          -- column | section | sheet name | file title | none
     award_year    INTEGER,

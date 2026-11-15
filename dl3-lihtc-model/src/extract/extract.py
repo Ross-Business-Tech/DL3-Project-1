@@ -50,7 +50,7 @@ def schema_for(topic: str, meta: dict) -> dict:
     s = lambda: {"type": "string"}  # noqa: E731
     if meta.get("kind") == "table":
         cols = ["project_name", "sponsor", "address", "city", "county", "total_units", "restricted_units",
-                "annual_credit_amount", "award_round_or_date", "set_aside", "status", "section", "quote", "notes"]
+                "annual_credit_amount", "total_development_cost", "award_round_or_date", "set_aside", "status", "section", "quote", "notes"]
         props = {c: s() for c in cols}
         props["credit_type"] = {"type": "string", "enum": ["9%", "4%", "other", "unknown"]}
         props["page"] = {"type": "integer"}

@@ -11,6 +11,8 @@ fields:
   zip: ['zip', 'postal']
   total_units: ['total\s*(#\s*)?(of\s*)?units', '^(#\s*)?(of\s*)?units$', 'unit count', 'number of units', 'all units']
   restricted_units: ['(lihtc|li|low[- ]income|affordable|restricted|tax credit|htc|rent[- ]restricted)\s*units', 'units.*(lihtc|affordable|restricted)']
+  cost_per_unit: ['(cost|tdc)\s*(per|/)\s*(unit|du)', 'per[- ]unit\s*(cost|tdc)']
+  total_development_cost: ['total\s*(development|project|dev\.?)\s*costs?', '\btdc\b', '^total\s*costs?$', 'development\s*cost']
   # Credit amounts. Annual, ten-year and equity are never merged; an unlabeled "credit" column is kept apart.
   credit_requested: ['request']
   ten_year_credit: ['(10|ten)[- ]?(yr|year)', 'total\s*(tax\s*)?credits?\s*(over|for)', 'credit.*(10|ten)']
@@ -25,7 +27,7 @@ fields:
   award_year: ['^year$', 'award\s*year', 'allocation\s*year', 'round', 'cycle', 'funding year']
   award_date: ['award\s*date', 'reservation\s*date', 'board\s*date', 'date\s*(of\s*)?(award|reservation|approval)', '^date$']
 # Headers matching these are never mapped (kept in raw_json only), e.g. "Developer Fee" is not the developer.
-ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'cost', 'loan', 'home funds', 'htf']
+ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'hard\s*cost', 'construction\s*cost', 'loan', 'home funds', 'htf']
 # A header row must contain project_name (or application_number + sponsor) and at least this many mapped columns.
 min_mapped_columns: 3
 header_search_rows: 40

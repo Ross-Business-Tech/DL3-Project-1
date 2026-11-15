@@ -56,6 +56,10 @@ def promoted_rows(inv: dict, today: str, awards: list[dict] | None = None) -> li
         if u and file_format(u) is None:  # pages only; a linked file is not a landing page
             out.append({**base, "source_id": f"{jid}_{sid}", "doc_type": doc_type, "url": u,
                         "title": f"{jid} {label}", "status": "unknown", "critical": critical})
+    for i, u in enumerate([x.strip() for x in (inv.get("volume_cap_urls") or "").split(";") if x.strip()], 1):
+        if u not in {r["url"] for r in out}:
+            out.append({**base, "source_id": f"{jid}_BONDCAP_{i}", "doc_type": "bond_cap_report", "url": u,
+                        "title": f"{jid} bond volume cap {i}", "status": "unknown", "critical": "false"})
     seen = {r["url"] for r in out}
     for i, a in enumerate([a for a in awards if a["url"] not in seen], 1):
         out.append({**base, "source_id": f"{jid}_AWARDS_{i}", "doc_type": "award_list", "url": a["url"],

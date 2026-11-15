@@ -43,6 +43,7 @@ EXT_TYPES = {
     ".csv": "text/csv",
     ".html": "text/html",
     ".htm": "text/html",
+    ".json": "application/json",
 }
 
 
@@ -65,6 +66,8 @@ def detect_type(path: Path, data: bytes) -> str:
     low = head.lower()
     if low.startswith(b"<!doctype html") or low.startswith(b"<html") or b"<html" in low:
         return "text/html"
+    if ext == ".json" and low[:1] in (b"[", b"{"):
+        return "application/json"
     if ext == ".csv":
         try:
             data[:4096].decode("utf-8")

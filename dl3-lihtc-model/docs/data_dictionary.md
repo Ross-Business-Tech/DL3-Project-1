@@ -55,6 +55,8 @@ Topics and fields:
 - `sponsor_eligibility`: experience_requirement, capacity_requirement, new_developer_path, joint_venture_rule, disqualification_rule, other_eligibility
 - `scoring_criteria`: scoring_criterion, threshold_requirement, tiebreaker, local_support_requirement, minimum_score, other_selection_rule
 - `credit_availability`: annual_credit_ceiling, credits_available_this_round, bond_volume_cap, bond_issuer, four_percent_process, four_percent_limit, other_availability
+- `cost_limits`: tdc_per_unit_limit, cost_limit_basis, cost_limit_by_type, hard_cost_limit, cost_limit_exception, other_cost_limit
+- `bond_volume_cap`: volume_cap_total, volume_cap_for_housing, volume_cap_allocated, volume_cap_requested, volume_cap_remaining, carryforward, oversubscription_statement, allocation_method, other_volume_cap
 - `news_items`: award_announcement, construction_start_or_closing, project_completion, program_change, other_news
 - `award_table`: field `award_row`
 
@@ -72,6 +74,14 @@ field), `unmapped`, `rows_parsed`, `rows_flagged`, `note`.
 
 **Inventory tables**: `crawl_page`, `inventory_candidate`, `crawl_status` feed
 `data/inventory/state_inventory.xlsx`. They are candidates for the 50-state inventory, not inputs to scoring.
+
+## Inputs for the DL3 guidance of 2026-11-15 (see decisions_log.md)
+
+| Guidance | Collected in | Notes |
+|---|---|---|
+| Top-100 MSA urban screen | `data/reference/top_msas.csv`, `data/reference/states_in_top_msas.csv` (built from source `CENSUS_MSA`) | `in_top_msa` per state, every top-100 metro it touches, the cutoff population, vintage, URL and hash. |
+| Cost per unit for a 100-unit deal | `award_row.total_development_cost` / `cost_per_unit`; summary `python -m src.awards.costs` -> `outputs/awards/cost_per_unit.csv`; QAP limits in extraction topic `cost_limits` | Median of actual projects by state, pathway and year; `UNKNOWN` where no file states cost. |
+| 4% volume cap usage | extraction topic `bond_volume_cap` | Each figure carries its year in notes. Volume cap is often administered by a different agency than the HFA (for example CDLAC in California, the Bond Review Board in Texas): add those agencies' reports to the register or import them manually. |
 
 ## Not collected
 

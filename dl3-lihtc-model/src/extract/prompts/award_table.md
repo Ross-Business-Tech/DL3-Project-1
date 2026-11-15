@@ -7,6 +7,7 @@ For each row give the values as printed; use an empty string for a column the ta
 - `quote`: the row's text copied exactly from the page (enough to identify the row, including the credit amount).
 - `annual_credit_amount`: the annual credit amount as printed. If the table shows only a ten-year total or
   equity amount, leave this empty and put that figure and its label in notes.
+- `total_development_cost`: the project's total development cost as printed, if the table has that column.
 - `credit_type`: "9%", "4%", "other", or "unknown" if the table does not say.
 - `status`: what the table says happened (reserved, awarded, carryover, waitlisted, withdrawn ...) as printed.
 Do not add rows that are not in the document, and do not total anything.

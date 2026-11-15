@@ -28,11 +28,13 @@ import yaml
 from ..fetch import archive
 
 ROOT = Path(__file__).resolve().parents[2]
-PARSER_VERSION = "awards-1"
+PARSER_VERSION = "awards-2"  # 2: total development cost and cost per unit columns
 XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 XLS = "application/vnd.ms-excel"
 SHEET_TYPES = {XLSX, XLS, "text/csv"}
-MONEY_FIELDS = ("annual_credit", "ten_year_credit", "equity", "credit_requested", "credit_unlabeled")
+CREDIT_FIELDS = ("annual_credit", "ten_year_credit", "equity", "credit_requested", "credit_unlabeled")
+COST_FIELDS = ("total_development_cost", "cost_per_unit")
+MONEY_FIELDS = CREDIT_FIELDS + COST_FIELDS
 INT_FIELDS = ("total_units", "restricted_units")
 TEXT_FIELDS = ("application_number", "project_name", "sponsor", "address", "city", "county", "zip", "award_date",
                "set_aside", "project_type", "status", "score")
@@ -240,7 +242,7 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str) -> di
 
         if rec["credit_unlabeled"] is not None and rec["annual_credit"] is None:
             flags.append("credit column does not say annual or ten-year: needs verification")
-        if all(rec[f] is None for f in MONEY_FIELDS):
+        if all(rec[f] is None for f in CREDIT_FIELDS):
             flags.append("no credit amount on this row")
         if rec["total_units"] is not None and rec["restricted_units"] is not None \
                 and rec["restricted_units"] > rec["total_units"]:
@@ -275,12 +277,12 @@ def store(conn, snap, parsed: dict, note: str | None) -> tuple[int, int]:
     sid = cur.lastrowid
     cols = ["application_number", "project_name", "sponsor", "address", "city", "county", "zip", "total_units",
             "restricted_units", "annual_credit", "ten_year_credit", "equity", "credit_requested", "credit_unlabeled",
-            "credit_type", "credit_type_basis", "award_year", "award_year_basis", "award_date", "set_aside",
+            "total_development_cost", "cost_per_unit", "credit_type", "credit_type_basis", "award_year", "award_year_basis", "award_date", "set_aside",
             "project_type", "status", "score"]
     for r in parsed["rows"]:
         conn.execute(
             f"INSERT INTO award_row (sheet_id, snapshot_id, source_id, state, sheet_name, row_number, section, "
-            f"{', '.join(cols)}, raw_json, flags, doc_status) VALUES ({','.join('?' * (len(cols) + 10))})",
+            f"{', '.join(cols)}, raw_json, flags, doc_status) VALUES ({','.join('?' * (len(cols) + 10))})",  # 7 + cols + 3
             (sid, snap["snapshot_id"], snap["source_id"], snap["state"], parsed["sheet_name"], r["row_number"],
              r["section"] or None, *[r[c] for c in cols], json.dumps(r["raw"], sort_keys=True),
              "; ".join(r["flags"]) or None, snap["doc_status"]))
@@ -324,7 +326,7 @@ def run(db_path: Path, archive_root: Path, only: set[str] | None = None, force: 
 
 EXPORT_COLS = ["source_id", "state", "award_year", "award_year_basis", "credit_type", "credit_type_basis", "project_name",
                "sponsor", "city", "county", "total_units", "restricted_units", "annual_credit", "ten_year_credit",
-               "equity", "credit_requested", "credit_unlabeled", "set_aside", "status", "section", "sheet_name",
+               "equity", "credit_requested", "credit_unlabeled", "total_development_cost", "cost_per_unit", "set_aside", "status", "section", "sheet_name",
                "row_number", "flags", "doc_status", "source_url", "retrieved_at", "sha256"]
 
 

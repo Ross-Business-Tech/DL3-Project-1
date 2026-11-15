@@ -15,7 +15,7 @@ from pathlib import Path
 from ..fetch import archive, fetch
 
 ROOT = Path(__file__).resolve().parents[2]
-RULE_TOPICS = ["fee_rule", "unit_credit_caps", "set_asides", "deadlines", "sponsor_eligibility",
+RULE_TOPICS = ["fee_rule", "unit_credit_caps", "cost_limits", "bond_volume_cap", "set_asides", "deadlines", "sponsor_eligibility",
                "scoring_criteria", "credit_availability"]
 QAP_TYPES = ("qap", "qap_doc", "qap_page_doc")
 
@@ -90,6 +90,12 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
         got = by_year.get(y, [])
         item(f"awards {y}", "; ".join(got) or "0 rows", bool(got),
              "no spreadsheet rows for this year" + (f" ({pdf_rows['from PDF']} PDF rows not yet assigned a year)" if pdf_rows else ""))
+    cost_n = conn.execute(
+        "SELECT COUNT(*) FROM award_row WHERE source_id LIKE ? ESCAPE '\\' AND (cost_per_unit>0 OR "
+        "(total_development_cost>0 AND total_units>0)) AND snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot "
+        "GROUP BY source_id)", (like,)).fetchone()[0]
+    item("award rows with total development cost", cost_n, cost_n > 0,
+         "no cost data in award lists: use the QAP cost limits or application lists")
     if None in by_year:
         item("award rows with no year", "; ".join(by_year[None]), False, "year not stated in the file: check and fix the source title")
     no_table = conn.execute("SELECT COUNT(*) FROM award_sheet WHERE header_row IS NULL AND source_id LIKE ? ESCAPE '\\'",

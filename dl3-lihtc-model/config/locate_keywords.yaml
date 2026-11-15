@@ -47,3 +47,14 @@ topics:
     - 'groundbreaking'
     - 'grand\s+opening'
     - 'awarded'
+  cost_limits:
+    - 'cost\s+(limit|cap|containment|ceiling)'
+    - 'total\s+development\s+cost'
+    - 'per\s+unit'
+    - 'maximum\s+(allowable\s+)?cost'
+  bond_volume_cap:
+    - 'volume\s+cap'
+    - 'state\s+ceiling'
+    - 'private\s+activity'
+    - 'carry[- ]?forward'
+    - 'oversubscri'
