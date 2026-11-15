@@ -1,0 +1,23 @@
+$ python run_all.py --awards
+
+~/Code/DL3-Project-1/.venv/lib/python3.15/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+OH_AWARDS_1 / Reservations: 25 rows, 25 flagged
+OH_AWARDS_12 / Sheet2: 24 rows, 24 flagged
+OH_AWARDS_12 / Single Family: 0 rows, 0 flagged
+OH_AWARDS_12 / Competitive Bond: 10 rows, 0 flagged
+OH_AWARDS_12 / 2014 BGF (hide): 10 rows, 0 flagged
+OH_AWARDS_12 / Sheet1: 0 rows, 0 flagged (no award table found)
+OH_AWARDS_16 / Sheet1: 30 rows, 30 flagged
+OH_AWARDS_18 / BGF Results: 22 rows, 22 flagged
+OH_AWARDS_20 / Final Results - Full: 31 rows, 31 flagged
+OH_AWARDS_24 / Results: 36 rows, 36 flagged
+OH_AWARDS_8 / Sheet2: 23 rows, 23 flagged
+OH_AWARDS_8 / Single Family: 0 rows, 0 flagged
+OH_AWARDS_8 / Competitive Bond: 10 rows, 0 flagged
+OH_AWARDS_8 / 2014 BGF (hide): 10 rows, 0 flagged
+OH_AWARDS_8 / Sheet1: 0 rows, 0 flagged (no award table found)
+Run b66d8d0b: {'fetched': 64, 'new': 0, 'changed': 0, 'unchanged': 64, 'failed': 7, 'blocking': 2}
+Report: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/runs/20261115_b66d8d0b/change_report.html
+Top MSAs: ERROR Expecting value: line 1 column 1 (char 0)
+Awards: 231 rows from 7 files (191 flagged, 0 errors). Check: python -m src.awards.parse_awards --export

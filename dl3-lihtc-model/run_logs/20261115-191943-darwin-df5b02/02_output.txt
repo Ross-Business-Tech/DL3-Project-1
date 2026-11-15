@@ -1,0 +1,52 @@
+$ python -m src.extract.extract --dry-run
+
+[dry run] IN_QAP_CURRENT set_asides: pages all (103 of 103 have text), ~61,091 tokens
+[dry run] MI_PROGRAM deadlines: pages all (1 of 1 have text), ~1,226 tokens
+[dry run] MI_PROGRAM credit_availability: pages all (1 of 1 have text), ~1,226 tokens
+[dry run] NYC_AWARDS_1 award_table: pages all (1 of 1 have text), ~478 tokens
+[dry run] OH_AWARDS_3 award_table: pages all (34 of 34 have text), ~4,469 tokens
+[dry run] OH_AWARDS_4 award_table: pages all (5 of 5 have text), ~6,684 tokens
+[dry run] OH_AWARDS_5 award_table: pages all (3 of 3 have text), ~2,180 tokens
+[dry run] OH_AWARDS_6 award_table: pages all (1 of 1 have text), ~2,456 tokens
+[dry run] OH_AWARDS_7 award_table: pages all (1 of 1 have text), ~1,282 tokens
+[dry run] OH_AWARDS_9 award_table: pages all (3 of 3 have text), ~774 tokens
+[dry run] OH_BOND credit_availability: pages all (1 of 1 have text), ~2,669 tokens
+[dry run] OH_BOND bond_volume_cap: pages all (1 of 1 have text), ~2,669 tokens
+[dry run] OH_PROGRAM deadlines: pages all (1 of 1 have text), ~2,669 tokens
+[dry run] OH_PROGRAM credit_availability: pages all (1 of 1 have text), ~2,669 tokens
+[dry run] OH_QAP_CURRENT cost_limits: pages all (72 of 72 have text), ~42,353 tokens
+[dry run] OH_QAP_CURRENT scoring_criteria: pages all (72 of 72 have text), ~42,353 tokens
+[dry run] OH_QAP_CURRENT credit_availability: pages all (72 of 72 have text), ~42,353 tokens
+[dry run] OH_UW cost_limits: pages all (7 of 7 have text), ~3,126 tokens
+[dry run] P3 deadlines: pages all (1 of 1 have text), ~572 tokens
+[dry run] P6 deadlines: pages all (1 of 1 have text), ~700 tokens
+[dry run] P7 deadlines: pages all (1 of 1 have text), ~2,244 tokens
+[dry run] P7 sponsor_eligibility: pages all (1 of 1 have text), ~2,244 tokens
+[dry run] P8 deadlines: pages all (1 of 1 have text), ~3,643 tokens
+[dry run] P8 credit_availability: pages all (1 of 1 have text), ~3,643 tokens
+{
+  "documents": 57,
+  "calls": 0,
+  "cached": 64,
+  "errors": 0,
+  "pending_review": 0,
+  "rejected_validation": 0,
+  "skipped": [
+    "OH_AWARDS_1: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+    "OH_AWARDS_12: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+    "OH_AWARDS_16: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+    "OH_AWARDS_18: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+    "OH_AWARDS_20: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+    "OH_AWARDS_24: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+    "OH_AWARDS_8: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)"
+  ],
+  "estimated_input_tokens": 252466,
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_tokens": 0
+  },
+  "estimated_cost_usd": null
+}
