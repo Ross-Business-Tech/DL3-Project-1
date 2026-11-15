@@ -121,6 +121,30 @@ def user_agent() -> str:
     return f"DL3-LIHTC-Research-Bot/0.1 (UMich AI Sprint; {contact})" if contact else "DL3-LIHTC-Research-Bot/0.1 (UMich AI Sprint)"
 
 
+# Data APIs that need a key in the URL. The key comes from the environment (.env), is added only to the
+# request, and is removed from every URL and message that is stored or printed.
+API_KEYS = {"api.census.gov": "CENSUS_API_KEY"}
+
+
+def with_api_key(url: str) -> str:
+    from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+    p = urlsplit(url)
+    env = API_KEYS.get((p.hostname or "").lower())
+    key = os.environ.get(env) if env else None
+    if not key or "key=" in p.query:
+        return url
+    q = p.query + ("&" if p.query else "") + urlencode({"key": key})
+    return urlunsplit((p.scheme, p.netloc, p.path, q, p.fragment))
+
+
+def without_api_key(text: str) -> str:
+    for env in API_KEYS.values():
+        key = os.environ.get(env)
+        if key:
+            text = text.replace(key, "[REDACTED]")
+    return re.sub(r"([?&])key=[^&\s'\"]*&?", lambda m: m.group(1) if m.group(0).endswith("&") else "", text).rstrip("?&")
+
+
 class Browser:
     """Lazily started headless Chromium (Playwright), one per Fetcher/thread. Used only as a fallback."""
 
@@ -342,7 +366,9 @@ class Fetcher:
             self._throttle(urlparse(url).hostname or "")
             n = attempt + 1
             try:
-                r = self.session.get(url, timeout=self.cfg["timeout_seconds"], stream=True, allow_redirects=True)
+                r = self.session.get(with_api_key(url), timeout=self.cfg["timeout_seconds"], stream=True,
+                                     allow_redirects=True)
+                r.url = without_api_key(r.url)
                 if not allow_offsite_redirect:
                     self.check_allowed(r.url)  # redirects may not leave the allowlist
                 elif r.url != url:
@@ -371,9 +397,10 @@ class Fetcher:
                 raise
             except requests.exceptions.SSLError as e:
                 # Not retried: a bad certificate chain will not fix itself in 8 seconds.
-                raise FetchError(f"TLS certificate problem: {str(e)[:300]}", n, browser_eligible=True) from e
+                raise FetchError(f"TLS certificate problem: {without_api_key(str(e))[:300]}", n,
+                                 browser_eligible=True) from e
             except requests.RequestException as e:
-                last_err, eligible = f"{type(e).__name__}: {e}", False
+                last_err, eligible = f"{type(e).__name__}: {without_api_key(str(e))}", False
         raise FetchError(f"gave up after {retries + 1} attempts: {last_err}", retries + 1, browser_eligible=eligible)
 
 

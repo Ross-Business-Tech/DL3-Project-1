@@ -82,14 +82,24 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
             "ESCAPE '\\' AND snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) "
             "GROUP BY award_year, credit_type", (like,)):
         by_year.setdefault(r["award_year"], []).append(f"{r['n']} {r['credit_type']}" + (f" ({r['f']} flagged)" if r["f"] else ""))
-    pdf_rows = {}
-    for r in conn.execute("SELECT value, row_json, status FROM extraction WHERE field='award_row' AND status IN "
-                          "('approved','pending_review') AND source_id LIKE ? ESCAPE '\\'", (like,)):
-        pdf_rows["from PDF"] = pdf_rows.get("from PDF", 0) + 1
+    from ..awards import pdf_rows
+    pdf_by_year: dict = {}
+    for r in pdf_rows.rows(conn):
+        if r["source_id"].startswith(jid + "_"):
+            k = "approved" if r["review_state"] == "approved" else "to review"
+            pdf_by_year.setdefault(r["year"], {}).setdefault(k, 0)
+            pdf_by_year[r["year"]][k] += 1
     for y in range(first, last + 1):
-        got = by_year.get(y, [])
-        item(f"awards {y}", "; ".join(got) or "0 rows", bool(got),
-             "no spreadsheet rows for this year" + (f" ({pdf_rows['from PDF']} PDF rows not yet assigned a year)" if pdf_rows else ""))
+        got = list(by_year.get(y, []))
+        pdf = pdf_by_year.get(y, {})
+        if pdf:
+            got.append("PDF: " + ", ".join(f"{n} {k}" for k, n in sorted(pdf.items())))
+        usable = bool(by_year.get(y)) or pdf.get("approved", 0) > 0
+        item(f"awards {y}", "; ".join(got) or "0 rows", usable,
+             "" if usable else ("PDF rows waiting for review" if pdf else "no award rows for this year"))
+    if None in pdf_by_year:
+        item("PDF award rows with no year", ", ".join(f"{n} {k}" for k, n in sorted(pdf_by_year[None].items())), False,
+             "year not printed on the row, title or file name")
     cost_n = conn.execute(
         "SELECT COUNT(*) FROM award_row WHERE source_id LIKE ? ESCAPE '\\' AND (cost_per_unit>0 OR "
         "(total_development_cost>0 AND total_units>0)) AND snapshot_id IN (SELECT MAX(snapshot_id) FROM snapshot "

@@ -8,7 +8,8 @@ pip install -r requirements.txt
 python -m playwright install chromium
 brew install tesseract                        # Mac: lets the pipeline read scanned PDF pages (OCR)
 ```
-Put `GEMINI_API_KEY` and `GEMINI_MODEL` in `.env` (never commit it).
+Put `GEMINI_API_KEY`, `GEMINI_MODEL` and `CENSUS_API_KEY` (free: https://api.census.gov/data/key_signup.html)
+in `.env` (never commit it). The Census key is added to Census requests only and never stored or logged.
 
 ## Add a pilot jurisdiction
 ```bash
@@ -34,6 +35,11 @@ source freshness. Unchanged documents are not sent to the LLM again.
 
 Each December, when the Census Bureau releases a new ACS 5-year estimate, raise the year in the `CENSUS_MSA`
 URL in `config/source_register.csv` and re-run `python run_all.py --only CENSUS_MSA`.
+
+## Confirming what an award column means
+If award rows are flagged "credit column does not say annual or ten-year", check the agency's own definition
+(the list's notes, or the QAP), then record it in `config/award_columns.yaml` under `confirmed_headers` with the
+source, and re-parse with `python -m src.awards.parse_awards --force`. Never confirm a header from the amounts alone.
 
 ## When something fails
 - **Failed retrieval**: it is retried, the last good copy is kept, and it appears in the change report and in

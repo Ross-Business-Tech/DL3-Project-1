@@ -28,7 +28,7 @@ import yaml
 from ..fetch import archive
 
 ROOT = Path(__file__).resolve().parents[2]
-PARSER_VERSION = "awards-3"  # 3: credit type and year also read from the file name  # 2: total development cost and cost per unit columns
+PARSER_VERSION = "awards-4"  # 4: confirmed headers per state; sheets without a credit column noted  # 3: credit type and year also read from the file name  # 2: total development cost and cost per unit columns
 XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 XLS = "application/vnd.ms-excel"
 SHEET_TYPES = {XLSX, XLS, "text/csv"}
@@ -38,7 +38,7 @@ MONEY_FIELDS = CREDIT_FIELDS + COST_FIELDS
 INT_FIELDS = ("total_units", "restricted_units")
 TEXT_FIELDS = ("application_number", "project_name", "sponsor", "address", "city", "county", "zip", "award_date",
                "set_aside", "project_type", "status", "score")
-YEAR = re.compile(r"\b(20[0-3]\d)\b")
+YEAR = re.compile(r"(?<!\d)(20[0-3]\d)(?!\d)")  # not \b: file names join words with "_" 
 # "9%", "9 pct", "9 percent", and file-name forms like "2026-9-LIHTC-Reservations" or "9PctHTC"
 NINE = re.compile(r"(?<![\d.])9\s*(%|pct|percent|[-_ ]?(lihtc|htc)(?![a-z]))", re.I)
 FOUR = re.compile(r"(?<![\d.])4\s*(%|pct|percent|[-_ ]?(lihtc|htc)(?![a-z]))", re.I)
@@ -127,12 +127,18 @@ def col_letter(i: int) -> str:
 
 
 # --- header detection ---------------------------------------------------------------------------------------
-def map_header(cells: list, rules: dict) -> tuple[dict, list]:
-    """{field: column index} for one candidate header row, plus unmapped header texts."""
+def map_header(cells: list, rules: dict, state: str = "") -> tuple[dict, list]:
+    """{field: column index} for one candidate header row, plus unmapped header texts.
+    Headers a person confirmed for this state (award_columns.yaml -> confirmed_headers) are used first."""
     mapping, unmapped = {}, []
+    confirmed = {" ".join(k.lower().split()): v["field"] for k, v in
+                 ((rules.get("confirmed_headers") or {}).get(state) or {}).items()}
     for i, c in enumerate(cells):
         h = text(c).lower()
         if not h or len(h) > 80 or number(c) is not None:
+            continue
+        if h in confirmed and confirmed[h] not in mapping:
+            mapping[confirmed[h]] = i
             continue
         if any(rx.search(h) for rx in rules["_ignore"]):
             unmapped.append(text(c))
@@ -145,10 +151,10 @@ def map_header(cells: list, rules: dict) -> tuple[dict, list]:
     return mapping, unmapped
 
 
-def find_header(rows: list[list], rules: dict):
+def find_header(rows: list[list], rules: dict, state: str = ""):
     best = None
     for i, row in enumerate(rows[: rules["header_search_rows"]]):
-        m, unmapped = map_header(row, rules)
+        m, unmapped = map_header(row, rules, state)
         has_key = "project_name" in m or ("application_number" in m and "sponsor" in m)
         if has_key and len(m) >= rules["min_mapped_columns"] and (best is None or len(m) > len(best[1])):
             best = (i, m, unmapped)
@@ -171,8 +177,8 @@ def year_in(s: str) -> int | None:
 
 
 # --- parse one sheet --------------------------------------------------------------------------------------------
-def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_name: str = "") -> dict:
-    found = find_header(rows, rules)
+def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_name: str = "", state: str = "") -> dict:
+    found = find_header(rows, rules, state)
     if found is None:
         return {"sheet_name": name, "header_row": None, "column_map": {}, "unmapped": [], "rows": [],
                 "note": "no award table found (no header row with a project name and 3 known columns)"}
@@ -243,7 +249,7 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_
 
         if rec["credit_unlabeled"] is not None and rec["annual_credit"] is None:
             flags.append("credit column does not say annual or ten-year: needs verification")
-        if all(rec[f] is None for f in CREDIT_FIELDS):
+        if all(rec[f] is None for f in CREDIT_FIELDS) and any(f in m for f in CREDIT_FIELDS):
             flags.append("no credit amount on this row")
         if rec["total_units"] is not None and rec["restricted_units"] is not None \
                 and rec["restricted_units"] > rec["total_units"]:
@@ -252,7 +258,12 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_
             flags.append("negative number")
         rec["flags"] = flags
         out.append(rec)
-    return {"sheet_name": name, "header_row": hi + 1, "unmapped": unmapped, "rows": out, "note": None,
+    no_credit = not any(f in m for f in CREDIT_FIELDS)
+    confirmed = {" ".join(k.lower().split()) for k in ((rules.get("confirmed_headers") or {}).get(state) or {})}
+    return {"sheet_name": name, "header_row": hi + 1, "unmapped": unmapped, "rows": out,
+            "note": ("no tax credit column: this sheet may be another program (e.g. gap financing), not credit awards"
+                     if no_credit else None),
+            "confirmed": sorted(h for h in confirmed if any(h == " ".join(x.lower().split()) for x in headers)),
             "column_map": {f: {"column": col_letter(i), "header": headers[i]} for f, i in m.items()}}
 
 
@@ -314,7 +325,7 @@ def run(db_path: Path, archive_root: Path, only: set[str] | None = None, force: 
         for name, rows, note in sheets:
             from urllib.parse import unquote, urlparse
             fname = unquote(urlparse(snap["final_url"] or "").path.rsplit("/", 1)[-1])
-            parsed = parse_sheet(name, rows, rules, snap["title"] or "", fname)
+            parsed = parse_sheet(name, rows, rules, snap["title"] or "", fname, snap["state"] or "")
             n, flagged = store(conn, snap, parsed, note)
             summary["sheets"] += 1
             summary["rows"] += n
@@ -348,7 +359,9 @@ def export(db_path: Path, out_dir: Path) -> Path:
         w = csv.DictWriter(fh, fieldnames=EXPORT_COLS)
         w.writeheader()
         for r in conn.execute("SELECT a.*, s.final_url AS source_url, s.retrieved_at, s.sha256 FROM award_row a "
-                              "JOIN snapshot s USING(snapshot_id) ORDER BY a.source_id, a.sheet_name, a.row_number"):
+                              "JOIN snapshot s USING(snapshot_id) WHERE a.snapshot_id IN "
+                              "(SELECT MAX(snapshot_id) FROM snapshot GROUP BY source_id) "
+                              "ORDER BY a.source_id, a.sheet_name, a.row_number"):
             w.writerow({c: r[c] for c in EXPORT_COLS})
     conn.close()
     return path

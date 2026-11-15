@@ -28,6 +28,11 @@ fields:
   award_date: ['award\s*date', 'reservation\s*date', 'board\s*date', 'date\s*(of\s*)?(award|reservation|approval)', '^date$']
 # Headers matching these are never mapped (kept in raw_json only), e.g. "Developer Fee" is not the developer.
 ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'hard\s*cost', 'construction\s*cost', 'loan', 'home funds', 'htf']
+# Headers a person has checked against the agency's own definition, per state. Used before the patterns
+# above. Add one only with a source: e.g. the QAP or the list itself saying the amount is annual.
+#   OH:
+#     "Credits Reserved": {field: annual_credit, source: "https://... p. 12: 'annual housing credits reserved'"}
+confirmed_headers: {}
 # A header row must contain project_name (or application_number + sponsor) and at least this many mapped columns.
 min_mapped_columns: 3
 header_search_rows: 40

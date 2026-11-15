@@ -5,7 +5,8 @@ pipeline or read the database, so collection runs on a computer and the site rea
 
 Files:
 - awards.csv   one row per award line, in the column layout the site's ranking page already uses
-               (src/ranking/data/awards.csv on the website branch)
+               (src/ranking/data/awards.csv on the website branch): spreadsheet rows plus approved PDF rows
+- awards_pending_review.csv  PDF award rows read by the LLM and not yet approved: never count these
 - rules.csv    extracted QAP rule values with page, quote, source and review state
 - cost_per_unit.csv  median total development cost per unit by state, pathway and year, from award lists
 - top_msas.csv, states_in_top_msas.csv  Census top-100 metro areas (urban screen input)
@@ -87,6 +88,32 @@ def award_rows(conn):
                "source_url": r["final_url"], "retrieved": r["retrieved_at"][:10], "notes": "; ".join(notes)}
 
 
+def pdf_award_rows(conn, approved: bool):
+    """Award rows read from PDFs by the LLM. Approved ones go into awards.csv; the rest into
+    awards_pending_review.csv so nobody counts them by accident."""
+    from ..awards import pdf_rows
+    for r in pdf_rows.rows(conn, ("approved",) if approved else ("pending_review",)):
+        notes = [f"from PDF page {r['page']} (read by LLM, {r['review_state']})"]
+        if r["status_printed"]:
+            notes.append(f"status as printed: {r['status_printed']}")
+        if r["set_aside"]:
+            notes.append(f"set-aside: {r['set_aside']}")
+        if r["pathway"]:
+            notes.append(f"pathway from {r['pathway_basis']}")
+        if r["year"]:
+            notes.append(f"year from {r['year_basis']}")
+        if r["checks"]:
+            notes.append(f"CHECK: {r['checks']}")
+        if r["notes"]:
+            notes.append(r["notes"])
+        yield {"state": r["state"] or UNKNOWN, "pathway": r["pathway"] or UNKNOWN, "year": r["year"] or UNKNOWN,
+               "project": r["project"], "parent_project": r["project"], "city": r["city"],
+               "total_units": r["total_units"] if r["total_units"] is not None else UNKNOWN,
+               "new_construction": UNKNOWN, "age_restricted_or_assisted_living": UNKNOWN,
+               "credits_awarded": _num(r["annual_credit"]), "round_or_list": r["title"], "source_url": r["source_url"],
+               "retrieved": r["retrieved"], "notes": "; ".join(notes)}
+
+
 def rule_rows(conn, include_pending: bool = True):
     statuses = ("approved", "pending_review") if include_pending else ("approved",)
     q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM extraction e JOIN snapshot s "
@@ -148,7 +175,11 @@ def export(db_path: Path, out_dir: Path, settings: dict | None = None, reference
     settings = settings or fetch.load_settings()
     conn = archive.connect(db_path)
     out_dir.mkdir(parents=True, exist_ok=True)
-    counts = {"awards": _write(out_dir / "awards.csv", AWARD_COLS, award_rows(conn)),
+    import itertools
+    counts = {"awards": _write(out_dir / "awards.csv", AWARD_COLS,
+                               itertools.chain(award_rows(conn), pdf_award_rows(conn, approved=True))),
+              "awards_pending_review": _write(out_dir / "awards_pending_review.csv", AWARD_COLS,
+                                              pdf_award_rows(conn, approved=False)),
               "rules": _write(out_dir / "rules.csv", RULE_COLS, rule_rows(conn)),
               "sources": _write(out_dir / "sources.csv", SOURCE_COLS, source_rows(conn, settings["freshness_days"]))}
     from ..awards import costs

@@ -53,6 +53,7 @@ categories:
     patterns: ['\bawards?\b', 'awarded', '\breservations?\b', 'allocations?\s+(list|made|awarded|summary)',
                'funded\s+(projects|developments)', '\bresults\b', 'recipients', 'selected\s+(projects|developments)']
     needs_context: true
+    exclude: ['compliance', '\bpolic(y|ies)\b', 'without\s+recent', 'criteria', 'manual', 'guide', 'webinar', 'workshop']
   underwriting:
     patterns: ['underwriting']
     needs_context: false
@@ -118,3 +119,9 @@ ancillary:
   - '\bforms?\b'
   - 'application'
   - '\.zip$'
+  - 'approval'
+  - 'governor'
+  - 'letter'
+  - '\bmemo'
+  - 'resolution'
+  - 'transmittal'

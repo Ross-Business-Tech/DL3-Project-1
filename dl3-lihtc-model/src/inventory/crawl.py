@@ -31,8 +31,8 @@ from ..fetch import archive, fetch
 ROOT = Path(__file__).resolve().parents[2]
 DOC_FORMATS = {".pdf": "pdf", ".xlsx": "xlsx", ".xls": "xls", ".xlsm": "xlsx", ".docx": "docx",
                ".doc": "doc", ".csv": "csv", ".zip": "zip"}
-YEAR_RANGE = re.compile(r"\b(20[0-3]\d)\s*[-–/]\s*(20[0-3]\d|[0-3]\d)\b")
-YEAR = re.compile(r"\b(20[0-3]\d)\b")
+YEAR_RANGE = re.compile(r"(?<!\d)(20[0-3]\d)\s*[-–/_]\s*(20[0-3]\d|[0-3]\d)(?!\d)")
+YEAR = re.compile(r"(?<!\d)(20[0-3]\d)(?!\d)")  # not \b: file names join words with "_"
 
 
 def load_jurisdictions(path: Path | None = None) -> list[dict]:
@@ -48,6 +48,7 @@ def load_rules(path: Path | None = None) -> dict:
     rules["_context"], rules["_draft"] = c(rules["lihtc_context"]), c(rules["draft_markers"])
     rules["_exclude_hosts"] = {h.lower() for h in rules.get("exclude_hosts", [])}
     rules["_exclude_text"], rules["_ancillary"] = c(rules.get("exclude_text", [])), c(rules.get("ancillary", []))
+    rules["_cat_exclude"] = {k: c(v.get("exclude", [])) for k, v in rules["categories"].items()}
     rules["_cats"] = {k: (c(v["patterns"]), bool(v.get("needs_context"))) for k, v in rules["categories"].items()}
     return rules
 
@@ -119,6 +120,8 @@ def classify(text: str, url: str, page_context: str, rules: dict) -> list[dict]:
     out = []
     for cat, (patterns, needs_context) in rules["_cats"].items():
         if needs_context and not has_context:
+            continue
+        if any(rx.search(f"{text} {path}") for rx in rules.get("_cat_exclude", {}).get(cat, [])):
             continue
         score = sum(2 * len(rx.findall(text)) + len(rx.findall(path)) for rx in patterns)
         if score:

@@ -37,7 +37,9 @@ def parse(raw: bytes) -> list[dict]:
     except ValueError as e:
         from ..fetch.diff import html_to_text
         said = " ".join((html_to_text(raw) if text.lstrip().startswith("<") else text).split())[:300]
-        raise ValueError(f"Census did not send data. It said: {said}") from e
+        hint = (" Get a free key at https://api.census.gov/data/key_signup.html and put CENSUS_API_KEY=... in .env."
+                if "key" in said.lower() else "")
+        raise ValueError(f"Census did not send data. It said: {said}{hint}") from e
     if not isinstance(data, list) or not data or not isinstance(data[0], list):
         raise ValueError("Census response is not a table")
     header = data[0]
