@@ -209,3 +209,17 @@ python -m src.report.export_web     # data/web/: awards.csv, rules.csv, sources.
 
 The website is static and cannot run this pipeline; it reads these files. `awards.csv` uses the same columns
 as the website's `src/ranking/data/awards.csv`. See `docs/web_integration.md`.
+
+## Logging runs to GitHub
+
+```bash
+python log_run.py                                  # run the tests, push the log
+python log_run.py --pipeline --extract MI OH IN    # tests are skipped; runs the pipeline, coverage and export
+python log_run.py --cmd "python run_all.py --inventory GA"
+```
+
+Each run's printed output, a summary, an environment report (versions, whether Tesseract is installed) and the
+outputs it changed are committed to `run_logs/<run id>/` on your current branch and pushed, so the team can
+read what happened on any computer. API keys, tokens and your home folder path are redacted first; the database,
+archive and `.env` are never included. Your working folder is not touched (the commit is made from a temporary
+checkout). A local copy stays in `outputs/run_logs/`. Use `--no-push` to keep it local.
