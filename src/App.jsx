@@ -1,121 +1,128 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+// The menu from the Final Build mock-up. Only Overview is built so far.
+const MENU = [
+  {
+    group: 'Workspace',
+    items: [
+      { id: 'overview', label: 'Overview', ready: true },
+      { id: 'rankings', label: 'Rankings' },
+      { id: 'territories', label: 'Territories' },
+      { id: 'ai-review', label: 'AI Review' },
+      { id: 'history', label: 'Ranking History' },
+    ],
+  },
+  {
+    group: 'Research',
+    items: [
+      { id: 'sources', label: 'Sources & Evidence' },
+      { id: 'queue', label: 'Review Queue' },
+      { id: 'settings', label: 'Settings' },
+    ],
+  },
+]
 
+// Made-up numbers for the design only. These are not real rankings.
+const SAMPLE_STATS = [
+  { value: '60', label: 'States & territories' },
+  { value: '12', label: 'Priority opportunities' },
+  { value: '8', label: 'Need review' },
+  { value: '94%', label: 'Research completeness' },
+]
+
+const SAMPLE_TOP = [
+  { name: 'Sample Territory A', note: 'Example location', score: 92 },
+  { name: 'Sample Territory B', note: 'Example location', score: 89 },
+  { name: 'Sample Territory C', note: 'Example location', score: 86 },
+]
+
+function Overview() {
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+      <header className="page-header">
+        <h1>Investment overview</h1>
+        <p>Last ranking update: November 2026</p>
+        <span className="sample-note">Sample numbers for design only</span>
+      </header>
+
+      <section className="stats" aria-label="Key numbers">
+        {SAMPLE_STATS.map((stat) => (
+          <div className="card" key={stat.label}>
+            <div className="stat-value">{stat.value}</div>
+            <div className="stat-label">{stat.label}</div>
+          </div>
+        ))}
       </section>
 
-      <div className="ticks"></div>
+      <div className="overview-grid">
+        <section className="card" aria-labelledby="top-heading">
+          <h2 id="top-heading">Current rankings</h2>
+          {SAMPLE_TOP.map((place, i) => (
+            <div className="rank-row" key={place.name}>
+              <div className="rank-num">#{i + 1}</div>
+              <div className="rank-name">
+                <strong>{place.name}</strong>
+                <span>{place.note}</span>
+              </div>
+              <div className="score-pill">{place.score} / 100</div>
+            </div>
+          ))}
+        </section>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <section className="card assistant" aria-labelledby="assistant-heading">
+          <h2 id="assistant-heading">AI ranking assistant</h2>
+          <p>Review research, resolve missing information, and regenerate rankings.</p>
+          <p className="small">Coming in a later step.</p>
+        </section>
+      </div>
     </>
+  )
+}
+
+function ComingSoon({ title }) {
+  return (
+    <>
+      <header className="page-header">
+        <h1>{title}</h1>
+      </header>
+      <p className="placeholder">This screen is coming in a later step.</p>
+    </>
+  )
+}
+
+function App() {
+  const [screen, setScreen] = useState('overview')
+  const current = MENU.flatMap((g) => g.items).find((item) => item.id === screen)
+
+  return (
+    <div className="app">
+      <aside className="sidebar">
+        <div className="brand">DL3 Investment Intelligence</div>
+        <nav className="nav" aria-label="Main menu">
+          {MENU.map((group) => (
+            <div className="nav-group" key={group.group}>
+              <div className="nav-group-label">{group.group}</div>
+              {group.items.map((item) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  className="nav-item"
+                  aria-current={screen === item.id ? 'page' : undefined}
+                  onClick={() => setScreen(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      <main className="main">
+        {screen === 'overview' ? <Overview /> : <ComingSoon title={current.label} />}
+      </main>
+    </div>
   )
 }
 
