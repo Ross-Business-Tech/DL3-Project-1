@@ -219,6 +219,61 @@ def resolve_cfg(llm: dict) -> dict:
     return cfg
 
 
+def words_in_order(quote: str, page: str, max_spread: int = 4) -> bool:
+    """Diagnostic only: do the quote's words appear in order on the page, with other text between them
+    (typical of a table read across columns)? Never used to accept a finding."""
+    q, p = norm(quote).lower().split(), norm(page).lower().split()
+    if not q:
+        return False
+    for start in (i for i, w in enumerate(p) if w == q[0]):
+        k, i = 1, start + 1
+        while k < len(q) and i < len(p) and i - start <= max_spread * len(q):
+            if p[i] == q[k]:
+                k += 1
+            i += 1
+        if k == len(q):
+            return True
+    return False
+
+
+def write_rejected(conn, out_dir: Path, archive_root: Path | None = None) -> tuple[str, dict]:
+    """Every current finding that failed the quote check, with a hint why, for checking prompts and PDFs."""
+    import csv
+    from collections import Counter
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "rejected.csv"
+    reasons = Counter()
+    texts: dict = {}
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["source_id", "topic", "field", "value", "page", "reason", "likely_cause", "quote"])
+        for r in conn.execute(
+                "SELECT e.*, s.archive_path, s.content_type FROM extraction e JOIN snapshot s USING(snapshot_id) "
+                "WHERE e.status='rejected_validation' AND e.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
+                "ORDER BY e.source_id, e.topic, e.page"):
+            cause = ""
+            if r["validation_note"] and "not found verbatim" in r["validation_note"]:
+                if r["snapshot_id"] not in texts:
+                    try:
+                        pages = pages_from_bytes(((archive_root or ROOT / "archive") / r["archive_path"]).read_bytes(),
+                                                 r["content_type"])
+                        texts[r["snapshot_id"]] = {p.number: p.text for p in (pages or [])}
+                    except OSError:
+                        texts[r["snapshot_id"]] = {}
+                page_text = texts[r["snapshot_id"]].get(r["page"], "")
+                if words_in_order(r["quote"] or "", page_text):
+                    cause = "words are on the page in order with text between (table or columns)"
+                elif any(words_in_order(r["quote"] or "", t) for t in texts[r["snapshot_id"]].values()):
+                    cause = "quote is on a different page"
+                else:
+                    cause = "quote not on any page (paraphrased or invented)"
+            key = re.sub(r"\d+", "N", r["validation_note"] or "")
+            reasons[f"{key} -> {cause}" if cause else key] += 1
+            w.writerow([r["source_id"], r["topic"], r["field"], r["value"], r["page"], r["validation_note"], cause,
+                        (r["quote"] or "")[:300]])
+    return str(path), dict(reasons)
+
+
 def estimate_cost(usage_rows, prices) -> float | None:
     if not prices:
         return None
@@ -279,6 +334,10 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
             summary["rejected_validation"] += out["rejected_validation"]
             progress(f"{snap['source_id']} {topic}: {out['pending_review']} for review, "
                      f"{out['rejected_validation']} rejected by validation" + (f", ERROR {out['error']}" if out["error"] else ""))
+    if not dry_run:
+        summary["rejected_file"], summary["rejected_reasons"] = write_rejected(
+            conn, Path(archive_root).parent / "outputs" / "extract" if Path(archive_root) != ROOT / "archive"
+            else ROOT / "outputs" / "extract", Path(archive_root))
     conn.close()
     cost = estimate_cost(summary["usage"], cfg["prices"])
     summary["provider"], summary["model"] = cfg["provider"], cfg["model"]

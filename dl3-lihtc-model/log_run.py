@@ -51,7 +51,7 @@ MAX_FILE_BYTES = 5 * 1024 * 1024
 OUTPUT_GLOBS = [
     "outputs/runs/*/run_manifest.json", "outputs/runs/*/change_report.json",
     "outputs/coverage/*.csv", "outputs/awards/*.csv", "data/web/*.csv", "data/web/manifest.json",
-    "data/inventory/state_inventory.csv", "data/reference/*.csv",
+    "data/inventory/state_inventory.csv", "data/reference/*.csv", "outputs/extract/*.csv",
 ]
 
 

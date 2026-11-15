@@ -28,7 +28,7 @@ import yaml
 from ..fetch import archive
 
 ROOT = Path(__file__).resolve().parents[2]
-PARSER_VERSION = "awards-4"  # 4: confirmed headers per state; sheets without a credit column noted  # 3: credit type and year also read from the file name  # 2: total development cost and cost per unit columns
+PARSER_VERSION = "awards-5"  # 5: hidden sheets skipped; gap-financing columns ignored; no-credit sheets excluded  # 4: confirmed headers per state; sheets without a credit column noted  # 3: credit type and year also read from the file name  # 2: total development cost and cost per unit columns
 XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 XLS = "application/vnd.ms-excel"
 SHEET_TYPES = {XLSX, XLS, "text/csv"}
@@ -259,6 +259,9 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_
         rec["flags"] = flags
         out.append(rec)
     no_credit = not any(f in m for f in CREDIT_FIELDS)
+    if no_credit:
+        for r in out:
+            r["flags"] = ["no tax credit column on this sheet (not a credit award list)"]
     confirmed = {" ".join(k.lower().split()) for k in ((rules.get("confirmed_headers") or {}).get(state) or {})}
     return {"sheet_name": name, "header_row": hi + 1, "unmapped": unmapped, "rows": out,
             "note": ("no tax credit column: this sheet may be another program (e.g. gap financing), not credit awards"
@@ -323,6 +326,13 @@ def run(db_path: Path, archive_root: Path, only: set[str] | None = None, force: 
             continue
         summary["files"] += 1
         for name, rows, note in sheets:
+            if note == "hidden sheet" or re.search(r"\(hid(e|den)\)|\bhidden\b", name, re.I):
+                # hidden by the agency (often leftovers from an old template): not published content
+                store(conn, snap, {"sheet_name": name, "header_row": None, "column_map": {}, "unmapped": [], "rows": [],
+                                   "note": "hidden sheet: not parsed"}, None)
+                summary["sheets"] += 1
+                progress(f"{snap['source_id']} / {name}: hidden sheet, not parsed")
+                continue
             from urllib.parse import unquote, urlparse
             fname = unquote(urlparse(snap["final_url"] or "").path.rsplit("/", 1)[-1])
             parsed = parse_sheet(name, rows, rules, snap["title"] or "", fname, snap["state"] or "")

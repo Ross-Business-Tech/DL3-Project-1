@@ -27,7 +27,8 @@ fields:
   award_year: ['^year$', 'award\s*year', 'allocation\s*year', 'round', 'cycle', 'funding year']
   award_date: ['award\s*date', 'reservation\s*date', 'board\s*date', 'date\s*(of\s*)?(award|reservation|approval)', '^date$']
 # Headers matching these are never mapped (kept in raw_json only), e.g. "Developer Fee" is not the developer.
-ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'hard\s*cost', 'construction\s*cost', 'loan', 'home funds', 'htf']
+ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'hard\s*cost', 'construction\s*cost', 'loan', 'home funds', 'htf',
+                 '\bhdap\b', '\bgap\b', '\bbgf\b', 'cdbg', 'trust\s*fund', 'grant', 'ohtf', 'subsid']
 # Headers a person has checked against the agency's own definition, per state. Used before the patterns
 # above. Add one only with a source: e.g. the QAP or the list itself saying the amount is annual.
 #   OH:

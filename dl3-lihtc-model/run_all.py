@@ -158,6 +158,8 @@ def main(argv=None) -> int:
               f"{e['rejected_validation']} rejected by validation, {e['errors']} errors "
               f"({e['provider']} {e['model']}; tokens {e['tokens']}"
               + (f"; ~${e['estimated_cost_usd']}" if e.get("estimated_cost_usd") is not None else "") + ")")
+        for reason, n in sorted((e.get("rejected_reasons") or {}).items(), key=lambda kv: -kv[1])[:6]:
+            print(f"  rejected {n:4} x {reason}")
         print("Review packet: python -m src.review.build_packet")
     if m.get("inventory"):
         print(f"Inventory: {m['inventory']}")

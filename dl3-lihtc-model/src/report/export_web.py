@@ -56,7 +56,8 @@ def new_construction(project_type: str | None) -> str:
 
 def award_rows(conn):
     q = ("SELECT a.*, src.title, s.final_url, s.retrieved_at FROM award_row a JOIN snapshot s USING(snapshot_id) "
-         "JOIN source src ON src.source_id=a.source_id WHERE a.snapshot_id IN "
+         "JOIN source src ON src.source_id=a.source_id WHERE COALESCE(a.flags, '') NOT LIKE '%no tax credit column%' "
+         "AND a.snapshot_id IN "
          "(SELECT snapshot_id FROM current_snapshot) ORDER BY a.state, a.award_year, a.source_id, "
          "a.sheet_name, a.row_number")
     for r in conn.execute(q):

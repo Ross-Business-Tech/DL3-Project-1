@@ -78,7 +78,7 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
 
     by_year = {}
     for r in conn.execute(
-            "SELECT award_year, credit_type, COUNT(*) n, SUM(flags IS NOT NULL) f FROM award_row WHERE source_id LIKE ? "
+            "SELECT award_year, credit_type, COUNT(*) n, SUM(flags IS NOT NULL) f FROM award_row WHERE COALESCE(flags, '') NOT LIKE '%no tax credit column%' AND source_id LIKE ? "
             "ESCAPE '\\' AND snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
             "GROUP BY award_year, credit_type", (like,)):
         by_year.setdefault(r["award_year"], []).append(f"{r['n']} {r['credit_type']}" + (f" ({r['f']} flagged)" if r["f"] else ""))

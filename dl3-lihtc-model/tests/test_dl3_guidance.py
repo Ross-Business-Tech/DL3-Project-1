@@ -92,7 +92,8 @@ def test_award_parser_reads_total_development_cost(tmp_path):
 
 def test_cost_per_unit_summary_and_export(tmp_path):
     add(tmp_path, xlsx(COSTS))
-    add(tmp_path, xlsx({"2025 4%": [["Project Name", "Sponsor", "Units", "TDC per Unit"], ["E", "V", 200, 350000]]}),
+    add(tmp_path, xlsx({"2025 4%": [["Project Name", "Sponsor", "Units", "TDC per Unit", "Annual Credit"],
+                                    ["E", "V", 200, 350000, 2000000]]}),
         sid="OH_AWARDS_2")
     pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
     rows = {(r["state"], r["pathway"], r["year"]): r for r in costs.summarize(archive.connect(tmp_path / "t.db"))}

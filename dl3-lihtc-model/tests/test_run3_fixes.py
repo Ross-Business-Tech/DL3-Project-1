@@ -16,9 +16,10 @@ OHIO = {"Results": [["Project Name", "City", "County", "Lead Developer", "Total 
 
 
 def test_award_export_has_latest_snapshot_only(tmp_path):
-    add(tmp_path, xlsx(OHIO))
+    data = xlsx(OHIO)  # build once: the workbook embeds a timestamp, so two builds can differ
+    add(tmp_path, data)
     pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
-    add(tmp_path, xlsx(OHIO))                                   # same file fetched again: new snapshot row
+    add(tmp_path, data)                                         # same file fetched again: new snapshot row
     pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
     rows = list(csv.DictReader(open(pa.export(tmp_path / "t.db", tmp_path / "out"))))
     assert len(rows) == 1
@@ -190,3 +191,64 @@ def test_sources_dropped_from_register_are_retired_everywhere(tmp_path):
     archive.upsert_source(conn, {"source_id": "OH_AWARDS_2", "jurisdiction": "OHFA", "state": "OH", "doc_type": "award_list",
                                  "title": "back", "url": "https://x", "status": "unknown", "critical": 0, "notes": ""})
     assert conn.execute("SELECT retired FROM source WHERE source_id='OH_AWARDS_2'").fetchone()[0] == 0  # re-added: active
+
+
+def test_hidden_and_gap_financing_sheets_stay_out_of_awards_and_costs(tmp_path):
+    from src.awards import costs
+    add(tmp_path, xlsx({
+        "Sheet2": [["Project Name", "Lead Developer", "Total Units", "Credits Reserved", "Total Development Costs"],
+                   ["All In Dublin", "X", 75, 1781500, 23776578]],
+        "Competitive Bond": [["Project Name", "Applicant", "# of units", "TDC", "HDAP Requested"],
+                             ["Coopermill Manor", "Y", 324, 34733496, 750000]],
+        "2014 BGF (hide)": [["Project Name", "Applicant", "# of units", "TDC", "HDAP Requested"],
+                            ["Coopermill Manor", "Y", 324, 34733496, 750000]]}), title="OH award list: 2025 9% results")
+    s = pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
+    conn = archive.connect(tmp_path / "t.db")
+    notes = {r["sheet_name"]: r["note"] for r in conn.execute("SELECT sheet_name, note FROM award_sheet")}
+    assert notes["2014 BGF (hide)"] == "hidden sheet: not parsed"
+    assert "no tax credit column" in notes["Competitive Bond"]          # HDAP is state gap funding, not credits
+    bond = conn.execute("SELECT * FROM award_row WHERE sheet_name='Competitive Bond'").fetchone()
+    assert bond["credit_requested"] is None and "no tax credit column" in bond["flags"]
+    cost = {(r["pathway"], r["year"]): r for r in costs.summarize(conn)}
+    assert cost[("9%", 2025)]["projects_with_cost"] == 1 and cost[("9%", 2025)]["median_cost_per_unit"] == 317021
+    assert all(r["median_cost_per_unit"] != round(34733496 / 324) for r in cost.values())
+    export_web.export(tmp_path / "t.db", tmp_path / "web", fetch.load_settings(), reference_dir=tmp_path / "x")
+    web = (tmp_path / "web" / "awards.csv").read_text()
+    assert "All In Dublin" in web and "Coopermill" not in web
+
+
+def test_rejected_quotes_are_explained(tmp_path):
+    import pymupdf
+    from src.extract import extract
+    from src.extract.llm_client import LLMResult
+    d = pymupdf.open()
+    pg = d.new_page()
+    pg.insert_text((72, 72), "Category")
+    pg.insert_text((300, 72), "Points")
+    pg.insert_text((72, 90), "Proximity to transit")
+    pg.insert_text((300, 90), "10")
+    pg.insert_text((72, 108), "Developer fee is limited to 15 percent.")
+    raw = d.tobytes()
+    conn = archive.connect(tmp_path / "t.db")
+    src = {"source_id": "MI_QAP_CURRENT", "jurisdiction": "MSHDA", "state": "MI", "doc_type": "qap_doc", "title": "QAP",
+           "url": "https://m/q.pdf", "status": "unknown", "critical": 1, "notes": ""}
+    archive.upsert_source(conn, src)
+    archive.store_snapshot(conn, tmp_path / "archive", source=src, data=raw, requested_url=src["url"], final_url=src["url"],
+                           content_type="application/pdf", http_status=200)
+
+    class Fake:
+        def extract(self, system, document, instruction, schema):
+            f = lambda field, quote: {"field": field, "value": "10", "units": "", "applies_to": "9%", "page": 1,  # noqa: E731
+                                      "section": "", "quote": quote, "confidence": "high", "notes": ""}
+            return LLMResult(json.dumps({"findings": [
+                f("scoring_criterion", "Proximity to transit: 10 points"),       # table: words in order with gaps? no
+                f("scoring_criterion", "Category Proximity to transit 10"),       # table read across columns
+                f("other_selection_rule", "Applicants must hold 20 years of experience"),  # not on the page
+            ], "not_found": []}), "m", "r", "STOP", {})
+
+    cfg = {"llm": {**fetch.load_settings()["llm"], "model": "m", "topics_by_doc_type": {"qap_doc": ["scoring_criteria"]}}}
+    s = extract.run(tmp_path / "t.db", tmp_path / "archive", cfg, client=Fake(), progress=lambda m: None)
+    rows = {r["quote"]: r for r in csv.DictReader(open(s["rejected_file"]))}
+    assert rows["Category Proximity to transit 10"]["likely_cause"].startswith("words are on the page in order")
+    assert rows["Applicants must hold 20 years of experience"]["likely_cause"].startswith("quote not on any page")
+    assert sum(s["rejected_reasons"].values()) == s["rejected_validation"] == 3
