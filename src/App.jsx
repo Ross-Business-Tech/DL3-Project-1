@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TERRITORIES } from './data.js'
 import RankingsPage from './RankingsPage.jsx'
 import TerritoriesPage from './TerritoriesPage.jsx'
@@ -43,8 +43,8 @@ function Overview({ onOpenTerritory }) {
   return (
     <>
       <section className="stats" aria-label="Key numbers">
-        {SAMPLE_STATS.map((stat) => (
-          <div className="card" key={stat.label}>
+        {SAMPLE_STATS.map((stat, i) => (
+          <div className="card" key={stat.label} data-reveal style={{ '--d': `${i * 90}ms` }}>
             <div className="stat-value">{stat.value}</div>
             <div className="stat-label">{stat.label}</div>
           </div>
@@ -52,7 +52,7 @@ function Overview({ onOpenTerritory }) {
       </section>
 
       <div className="overview-grid">
-        <section className="card" aria-labelledby="top-heading">
+        <section className="card" aria-labelledby="top-heading" data-reveal>
           <h2 id="top-heading">Current rankings</h2>
           {top.map((t, i) => (
             <button type="button" className="list-row" key={t.id} onClick={() => onOpenTerritory(t.id)}>
@@ -66,7 +66,7 @@ function Overview({ onOpenTerritory }) {
           ))}
         </section>
 
-        <section className="card assistant" aria-labelledby="assistant-heading">
+        <section className="card assistant" aria-labelledby="assistant-heading" data-reveal="up" style={{ '--d': '120ms' }}>
           <h2 id="assistant-heading">AI ranking assistant</h2>
           <p>Review research, resolve missing information, and regenerate rankings.</p>
           <p className="small-note">Coming in a later step.</p>
@@ -78,7 +78,7 @@ function Overview({ onOpenTerritory }) {
 
 function ComingSoon({ title }) {
   return (
-    <section className="card coming-soon">
+    <section className="card coming-soon" data-reveal>
       <h2>{title}</h2>
       <p>Coming soon.</p>
     </section>
@@ -89,6 +89,27 @@ function App() {
   const [screen, setScreen] = useState('overview')
   const [selectedId, setSelectedId] = useState(null)
   const current = MENU.flatMap((g) => g.items).find((item) => item.id === screen)
+
+  // Scroll reveal: anything marked data-reveal slides or fades in the first time it reaches the screen.
+  useEffect(() => {
+    const targets = document.querySelectorAll('[data-reveal]:not(.is-visible)')
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((el) => el.classList.add('is-visible'))
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible')
+            io.unobserve(e.target)
+          }
+        }),
+      { threshold: 0.12 },
+    )
+    targets.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [screen, selectedId])
 
   // Opening a territory from any page jumps to the Territories screen at that territory.
   const openTerritory = (id) => {

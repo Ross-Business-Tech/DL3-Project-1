@@ -16,10 +16,12 @@ export default function TerritoriesPage({ selectedId, onBack }) {
         <button type="button" className="text-button" onClick={onBack}>← Back to rankings</button>
       </div>
       <div className="territory-list">
-        {[...TERRITORIES].sort(byScore).map((t) => (
+        {[...TERRITORIES].sort(byScore).map((t, i) => (
           <section
             key={t.id}
             id={`t-${t.id}`}
+            data-reveal
+            style={{ '--d': `${Math.min(i, 4) * 90}ms` }}
             className={`card territory-card${selectedId === t.id ? ' is-selected' : ''}`}
             aria-labelledby={`t-${t.id}-name`}
           >

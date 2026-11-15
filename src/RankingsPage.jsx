@@ -163,7 +163,7 @@ export default function RankingsPage({ onOpenTerritory }) {
         <button type="button" aria-pressed={view === 'map'} onClick={() => setView('map')}>Map view</button>
         <button type="button" aria-pressed={view === 'list'} onClick={() => setView('list')}>List view</button>
       </div>
-      <div className="card">
+      <div className="card" data-reveal="scale">
         {view === 'map' ? <MapView onOpen={onOpenTerritory} /> : <ListView onOpen={onOpenTerritory} />}
       </div>
       <p className="small-note">Select a state or local area to open its details on the Territories page.</p>
