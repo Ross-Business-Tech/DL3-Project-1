@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import './App.css'
 
 // The menu from the Final Build mock-up. Only Overview is built so far.
@@ -32,20 +32,14 @@ const SAMPLE_STATS = [
 ]
 
 const SAMPLE_TOP = [
-  { name: 'Sample Territory A', note: 'Example location', score: 92 },
-  { name: 'Sample Territory B', note: 'Example location', score: 89 },
-  { name: 'Sample Territory C', note: 'Example location', score: 86 },
+  { name: 'Territory A', note: 'Example location', score: 92 },
+  { name: 'Territory B', note: 'Example location', score: 89 },
+  { name: 'Territory C', note: 'Example location', score: 86 },
 ]
 
 function Overview() {
   return (
     <>
-      <header className="page-header">
-        <h1>Investment overview</h1>
-        <p>Last ranking update: November 2026</p>
-        <span className="sample-note">Sample numbers for design only</span>
-      </header>
-
       <section className="stats" aria-label="Key numbers">
         {SAMPLE_STATS.map((stat) => (
           <div className="card" key={stat.label}>
@@ -82,12 +76,7 @@ function Overview() {
 
 function ComingSoon({ title }) {
   return (
-    <>
-      <header className="page-header">
-        <h1>{title}</h1>
-      </header>
-      <p className="placeholder">This screen is coming in a later step.</p>
-    </>
+    <p className="placeholder">{title} is coming in a later step.</p>
   )
 }
 
@@ -97,12 +86,15 @@ function App() {
 
   return (
     <div className="app">
-      <aside className="sidebar">
-        <div className="brand">DL3 Investment Intelligence</div>
+      <header className="site-header">
+        <div className="brand">
+          <span className="brand-name">DL3</span>
+          <span className="brand-sub">Investment Intelligence</span>
+        </div>
         <nav className="nav" aria-label="Main menu">
-          {MENU.map((group) => (
-            <div className="nav-group" key={group.group}>
-              <div className="nav-group-label">{group.group}</div>
+          {MENU.map((group, gi) => (
+            <Fragment key={group.group}>
+              {gi > 0 && <span className="nav-divider" aria-hidden="true" />}
               {group.items.map((item) => (
                 <button
                   type="button"
@@ -114,10 +106,23 @@ function App() {
                   {item.label}
                 </button>
               ))}
-            </div>
+            </Fragment>
           ))}
         </nav>
-      </aside>
+      </header>
+
+      <section className="page-band">
+        <div className="page-band-inner">
+          <div className="band-rule" aria-hidden="true" />
+          <h1>{current.label}</h1>
+          {screen === 'overview' && (
+            <>
+              <p>Last ranking update: November 2026</p>
+              <span className="sample-note">Sample numbers for design only</span>
+            </>
+          )}
+        </div>
+      </section>
 
       <main className="main">
         {screen === 'overview' ? <Overview /> : <ComingSoon title={current.label} />}
