@@ -342,6 +342,47 @@
   color: var(--muted);
 }
 
+/* Map zoom buttons (pinch or Ctrl + scroll also zoom) */
+.map-wrap {
+  position: relative;
+  touch-action: none;
+}
+
+.zoom-controls {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+.zoom-controls button {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--navy);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zoom-controls button:hover {
+  border-color: var(--teal);
+}
+
+/* Small states grow when hovered, so they are easy to pick with a mouse */
+.state.is-small {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.15s ease;
+}
+
+.state.is-small:hover,
+.state.is-small:focus-visible {
+  transform: scale(2.4);
+}
+
 /* US map (traced from the project's reference image) */
 .us-map {
   display: block;
@@ -354,6 +395,7 @@
   fill: #d5d9e0;
   stroke: #ffffff;
   stroke-width: 1.2;
+  vector-effect: non-scaling-stroke; /* borders stay thin when zoomed in */
   stroke-linejoin: round;
   cursor: pointer;
   outline: none;
