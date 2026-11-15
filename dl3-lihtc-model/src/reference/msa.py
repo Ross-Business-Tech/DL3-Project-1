@@ -31,7 +31,13 @@ YEAR_IN_URL = re.compile(r"/data/(\d{4})/acs/acs5")
 
 def parse(raw: bytes) -> list[dict]:
     """Rows of the Census API response -> metro areas. Raises ValueError if the layout is not as expected."""
-    data = json.loads(raw.decode("utf-8-sig"))
+    text = raw.decode("utf-8-sig", "replace")
+    try:
+        data = json.loads(text)
+    except ValueError as e:
+        from ..fetch.diff import html_to_text
+        said = " ".join((html_to_text(raw) if text.lstrip().startswith("<") else text).split())[:300]
+        raise ValueError(f"Census did not send data. It said: {said}") from e
     if not isinstance(data, list) or not data or not isinstance(data[0], list):
         raise ValueError("Census response is not a table")
     header = data[0]

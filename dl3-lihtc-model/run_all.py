@@ -88,6 +88,9 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
     if awards:
         from src.awards import parse_awards
         award_summary = parse_awards.run(db_path, archive_root, only=only)
+        award_summary["export"] = str(parse_awards.export(db_path, ROOT / "outputs" / "awards"))
+        from src.awards import costs
+        costs.write(db_path, ROOT / "outputs" / "awards" / "cost_per_unit.csv")
 
     extraction = None
     if extract:
@@ -144,7 +147,9 @@ def main(argv=None) -> int:
     if m.get("awards"):
         w = m["awards"]
         print(f"Awards: {w['rows']} rows from {w['files']} files ({w['flagged']} flagged, {len(w['errors'])} errors). "
-              "Check: python -m src.awards.parse_awards --export")
+              f"Rows to check: {w['export']}")
+        for reason, n in sorted(w.get("flag_reasons", {}).items(), key=lambda kv: -kv[1])[:8]:
+            print(f"  flagged {n:4} x {reason}")
     if m.get("extraction"):
         e = m["extraction"]
         print(f"Extraction: {e['calls']} calls ({e['cached']} reused), {e['pending_review']} findings for review, "

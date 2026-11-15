@@ -28,7 +28,7 @@ import yaml
 from ..fetch import archive
 
 ROOT = Path(__file__).resolve().parents[2]
-PARSER_VERSION = "awards-2"  # 2: total development cost and cost per unit columns
+PARSER_VERSION = "awards-3"  # 3: credit type and year also read from the file name  # 2: total development cost and cost per unit columns
 XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 XLS = "application/vnd.ms-excel"
 SHEET_TYPES = {XLSX, XLS, "text/csv"}
@@ -39,8 +39,9 @@ INT_FIELDS = ("total_units", "restricted_units")
 TEXT_FIELDS = ("application_number", "project_name", "sponsor", "address", "city", "county", "zip", "award_date",
                "set_aside", "project_type", "status", "score")
 YEAR = re.compile(r"\b(20[0-3]\d)\b")
-NINE = re.compile(r"(?<![\d.])9\s*(%|pct|percent)", re.I)
-FOUR = re.compile(r"(?<![\d.])4\s*(%|pct|percent)", re.I)
+# "9%", "9 pct", "9 percent", and file-name forms like "2026-9-LIHTC-Reservations" or "9PctHTC"
+NINE = re.compile(r"(?<![\d.])9\s*(%|pct|percent|[-_ ]?(lihtc|htc)(?![a-z]))", re.I)
+FOUR = re.compile(r"(?<![\d.])4\s*(%|pct|percent|[-_ ]?(lihtc|htc)(?![a-z]))", re.I)
 
 
 def load_rules(path: Path | None = None) -> dict:
@@ -170,7 +171,7 @@ def year_in(s: str) -> int | None:
 
 
 # --- parse one sheet --------------------------------------------------------------------------------------------
-def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str) -> dict:
+def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str, file_name: str = "") -> dict:
     found = find_header(rows, rules)
     if found is None:
         return {"sheet_name": name, "header_row": None, "column_map": {}, "unmapped": [], "rows": [],
@@ -215,7 +216,7 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str) -> di
 
         ct, basis = None, "none"
         for src, val in (("column", text(get("credit_type"))), ("section", section), ("sheet name", name),
-                         ("heading above table", preamble), ("file title", file_title)):
+                         ("heading above table", preamble), ("file title", file_title), ("file name", file_name)):
             ct = credit_type_in(val)
             if ct:
                 basis = src
@@ -231,7 +232,7 @@ def parse_sheet(name: str, rows: list[list], rules: dict, file_title: str) -> di
         else:
             for src, val in (("column", text(get("award_year"))), ("award date", text(get("award_date"))),
                              ("section", section), ("sheet name", name), ("heading above table", preamble),
-                             ("file title", file_title)):
+                             ("file title", file_title), ("file name", file_name)):
                 yr = year_in(val)
                 if yr:
                     ybasis = src
@@ -293,7 +294,8 @@ def run(db_path: Path, archive_root: Path, only: set[str] | None = None, force: 
         rules: dict | None = None, progress=print) -> dict:
     rules = rules or load_rules()
     conn = archive.connect(db_path)
-    summary = {"files": 0, "sheets": 0, "rows": 0, "flagged": 0, "reused": 0, "errors": [], "no_table": []}
+    summary = {"files": 0, "sheets": 0, "rows": 0, "flagged": 0, "reused": 0, "errors": [], "no_table": [],
+               "flag_reasons": {}}
     for snap in list(award_snapshots(conn, only)):
         done = conn.execute("SELECT COUNT(*) FROM award_sheet WHERE snapshot_id=? AND parser_version=?",
                             (snap["snapshot_id"], PARSER_VERSION)).fetchone()[0]
@@ -310,11 +312,19 @@ def run(db_path: Path, archive_root: Path, only: set[str] | None = None, force: 
             continue
         summary["files"] += 1
         for name, rows, note in sheets:
-            parsed = parse_sheet(name, rows, rules, snap["title"] or "")
+            from urllib.parse import unquote, urlparse
+            fname = unquote(urlparse(snap["final_url"] or "").path.rsplit("/", 1)[-1])
+            parsed = parse_sheet(name, rows, rules, snap["title"] or "", fname)
             n, flagged = store(conn, snap, parsed, note)
             summary["sheets"] += 1
             summary["rows"] += n
             summary["flagged"] += flagged
+            for r in parsed["rows"]:
+                for reason in r["flags"]:
+                    key = re.sub(r":\s*-?[\d.,]+$", ": …", re.sub(r"'[^']*'", "'…'", reason))  # group like reasons
+                    summary["flag_reasons"][key] = summary["flag_reasons"].get(key, 0) + 1
+            if parsed["header_row"]:
+                progress(f"    columns: " + ", ".join(f"{f}={v['header']!r}" for f, v in parsed["column_map"].items()))
             if parsed["header_row"] is None:
                 summary["no_table"].append(f"{snap['source_id']} / {name}")
             progress(f"{snap['source_id']} / {name}: {n} rows, {flagged} flagged"

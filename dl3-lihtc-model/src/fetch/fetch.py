@@ -140,7 +140,7 @@ class Browser:
                 self._pw = sync_playwright().start()
                 exe = os.environ.get("DL3_CHROMIUM_PATH") or None
                 self._browser = self._pw.chromium.launch(executable_path=exe)
-                self._ctx = self._browser.new_context(accept_downloads=False)
+                self._ctx = self._browser.new_context(accept_downloads=True)
             except Exception as e:
                 self.close()
                 first = str(e).splitlines()[0][:200]
@@ -156,8 +156,16 @@ class Browser:
             self.unavailable = str(e)  # do not try to launch again for every page
             raise
         page = ctx.new_page()
+        downloads = []
+        page.on("download", lambda d: downloads.append(d))  # Playwright needs a Python function here
         try:
-            resp = page.goto(url, timeout=self.timeout_ms, wait_until="domcontentloaded")
+            try:
+                resp = page.goto(url, timeout=self.timeout_ms, wait_until="domcontentloaded")
+            except Exception as e:
+                # Chrome saves PDFs and spreadsheets as downloads instead of showing them (seen: michigan.gov).
+                if "Download is starting" not in str(e):
+                    raise
+                return self._download(page, downloads, url)
             try:  # let JS-built menus and bot checks finish; fine if the network never goes fully idle
                 page.wait_for_load_state("networkidle", timeout=min(self.timeout_ms, 15000))
             except Exception:
@@ -179,6 +187,33 @@ class Browser:
             raise FetchError(f"browser: {type(e).__name__}: {str(e).splitlines()[0][:200]}") from e
         finally:
             page.close()
+
+    def _download(self, page, downloads, url: str) -> Response:
+        deadline = time.monotonic() + self.timeout_ms / 1000
+        while not downloads and time.monotonic() < deadline:
+            page.wait_for_timeout(100)
+        if not downloads:
+            raise FetchError("browser: download did not start")
+        d = downloads[0]
+        if d.failure():
+            raise FetchError(f"browser: download failed: {d.failure()}")
+        body = Path(d.path()).read_bytes()
+        name = (d.suggested_filename or "").lower()
+        if body.startswith(b"%PDF-"):
+            ct = "application/pdf"
+        elif body.startswith(b"PK\x03\x04") and name.endswith((".xlsx", ".xlsm")):
+            ct = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        elif body.startswith(b"PK\x03\x04") and name.endswith(".docx"):
+            ct = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        elif body.startswith(b"\xd0\xcf\x11\xe0") and name.endswith(".xls"):
+            ct = "application/vnd.ms-excel"
+        elif body.startswith(b"\xd0\xcf\x11\xe0") and name.endswith(".doc"):
+            ct = "application/msword"
+        elif name.endswith(".csv"):
+            ct = "text/csv"
+        else:
+            raise FetchError(f"browser: downloaded file of unrecognised type ({name or 'no name'})")
+        return Response(body, 200, ct, d.url or url, method="browser")
 
     def close(self):
         for obj in (self._ctx, self._browser):
@@ -283,6 +318,14 @@ class Fetcher:
             resp = self.browser.get(url)
         except FetchError as be:
             raise FetchError(f"{original}; browser retry failed: {be}", original.attempts + 1) from be
+        n = original.attempts + 1
+        # the same checks as a normal download
+        if resp.content_type not in self.cfg["allowed_content_types"]:
+            raise FetchError(f"content type not allowed: {resp.content_type}", n)
+        if len(resp.body) > self.cfg["max_bytes"]:
+            raise FetchError(f"exceeds max_bytes ({self.cfg['max_bytes']})", n)
+        if not content_matches_type(resp.body, resp.content_type):
+            raise FetchError(f"quarantined: content does not look like declared type {resp.content_type}", n)
         if not allow_offsite_redirect:
             self.check_allowed(resp.final_url)
         ok, why = self._robots_ok(resp.final_url)

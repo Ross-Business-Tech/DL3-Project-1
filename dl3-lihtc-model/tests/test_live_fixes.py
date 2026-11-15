@@ -301,3 +301,73 @@ def test_allocation_plan_alias_and_old_document_host():
     plain = {c["category"] for c in crawl.classify("2025 and 2026 Allocation Plan", "https://x/x.pdf", "", crawl.load_rules())}
     assert "qap" not in plain  # alias is per state, not global (HOME/HTF also have "allocation plans")
     assert by["GA"]["agency_url"] == "https://dca.georgia.gov/"
+
+
+# --- third real run (2026-11-15) --------------------------------------------------------------------
+def pdf_bytes():
+    import pymupdf
+    d = pymupdf.open()
+    d.new_page().insert_text((72, 72), "Qualified Allocation Plan 2026")
+    return d.tobytes()
+
+
+@needs_browser
+def test_browser_handles_pdf_that_downloads(site, tmp_path):
+    """michigan.gov: 403 for scripts, and Chrome saves the PDF as a download instead of showing it."""
+    body = pdf_bytes()
+
+    def gate(headers):
+        if "Chrome" not in (headers.get("User-Agent") or ""):
+            return (403, "text/html", b"<html>Access denied</html>")
+        return (200, "application/octet-stream", body)
+    site.dynamic["/-/media/qap.pdf"] = gate
+    f = fetch.Fetcher(BROWSER, {"127.0.0.1"}, sleep=lambda s: None)
+    try:
+        resp, attempts = f.get(site.base + "/-/media/qap.pdf")
+    finally:
+        f.close()
+    assert resp.method == "browser" and resp.content_type == "application/pdf" and resp.body == body
+
+
+@needs_browser
+def test_browser_download_of_unknown_type_refused(site, tmp_path):
+    def gate(headers):
+        if "Chrome" not in (headers.get("User-Agent") or ""):
+            return (403, "text/html", b"denied")
+        return (200, "application/octet-stream", b"MZ\x90\x00 not a document")
+    site.dynamic["/thing.bin"] = gate
+    f = fetch.Fetcher(BROWSER, {"127.0.0.1"}, sleep=lambda s: None)
+    try:
+        with pytest.raises(fetch.FetchError, match="unrecognised type"):
+            f.get(site.base + "/thing.bin")
+    finally:
+        f.close()
+
+
+def test_census_html_error_is_explained():
+    from src.reference import msa
+    with pytest.raises(ValueError, match="Census did not send data. It said: error: unknown variable"):
+        msa.parse(b"<html><body><p>error: unknown variable 'B01003_001E'</p></body></html>")
+    with pytest.raises(ValueError, match="It said: Sorry, the system is currently undergoing maintenance"):
+        msa.parse(b"Sorry, the system is currently undergoing maintenance.")
+
+
+def test_pathway_and_year_read_from_file_name(tmp_path):
+    from src.awards import parse_awards as pa
+    from tests.test_awards import xlsx
+    conn = archive.connect(tmp_path / "t.db")
+    for sid, url in (("OH_A", "https://ohiohome.org/ppd/documents/2026-9-LIHTC-Reservations.xlsx"),
+                     ("OH_B", "https://ohiohome.org/ppd/documents/SFY-2027-4PctHTC-Results.xlsx"),
+                     ("OH_C", "https://ohiohome.org/ppd/documents/2014-LIHTC-Results.xlsx")):
+        src = {"source_id": sid, "jurisdiction": "OHFA", "state": "OH", "doc_type": "award_list", "title": "OH award list",
+               "url": url, "status": "unknown", "critical": 0, "notes": ""}
+        archive.upsert_source(conn, src)
+        archive.store_snapshot(conn, tmp_path / "a", source=src, final_url=url, requested_url=url, http_status=200,
+                               content_type=pa.XLSX, data=xlsx({"Reservations": [["Project Name", "Sponsor", "Annual Credit"],
+                                                                                 [sid, "X", 1000]]}))
+    s = pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
+    rows = {r["project_name"]: dict(r) for r in conn.execute("SELECT * FROM award_row")}
+    assert (rows["OH_A"]["credit_type"], rows["OH_A"]["credit_type_basis"], rows["OH_A"]["award_year"]) == ("9%", "file name", 2026)
+    assert (rows["OH_B"]["credit_type"], rows["OH_B"]["award_year"]) == ("4%", 2027)
+    assert rows["OH_C"]["credit_type"] == "unknown" and rows["OH_C"]["award_year"] == 2014   # "2014-LIHTC" is not 4%
+    assert s["flag_reasons"]["credit type (9% or 4%) not stated"] == 1
