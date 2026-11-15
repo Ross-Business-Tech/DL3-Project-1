@@ -1,33 +1,46 @@
 import { useState } from 'react'
-import { TERRITORIES, TILES } from './data.js'
+import { TERRITORIES } from './data.js'
+import { MAP } from './mapPaths.js'
 
 const byScore = (a, b) => b.score - a.score
 
-// Map view: one tile per state. Tiles with sample details can be clicked.
-function TileMap({ onOpen }) {
+// Map view: the US map from the project's reference image. Researched states are teal and can be clicked.
+function MapView({ onOpen }) {
   const [message, setMessage] = useState('')
   const researched = new Map(TERRITORIES.filter((t) => t.kind === 'State').map((t) => [t.id, t]))
 
+  const choose = (code) => {
+    const t = researched.get(code)
+    if (t) {
+      setMessage('')
+      onOpen(t.id)
+    } else {
+      setMessage(`${code} has not been researched yet, so there are no details to show.`)
+    }
+  }
+
   return (
     <>
-      <div className="tile-grid">
-        {TILES.map((tile) => {
-          const t = researched.get(tile.code)
-          const cls = `tile${t ? ' is-data' : ''}`
+      <svg className="us-map" viewBox={MAP.viewBox} role="group" aria-label="US map. Select a state.">
+        {Object.entries(MAP.states).map(([code, d]) => {
+          const t = researched.get(code)
+          const name = t ? `${t.name}, score ${t.score}` : `${code}, not researched yet`
           return (
-            <button
-              type="button"
-              key={tile.code}
-              className={cls}
-              style={{ gridColumn: tile.col + 1, gridRow: tile.row + 1 }}
-              aria-label={t ? `${t.name}, score ${t.score}` : `${tile.code}, not researched yet`}
-              onClick={() => (t ? onOpen(t.id) : setMessage(`${tile.code} has not been researched yet, so there are no details to show.`))}
+            <path
+              key={code}
+              d={d}
+              className={`state${t ? ' is-data' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-label={name}
+              onClick={() => choose(code)}
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && choose(code)}
             >
-              {tile.code}
-            </button>
+              <title>{name}</title>
+            </path>
           )
         })}
-      </div>
+      </svg>
       <div className="legend small-note">
         <span className="legend-item"><span className="swatch is-data" />Researched (sample)</span>
         <span className="legend-item"><span className="swatch" />Not researched yet</span>
@@ -77,7 +90,7 @@ export default function RankingsPage({ onOpenTerritory }) {
         <button type="button" aria-pressed={view === 'list'} onClick={() => setView('list')}>List view</button>
       </div>
       <div className="card">
-        {view === 'map' ? <TileMap onOpen={onOpenTerritory} /> : <ListView onOpen={onOpenTerritory} />}
+        {view === 'map' ? <MapView onOpen={onOpenTerritory} /> : <ListView onOpen={onOpenTerritory} />}
       </div>
       <p className="small-note">Select a state or local area to open its details on the Territories page.</p>
     </>

@@ -35,29 +35,6 @@ export const TERRITORIES = [
   },
 ]
 
-// Tile map of the 50 states plus DC. Each tile is one state, placed roughly where it sits on a map.
-export const TILES = [
-  { code: 'AK', col: 0, row: 0 }, { code: 'ME', col: 11, row: 0 },
-  { code: 'WA', col: 1, row: 1 }, { code: 'ID', col: 2, row: 1 }, { code: 'MT', col: 3, row: 1 },
-  { code: 'ND', col: 4, row: 1 }, { code: 'MN', col: 5, row: 1 }, { code: 'WI', col: 6, row: 1 },
-  { code: 'MI', col: 7, row: 1 }, { code: 'NY', col: 9, row: 1 }, { code: 'VT', col: 10, row: 1 },
-  { code: 'NH', col: 11, row: 1 },
-  { code: 'OR', col: 1, row: 2 }, { code: 'NV', col: 2, row: 2 }, { code: 'WY', col: 3, row: 2 },
-  { code: 'SD', col: 4, row: 2 }, { code: 'IA', col: 5, row: 2 }, { code: 'IL', col: 6, row: 2 },
-  { code: 'IN', col: 7, row: 2 }, { code: 'OH', col: 8, row: 2 }, { code: 'PA', col: 9, row: 2 },
-  { code: 'NJ', col: 10, row: 2 }, { code: 'MA', col: 11, row: 2 },
-  { code: 'CA', col: 1, row: 3 }, { code: 'UT', col: 2, row: 3 }, { code: 'CO', col: 3, row: 3 },
-  { code: 'NE', col: 4, row: 3 }, { code: 'MO', col: 5, row: 3 }, { code: 'KY', col: 6, row: 3 },
-  { code: 'WV', col: 7, row: 3 }, { code: 'VA', col: 8, row: 3 }, { code: 'MD', col: 9, row: 3 },
-  { code: 'DE', col: 10, row: 3 }, { code: 'RI', col: 11, row: 3 },
-  { code: 'AZ', col: 2, row: 4 }, { code: 'NM', col: 3, row: 4 }, { code: 'KS', col: 4, row: 4 },
-  { code: 'AR', col: 5, row: 4 }, { code: 'TN', col: 6, row: 4 }, { code: 'NC', col: 7, row: 4 },
-  { code: 'SC', col: 8, row: 4 }, { code: 'DC', col: 9, row: 4 }, { code: 'CT', col: 10, row: 4 },
-  { code: 'HI', col: 0, row: 5 }, { code: 'OK', col: 3, row: 5 }, { code: 'TX', col: 4, row: 5 },
-  { code: 'LA', col: 5, row: 5 }, { code: 'MS', col: 6, row: 5 }, { code: 'AL', col: 7, row: 5 },
-  { code: 'GA', col: 8, row: 5 }, { code: 'FL', col: 9, row: 5 },
-]
-
 // The source register from the DL3 guide, section 12. These are the public pages the team starts from.
 export const SOURCES = [
   { id: 'P1', title: 'HUD list of LIHTC allocating agencies', use: 'Starting list of state and local agencies. Re-check names and links.', url: 'https://www.huduser.gov/lihtc/agency_list.htm' },

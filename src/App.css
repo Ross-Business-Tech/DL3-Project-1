@@ -342,42 +342,34 @@
   color: var(--muted);
 }
 
-/* Tile map */
-.tile-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 6px;
+/* US map (traced from the project's reference image) */
+.us-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
 }
 
-.tile {
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 0;
-  background: #d5d9e0;
-  color: var(--body);
-  font-size: 13px;
-  font-weight: 700;
+.state {
+  fill: #d5d9e0;
+  stroke: #ffffff;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
   cursor: pointer;
+  outline: none;
 }
 
-.tile.is-data {
-  background: var(--teal);
-  color: #fff;
+.state.is-data {
+  fill: var(--teal);
 }
 
-.tile.is-data:hover {
-  background: var(--teal-deep);
+.state:hover {
+  fill: var(--teal-deep);
 }
 
-.legend {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+.state:focus-visible {
+  stroke: var(--navy);
+  stroke-width: 3;
 }
 
 .legend-item {
@@ -492,14 +484,6 @@
 }
 
 @media (max-width: 760px) {
-  .tile-grid {
-    gap: 3px;
-  }
-
-  .tile {
-    font-size: 9px;
-  }
-
   .segmented button {
     padding: 10px 12px;
   }
