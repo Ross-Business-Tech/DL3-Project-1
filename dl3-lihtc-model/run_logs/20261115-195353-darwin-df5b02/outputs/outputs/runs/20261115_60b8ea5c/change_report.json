@@ -1,0 +1,1176 @@
+{
+  "run_id": "60b8ea5c",
+  "started_at": "2026-11-15T19:53:53.567090+00:00",
+  "counts": {
+    "fetched": 71,
+    "new": 0,
+    "changed": 2,
+    "unchanged": 69,
+    "failed": 0,
+    "blocking": 0
+  },
+  "changes": [
+    {
+      "source_id": "CENSUS_MSA",
+      "status": "changed",
+      "previous_snapshot_id": 261,
+      "current_snapshot_id": 332,
+      "previous_sha256": "5c06207cce41082e4586126c644298b83a78b16225a5f38af14c0d3e8418f3fb",
+      "current_sha256": "55dd2ea1e30be6e0b86f2dee9c2b3afd7bcfae410d3cdc377fd26b3909320694",
+      "previous_retrieved_at": "2026-11-15T19:33:07.856337+00:00",
+      "current_retrieved_at": "2026-11-15T19:54:10.721253+00:00",
+      "text_diff": null,
+      "note": "binary format; hash changed, text diff unavailable",
+      "title": "ACS 5-year total population by metropolitan statistical area (table B01003)"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "status": "changed",
+      "previous_snapshot_id": 262,
+      "current_snapshot_id": 333,
+      "previous_sha256": "af293890e31aaf89aa1ab3fefecf991f009e65d1f82be53b7c0804b721676fc0",
+      "current_sha256": "a7974b314b9312a1b88ea1348edcfb6adf01fab9121cc058391fd9ea45520aac",
+      "previous_retrieved_at": "2026-11-15T19:33:10.211358+00:00",
+      "current_retrieved_at": "2026-11-15T19:54:12.926349+00:00",
+      "text_diff": {
+        "added_lines": 1686,
+        "removed_lines": 19,
+        "unified": [
+          "--- previous",
+          "+++ current",
+          "@@ -1,20 +1,1687 @@",
+          " [page 1]",
+          "-GEORGE W. ROMNEY BUILDING \u2022 111 SOUTH CAPITOL AVENUE \u2022 LANSING, MICHIGAN 48909 ",
+          "-www.michigan.gov ",
+          "-PRINTED IN-HOUSE ",
+          "-July 9, 2025 ",
+          "-Anthony Lentych ",
+          "-Chief Housing Investment Officer ",
+          "-Michigan State Housing Development Authority ",
+          "-735 East Michigan Ave. ",
+          "-P.O. Box 30044 ",
+          "-Lansing, MI 48909 ",
+          "-Dear Mr. Lentych: ",
+          "-In response to your memo dated June 12, 2025, and pursuant to Section ",
+          "-42(m) of the Internal Revenue Code of 1986, as amended, and Section 22(b)(4) of ",
+          "-P.A. 346 of 1966, as amended, I hereby approve the accompanying 2026-2027 ",
+          "-Qualified Allocation Plan pursuant to which the Low-Income Housing Tax Credit ",
+          "-Program in the State of Michigan will be administered. ",
+          "-Sincerely, ",
+          "-Gretchen Whitmer ",
+          "-Governor",
+          "+Low-Income Housing Tax Credit Program ",
+          "+ ",
+          "+2026-2027 Qualified Allocation Plan  ",
+          "+www.michigan.gov/mshda",
+          "+[page 2]",
+          "+2026-2027 QUALIFIED ALLOCATION PLAN  ",
+          "+CONTENTS ",
+          "+I. ",
+          "+Introduction .................................................................................................................. 1 ",
+          "+II. ",
+          "+Tax-Exempt Financed Projects Not Subject to Housing Credit Ceiling .................... 1 ",
+          "+III. ",
+          "+Approval and Modification of the Qualified Allocation Plan...................................... 1 ",
+          "+A. ",
+          "+QAP Approval ................................................................................................................................. 1 ",
+          "+B. ",
+          "+QAP Modification ............................................................................................................................ 1 ",
+          "+IV. ",
+          "+Authority Disclaimer and Anti-Discrimination Obligation ......................................... 2 ",
+          "+V. ",
+          "+Funding Round and Priorities ..................................................................................... 2 ",
+          "+A. ",
+          "+Funding Rounds ............................................................................................................................. 2 ",
+          "+B. ",
+          "+Funding Priorities ............................................................................................................................ 5 ",
+          "+C. ",
+          "+Primary Categories ......................................................................................................................... 6 ",
+          "+1. ",
+          "+Preservation Category .................................................................................................................. 6 ",
+          "+2. ",
+          "+Permanent Supportive Housing (PSH) Category .......................................................................... 7 ",
+          "+3. ",
+          "+Open Category (Urban) ................................................................................................................. 7 ",
+          "+4. ",
+          "+Open Category (Rural) .................................................................................................................. 8 ",
+          "+D. ",
+          "+Optional Category........................................................................................................................... 8 ",
+          "+1. ",
+          "+Strategic Investment Category ...................................................................................................... 8 ",
+          "+E. ",
+          "+Undesignated Credit ....................................................................................................................... 8 ",
+          "+F. ",
+          "+Set-Asides ...................................................................................................................................... 9 ",
+          "+G. ",
+          "+LIHTC Allocation Limits ................................................................................................................ 10 ",
+          "+H. ",
+          "+Waiver Requests .......................................................................................................................... 11 ",
+          "+VI. ",
+          "+LIHTC Funding Round Timing ....................................................................................11 ",
+          "+A. ",
+          "+Funding Round #1: October 2025 (Apprx 43% of annual credit ceiling) ...................................... 11 ",
+          "+B. ",
+          "+Funding Round #2: April 2026 (apprx 42% of annual credit ceiling) ............................................ 11 ",
+          "+C. ",
+          "+Funding Round #2: October 2026 (apprx 43% of annual credit ceiling) ...................................... 11 ",
+          "+D. ",
+          "+Funding Round #3: April 2027 (apprx 42% of annual credit ceiling) ............................................ 12 ",
+          "+E. ",
+          "+Strategic Investment Category - 15%........................................................................................... 12",
+          "+[page 3]",
+          "+VII. ",
+          "+Eligibility Requirements ..............................................................................................12 ",
+          "+A. ",
+          "+General Threshold Requirements ................................................................................................ 12 ",
+          "+B. ",
+          "+Threshold Requirements \u2013 Preservation Projects ........................................................................ 13 ",
+          "+VIII. ",
+          "+Selection Criteria .........................................................................................................13 ",
+          "+A.  ",
+          "+Housing In Areas of Opportunity & Other Notes .......................................................................... 13 ",
+          "+B.  ",
+          "+Tiebreakers ................................................................................................................................... 14 ",
+          "+C. ",
+          "+Re-evaluation process .................................................................................................................. 14 ",
+          "+IX. ",
+          "+Underwriting Standards & Application of Basis Boost .............................................14 ",
+          "+A. ",
+          "+Application of Basis Boost ............................................................................................................ 14 ",
+          "+X. ",
+          "+Fee Limits ....................................................................................................................14 ",
+          "+A. ",
+          "+Developer Fees ............................................................................................................................ 14 ",
+          "+1. ",
+          "+Developer Fee - Tax-Exempt Bond Financed Projects............................................................... 15 ",
+          "+2. ",
+          "+Developer Fee \u2013 9% LIHTC Projects .......................................................................................... 15 ",
+          "+3. ",
+          "+Developer Fee \u2013 Other Limitations ............................................................................................. 15 ",
+          "+B. ",
+          "+Construction Contract Items ......................................................................................................... 16 ",
+          "+C. ",
+          "+Construction Management ........................................................................................................... 16 ",
+          "+D. ",
+          "+Identity of Interest Fees ................................................................................................................ 16 ",
+          "+XI. ",
+          "+First Evaluation and Award of Reservations .............................................................16 ",
+          "+XII. ",
+          "+Second Evaluation ......................................................................................................17 ",
+          "+XIII. ",
+          "+Final Evaluation ...........................................................................................................17 ",
+          "+XIV. ",
+          "+Housing Choice Vouchers ..........................................................................................17 ",
+          "+XV. ",
+          "+Project or Development Team Changes ....................................................................17 ",
+          "+XVI. ",
+          "+Exchange of Credit ......................................................................................................18 ",
+          "+XVII. ",
+          "+Fees ..............................................................................................................................18 ",
+          "+XVIII. Compliance Monitoring ...............................................................................................19 ",
+          "+XIX. ",
+          "+Combined Application, Policy Bulletins and Addenda .............................................19 ",
+          "+XX. ",
+          "+Access, Accommodations, Translation, or Other Services ......................................19 ",
+          "+Exhibit I \u2013 General Threshold Requirements ........................................................................20",
+          "+[page 4]",
+          "+I. ",
+          "+Application Completeness ............................................................................................................ 20 ",
+          "+II. ",
+          "+Project Narrative and Map ............................................................................................................ 20 ",
+          "+III. ",
+          "+Site Control ................................................................................................................................... 20 ",
+          "+IV. ",
+          "+Zoning ........................................................................................................................................... 20 ",
+          "+V. ",
+          "+Utilities .......................................................................................................................................... 21 ",
+          "+VI. ",
+          "+Market Study ................................................................................................................................ 21 ",
+          "+VII. ",
+          "+Environmental ............................................................................................................................... 22 ",
+          "+VIII. ",
+          "+Title Insurance Commitment ........................................................................................................ 22 ",
+          "+IX. ",
+          "+Financing ...................................................................................................................................... 22 ",
+          "+X. ",
+          "+Acquisition Transfer ...................................................................................................................... 23 ",
+          "+XI. ",
+          "+Equity Investor Letter.................................................................................................................... 23 ",
+          "+XII. ",
+          "+Energy Efficient Buildings Policy .................................................................................................. 23 ",
+          "+XIII. ",
+          "+Development Team Capacity ....................................................................................................... 23 ",
+          "+XIV. Affirmative Fair Housing Marketing Plan ...................................................................................... 24 ",
+          "+XV. ",
+          "+Ownership Formation Document .................................................................................................. 24 ",
+          "+XVI. Waiver of Qualified Contract ........................................................................................................ 25 ",
+          "+XVII. Vouchers and Public Housing ...................................................................................................... 25 ",
+          "+XVIII. MSHDA Financing Signage .......................................................................................................... 25 ",
+          "+XIX. Minimum Hard Construction Costs ............................................................................................... 25 ",
+          "+XX. ",
+          "+Maximum Total Development Cost Per Unit Limit ....................................................................... 26 ",
+          "+XXI. Trade Payment Breakdown .......................................................................................................... 26 ",
+          "+XXII. Michigan Products ........................................................................................................................ 26 ",
+          "+XXIII. Phased Projects ........................................................................................................................... 26 ",
+          "+XXIV. Visitable / FHA Type C Units ........................................................................................................ 26 ",
+          "+XXV. Minimum Unit Size........................................................................................................................ 27 ",
+          "+Exhibit II \u2013 Preservation Threshold Requirements ...............................................................28 ",
+          "+I. ",
+          "+Eligible Preservation Projects ....................................................................................................... 28 ",
+          "+II. ",
+          "+MSHDA DIrect Lending Gap Financing Program Submission ..................................................... 28 ",
+          "+III. ",
+          "+Project Must be 'At Risk' ............................................................................................................... 28",
+          "+[page 5]",
+          "+IV. ",
+          "+Properties Ineligible for Preservation ........................................................................................... 29 ",
+          "+Exhibit III \u2013 Strategic Investment Category Requirements ..................................................30 ",
+          "+Exhibit IV \u2013 Underwriting Standards .....................................................................................34 ",
+          "+I. ",
+          "+Project Feasibility ......................................................................................................................... 34 ",
+          "+II. ",
+          "+Rent Increases ............................................................................................................................. 35 ",
+          "+Exhibit V \u2013 State-Designated Basis Boost Criteria ...............................................................36 ",
+          "+Exhibit VI \u2013 Compliance Monitoring & Notification of Noncompliance ...............................37 ",
+          "+1. ",
+          "+Owner Responsibilities ................................................................................................................. 37 ",
+          "+2. ",
+          "+MSHDA Responsibilities .............................................................................................................. 38 "
+        ],
+        "truncated": true
+      },
+      "title": "MI QAP (newest not marked draft)"
+    }
+  ],
+  "furniture_only": [
+    "P2",
+    "P3",
+    "P6",
+    "P7",
+    "P8",
+    "MI_PROGRAM"
+  ],
+  "failures": [],
+  "freshness": [
+    {
+      "source_id": "CENSUS_MSA",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_22",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_23",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_24",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_25",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_BOND",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    }
+  ],
+  "candidates": [
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "cost_limits",
+      "page": 1,
+      "quote": "it to a developer who constructs a 100-unit building at a total cost of $60,000 per unit with taxable financing and reserves all of the apartments for low income tenant"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "of Low Income Units x 40% Qualified Basis $40,000 Applicable Credit Percentage x4% Annual Acquisition Credit $1,600 Rehabilitation Credit Rehabilitation Costs $20"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "ty (MSHDA), this program permits investors in affordable rental housing who are awarded the credit- corporations, banking institutions, and individuals - to claim a cr"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "award_table",
+      "page": 13,
+      "quote": "make awards in the following order: a. MSHDA will use its discretion to place projects awarded from the Categories above (including the Strategic Investment Category) into t"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "award_table",
+      "page": 15,
+      "quote": "t may increase their developer fee cap by $300,000 for each Emerging Developer project awarded to them in the credit year. If a Principal has not exceeded its annual maximu"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "cost_limits",
+      "page": 31,
+      "quote": "Page 26 XX. MAXIMUM TOTAL DEVELOPMENT COST PER UNIT LIMIT All projects will be subject to a maximum Total Development Cos"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "cost_limits",
+      "page": 4,
+      "quote": ".............................................................. 25 XX. Maximum Total Development Cost Per Unit Limit ................................................................"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "cost_limits",
+      "page": 18,
+      "quote": "Page 13 19. Minimum Hard Construction Costs 20. Maximum Total Development Cost Per Unit Limit 21. Trade Payment Breakdown 22. Michigan Products 23. Phased"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "cost_limits",
+      "page": 21,
+      "quote": "such amounts are part of the developer fee. MSHDA will deduct excess fees from total development costs when performing the gap calculation. D. IDENTITY OF INTEREST FEES If an ide"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "cost_limits",
+      "page": 23,
+      "quote": "inspection (see Fee Schedule Policy Bulletin). MSHDA will assess a fee of $50 per unit for significant and repeated noncompliance issues."
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "credit_availability",
+      "page": 16,
+      "quote": "nt of Disaster Credits. A. FUNDING ROUND #1: OCTOBER 2025 (APPRX 43% OF ANNUAL CREDIT CEILING) \u2022 Preservation Category \u2013 10% \u2022 Permanent Supportive Housing Category \u2013 1"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "credit_availability",
+      "page": 2,
+      "quote": "................... 1 II. Tax-Exempt Financed Projects Not Subject to Housing Credit Ceiling .................... 1 III. Approval and Modification of the Qualified Alloca"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "credit_availability",
+      "page": 20,
+      "quote": "Page 15 1. DEVELOPER FEE - TAX-EXEMPT BOND FINANCED PROJECTS For projects financed with tax-exempt bonds eligible for 4%"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "credit_availability",
+      "page": 9,
+      "quote": "2025 Preservation Level 1 Review Due Date Friday, August 1, 2025 4%/9% Mixed Transaction Level 1 Review Due Date Friday, August 1, 2025 Add"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "credit_availability",
+      "page": 6,
+      "quote": "location Plan (QAP). II. TAX-EXEMPT FINANCED PROJECTS NOT SUBJECT TO HOUSING CREDIT CEILING In accordance with Section 42 of the Internal Revenue Code (IRC), tax-exempt"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "deadlines",
+      "page": 9,
+      "quote": "Page 4 Stage of Process Due Date October 2025 Funding Round Approximately 60% of the 2026 c"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "deadlines",
+      "page": 10,
+      "quote": "to MSHDA Office of Market Research Friday, July 31, 2026 Funding Round Due Date Thursday, October 1, 2026 Expected Award Notification Date January 2027"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "deadlines",
+      "page": 25,
+      "quote": "appropriate documentation. The control must be in effect for 120 days from the application due date, with the ability to provide additional extensions as necessary to accomm"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "deadlines",
+      "page": 42,
+      "quote": "rds for the first year of the LIHTC period must be kept for six years after the due date (with extensions) for filing the federal income tax return for the last year o"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "deadlines",
+      "page": 12,
+      "quote": "quired documentation takes place no later than the Preservation Level 1 Review Due Date listed in the table in Section V.A. In order to complete the review outlined a"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "fee_rule",
+      "page": 20,
+      "quote": "Page 15 1. DEVELOPER FEE - TAX-EXEMPT BOND FINANCED PROJECTS For projects financed with tax-exempt bond"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "fee_rule",
+      "page": 21,
+      "quote": "or physical structure is split into two or more phases, the aggregate 9% LIHTC developer fee for all phases shall not exceed the limitations stated above. This also applies"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "fee_rule",
+      "page": 15,
+      "quote": "t against the per-Principal limit based upon the percentage of interest in the developer fee, including any costs or other fees that would typically be included in and pai"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "fee_rule",
+      "page": 3,
+      "quote": "....................................................................... 14 X. Fee Limits .............................................................................."
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "fee_rule",
+      "page": 19,
+      "quote": "the usual evaluation of minimum credits needed to achieve feasibility. X. FEE LIMITS A. DEVELOPER FEES The total amount of any developer fees, developer guarant"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "news_items",
+      "page": 13,
+      "quote": "ory. E. UNDESIGNATED CREDIT The Undesignated Credit consists of LIHTCs not awarded in other Categories in the April 2026 and April 2027 funding rounds. MSHDA wil"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "news_items",
+      "page": 7,
+      "quote": "ictable, unforeseen, and/or insurmountable industry changes, they may do so by announcing an additional credit funding round. The round will be announced prior to th"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "extent necessary to facilitate the award of LIHTCs that would not otherwise be awarded. This modification process will follow the approval process delineated above un"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "news_items",
+      "page": 11,
+      "quote": "demand for the full 35% minimum, the remaining LIHTC in this Category will be awarded to the highest scoring projects in the Category. All projects must meet the re"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "news_items",
+      "page": 15,
+      "quote": "crease their developer fee cap by $300,000 for each Emerging Developer project awarded to them in the credit year. If a Principal has not exceeded its annual maximu"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "scoring_criteria",
+      "page": 18,
+      "quote": "the Same Building 24. Type C Units 25. Development Team Demographic Forms B. THRESHOLD REQUIREMENTS \u2013 PRESERVATION PROJECTS 'Preservation' applies to rental properti"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "scoring_criteria",
+      "page": 13,
+      "quote": "d under this Strategic Investment Category will not be subject to the standard Scoring Criteria and will be evaluated based on Exhibit III and the applicable threshol"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "scoring_criteria",
+      "page": 3,
+      "quote": "................................................................12 A. General Threshold Requirements .................................................................."
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "scoring_criteria",
+      "page": 17,
+      "quote": "ding Round of the corresponding year. VII. ELIGIBILITY REQUIREMENTS Certain threshold requirements must be met for all projects, unless otherwise stated in any Adden"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "scoring_criteria",
+      "page": 22,
+      "quote": "re to submit accurate progress reports on a timely basis may result in negative points on future applications or a loss of the award. XII. SECOND EVALUATION All"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "set_asides",
+      "page": 13,
+      "quote": "egories above (including the Strategic Investment Category) into the Statutory Set-Asides below, with the only goal being to fill the Statutory Set-Asides from the pro"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "set_asides",
+      "page": 14,
+      "quote": "Page 9 F. SET-ASIDES To the extent any Set-Asides have not been met through awards already made, M"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "set_asides",
+      "page": 15,
+      "quote": "the appropriate category, as detailed in the QAP. With the exception of the nonprofit set-aside, if the LIHTC allocated falls below the set-aside threshold by October 1"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "........................................................................ 8 F. Set-Asides .............................................................................."
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "set_asides",
+      "page": 11,
+      "quote": "nated Credit. This LIHTC will be used primarily for ensuring that the required set-asides are met. Applicants do not specifically apply under the Undesignated Category"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "unit_credit_caps",
+      "page": 15,
+      "quote": "Page 10 Native American Housing projects will be subject to the credit caps outlined in the appropriate category, as detailed in the QAP. With the exce"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "unit_credit_caps",
+      "page": 2,
+      "quote": "................... 1 II. Tax-Exempt Financed Projects Not Subject to Housing Credit Ceiling .................... 1 III. Approval and Modification of the Qualified Alloca"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "unit_credit_caps",
+      "page": 16,
+      "quote": "nt of Disaster Credits. A. FUNDING ROUND #1: OCTOBER 2025 (APPRX 43% OF ANNUAL CREDIT CEILING) \u2022 Preservation Category \u2013 10% \u2022 Permanent Supportive Housing Category \u2013 1"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "unit_credit_caps",
+      "page": 6,
+      "quote": "location Plan (QAP). II. TAX-EXEMPT FINANCED PROJECTS NOT SUBJECT TO HOUSING CREDIT CEILING In accordance with Section 42 of the Internal Revenue Code (IRC), tax-exempt"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "topic": "unit_credit_caps",
+      "page": 10,
+      "quote": "ore detail in Section V.C. The percentages listed below are based on the LIHTC credit ceiling. Primary Categories Percentages Preservation Category (subject to sufficient"
+    },
+    {
+      "source_id": "P3",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "P), approved by IHDA\u2019s Board on July 24, 2026, will govern IHDA\u2019s allocation of 4% and 9% Low-Income Housing Tax Credits (LIHTC) across the state of Illinois for"
+    },
+    {
+      "source_id": "P6",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "riday, July 31, 2026 Preservation Level 1 Review Due Date Friday, July 31, 2026 4%/9% Mixed Transaction Level 1 Review Due Date Friday, July 31, 2026 Addendum III"
+    },
+    {
+      "source_id": "P6",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "tion Plan can be found on the 2028-2029 Qualified Allocation Plan Updates page. Due Dates For Next LIHTC Funding Round: October 2026 Funding Round Initial Meeting with"
+    },
+    {
+      "source_id": "P6",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "cation Plan (QAP): Staff Report for the 2026 QAP Qualified Allocation Plan 2026 Scoring Summary 2026 (PDF) Updated 08/03/2026 Scoring Summary 2026 (Excel) Updated 08/0"
+    },
+    {
+      "source_id": "P7",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "plus Addendum III) \"Taxable Bond\" lending (Application plus Addendum IV) \"TEAM\" tax-exempt bond lending (Application plus Addendum IV) The Section 8 and Section 202 Preservati"
+    },
+    {
+      "source_id": "P7",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "THIS APPLICATION FOR NEW SUBMISSIONS BEGINNING WITH THE OCTOBER 1, 2025 FUNDING ROUND 2026-2027 LIHTC Program Application (PDF) Updated 08/03/2026 2026-2027 LIHTC Prog"
+    },
+    {
+      "source_id": "P7",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "dated 08/03/2026 2026-2027 LIHTC Program Application (Excel) Updated 08/03/2026 Scoring Summary for 2026-2027 (PDF) Updated 08/03/2026 Scoring Summary for 2026-2027 (E"
+    },
+    {
+      "source_id": "P7",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "l) Addendum II - Using HOME Funds for Subsidy Addendum III - Supportive Housing Set Aside (PDF) Updated 07/21/2025 Addendum III - Supportive Housing Set Aside (Word) Upd"
+    },
+    {
+      "source_id": "P8",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "or new construction or rehabilitation of an existing building, if not funded by tax-exempt bonds, can receive a maximum annual tax credit allocation based on a rate which is ge"
+    },
+    {
+      "source_id": "P8",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "\u2013 Historical. Updated October 2026 Recent PPA and LIHTC Full Round Results 2027 Round 2027 \u2013 Preliminary Project Applications Received 2026 PPA LIHTC and Permanent Sup"
+    },
+    {
+      "source_id": "P8",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "od\u201d and a subsequent 15-year \u201cextended use period\u201d. Credit Limitations LIHTC is awarded under two different methodologies. Under either methodology, a project\u2019s \u201celigi"
+    },
+    {
+      "source_id": "P8",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "ments Full Applications Received LIHTC Projects Approved \u2013 Final Round II LIHTC Scoring Ranges 2016 Round I Preliminary Project Assessment Submissions Approved Prelimi"
+    },
+    {
+      "source_id": "P8",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "hout the affordable housing industry, Congress recently created a new occupancy set-aside option known as \u201cincome averaging.\u201d Instead of electing the 20/50 or 40/60 mini"
+    }
+  ],
+  "freshness_days": 90,
+  "ocr": []
+}
