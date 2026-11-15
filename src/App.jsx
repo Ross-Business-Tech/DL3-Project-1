@@ -1,12 +1,16 @@
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
+import { TERRITORIES } from './data.js'
+import RankingsPage from './RankingsPage.jsx'
+import TerritoriesPage from './TerritoriesPage.jsx'
+import SourcesPage from './SourcesPage.jsx'
 import './App.css'
 
-// The menu from the Final Build mock-up. Only Overview is built so far.
+// The menu from the Final Build mock-up.
 const MENU = [
   {
     group: 'Workspace',
     items: [
-      { id: 'overview', label: 'Overview', ready: true },
+      { id: 'overview', label: 'Overview' },
       { id: 'rankings', label: 'Rankings' },
       { id: 'territories', label: 'Territories' },
       { id: 'ai-review', label: 'AI Review' },
@@ -23,7 +27,10 @@ const MENU = [
   },
 ]
 
-// Made-up numbers for the design only. These are not real rankings.
+// Screens that are built. Everything else shows "Coming soon".
+const BUILT = new Set(['overview', 'rankings', 'territories', 'sources'])
+const SAMPLE_NOTE = new Set(['overview', 'rankings', 'territories'])
+
 const SAMPLE_STATS = [
   { value: '60', label: 'States & territories' },
   { value: '12', label: 'Priority opportunities' },
@@ -31,13 +38,8 @@ const SAMPLE_STATS = [
   { value: '94%', label: 'Research completeness' },
 ]
 
-const SAMPLE_TOP = [
-  { name: 'Territory A', note: 'Example location', score: 92 },
-  { name: 'Territory B', note: 'Example location', score: 89 },
-  { name: 'Territory C', note: 'Example location', score: 86 },
-]
-
-function Overview() {
+function Overview({ onOpenTerritory }) {
+  const top = [...TERRITORIES].sort((a, b) => b.score - a.score).slice(0, 3)
   return (
     <>
       <section className="stats" aria-label="Key numbers">
@@ -52,22 +54,22 @@ function Overview() {
       <div className="overview-grid">
         <section className="card" aria-labelledby="top-heading">
           <h2 id="top-heading">Current rankings</h2>
-          {SAMPLE_TOP.map((place, i) => (
-            <div className="rank-row" key={place.name}>
-              <div className="rank-num">#{i + 1}</div>
-              <div className="rank-name">
-                <strong>{place.name}</strong>
-                <span>{place.note}</span>
-              </div>
-              <div className="score-pill">{place.score} / 100</div>
-            </div>
+          {top.map((t, i) => (
+            <button type="button" className="list-row" key={t.id} onClick={() => onOpenTerritory(t.id)}>
+              <span className="rank-num">#{i + 1}</span>
+              <span className="rank-name">
+                <strong>{t.name}</strong>
+                <span>{t.kind} · {t.status}</span>
+              </span>
+              <span className="score-pill">{t.score} / 100</span>
+            </button>
           ))}
         </section>
 
         <section className="card assistant" aria-labelledby="assistant-heading">
           <h2 id="assistant-heading">AI ranking assistant</h2>
           <p>Review research, resolve missing information, and regenerate rankings.</p>
-          <p className="small">Coming in a later step.</p>
+          <p className="small-note">Coming in a later step.</p>
         </section>
       </div>
     </>
@@ -76,13 +78,30 @@ function Overview() {
 
 function ComingSoon({ title }) {
   return (
-    <p className="placeholder">{title} is coming in a later step.</p>
+    <section className="card coming-soon">
+      <h2>{title}</h2>
+      <p>Coming soon.</p>
+    </section>
   )
 }
 
 function App() {
   const [screen, setScreen] = useState('overview')
+  const [selectedId, setSelectedId] = useState(null)
   const current = MENU.flatMap((g) => g.items).find((item) => item.id === screen)
+
+  // Opening a territory from any page jumps to the Territories screen at that territory.
+  const openTerritory = (id) => {
+    setSelectedId(id)
+    setScreen('territories')
+  }
+
+  let page
+  if (screen === 'overview') page = <Overview onOpenTerritory={openTerritory} />
+  else if (screen === 'rankings') page = <RankingsPage onOpenTerritory={openTerritory} />
+  else if (screen === 'territories') page = <TerritoriesPage selectedId={selectedId} onBack={() => setScreen('rankings')} />
+  else if (screen === 'sources') page = <SourcesPage />
+  else page = <ComingSoon title={current.label} />
 
   return (
     <div className="app">
@@ -93,20 +112,7 @@ function App() {
         </div>
         <nav className="nav" aria-label="Main menu">
           {MENU.map((group, gi) => (
-            <Fragment key={group.group}>
-              {gi > 0 && <span className="nav-divider" aria-hidden="true" />}
-              {group.items.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  className="nav-item"
-                  aria-current={screen === item.id ? 'page' : undefined}
-                  onClick={() => setScreen(item.id)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </Fragment>
+            <Group key={group.group} group={group} first={gi === 0} screen={screen} onPick={setScreen} />
           ))}
         </nav>
       </header>
@@ -115,19 +121,33 @@ function App() {
         <div className="page-band-inner">
           <div className="band-rule" aria-hidden="true" />
           <h1>{current.label}</h1>
-          {screen === 'overview' && (
-            <>
-              <p>Last ranking update: November 2026</p>
-              <span className="sample-note">Sample numbers for design only</span>
-            </>
-          )}
+          {screen === 'overview' && <p>Last ranking update: November 2026</p>}
+          {SAMPLE_NOTE.has(screen) && <span className="sample-note">Sample numbers for design only</span>}
         </div>
       </section>
 
-      <main className="main">
-        {screen === 'overview' ? <Overview /> : <ComingSoon title={current.label} />}
-      </main>
+      <main className="main">{page}</main>
     </div>
+  )
+}
+
+function Group({ group, first, screen, onPick }) {
+  return (
+    <>
+      {!first && <span className="nav-divider" aria-hidden="true" />}
+      {group.items.map((item) => (
+        <button
+          type="button"
+          key={item.id}
+          className={`nav-item${BUILT.has(item.id) ? '' : ' is-soon'}`}
+          aria-current={screen === item.id ? 'page' : undefined}
+          title={BUILT.has(item.id) ? undefined : 'Coming soon'}
+          onClick={() => onPick(item.id)}
+        >
+          {item.label}
+        </button>
+      ))}
+    </>
   )
 }
 
