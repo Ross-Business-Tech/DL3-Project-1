@@ -1,0 +1,951 @@
+{
+  "run_id": "5e323bb5",
+  "started_at": "2026-11-15T19:32:51.027484+00:00",
+  "counts": {
+    "fetched": 71,
+    "new": 7,
+    "changed": 0,
+    "unchanged": 64,
+    "failed": 0,
+    "blocking": 0
+  },
+  "changes": [],
+  "furniture_only": [
+    "P2",
+    "P6",
+    "P7",
+    "CENSUS_MSA",
+    "MI_PROGRAM"
+  ],
+  "failures": [],
+  "freshness": [
+    {
+      "source_id": "CENSUS_MSA",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "NYC_AWARDS_1",
+      "age_days": 4,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "NYC_AWARDS_2",
+      "age_days": 4,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "NYC_AWARDS_3",
+      "age_days": 4,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "NYC_AWARDS_4",
+      "age_days": 4,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "NYC_AWARDS_5",
+      "age_days": 4,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "NYC_QAP_CURRENT",
+      "age_days": 4,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_22",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_23",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_24",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_25",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_BOND",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P1b",
+      "age_days": null,
+      "stale": true,
+      "blocks_recommendation": false,
+      "reason": "never retrieved",
+      "critical": 0
+    },
+    {
+      "source_id": "P2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    }
+  ],
+  "candidates": [
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "Floor Columbus, OH 43215 Amount Requested: $1,476,000 Max Amount Awarded: $1,476,000 Number of Buildings: 1 Total Units: 44 LIHTC Units:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "Bingham Farms, MI 48025 Amount Requested: $1,650,000 Max Amount Awarded: $1,650,000 Number of Buildings: 2 Total Units: 38 LIHTC Units:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "Peshawbestown, MI 49682 Amount Requested: $1,100,000 Max Amount Awarded: $1,098,242 Number of Buildings: 18 Total Units: 36 LIHTC Units:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "West Chester, OH 45069 Amount Requested: $1,647,490 Max Amount Awarded: $1,647,490 Number of Buildings: 1 Total Units: 49 LIHTC Units:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "loor Columbus, OH 43215 Amount Requested: $1,611,000 Max Amount Awarded: $1,611,000 Number of Buildings: 1 Total Units: 48 LIHTC Units:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "scoring_criteria",
+      "page": 5,
+      "quote": "Brian McGeady (513) 964-1141 D-Vision LDHA LLC 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Amount Requested: $1,64"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "al Units: 44 LIHTC Units: 44 Target Units: Family Category / Set-Aside: Open - Rural / Rural Year Of Credit: 2026 Application Date: 4/1/"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "al Units: 38 LIHTC Units: 38 Target Units: Family Category / Set-Aside: Open - Urban / Nonprofit Year Of Credit: 2026 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "al Units: 36 LIHTC Units: 36 Target Units: Family Category / Set-Aside: Undesignated / Rural Year Of Credit: 2026 Application Date: 4/1/"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "l Units: 49 LIHTC Units: 49 Target Units: Elderly Category / Set-Aside: Undesignated / Distressed Year Of Credit: 2026 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "al Units: 48 LIHTC Units: 48 Target Units: Family Category / Set-Aside: PSH / Distressed Year Of Credit: 2026 Application Date: 4/1/2026"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "gs, MI 49058 Amt Requested: $1,478,500 # Bldgs: 2 County: Barry Max Amt Awarded: $1,478,500 # Total Units: 73 Target Units: Family # LIHTC Units: 73"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "MI 49783 Amt Requested: $1,017,317 # Bldgs: 3 County: Chippewa Max Amt Awarded: $1,017,317 # Total Units: 36 Target Units: Family # LIHTC Units: 36"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "g, MI 48912 Amt Requested: $1,418,840 # Bldgs: 1 County: Ingham Max Amt Awarded: $1,418,840 # Total Units: 66 Target Units: Elderly # LIHTC Units: 6"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "apids, MI 49507 Amt Requested: $347,551 # Bldgs: 1 County: Kent Max Amt Awarded: $346,583 # Total Units: 20 Target Units: Elderly # LIHTC Units: 20"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "ids, MI 49503 Amt Requested: $1,196,939 # Bldgs: 1 County: Kent Max Amt Awarded: $1,196,939 # Total Units: 52 Target Units: Elderly # LIHTC Units: 5"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "scoring_criteria",
+      "page": 5,
+      "quote": "t #: L21012 Owner Contact: Anthony Barker (616) 301-8000 Project Name: Eastpointe Commons I Eastpointe Commons I LDHA LP Project Address: 1450 Fulton Street"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "scoring_criteria",
+      "page": 2,
+      "quote": "t Address: 400-420 East Mill Street 6938 North Santa Monica Blvd Fox Point, WI 53217 Hastings, MI 49058 Amt Requested: $1,478,500 # Bldgs: 2 Count"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "scoring_criteria",
+      "page": 3,
+      "quote": "LC Project Address: 514 Erie Street and 500 North Cedar Street 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Lansing, MI 48912 Amt Requ"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "scoring_criteria",
+      "page": 4,
+      "quote": "LC Project Address: 514 Erie Street and 500 North Cedar Street 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Lansing, MI 48912 Amt Requ"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 73 Target Units: Family # LIHTC Units: 73 Category/Set-Aside Funded In: Open - Balance of State / Rural Year of Credit: 2021 Applicat"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 36 Target Units: Family # LIHTC Units: 36 Category/Set-Aside Funded In: Open - Balance of State / Rural Year of Credit: 2021 Applicat"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 66 Target Units: Elderly # LIHTC Units: 66 Category/Set-Aside Funded In: Open - Urban / Distressed Year of Credit: 2021 Application Da"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 20 Target Units: Elderly # LIHTC Units: 20 Category/Set-Aside Funded In: Preservation / Elderly Year of Credit: 2021 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "# Total Units: 52 Target Units: Elderly # LIHTC Units: 52 Category/Set-Aside Funded In: Open \u2013 Urban / Elderly Year of Credit: 2021 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "news_items",
+      "page": 2,
+      "quote": ", MI 48503 Amt Requested: $1,500,000 # Bldgs: 1 County: Genesee Max Amt Awarded: $1,500,000 # Total Units: 119 Target Units: Elderly # LIHTC Units:"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "g, MI 48910 Amt Requested: $1,500,000 # Bldgs: 1 County: Ingham Max Amt Awarded: $1,500,000 # Total Units: 52 Target Units: Family # LIHTC Units: 52"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "apids, MI 49504 Amt Requested: $874,283 # Bldgs: 1 County: Kent Max Amt Awarded: $874,283 # Total Units: 39 Target Units: Elderly # LIHTC Units: 39"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "ven, MI 48048 Amt Requested: $250,118 # Bldgs: 3 County: Macomb Max Amt Awarded: $250,118 # Total Units: 24 Target Units: Family # LIHTC Units: 24"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "MI 48059 Amt Requested: $1,181,252 # Bldgs: 1 County: St. Clair Max Amt Awarded: $1,181,252 # Total Units: 45 Target Units: Elderly # LIHTC Units: 4"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "scoring_criteria",
+      "page": 3,
+      "quote": "ckstone LDHA LLC Project Address: 209 N. Blackstone Street and 9100 Centre Pointe Drive, Suite 210 221 W. Louis Glick Hwy West Chester, OH 45069 Jackso"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "Total Units: 119 Target Units: Elderly # LIHTC Units: 107 Category/Set-Aside Funded In: Preservation / Elderly Year of Credit: 2021 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 52 Target Units: Family # LIHTC Units: 52 Category/Set-Aside Funded In: PSH / Nonprofit Year of Credit: 2022 Application Date: 10/1/"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 39 Target Units: Elderly # LIHTC Units: 39 Category/Set-Aside Funded In: Open - Urban / Elderly Year of Credit: 2022 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 24 Target Units: Family # LIHTC Units: 24 Category/Set-Aside Funded In: Preservation / Rural Year of Credit: 2022 Application Date:"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "# Total Units: 45 Target Units: Elderly # LIHTC Units: 45 Category/Set-Aside Funded In: Open - Balance of State / Elderly Year of Credit: 2022 Applic"
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "Recent Awards Updated August 3, 2026 Sec\u019fons A.5 and/or B.5 of the 2026-2027 Scoring Criteria allows projects located in coun\u019fes that have not received awards of 9"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "cost_limits",
+      "page": 1,
+      "quote": "it to a developer who constructs a 100-unit building at a total cost of $60,000 per unit with taxable financing and reserves all of the apartments for low income tenant"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "of Low Income Units x 40% Qualified Basis $40,000 Applicable Credit Percentage x4% Annual Acquisition Credit $1,600 Rehabilitation Credit Rehabilitation Costs $20"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "ty (MSHDA), this program permits investors in affordable rental housing who are awarded the credit- corporations, banking institutions, and individuals - to claim a cr"
+    },
+    {
+      "source_id": "MI_UW",
+      "topic": "cost_limits",
+      "page": 1,
+      "quote": "Annual Replacement Reserves New Construction (minimum) Family: $300 per unit Elderly: $250 per unit Rehab (minimum) $300 per unit Annual Trending"
+    },
+    {
+      "source_id": "MI_UW",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "(minimum) Replacement Reserves (minimum) 1% - 1st 5 yrs; 2% - yrs 6-end 4% - 1st 5 yrs; 3% - yrs 6-end 5% - Entire Period 3% - Entire Period 3%"
+    },
+    {
+      "source_id": "MI_UW",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "ographic limits Note: The underwriting standards outlined above are starting point minimum and maximum standards. For purposes of Direct Lending underwriting st"
+    },
+    {
+      "source_id": "P6",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "riday, July 31, 2026 Preservation Level 1 Review Due Date Friday, July 31, 2026 4%/9% Mixed Transaction Level 1 Review Due Date Friday, July 31, 2026 Addendum III"
+    },
+    {
+      "source_id": "P6",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "tion Plan can be found on the 2028-2029 Qualified Allocation Plan Updates page. Due Dates For Next LIHTC Funding Round: October 2026 Funding Round Initial Meeting with"
+    },
+    {
+      "source_id": "P6",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "cation Plan (QAP): Staff Report for the 2026 QAP Qualified Allocation Plan 2026 Scoring Summary 2026 (PDF) Updated 08/03/2026 Scoring Summary 2026 (Excel) Updated 08/0"
+    },
+    {
+      "source_id": "P7",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "plus Addendum III) \"Taxable Bond\" lending (Application plus Addendum IV) \"TEAM\" tax-exempt bond lending (Application plus Addendum IV) The Section 8 and Section 202 Preservati"
+    },
+    {
+      "source_id": "P7",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "THIS APPLICATION FOR NEW SUBMISSIONS BEGINNING WITH THE OCTOBER 1, 2025 FUNDING ROUND 2026-2027 LIHTC Program Application (PDF) Updated 08/03/2026 2026-2027 LIHTC Prog"
+    },
+    {
+      "source_id": "P7",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "dated 08/03/2026 2026-2027 LIHTC Program Application (Excel) Updated 08/03/2026 Scoring Summary for 2026-2027 (PDF) Updated 08/03/2026 Scoring Summary for 2026-2027 (E"
+    },
+    {
+      "source_id": "P7",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "l) Addendum II - Using HOME Funds for Subsidy Addendum III - Supportive Housing Set Aside (PDF) Updated 07/21/2025 Addendum III - Supportive Housing Set Aside (Word) Upd"
+    }
+  ],
+  "freshness_days": 90,
+  "ocr": []
+}

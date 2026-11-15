@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-11-15T19:38:18.007327+00:00",
+  "code_version": "db8ecc9",
+  "counts": {
+    "awards": 231,
+    "rules": 80,
+    "sources": 78,
+    "cost_per_unit": 8
+  },
+  "rules_approved": 0,
+  "freshness_days": 90,
+  "note": "Auto-collected public agency information. Rules marked 'not reviewed' and award rows with CHECK notes must not feed a score. UNKNOWN means not stated in the source."
+}
