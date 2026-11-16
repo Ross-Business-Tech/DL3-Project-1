@@ -227,3 +227,51 @@ test('a change report also catches moves into the ranking', () => {
   assert.match(c, /Eligible sponsor or documented partnership path: unknown -> pass/)
   assert.match(c, /Now ranked \(was held for verification\)/)
 })
+
+// ---------------------------------------------------- pilot profiles report and front-end data
+
+import { OPEN_DECISIONS, profilesHtml } from './report.js'
+import { territoriesFromResult } from './forFrontEnd.js'
+
+test('the pilot profiles report covers the six researched programs with every 8B heading', () => {
+  const html = profilesHtml(withAssumptionSensitivity(built.records, { asOf: '2026-11-16' }))
+  assert.equal((html.match(/<section class="profile">/g) ?? []).length, 6)
+  for (const h of ['Gate results', 'Normalized economics', 'Scores by criterion', 'Five-year award evidence', 'Program rules for one project', 'Risks', 'Open questions and owners', 'Application checklist', 'Deadlines', 'Sources and research notes', 'Recommended next action']) {
+    assert.equal((html.match(new RegExp(`<h3>${h}`, 'g')) ?? []).length, 6, h)
+  }
+  assert.match(html, /Indiana, 4% credit/)
+  assert.match(html, /no national ranking is claimed/)
+  assert.ok(OPEN_DECISIONS.every((d) => html.includes(d.replaceAll("'", '&#39;'))))
+  assert.match(html, /\$1,612,298/) // Indiana 4% present value appears in its economics
+})
+
+test('the report escapes data and writes only http(s) links', () => {
+  const evil = built.records.map((r) => (r.id === 'indiana-4' ? { ...r, notes: '<script>alert(1)</script>', allocator: 'A "quoted" & <b>bold</b> agency' } : r))
+  const html = profilesHtml(rankRecords(evil, { asOf: '2026-11-16' }))
+  assert.ok(!html.includes('<script>alert(1)</script>'))
+  assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/)
+  assert.match(html, /A &quot;quoted&quot; &amp; &lt;b&gt;bold&lt;\/b&gt; agency/)
+  const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1])
+  assert.ok(hrefs.length > 0 && hrefs.every((h) => /^https?:\/\//.test(h)))
+})
+
+test('front-end data: 50 states in the front end\'s shape, with honest nulls instead of made-up scores', () => {
+  const t = territoriesFromResult(rankRecords(built.records, { asOf: '2026-11-16' }))
+  assert.equal(t.length, 50)
+  for (const k of ['id', 'name', 'kind', 'score', 'status', 'depth', 'agency', 'openQuestions', 'sources', 'lastChecked', 'feeRule', 'creditCap', 'deadline']) assert.ok(k in t[0], k)
+  assert.ok(t.every((x) => x.score === null)) // nothing has passed every check, so nothing has a real score
+  const mi = t.find((x) => x.id === 'MI')
+  assert.deepEqual([mi.depth, mi.status, mi.scoreText], ['In depth', 'Review', 'Not scored yet'])
+  assert.match(mi.feeRule, /9%: fails at 4\.50% · 4%: fails, held for verification at 5\.25%/)
+  assert.equal(mi.lastChecked, '2026-11-08')
+  assert.equal(t.find((x) => x.id === 'AL').depth, 'Fee screen only')
+  assert.equal(t.find((x) => x.id === 'ID').depth, 'Not researched')
+  assert.deepEqual(t.slice(0, 3).map((x) => x.depth), ['In depth', 'In depth', 'In depth']) // researched states first
+})
+
+test('front-end data: a state that passes every check gets a real score', () => {
+  const rec = { id: 'texas-9', state: 'Texas', pathway: '9%', confidence: 'High', maxFeasibleUnits: 140, approvedGrossFee: 4_800_000, totalDevelopmentCost: 40_000_000, sponsorPath: true, financingPath: true, criticalSourceDates: ['2026-11-10'], scores: { economics: 4, funding: 3, access: 4, scale: 5, urban: 3, execution: 4, venture: 3 }, evidence: { economics: 'e', access: 'e', execution: 'e' } }
+  const [tx] = territoriesFromResult(rankRecords([rec], { asOf: '2026-11-16' }))
+  // the guide's own example scores (4, 3, 4, 5, 3, 4, 3) give 74 / 100
+  assert.deepEqual([tx.id, tx.score, tx.status, tx.scoreText], ['TX', 74, 'Complete', '74 / 100'])
+})

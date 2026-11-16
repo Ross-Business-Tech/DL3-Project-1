@@ -526,6 +526,8 @@ export function rankRecords(records, options = {}) {
       programCaps: r.programCaps ?? null,
       feeScreen: r.feeScreen ?? null,
       sources: r.sources ?? null,
+      awardHistory: r.awardHistory ?? [],
+      criticalSourceDates: r.criticalSourceDates ?? [],
       economicsDetail: economicsDetailFor(r, settings),
       screenOnly: r.screenOnly === true,
       researched: r.researched ?? true,
