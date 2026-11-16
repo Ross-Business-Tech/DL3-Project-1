@@ -69,3 +69,42 @@ The page's **Still needed to finish scoring** section (and its CSV) lists every 
 - A criterion with a typed-in score uses that score.
 - A judgment that no named person has approved is shown as a proposal and **not counted** in the total.
 - Every result is calculated in code from the inputs, so the same inputs always give the same ranking.
+
+## Guide coverage checklist (for the handoff)
+
+How the scoring tool lines up with the DL3 LIHTC Opportunity Model Guide (Oct 30, 2026). "Placeholder" means the
+calculation is built and tested but runs on stand-in terms until DL3 sets its own. Every row is covered by `npm test`.
+
+| Guide section | What it asks | Status |
+| --- | --- | --- |
+| 5D | Gates before scoring: 101+ units, fee strictly above 10%, sponsor path, financing; Pass / Fail / Needs verification; unknown never passes | Done. A 101+ unit new-construction award in 2021-2025 counts as proof that size is allowed (Ohio 4%). |
+| 1 vs 5 | Fee denominator: the guide defines it two ways | Done. Both ratios are shown on every state; a switch picks the one used; states whose result flips are flagged. DL3 decides. |
+| 5B | Approved gross fee, DL3 retained fee, cash at each milestone, deferred amount, present value, pursuit value with explicit scenarios, downside test | Done with placeholder terms (60% / 40% are the guide's illustration). Reproduces the guide's $1.62M example. |
+| 5C | 120-unit, $40M common scenario; test 150 / 200 units, costs, partner shares, credit pricing, rates, gap funding, delays, overruns | Partly. 120 units / $40M, cost +10%, DL3 share and deferral, delay and deferred-repayment downside are done. 150 / 200 units, credit pricing, interest rates and gap funding are not modelled (fee rules for other sizes are not loaded). |
+| 6 | Seven criteria, proposed weights, same definitions within each pathway | Done. Weights are editable in Preview. |
+| 6A | Award volume, applications per award, award rate, oversubscription, sponsor concentration, first-time sponsors | Partly. Volume and award rate feed the funding index; the rest need sponsor-level award data that is not collected. |
+| 6B | Separate 9% / 4%, construction type, urban geography | Done for 9% / 4% and construction type. The urban definition is built (proposed, three tests) but needs site facts. |
+| 7A | 0-5 rubric with 0 / 3 / 5 anchors; 1, 2, 4 only with written evidence | Done. Economics, Scale and Funding are calculated; the rest are judgments that count only once a named person approves them. |
+| 7B | Total = sum(weight x score) / 5; intervals for missing evidence, no re-weighting; withhold rank when uncertain; separate lists; ties; +/-20% weights; test denominator, costs, deferrals, sharing; flag unstable; log overrides | Done, except the geography stress test (needs site facts). |
+| 8 | Venture Development: five factors, averaged only when all are supported | Done; needs evidence for named neighborhoods. |
+| 8B | Jurisdiction profiles; quarterly report with changes since the last release | Profiles done (printable report on the page). Change report done (run-to-run). |
+| 9A | Confidence labels; Low cannot be actionable; 90-day freshness blocks a recommendation | Done. |
+| 9C | Editable scoring settings, exportable records | Done (settings in config.js and on the page; CSV and HTML exports). |
+| 10 | Calculation tests: 100 vs 101, exactly 10%, caps, deferrals, missing data, duplicates, amendments, stale sources, ties, reproducibility | Done. Amendments are covered by the change report and refresh demo. |
+| 10 | Refresh demonstration | Done for the scoring side (simulated rule change, change report). The scraping pipeline shows the source side. |
+| 10A | Back-testing against past rounds | Not done: needs the information available before a past round, which is not collected. |
+
+## Using the results in the team's front end
+
+The front end (branch `claude/epic-hamilton-532vgr`) reads `TERRITORIES` from `src/data.js`, which is sample data.
+`forFrontEnd.js` builds the same list from real results:
+
+```js
+import { REAL_DATA } from './ranking/realData.js'
+import { rankRecords } from './ranking/engine.js'
+import { territoriesFromResult } from './ranking/forFrontEnd.js'
+export const TERRITORIES = territoriesFromResult(rankRecords(REAL_DATA.records))
+```
+
+Today every `score` is `null`, because no state has passed every check. `scoreText` says why. The front end's sort
+should be `(b.score ?? -1) - (a.score ?? -1)`, and its score pill should show `scoreText`.

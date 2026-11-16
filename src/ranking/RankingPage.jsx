@@ -1,12 +1,15 @@
 import { useMemo, useState } from 'react'
 import { COMPONENTS } from './config.js'
-import { rankRecords } from './engine.js'
+import { defaultWeights } from './engine.js'
+import { profilesHtml } from './report.js'
+import { refreshDemo, withAssumptionSensitivity } from './sensitivity.js'
 import { rankText, scoreText, toCsv, toQueueCsv } from './export.js'
 import { REAL_DATA } from './realData.js'
 import { SAMPLE_AS_OF, SAMPLE_RECORDS } from './sampleData.js'
 import './RankingPage.css'
 
 const round = (n) => Number(n.toFixed(1))
+const money = (n) => `$${n.toLocaleString('en-US')}`
 const TODAY = new Date().toISOString().slice(0, 10)
 const STATUS_TEXT = { pass: '✓ Pass', fail: '✗ Fail', unknown: '? Unknown' }
 const METHOD_TEXT = { calculated: 'calculated', entered: 'typed in', judgment: 'judgment', assumed: 'what-if assumption' }
@@ -21,7 +24,6 @@ function criterionText(c) {
   return 'Unknown'
 }
 
-const money = (n) => `$${n.toLocaleString('en-US')}`
 
 // Where a reviewer can check a state: the plan, award lists and bond program the scraping pipeline found.
 // Found automatically and NOT verified; the crawler can miss things or pick up a draft.
@@ -147,6 +149,8 @@ function Details({ r }) {
     <details className="details">
       <summary>Why this score</summary>
       <CriteriaList criteria={r.criteria} />
+      <EconomicsBlock detail={r.economicsDetail} />
+      <AssumptionChanges changes={r.assumptionChanges} />
       <ProgramLimits caps={r.programCaps} />
       <SourceLinks sources={r.sources} />
       {Object.entries(r.evidence).map(([key, text]) => (
@@ -190,6 +194,8 @@ function RankedCard({ r }) {
       <div className="chips">
         <span className={`chip conf-${r.confidence.toLowerCase()}`}>{r.confidence} confidence</span>
         {r.previewOnly && <span className="chip warn">Preview only: checks still open</span>}
+        {r.assumptionChanges?.length > 0 && <span className="chip warn">Sensitive to assumptions</span>}
+        {feeCheckOf(r)?.denominatorSensitive && <span className="chip warn">Fee result depends on the cost definition</span>}
         {r.actionable && <span className="chip good">Actionable shortlist</span>}
         {r.tied && <span className="chip">Tied</span>}
         {r.provisional && <span className="chip warn">Evidence {Math.round((r.evidenceCoverage ?? r.score.coverage) * 100)}% complete</span>}
@@ -217,12 +223,20 @@ function CheckCard({ r }) {
         </div>
         <span className={`chip conf-${r.confidence.toLowerCase()}`}>{r.confidence} confidence</span>
       </div>
+      {(r.assumptionChanges?.length > 0 || feeCheckOf(r)?.denominatorSensitive) && (
+        <div className="chips">
+          {r.assumptionChanges?.length > 0 && <span className="chip warn">Sensitive to assumptions</span>}
+          {feeCheckOf(r)?.denominatorSensitive && <span className="chip warn">Fee result depends on the cost definition</span>}
+        </div>
+      )}
       <p className="small">{r.reason}</p>
       <details className="details">
         <summary>The five checks and scoring status</summary>
         <CheckList checks={r.gates.checks} />
         <p className="small"><strong>Scoring status</strong> (not used until the checks pass):</p>
         <CriteriaList criteria={r.criteria} />
+        <EconomicsBlock detail={r.economicsDetail} />
+        <AssumptionChanges changes={r.assumptionChanges} />
         <ProgramLimits caps={r.programCaps} />
         <SourceLinks sources={r.sources} />
         {r.nextDeadline && <p className="small"><strong>Next deadline:</strong> {r.nextDeadline}</p>}
@@ -256,6 +270,56 @@ function blockers(items) {
   return [...counts.values()].sort((a, b) => b.unknown + b.fail - (a.unknown + a.fail))
 }
 
+// Weights that do not total 100 are rescaled to 100 (all zero falls back to the guide's weights).
+function rescaleWeights(w) {
+  const total = COMPONENTS.reduce((s, c) => s + (Number(w[c.key]) || 0), 0)
+  return total > 0 ? Object.fromEntries(COMPONENTS.map((c) => [c.key, ((Number(w[c.key]) || 0) * 100) / total])) : defaultWeights()
+}
+
+// Developer economics, laid out the way guide 5B asks: gross fee, DL3 retained fee, cash at each
+// milestone, deferred amount, present value. Placeholder terms are said out loud.
+function EconomicsBlock({ detail }) {
+  if (!detail) return null
+  const pct = (x) => `${(x * 100).toFixed(2)}%`
+  const t = detail.terms
+  const rows = [
+    ['Approved gross fee', `${money(detail.approvedGrossFee)} (${pct(detail.grossFeeToTdc)} of cost)`],
+    [`DL3 retained fee (${Math.round(t.dl3Share * 100)}% share)`, `${money(Math.round(detail.retainedFee))} (${pct(detail.retainedFeeToTdc)})`],
+    ['Cash at closing / construction / completion', `${money(Math.round(detail.cash.closing))} / ${money(Math.round(detail.cash.construction))} / ${money(Math.round(detail.cash.completion))}`],
+    [`Deferred, paid later (${Math.round(t.deferredShare * 100)}%)`, money(Math.round(detail.deferredAmount))],
+    ['Present value of receipts, if DL3 wins', money(Math.round(detail.presentValue))],
+    [`Expected pursuit value (${Math.round(t.awardProbability * 100)}% chance to win)`, money(Math.round(detail.expectedPursuitValue))],
+    ['Downside: cash / present value', `${money(Math.round(detail.downside.nonDeferredCash))} / ${money(Math.round(detail.downside.presentValue))}`],
+  ]
+  return (
+    <>
+      <p className="small"><strong>Developer economics</strong> (guide 5B, with placeholder terms)</p>
+      <table className="parts">
+        <tbody>
+          {rows.map(([a, b]) => (
+            <tr key={a}><td>{a}</td><td className="num wrap">{b}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="small">
+        Placeholders until DL3 sets its own: {Math.round(t.dl3Share * 100)}% share and {Math.round(t.deferredShare * 100)}% deferred (the guide’s illustration); cash at years {t.years.closing}, {t.years.construction} and {t.years.completion}; deferred fee repaid in years {t.deferredRepaymentYears[0]}–{t.deferredRepaymentYears[1]} with {Math.round(t.deferredRepaymentProbability * 100)}% likelihood; {Math.round(t.closeProbability * 100)}% chance of closing and {Math.round(t.completeProbability * 100)}% of completing; {Math.round(t.discountRate * 100)}% discount rate. Downside: {Math.round(t.downside.deferredShareIncrease * 100)} points more deferred, a {t.downside.delayYears}-year delay, {Math.round(t.downside.deferredRepaymentProbability * 100)}% repayment.
+      </p>
+    </>
+  )
+}
+
+function AssumptionChanges({ changes }) {
+  if (!changes || changes.length === 0) return null
+  return (
+    <>
+      <p className="small"><strong>What changes if an assumption moves</strong> (guide 7B)</p>
+      <ul className="small">{changes.map((c) => <li key={c}>{c}</li>)}</ul>
+    </>
+  )
+}
+
+const feeCheckOf = (r) => r.gates.checks.find((c) => c.key === 'fee')
+
 // How a state's developer fee looks against the 10% rule, in plain words.
 function feeResult(r) {
   const check = r.gates.checks.find((c) => c.key === 'fee')
@@ -281,7 +345,7 @@ function FeeScreenList({ rows }) {
               <summary>
                 <span className="fee-state">{r.state}</span>
                 <span className="fee-pct">{ratio !== null ? `${(ratio * 100).toFixed(2)}%` : '–'}</span>
-                <span className={`chip ${result.tone}`}>{result.text}</span>
+                <span className={`chip ${result.tone}`}>{result.text}{check.denominatorSensitive ? ' · depends on the cost definition' : ''}</span>
               </summary>
               <div className="fee-body small">
                 <p><strong>Rule:</strong> {s.ruleText ?? 'No fee rule found.'}</p>
@@ -306,24 +370,32 @@ function FeeScreenList({ rows }) {
 export default function RankingPage() {
   const [dataset, setDataset] = useState('real') // 'real' | 'preview' | 'sample'
   // PREVIEW placeholders. Every one is a stand-in for something DL3 has not decided yet.
-  const [what, setWhat] = useState({ dl3Share: 60, deferred: 40, hurdle: 1000000, fillThree: true, includeOpen: true })
-  const real = useMemo(() => rankRecords(REAL_DATA.records, { asOf: TODAY }), [])
+  const [what, setWhat] = useState({ dl3Share: 60, deferred: 40, hurdle: 1000000, pvHurdle: 1000000, fillThree: true, includeOpen: true })
+  // Which cost the 10% fee test uses (guide section 5 is the proposed default; section 1 is the alternative).
+  const [denominator, setDenominator] = useState('tdc')
+  // Editable weights (guide 9C: "editable scoring settings"). If they do not total 100 they are rescaled.
+  const [weights, setWeights] = useState(defaultWeights())
+  const weightTotal = COMPONENTS.reduce((s, c) => s + (Number(weights[c.key]) || 0), 0)
+  const [demo, setDemo] = useState(null)
+  const real = useMemo(() => withAssumptionSensitivity(REAL_DATA.records, { asOf: TODAY, settings: { feeDenominator: denominator } }), [denominator])
   const preview = useMemo(
     () =>
-      rankRecords(REAL_DATA.records, {
+      withAssumptionSensitivity(REAL_DATA.records, {
         asOf: TODAY,
+        weights: rescaleWeights(weights),
         settings: {
+          feeDenominator: denominator,
           deriveEconomicsFromFee: true,
-          requirePresentValue: false,
+          requirePresentValue: true,
           economicsAssumptions: { dl3Share: what.dl3Share / 100, deferredShare: what.deferred / 100 },
-          economicsHurdles: { minRetainedCash: what.hurdle },
+          economicsHurdles: { minRetainedCash: what.hurdle, minPresentValue: what.pvHurdle },
           fillUnknownScore: what.fillThree ? 3 : null,
           previewIncludeOpenChecks: what.includeOpen,
         },
       }),
-    [what],
+    [what, denominator, weights],
   )
-  const sample = useMemo(() => rankRecords(SAMPLE_RECORDS, { asOf: SAMPLE_AS_OF }), [])
+  const sample = useMemo(() => withAssumptionSensitivity(SAMPLE_RECORDS, { asOf: SAMPLE_AS_OF, settings: { feeDenominator: denominator } }), [denominator])
   const result = dataset === 'real' ? real : dataset === 'preview' ? preview : sample
   const setNumber = (field, max) => (e) => setWhat({ ...what, [field]: Math.min(max, Math.max(0, Number(e.target.value) || 0)) })
   const [pathway, setPathway] = useState('9%')
@@ -351,8 +423,8 @@ export default function RankingPage() {
   const queue = result.reviewQueue.filter((q) => q.pathway === list.pathway)
   const byOwner = [...new Set(queue.map((q) => q.owner))].map((owner) => ({ owner, items: queue.filter((q) => q.owner === owner) }))
 
-  function save(name, text) {
-    const url = URL.createObjectURL(new Blob([text], { type: 'text/csv' }))
+  function save(name, text, type = 'text/csv') {
+    const url = URL.createObjectURL(new Blob([text], { type }))
     const a = document.createElement('a')
     a.href = url
     a.download = name
@@ -361,6 +433,15 @@ export default function RankingPage() {
   }
   const download = () => save(`dl3-state-ranking-${dataset}-${result.asOf}.csv`, toCsv(result))
   const downloadQueue = () => save(`dl3-open-items-${dataset}-${result.asOf}.csv`, toQueueCsv(result))
+  const downloadProfiles = () =>
+    save(
+      `dl3-pilot-profiles-${dataset}-${result.asOf}.html`,
+      profilesHtml(result, {
+        title: dataset === 'preview' ? 'DL3 LIHTC pilot profiles (PREVIEW with placeholders)' : 'DL3 LIHTC pilot profiles',
+        status: dataset === 'preview' ? 'PREVIEW, not a result: scores use placeholders DL3 has not approved.' : 'Draft research data, not reviewed by DL3.',
+      }),
+      'text/html',
+    )
 
   return (
     <main className="ranking">
@@ -372,6 +453,13 @@ export default function RankingPage() {
           <button aria-pressed={dataset === 'preview'} className={dataset === 'preview' ? 'on' : ''} onClick={() => setDataset('preview')}>Preview scores</button>
           <button aria-pressed={dataset === 'sample'} className={dataset === 'sample' ? 'on' : ''} onClick={() => setDataset('sample')}>Sample (made up)</button>
         </div>
+        <label className="denom">
+          <span>Fee test measured against</span>
+          <select value={denominator} onChange={(e) => setDenominator(e.target.value)}>
+            <option value="tdc">Total development cost (guide section 5, default)</option>
+            <option value="net">Cost less fee, land and reserves (guide section 1)</option>
+          </select>
+        </label>
         {dataset === 'preview' ? (
           <>
             <p className="banner">
@@ -393,6 +481,10 @@ export default function RankingPage() {
                 <span>Cash DL3 needs in hand ($)</span>
                 <input type="number" inputMode="numeric" min="0" step="100000" value={what.hurdle} onChange={setNumber('hurdle', 1e9)} />
               </label>
+              <label>
+                <span>Present value DL3 needs ($)</span>
+                <input type="number" inputMode="numeric" min="0" step="100000" value={what.pvHurdle} onChange={setNumber('pvHurdle', 1e9)} />
+              </label>
               <label className="check">
                 <input type="checkbox" checked={what.fillThree} onChange={(e) => setWhat({ ...what, fillThree: e.target.checked })} />
                 <span>Assume 3 for any criterion with no evidence</span>
@@ -401,8 +493,20 @@ export default function RankingPage() {
                 <input type="checkbox" checked={what.includeOpen} onChange={(e) => setWhat({ ...what, includeOpen: e.target.checked })} />
                 <span>Include states whose checks are still open</span>
               </label>
+              <details className="details">
+                <summary>Weights (total {round(weightTotal)}{Math.abs(weightTotal - 100) > 1e-9 ? ', rescaled to 100' : ''})</summary>
+                <div className="weights">
+                  {COMPONENTS.map((c) => (
+                    <label key={c.key}>
+                      <span>{c.label}</span>
+                      <input type="number" inputMode="numeric" min="0" max="100" value={weights[c.key]} onChange={(e) => setWeights({ ...weights, [c.key]: Math.min(100, Math.max(0, Number(e.target.value) || 0)) })} />
+                    </label>
+                  ))}
+                  <button type="button" className="download" onClick={() => setWeights(defaultWeights())}>Reset to the guide’s proposed weights</button>
+                </div>
+              </details>
               <p className="small">
-                Placeholders: 60% and 40% are the guide’s own illustration, and the cash target is a stand-in for DL3’s real number. The present-value test is not applied. Developer economics is calculated from each state’s fee; the other six criteria have no data yet.
+                Placeholders: 60% and 40% are the guide’s own illustration; the cash and present-value targets, timing, probabilities, discount rate and downside case are stand-ins for DL3’s real terms (each card shows the full calculation). Developer economics is calculated from each state’s fee; the other six criteria have no data yet.
               </p>
             </div>
           </>
@@ -563,6 +667,39 @@ export default function RankingPage() {
         </Section>
       )}
 
+      {dataset !== 'sample' && (
+        <Section
+          title="Refresh demo"
+          hint="What happens when a source changes (guide sections 2 and 10): the change flows through the checks, the lists and the economics, and a change report says exactly what moved. This simulates one change; the data files are not touched."
+        >
+          {demo ? (
+            <>
+              <p className="small">{demo.description}</p>
+              {demo.changes.length === 0 ? (
+                <p className="small">Nothing changed.</p>
+              ) : (
+                <ul className="plain">
+                  {demo.changes.map((c) => (
+                    <li key={c.id} className="side-row">
+                      <strong>{c.state}, {c.pathway}</strong>
+                      <ul className="small">{c.changes.map((m) => <li key={m}>{m}</li>)}</ul>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <button className="download" onClick={() => setDemo(null)}>Clear the demo</button>
+            </>
+          ) : (
+            <button
+              className="download"
+              onClick={() => setDemo(refreshDemo(REAL_DATA.records, { asOf: TODAY, settings: { feeDenominator: denominator } }))}
+            >
+              Simulate Indiana’s fee rule changing from 15% to 12%
+            </button>
+          )}
+        </Section>
+      )}
+
       <Section title="How it works">
         <details className="details">
           <summary>Weights and rules</summary>
@@ -587,6 +724,7 @@ export default function RankingPage() {
             <li>Weights and thresholds are proposals until DL3 approves them. Model version {result.modelVersion}, run date {result.asOf}.</li>
           </ul>
         </details>
+        <button className="download" onClick={downloadProfiles}>Download pilot profiles (printable report)</button>
         <button className="download" onClick={download}>Download full report (CSV)</button>
       </Section>
     </main>

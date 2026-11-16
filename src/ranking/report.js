@@ -26,7 +26,7 @@ function criterionText(c) {
 }
 
 const scoreText = (r) => (r.score.point !== null ? `${r1(r.score.point)} / 100` : `${r1(r.score.lo)} to ${r1(r.score.hi)} (range: evidence incomplete)`)
-const table = (head, rows) => `<table><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`
+const table = (head, rows) => `<div class="tw"><table><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
 
 // The decisions both the ranking tool and the scraping pipeline list as open (guide 11B).
 export const OPEN_DECISIONS = [
@@ -125,7 +125,7 @@ export function profilesHtml(result, { title = 'DL3 LIHTC pilot profiles', statu
 <style>
 body{font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1b1f2a;max-width:960px;margin:0 auto;padding:24px 16px}
 h1{font-size:26px;margin:0 0 4px}h2{font-size:21px;margin:32px 0 4px;padding-top:16px;border-top:2px solid #1f3864}h3{font-size:15px;margin:18px 0 6px;color:#1f3864}
-table{width:100%;border-collapse:collapse;font-size:13px;margin:4px 0}th,td{border:1px solid #d9dde4;padding:5px 7px;text-align:left;vertical-align:top}th{background:#f3f5f8}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}table{width:100%;min-width:520px;border-collapse:collapse;font-size:13px;margin:4px 0}td,th{overflow-wrap:break-word}th,td{border:1px solid #d9dde4;padding:5px 7px;text-align:left;vertical-align:top}th{background:#f3f5f8}
 .meta,.note{color:#5b6474;font-size:13px}.banner{background:#fff4e5;border:1px solid #f3c88a;border-radius:6px;padding:10px 12px}
 a{color:#2f5bea}@media print{h2{page-break-before:always}}
 </style></head><body>
@@ -133,7 +133,7 @@ a{color:#2f5bea}@media print{h2{page-break-before:always}}
 <p class="meta">Run ${esc(result.asOf)} · model ${esc(result.modelVersion)} · fee measured against ${esc(result.settings.feeDenominator === 'net' ? 'cost less fee, land and reserves (guide section 1)' : 'total development cost (guide section 5)')}</p>
 <p class="banner">${esc(status)} Scores are calculated in code from the data files, so the same inputs always give the same result. Unknown evidence never counts as a pass, and no national ranking is claimed (guide section 10).</p>
 <h2 style="border:0;margin-top:16px">Summary</h2>
-<table><thead><tr><th>Pathway</th><th>States</th><th>Passed every check</th><th>Held for verification</th><th>Excluded</th><th>Ranked</th></tr></thead><tbody>${summary}</tbody></table>
+<div class="tw"><table><thead><tr><th>Pathway</th><th>States</th><th>Passed every check</th><th>Held for verification</th><th>Excluded</th><th>Ranked</th></tr></thead><tbody>${summary}</tbody></table></div>
 <h3>Decisions needed from DL3</h3><ul>${OPEN_DECISIONS.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
 <h3>Weights used</h3><p>${COMPONENTS.map((c) => `${esc(c.label)} ${esc(r1(result.weights[c.key]))}%`).join(' · ')}</p>
 ${pilots.map((r) => profile(r, result)).join('\n')}

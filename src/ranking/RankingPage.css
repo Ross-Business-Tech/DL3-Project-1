@@ -81,6 +81,12 @@
 .whatif p { margin: 0; }
 .seg button { padding-inline: 4px; }
 
+.denom { display: grid; gap: 4px; margin: 0 0 12px; font-size: 14px; color: var(--text-h); }
+.denom select { font: inherit; min-height: 44px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text-h); max-width: 100%; }
+.weights { display: grid; gap: 8px; margin-top: 8px; }
+.weights label { display: grid; grid-template-columns: 1fr 90px; gap: 10px; align-items: center; font-size: 14px; color: var(--text-h); }
+.weights input { font: inherit; min-height: 40px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--text-h); width: 100%; box-sizing: border-box; }
+
 .empty { border: 1px dashed var(--border); border-radius: 12px; padding: 14px; }
 .empty p { margin: 0 0 6px; }
 .empty ul { margin: 4px 0 0; padding-left: 20px; }
