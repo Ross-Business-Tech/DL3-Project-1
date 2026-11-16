@@ -405,6 +405,43 @@
   to { transform: scale(var(--grow, 1.06)); }
 }
 
+/* Name shown while hovering a state on the map */
+.map-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 14px;
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(10, 17, 28, 0.06), 0 10px 24px rgba(10, 17, 28, 0.12);
+  pointer-events: none;
+  animation: label-in 0.18s ease both;
+  z-index: 2;
+}
+
+.map-label strong {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.map-label span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+@keyframes label-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
 .us-map.is-zoomed {
   cursor: grab;
 }

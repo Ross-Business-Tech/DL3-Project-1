@@ -12,6 +12,19 @@ const MAX_ZOOM = 6
 const SMALL = new Set(['CT', 'DC', 'DE', 'MA', 'MD', 'NH', 'NJ', 'RI', 'VT'])
 const grow = (code) => (SMALL.has(code) ? 2.4 : 1.06)
 
+// Full names for the map's states, shown when you hover over one.
+const STATE_NAMES = {
+  AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado',
+  CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia', FL: 'Florida', GA: 'Georgia',
+  HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky',
+  LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota',
+  MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire',
+  NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota',
+  OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina',
+  SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia',
+  WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming',
+}
+
 // Keep the visible part of the map inside the drawing area.
 function clampView(z, x, y) {
   const w = VW / z
@@ -110,6 +123,14 @@ function MapView({ onOpen }) {
   return (
     <>
       <div className="map-wrap" ref={wrapRef} style={{ touchAction: zoomed ? 'none' : 'pan-y' }}>
+        {hover && (
+          <div className="map-label" aria-hidden="true">
+            <strong>{STATE_NAMES[hover] ?? hover}</strong>
+            <span>
+              {researched.get(hover) ? `${researched.get(hover).score} / 100` : 'Not researched yet'}
+            </span>
+          </div>
+        )}
         <svg
           className={`us-map${zoomed ? ' is-zoomed' : ''}`}
           viewBox={viewBox}
