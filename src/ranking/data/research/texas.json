@@ -1,0 +1,146 @@
+{
+  "state": "Texas",
+  "researchedOn": "2026-11-16",
+  "agency": "Texas Department of Housing and Community Affairs",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 3913043,
+        "rule": "10 TAC §11.302 (Underwriting Rules, part of the QAP chapter): the Developer Fee included in Eligible Basis for Housing Tax Credit Developments may not exceed 15% of eligible costs less the Developer Fee for Developments of 50 or more Units (20% for Developments of 49 or fewer Units; 15% regardless of size for an additional phase by a Principal of an existing tax credit Development).",
+        "basis": "Percent of eligible (basis) costs net of the developer fee. Per the brief, eligible basis including the fee = 75% of TDC = $30,000,000.",
+        "dollarCap": "No dollar cap found. For State Housing Tax Credit requests the fee also cannot exceed the amounts in the latest Real Estate Analysis report.",
+        "arithmetic": "F = 0.15 x ($30,000,000 - F) => 1.15F = $30,000,000 => F = $3,913,043 (9.8% of the $40,000,000 TDC, just under DL3's 10% threshold). Looser reading (15% x $30,000,000 eligible basis) = $4,500,000 (11.25% of TDC). The fee-net reading matches the rule wording and is reported.",
+        "ruleVerified": false,
+        "source": "https://www.sos.state.tx.us/texreg/archive/December192025/Adopted%20Rules/10.COMMUNITY%20DEVELOPMENT.html",
+        "quote": "Search summary of the Dec. 19, 2025 Texas Register adopted Chapter 11 rules: the Developer Fee included in Eligible Basis for Housing Tax Credit Developments is capped at 15% of eligible costs (less the fee) for Developments of 50 or more Units; smaller Developments face a 20% cap. Older adopted wording (2017 Texas Register): \"will not exceed 15 percent of the Rehabilitation/New Construction eligible costs less Developer fees for Developments proposing fifty (50) Units or more.\""
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap for 9% was found. Each subregion has a maximum funding request/award limit (10 TAC §11.4(b), set in the annual Ceiling Summary); dollar amounts were not visible. No named 2021-2025 9% new-construction award over 100 units was confirmed from searches. Statewide averages are near 65-70 units (2026: 70 developments, more than 4,400 units; 2024: 63 properties, 4,475 units).",
+        "source": "https://www.tdhca.texas.gov/sites/default/files/multifamily/docs/26-InitialCeilingSummary-DRAFT.pdf"
+      },
+      "sponsorPath": {
+        "value": null,
+        "evidence": "The QAP's experience requirement (§11.204, Experience Certificate) could not be read. A TDHCA public comment describes a 150-unit minimum experience test and proof of control of the developments used; a TDHCA draft preamble proposed eliminating Experience Certificates. Whether out-of-state experience counts or whether a co-developer/JV route is written in was not confirmed. No Texas-only restriction was seen in any excerpt.",
+        "source": "https://www.tdhca.texas.gov/sites/default/files/board/books/7b-QAP-PubComments.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round allocated by region and Urban/Rural subregion (2025 award list is organized by e.g. 'Region 3/Urban'). 2026 round: over $114 million in credits to 70 properties, more than 4,400 units; the OBBBA 12% ceiling increase made it TDHCA's largest allocation. 2024: 45 of 63 awarded properties were new construction.",
+        "source": "https://gov.texas.gov/news/post/governor-abbott-announces-over-114-million-in-housing-tax-credits"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.tdhca.texas.gov/sites/default/files/ppa/docs/press/ctb-docs/210722-9pct-HTCAwards.pdf" },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ncsha.org/hfa-news/state-housing-agency-awards-nearly-80-million-in-housing-tax-credits-represents-4024-new-and-rehabbed-units-across-texas/" },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": 45, "above100Units": null, "applications": null, "source": "https://www.tdhca.texas.gov/news/tdhca-awards-more-95-million-2024-9-htc-cycle" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://gov.texas.gov/news/post/governor-abbott-announces-over-99-million-in-housing-tax-credits" },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://gov.texas.gov/news/post/governor-abbott-announces-over-114-million-in-housing-tax-credits" }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": null },
+      "nextDeadline": "2027 dates not confirmed; set in QAP §11.2 Program Calendar (2027 QAP still a draft). In 2026, pre-applications were logged Jan.-Feb. and full applications in early March; awards come in July. Dallas requires 9% resolution-of-support requests by Dec. 31.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Large statewide round (70 awards in 2026) with Urban subregion pools in every region, but sponsor experience rules were not confirmed, local resolutions of support from cities (e.g., Dallas, Austin, San Antonio processes) are needed for points, and per-subregion request limits apply.",
+          "sources": ["https://gov.texas.gov/news/post/governor-abbott-announces-over-114-million-in-housing-tax-credits", "https://dallascityhall.com/departments/housing-and-homelessness/Pages/Low-Income-Housing-Tax-Credits.aspx"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Strong need (statewide shortage of 864,000 homes for extremely low-income households; more than half of Houston renters cost-burdened per Kinder Institute), but subregion credit limits make a 120-unit, $40M 9% deal hard; typical 9% awards are about 65-70 units. Insurance burden noted by Kinder; no figures found.",
+          "sources": ["https://www.planetizen.com/news/2026/03/137093-report-texas-needs-hundreds-thousands-new-homes-meet-demand", "https://news.rice.edu/news/2026/kinder-state-housing-report-finds-growing-number-residents-financially-squeezed"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Houston/Dallas are a short direct flight from Chicago (general knowledge, not sourced). No local-presence rule was found. Partner path not confirmed in the QAP.",
+          "sources": ["https://tdhca.texas.gov/competitive-9-housing-tax-credits"]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 3913043,
+        "rule": "Same §11.302 rule applies to all Housing Tax Credit Developments, including 4% bond deals: Developer Fee in Eligible Basis capped at 15% of eligible costs less the fee for 50+ unit Developments. No separate, higher bond-deal fee limit was found.",
+        "basis": "Percent of eligible (basis) costs net of the developer fee; eligible basis incl. fee = $30,000,000 per the brief.",
+        "dollarCap": "None found.",
+        "arithmetic": "F = 0.15 x ($30,000,000 - F) => F = $3,913,043 (9.8% of TDC). Looser reading 15% x $30,000,000 = $4,500,000 (11.25%).",
+        "ruleVerified": false,
+        "source": "https://www.sos.state.tx.us/texreg/archive/December192025/Adopted%20Rules/10.COMMUNITY%20DEVELOPMENT.html",
+        "quote": "Search summary of the adopted Dec. 2025 rule: Developer Fee included in Eligible Basis for Housing Tax Credit Developments capped at 15% of eligible costs (less the fee) for Developments of 50 or more Units."
+      },
+      "maxFeasibleUnits": {
+        "value": 215,
+        "evidence": "The Rhett (Austin), 215 units, a 2023 4% HTC award with $30.7 million of TDHCA bonds, opened Aug. 2025 (TDHCA news). Also Creedmoor Farms, 300 units financed through TDHCA's 4% program (release undated, so not used as the value), and the 4% program financed more than 12,000 units statewide in 2023. New-construction status of The Rhett is implied by the release (opening), not quoted.",
+        "source": "https://www.tdhca.texas.gov/news/tdhca-welcomes-new-affordable-housing-development-austin"
+      },
+      "sponsorPath": {
+        "value": null,
+        "evidence": "Same QAP experience rules (§11.204) apply to 4% applications; text not read. See 9% notes.",
+        "source": "https://www.tdhca.texas.gov/sites/default/files/multifamily/docs/htc-4pct/26-4HTC-TaxExemptBond-Process.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Texas Bond Review Board, April 13, 2026 planning session minutes: 'all lottery and post-lottery applications have been offered a reservation and there currently remains approximately $2.96 billion of volume cap available for reservation.' 2026 lottery applications were due Oct. 6-20, 2025; residential rental applications get priority; sub-ceilings collapse Aug. 17, 2026. No waitlist evident. Bonds can come from TDHCA, TSAHC or local issuers.",
+        "source": "https://www.brb.texas.gov/wp-content/uploads/2026/05/Mins_PS_4_13_26.docx"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.tdhca.texas.gov/news/state-housing-agency-financing-300-unit-new-affordable-housing-creedmoor" },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.brb.texas.gov/2026-program-year" }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": "https://www.brb.texas.gov/wp-content/uploads/2026/05/Mins_PS_4_13_26.docx" },
+      "nextDeadline": "2027 BRB lottery: by the 2026 pattern, completed applications due mid-October 2026 with the lottery in November 2026 (2027 dates not confirmed). 4% HTC applications to TDHCA are accepted year-round after a bond reservation.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Non-competitive 4% credits with ample bond volume (about $2.96B unreserved in April 2026). Sponsor experience rule not confirmed. Local issuer or TDHCA/TSAHC bond path plus city resolutions are needed.",
+          "sources": ["https://www.brb.texas.gov/wp-content/uploads/2026/05/Mins_PS_4_13_26.docx", "https://www.tdhca.texas.gov/sites/default/files/multifamily/docs/htc-4pct/26-4HTC-TaxExemptBond-Process.pdf"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Large 4% new construction is common (The Rhett 215 units; Creedmoor Farms 300 units; 12,000+ 4% units in 2023). Demand evidence: 864,000-home statewide shortage for extremely low-income households; more than half of Houston renters cost-burdened. Houston rents cooling; insurance burden flagged but not quantified; the 9.8% fee cap leaves less deferral cushion.",
+          "sources": ["https://www.tdhca.texas.gov/news/state-housing-agency-financing-300-unit-new-affordable-housing-creedmoor", "https://abc13.com/post/more-half-houston-renters-struggle-housing-costs-report-finds/19311663/"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Reachable by direct flights from Chicago (general knowledge). No local-presence rule found. Bond deals need larger construction guarantees. Partner path unconfirmed.",
+          "sources": ["https://www.tdhca.texas.gov/sites/default/files/multifamily/docs/htc-4pct/26-4HTC-TaxExemptBond-Process.pdf"]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Houston: Third Ward (Cuney Homes / Emancipation Avenue area, between Midtown and TSU/University of Houston)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "Established inner-city neighborhood next to Midtown (the Midtown Redevelopment Authority granted land for WALIPP's Third Ward expansion). No sourced data on past commercial vibrancy or transit was found.",
+      "sources": ["https://stylemagazine.com/news/2025/dec/15/a-living-legacy-in-the-third-ward-rev-william-a-lawsons-vision-rises-again-through-new-senior-housing-expansion"]
+    },
+    "anchorInstitutions": {
+      "score": 3,
+      "evidence": "Rice Real Estate Co. announced support for affordable housing development in Third Ward (2025). A Housing for Houston item says new Third Ward apartments would integrate housing for Texas Southern University and University of Houston students and faculty (single, undated statement).",
+      "sources": ["https://news.rice.edu/news/2025/rice-real-estate-co-announces-support-affordable-housing-development-houstons-third-ward", "https://housingforhouston.com/?p=60992"]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Cuney Homes public housing redevelopment (HHA) and City plans to build affordable housing in Third Ward; Midtown Redevelopment Authority land grants. No specific vacant 100+ unit parcel identified.",
+      "sources": ["https://prnewswire.com/news-releases/houstons-third-ward-to-undergo-50m-resident-led-transformation-with-hud-grant-302208849.html", "https://abc13.com/post/houston-affordable-housing-third-ward-settegast-south-union/14065911/"]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "$50M HUD Choice Neighborhoods Implementation Grant leveraged for a $610.7M Third Ward redevelopment; WALIPP $29.3M, 102-unit senior expansion; Trinity East Village Senior (90 units) groundbreaking; TxDOT $30M for affordable housing in I-45-affected neighborhoods incl. Third Ward.",
+      "sources": ["https://prnewswire.com/news-releases/houstons-third-ward-to-undergo-50m-resident-led-transformation-with-hud-grant-302208849.html", "https://stylemagazine.com/news/2025/dec/15/a-living-legacy-in-the-third-ward-rev-william-a-lawsons-vision-rises-again-through-new-senior-housing-expansion", "https://www.txdot.gov/nhhip/meeting-our-commitments/affordable-housing.html"]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "Houston Housing Authority and City of Houston co-lead the Choice Neighborhoods plan; Midtown Redevelopment Authority and TSAHC (managing TxDOT funds) are active. No named municipal housing-production target was found.",
+      "sources": ["https://prnewswire.com/news-releases/houstons-third-ward-to-undergo-50m-resident-led-transformation-with-hud-grant-302208849.html", "https://www.txdot.gov/nhhip/meeting-our-commitments/affordable-housing.html"]
+    }
+  },
+  "notes": "TDHCA, Texas Register (sos.texas.gov), Cornell LII and Justia could not be fetched (network blocked), so all rules come from search excerpts; ruleVerified is false. KEY FINDING: Texas caps the developer fee in eligible basis at 15% of eligible costs net of fee for both 9% and 4%, which gives about $3.91M (9.8% of TDC) on the example, just under DL3's 10% test; a looser reading gives $4.5M (11.25%). Whether Texas allows additional fee outside basis or a deferred-fee limit was not checked. The adopted rule cited is the Dec. 2025 (2026 QAP) version; a 2027 QAP is in proposal (Texas Register Sept. 18, 2026, earliest adoption Oct. 18, 2026) and may change the fee or experience rules. Sponsor/experience path (§11.204) not confirmed: experience certificates may have been eliminated; a 150-unit experience minimum was referenced in comments. 9% subregion request limits (§11.4(b)) dollar amounts not found. No application counts or oversubscription ratios found for any year; 9% new-construction count found only for 2024 (45 of 63). Totals: 2021 about $847M 10-year credits, 5,000+ units; 2022 about $80M, 4,024 units; 2024 $95.5M, 63 properties, 4,475 units; 2025 $99M, about 4,410 units; 2026 $114M, 70 properties, 4,400+ units. 4% maxFeasibleUnits uses The Rhett (215 units, 2023 award); new-construction status implied, not quoted. Market facts are from news/university sources, not TDHCA. No Houston vacancy, rent or insurance figures found. Execution travel judgments are general knowledge."
+}

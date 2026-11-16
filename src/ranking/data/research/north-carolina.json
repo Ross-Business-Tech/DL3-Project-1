@@ -1,0 +1,249 @@
+{
+  "state": "North Carolina",
+  "researchedOn": "2026-11-16",
+  "agency": "North Carolina Housing Finance Agency",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 2880000,
+        "rule": "2026 Final QAP: developer fees up to $24,000 per unit for new construction (28.5% of PDC line item 4 for rehabilitation). Raised from $23,000 (2025 QAP) and $22,500 (2024 QAP).",
+        "basis": "Per unit (not a percent of cost).",
+        "dollarCap": "No separate per-project dollar cap on the fee was found. The per-project 9% credit award is capped at $1,500,000, which limits fundable cost.",
+        "arithmetic": "120 units x $24,000 = $2,880,000. That is 7.2% of the $40,000,000 TDC ($2,880,000 / $40,000,000), below DL3's 10% target.",
+        "ruleVerified": false,
+        "source": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf",
+        "quote": "\"(a) Developer fees shall be up to $24,000 per unit for new construction projects and twenty-eight point five percent (28.5%) of PDC line item 4 for rehabilitation projects\" (search-engine excerpt of the 2026 Final QAP; the first-draft revisions memo says \"the per unit developer fee for new construction projects has been increased to $24,000\", up from $23,000 in the 2025 QAP)."
+      },
+      "maxFeasibleUnits": {
+        "value": 120,
+        "evidence": "Unit cap in the 2026 Final QAP (same in 2024 and 2025): \"New construction 9% Tax Credit projects may not exceed the following: Metro Region - one hundred and twenty (120) units; Central, East, and West Regions - eighty-four (84) units.\" A 101-120 unit 9% new-construction deal is only possible in the Metro Region. The QAP also says \"The maximum award to any one project will be $1,500,000.\" No specific 101+ unit 9% award in 2021-2025 was identified.",
+        "source": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "2026 Final QAP development-experience threshold (search excerpt): at least one Principal must have developed, operated and maintained in compliance either \"one (1) 9% Tax Credit project in North Carolina or six (6) separate 9% Tax Credit projects totaling in excess of 200 units\" (placed-in-service window applies; exact dates not confirmed). So an experienced out-of-state developer can qualify directly with six 9% deals anywhere, or by adding a Principal with one NC 9% deal. Developers commented that this sets \"too high a bar for out of state experience\" (Lincoln Avenue Communities). Evanston/Chicago-area Brinshore commented on the 2026 QAP jointly with a NC housing authority (RHA), which shows the partner route in use.",
+        "source": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round with geographic regions; the Metro Region allows the largest (120-unit) projects, and each county's initial maximum award is \"based on its percent share of the Metro region\". 2025 round: about $31.5M of credits, 9% awards covering 1,503 units, about 262 of them preservation and the rest new construction; NCHFA's impact report lists 110 preliminary applications and 31 9% awards. NCHFA said every new-construction award in 2025 needed gap financing such as WHLP. Credits are available but heavily oversubscribed.",
+        "source": "https://nchousing.org/nc-housing-finance-agency-announces-2025-tax-credit-awards/"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 127,
+          "source": "https://nchousing.org/policy-update-1-26-22/"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.sog.unc.edu/blogs/community-and-economic-development-ced/2024-update-local-governments-are-closing-financial-gap-affordable-housing-developments-0"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 110,
+          "source": "https://2025.housingbuildsnc.com/"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://2025.housingbuildsnc.com/"
+      },
+      "nextDeadline": "Not found. The 2027 QAP and its preliminary-application date were not located; NC preliminary 9% applications are normally due early in the year (the City of Raleigh's 2026 NOFA references a May 15, 2026 NCHFA full-application deadline for the 2026 cycle).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Direct path if DL3 has six 9% deals over 200 units in total (anywhere); otherwise add an NC-experienced Principal. Barriers: about 110 preliminary applications for 31 awards in 2025, a $1.5M per-project credit cap, a 120-unit cap even in the Metro Region, and county-share limits within the Metro Region.",
+          "sources": [
+            "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf",
+            "https://2025.housingbuildsnc.com/",
+            "https://www.nchfa.com/sites/default/files/2025-10/2026QAP%E2%80%94LincolnAvenueCommunities10.9.25.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Charlotte/Mecklenburg has a documented shortage of 44,572 rental units for households under 50% AMI, and more than 77% of 2015 low-cost stock has been lost (county report via WFAE). But a 120-unit 9% deal with at most $1.5M of annual credit cannot cover a $40M budget without large local gap funds; NCHFA said every 2025 new-construction award needed gap financing. Local governments committed over $28M to 9% projects in 2024 (UNC SOG). No rent, cost or vacancy data was found.",
+          "sources": [
+            "https://www.wfae.org/business/2026-02-20/mecklenburg-county-finds-affordable-housing-stock-has-plummeted",
+            "https://nchousing.org/nc-housing-finance-agency-announces-2025-tax-credit-awards/",
+            "https://www.sog.unc.edu/blogs/community-and-economic-development-ced/2024-update-local-governments-are-closing-financial-gap-affordable-housing-developments-0"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "No local-office rule was found. Charlotte is roughly a 2-hour direct flight from Chicago (general knowledge, not sourced). Partner route via an NC-experienced Principal exists. A Chicago-area peer (Brinshore) is active in NC with a housing authority partner.",
+          "sources": [
+            "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf",
+            "https://www.nchfa.com/sites/default/files/2025-12/2026QAP%E2%80%94BrinshoreandRHA12.8.25.pdf"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 2880000,
+        "rule": "The 2026 QAP governs both 9% and tax-exempt bond / 4% applications; its developer-fee clause is up to $24,000 per unit for new construction. No separate, higher 4% fee rule was found. Developer comments on the draft asked NCHFA to raise the fee \"at least for projects financed using 4% LIHTCs and TEBs\" (suggesting at least $26,000 per unit) and said \"many states in the region have higher developer fees for 4% transactions\"; adoption was not confirmed.",
+        "basis": "Per unit (assumed to apply to bond deals; not confirmed in text).",
+        "dollarCap": "None found.",
+        "arithmetic": "120 units x $24,000 = $2,880,000, which is 7.2% of the $40,000,000 TDC. If a separate 4% rule exists it was not found.",
+        "ruleVerified": false,
+        "source": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf",
+        "quote": "\"(a) Developer fees shall be up to $24,000 per unit for new construction projects and twenty-eight point five percent (28.5%) of PDC line item 4 for rehabilitation projects\" (search-engine excerpt of the 2026 Final QAP; the first-draft revisions memo says \"the per unit developer fee for new construction projects has been increased to $24,000\", up from $23,000 in the 2025 QAP). Comment on the draft: \"at least for projects financed using 4% LIHTCs and TEBs\" (Lincoln Avenue Communities letter)."
+      },
+      "maxFeasibleUnits": {
+        "value": 200,
+        "evidence": "Central at Old Concord, 5709 N Tryon St, Charlotte: 200-unit new-construction family project with NCHFA 4% credits and tax-exempt bonds, $28.4M of bonds issued by INLIVIAN, and more than $4M of City of Charlotte Housing Trust Fund money; listed with a 2023 year (Novogradac NC LIHTC property table) and under construction with completion expected summer 2027. The 120/84-unit caps apply only to 9% new construction.",
+        "source": "https://www.novoco.com/public-media/documents/north-carolina-lihtc-properties-through-2024-district-12-082026.pdf"
+      },
+      "sponsorPath": {
+        "value": null,
+        "evidence": "The development-experience text found is written for 9% projects; no 4%-specific experience rule or bar was found. No rule found that bars out-of-state sponsors from bond deals. Out-of-state developers such as The Annex Group (Indianapolis) and Dominium (Minneapolis) have done large Charlotte 4% deals, which suggests access in practice, but that is not a written QAP path.",
+        "source": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "North Carolina's 2026 private activity bond cap is listed at $1,491,213,240 with a first-come, first-served process, preliminary deadline 10/1/26 and full deadline 1/15/27 (Novogradac table, via search excerpt). The 2026 QAP Appendix M implements the drop from the 50% to the 25% test, letting applicants request bond cap for the greater of 30% of aggregate basis or maximum supportable debt, which stretches the cap. The QAP sets a bond-cap priority order (public housing revitalization, then rehab of rent-restricted housing, then rehab of market-rate) where new construction is not first. No evidence of a multi-year waitlist was found. 2024 awards (credits and bonds) covered 50 projects, about $1.1B of development.",
+        "source": "https://www.ncsha.org/wp-content/uploads/Final-Appendix-M.pdf"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.novoco.com/public-media/documents/north-carolina-lihtc-properties-through-2024-district-12-082026.pdf"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://nchfa-live.agaric.com/news/press-release/north-carolina-gain-more-11-billion-affordable-housing-development"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://nchousing.org/nc-housing-finance-agency-announces-2025-tax-credit-awards/"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-state-bond-caps-and-deadlines"
+      },
+      "nextDeadline": "Bond cap: preliminary application deadline 10/1/26 (passed) and full application deadline 1/15/27, per the Novogradac 2026 state bond caps table (search excerpt, not verified on NCHFA).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "No unit cap, and no 4%-specific experience bar found. Bond cap is large ($1.49B) and stretched by the 25% test, but new construction is not first in the bond-cap priority order and the 4% developer fee (assumed $24,000/unit) is low, so the 10%-of-TDC fee goal is not met.",
+          "sources": [
+            "https://www.ncsha.org/wp-content/uploads/Final-Appendix-M.pdf",
+            "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-state-bond-caps-and-deadlines",
+            "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalQAP.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "A 200-unit Charlotte 4% new-construction deal (Central at Old Concord) is under way with local bonds and Housing Trust Fund gap money. Shortage of 44,572 rental units under 50% AMI in Mecklenburg. The region added a record 19,754 apartments in the year to 2025 Q3 (UNC Charlotte), a lease-up competition risk. No rent, tax or insurance data was found for a downside case.",
+          "sources": [
+            "https://rebusinessonline.com/annex-group-to-build-200-unit-affordable-housing-community-in-charlotte/",
+            "https://www.wfae.org/business/2026-02-20/mecklenburg-county-finds-affordable-housing-stock-has-plummeted",
+            "https://belkcollege.charlotte.edu/2025/11/03/2025-charlotte-state-of-housing-report/"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "No local-presence rule found; Charlotte is reachable by direct flight from Chicago (general knowledge). Out-of-state firms (Annex Group, Dominium) execute Charlotte 4% deals. Bond deals carry larger construction guarantees.",
+          "sources": [
+            "https://rebusinessonline.com/annex-group-to-build-200-unit-affordable-housing-community-in-charlotte/",
+            "https://www.dominiumapartments.com/newsroom/dominium-accquires-land-for-creekrdige-on-the-park.html"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Charlotte: Beatties Ford Road / Rozzelles Ferry Road Corridor of Opportunity (west of Uptown)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "A long-established west-side corridor that the city calls one of six \"Corridors of Opportunity\"; WFAE describes these corridors as \"long neglected\". City has completed Beatties Ford sidewalks and a bike boulevard, with intersection work in progress. No sourced data on past commercial vibrancy or transit ridership was found.",
+      "sources": [
+        "https://www.charlottenc.gov/Growth-and-Development/Projects/COO-BFR?oc_lang=fr",
+        "https://www.wfae.org/race-equity/2023-01-23/long-neglected-charlottes-corridors-of-opportunity-could-be-the-key-to-a-more-equitable-city"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": 3,
+      "evidence": "The Park Church dedicated a 30-acre site on Beatties Ford Road for mixed-use affordable housing (including 125 multifamily units and senior housing), rezoned by City Council. Universities or hospitals investing in the corridor were not confirmed in sources found.",
+      "sources": [
+        "https://www.wbtv.com/2026/06/04/charlotte-teachers-first-responders-struggle-afford-homes-city-they-serve/?outputType=amp",
+        "https://www.charlottenc.gov/Growth-and-Development/Planning-and-Development/Rezoning/2025/2025-070"
+      ]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "30-acre Park Church site rezoned for affordable mixed use; the city is pursuing strategic land acquisitions in underserved areas. No specific vacant parcel sized for 100+ LIHTC units was confirmed.",
+      "sources": [
+        "https://www.wbtv.com/2026/06/04/charlotte-teachers-first-responders-struggle-afford-homes-city-they-serve/?outputType=amp",
+        "https://charlotteregion.com/news/targeting-strategic-land-acquisitions-to-revitalize-underserved-areas/"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "Since 2020 the city has used housing bonds to fund nearly 2,400 affordable multifamily units in the Corridors (2022 annual report). Voters approved a $100M housing bond in 2024; a $125M bond was on the Nov. 2026 ballot (result not found).",
+      "sources": [
+        "https://charlottenc.gov/files/sharedassets/city/v/1/growth-and-development/documents/corridors/2022-corridors-of-opportunity-annual-report.pdf",
+        "https://ui.charlotte.edu/?p=67327",
+        "https://www.wfae.org/politics/2026-10-13/a-breakdown-of-the-bonds-on-charlotte-ballots-this-fall"
+      ]
+    },
+    "localLeadership": {
+      "score": 5,
+      "evidence": "City Council's Corridors of Opportunity program targets Beatties Ford/Rozzelles Ferry with housing, jobs, transportation and safety work; a city Housing Trust Fund ($34.3M cited in 2022 report) plus successive housing bonds ($50M 2020, $50M 2022, $100M 2024) provide gap funds; Mecklenburg County also funds affordable housing.",
+      "sources": [
+        "https://www.charlottenc.gov/Growth-and-Development/Corridors-of-Opportunity",
+        "https://charlottenc.gov/files/sharedassets/city/v/1/growth-and-development/documents/corridors/2022-corridors-of-opportunity-annual-report.pdf",
+        "https://ui.charlotte.edu/?p=67327"
+      ]
+    }
+  },
+  "notes": "nchfa.com, nchfa-live.agaric.com and housingonline.com could not be reached from this session (network block), so all NCHFA rules come from search-engine excerpts; ruleVerified is false. Fee: $24,000/unit new construction in the 2026 Final QAP gives $2.88M (7.2% of TDC) for both pathways; it was NOT confirmed whether bond/4% deals have a separate fee rule (commenters asked for one). The 2027 QAP (if adopted) was not found; its fee may differ. 9%: unit cap 120 (Metro) / 84 (other regions), $1.5M max credit per project. Experience rule: one NC 9% deal or six 9% deals over 200 units; placed-in-service dates not confirmed. Award counts: 2025 had 110 preliminary applications and 31 9% awards (NCHFA impact report); 2022 had 127 preliminary 9% applications; new-construction and over-100-unit counts were not found for any year, and 2021/2023 data were not found. 9% oversubscription by credits was not found (about 3.5 applications per award in 2025 is a rough proxy, not credits). 4% bond cap figure and deadlines come from a Novogradac table excerpt. Central at Old Concord's '2023' year is from a property table and may not be the award year; sponsor listed as Shelter Investments Development Corporation in an NCHFA listing vs. The Annex Group in press. Venture: Johnson C. Smith University and transit (Gold Line) links were not confirmed by sources. No Charlotte rent/vacancy/insurance data found."
+}

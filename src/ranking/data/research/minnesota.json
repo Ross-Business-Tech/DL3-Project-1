@@ -1,0 +1,148 @@
+{
+  "state": "Minnesota",
+  "researchedOn": "2026-11-16",
+  "agency": "Minnesota Housing Finance Agency (Minnesota Housing); Minneapolis and Saint Paul sub-allocate their own 9% credits through the Minneapolis/Saint Paul Housing Finance Board",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 3936890,
+        "rule": "Minnesota Housing Multifamily Underwriting Standards (last updated April 2025): the maximum developer fee is 15% for the first 50 units and 8% for units 51 and up, measured as a percentage of total development cost (TDC) less the developer fee. Half of the financed fee may be paid at closing; the rest is paid no sooner than the final construction draw (2016/2021 versions).",
+        "basis": "Percent of TDC excluding the developer fee itself, blended 15% (units 1-50) and 8% (units 51+). Land and reserves are not excluded in the excerpt.",
+        "dollarCap": "No dollar cap on the fee found. Separately, 9% credits are limited to $1,700,000 per development (Minnesota Housing per-development limit cited in Jan. 2026 board materials).",
+        "arithmetic": "Blended rate = (50 x 15% + 70 x 8%) / 120 = 10.9167%. Fee F = 0.109167 x ($40,000,000 - F), so F = $4,366,667 / 1.109167 = $3,936,890, which is 9.84% of the $40,000,000 TDC (below DL3's 10% target). The per-unit blending assumes equal cost per unit; how Minnesota Housing actually blends the tiers was not confirmed.",
+        "ruleVerified": false,
+        "source": "https://www.mnhousing.gov/document/underwriting-standards_25-26",
+        "quote": "\"The maximum allowable Developer Fee is based on a percentage of the TDC less the Developer Fee.\" Fee table: 15% for the first 50 units, 8% for units 51 and greater (search-engine excerpt of the April 2025 Underwriting Standards; the same split appears in the 2016, 2019 and 2021 versions). The Minneapolis/Saint Paul procedural manual's own fee rule was not found."
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap was found, but 9% credits are limited to $1,700,000 per development (Jan. 2026 board memo: 'the cumulative allocation for each development will be in excess of the $1,700,000 per development limit'), and Minneapolis's whole 2026 9% sub-allocation was estimated at only $1,546,448. No 9% new-construction award over 100 units in 2021-2025 was found.",
+        "source": "https://mnhousing.gov/documents/53296/january-22-2026-board-meeting-materials/view"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Minnesota Housing's Developer Qualification Form (Form 203A) has an explicit path for developers new to the state: 'If new to the market, including new to the state of Minnesota or a new region within Minnesota, or not active in Minnesota for more than five years, describe how the developer plans to enter the market. Provide details including ... selection of development team, development consultant/processing agent, management agent.' The 2026-2028 QAP added development consultants to the development team so their experience can earn points (proposed-changes summary). No out-of-state bar was found. Joint-venture language in the QAP text itself was not read.",
+        "source": "https://partners.mnhousing.gov/documents/52356/qualification_developer_form203artf/view"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% rounds: Minnesota Housing's Multifamily Consolidated RFP / HTC Round 1 (plus a Round 2), and separate Minneapolis and Saint Paul sub-allocations. Minneapolis estimated $1,546,448 of 2026 9% credits. Credits are scarce: 64 applications and 21 selections in the 2024 consolidated RFP. A 120-unit deal would be limited to $1.7M of annual credit, so it needs large gap funding.",
+        "source": "https://www2.minneapolismn.gov/media/content-assets/www2-documents/business/NOFA-letter-2026.pdf"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://content.govdelivery.com/accounts/MNHOUSING/bulletins/3e589a8" },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": 64, "source": "https://partners.mnhousing.gov/home/agency-news/2024-project-selections-blog" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://mnhousing.gov/home/agency-news/minnesota-housing-announces-1664-million-housing-developments-across-state" }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://partners.mnhousing.gov/home/agency-news/2024-project-selections-blog"
+      },
+      "nextDeadline": "2026 Multifamily Consolidated RFP / 2027 HTC Round 1 applications were due Thursday, July 9, 2026 at noon Central (passed; board selections expected December 2026). The 2027 RFP / 2028 HTC Round 1 date was not found; the QAP was extended to cover it.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Written new-to-market path (Form 203A) and development consultants can count toward team points. Barriers: about 3 applications per selection in 2024 (64 applications, 21 selected for all resources), a $1.7M per-development credit limit, and small Minneapolis/Saint Paul sub-allocations (Minneapolis about $1.55M for 2026).",
+          "sources": ["https://partners.mnhousing.gov/documents/52356/qualification_developer_form203artf/view", "https://partners.mnhousing.gov/home/agency-news/2024-project-selections-blog", "https://www2.minneapolismn.gov/media/content-assets/www2-documents/business/NOFA-letter-2026.pdf"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Market facts from news and broker sources, not Minnesota Housing. Twin Cities vacancy fell to 4.5% at year-end 2025 (Northmarq). Over 80% of Minneapolis renters earning under $50,000 were cost-burdened in 2023 (Star Tribune analysis of census data). But a 120-unit 9% deal capped at $1.7M of annual credit needs heavy gap funding, and the fee formula yields under 10% of TDC.",
+          "sources": ["https://www.northmarq.com/sites/default/files/docs/NMMarketInsights-Q42025-Minneapolis.pdf", "https://www.startribune.com/twin-cities-housing-reform-rent-prices/601512623"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Minneapolis is about a 6-7 hour drive or a short flight from Chicago (general knowledge, not sourced). No local-office rule was found. New-to-market developers must describe their entry plan and team, including a local consultant and management agent.",
+          "sources": ["https://partners.mnhousing.gov/documents/52356/qualification_developer_form203artf/view"]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 3936890,
+        "rule": "Assumed to be the same agency-wide Multifamily Underwriting Standards rule as 9%: 15% for the first 50 units and 8% for units 51 and up, as a percentage of TDC less the developer fee. No separate fee rule for 4% / bond projects was found in the 4% HTC Only Standards excerpts.",
+        "basis": "Percent of TDC excluding the developer fee, blended 15% / 8% by unit count.",
+        "dollarCap": "None found.",
+        "arithmetic": "Same as 9%: blended rate 10.9167%; F = 0.109167 x ($40,000,000 - F) = $3,936,890 (9.84% of TDC).",
+        "ruleVerified": false,
+        "source": "https://www.mnhousing.gov/document/underwriting-standards_25-26",
+        "quote": "\"The maximum allowable Developer Fee is based on a percentage of the TDC less the Developer Fee.\" (search excerpt). Whether the 2026 4% HTC Only Standards (https://mnhousing.gov/documents/52539/2026-mf-4percent-htc-only-standards/view) or the Minneapolis/Saint Paul procedural manual set a different 4% fee was not confirmed."
+      },
+      "maxFeasibleUnits": {
+        "value": 160,
+        "evidence": "Canvas Apartments, northeast Minneapolis, by LS Black Development: a $71 million, 160-unit (later reported as 161) new-construction affordable building, financed with 'tax credits and revenue bonds'. It broke ground in December 2022 and was completed in spring 2024. Also: Lupe Development / Wall Cos. opened a 143-unit affordable community in Minneapolis. The 4% credit with tax-exempt bonds is the main vehicle for large affordable deals in Minneapolis.",
+        "source": "https://rebusinessonline.com/ls-black-breaks-ground-on-71m-affordable-housing-development-in-minneapolis"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "The same Form 203A new-to-market path applies to all Minnesota Housing applications. Minneapolis and Saint Paul allocate 4% credits year-round when they issue housing revenue bonds. No out-of-state bar was found.",
+        "source": "https://partners.mnhousing.gov/documents/52356/qualification_developer_form203artf/view"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Minnesota's 2026 volume cap is $782,075,385 (MMB). An MMB memo says residential rental projects are regularly on a waiting list for volume cap, but the federal H.R. 1 change (bonds now need to cover only 25% instead of 50% of basis, from Jan. 1, 2026) lets the same cap support more projects; Minnesota Housing and the Minneapolis/Saint Paul board adopted the lower test. Minneapolis is an entitlement issuer; a 2025 city staff report showed about $67.7M of entitlement balance before a $17M request (the table does not reconcile cleanly). No multi-year waitlist was documented, but MMB calls volume cap 'a scarce resource'.",
+        "source": "https://mn.gov/mmb-stat/debt-management/federal-bond-programs/TEBA%20Forms/memo-teba-hr1-bond-threshold-change.pdf"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": 1, "applications": null, "source": "https://rebusinessonline.com/ls-black-breaks-ground-on-71m-affordable-housing-development-in-minneapolis" },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://mn.gov/mmb-stat/debt-management/federal-bond-programs/2026/master-priority-list-for-residential-rental-projects-2026-01-13.pdf" }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": "https://mn.gov/mmb-stat/debt-management/federal-bond-programs/2026/master-priority-list-for-residential-rental-projects-2026-01-13.pdf" },
+      "nextDeadline": "4% credits are available year-round; a full application is due at least 60 days before bond issuance. MMB makes housing-pool allocations weekly from mid-January through the last Monday in June each year.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Year-round 4% path through Minnesota Housing or the Minneapolis / Saint Paul entitlement issuers, with a documented new-to-market path (Form 203A). Bond volume is scarce and queued on the MMB priority list, but the 25% bond test now stretches it. State gap funding is competitive (Minnesota Housing Partnership: only about 1 in 3 applicants funded).",
+          "sources": ["https://www.mnhousing.gov/home/rental-housing/housing-development-and-capital-programs/housing-tax-credits/4-percent-only", "https://mn.gov/mmb-stat/debt-management/federal-bond-programs/TEBA%20Forms/memo-teba-hr1-bond-threshold-change.pdf", "https://www.lrl.mn.gov/archive/minutes/senate/2026/fin/20260421/Fin_20260421_SF203-MHP-Support-Letter.pdf"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Large 4% new construction has worked in Minneapolis (Canvas, 160 units, $71M, about $444k per unit; a 143-unit Lupe/Wall project). Vacancy is tightening (4.5% at year-end 2025, Northmarq) and lower-income renters are heavily cost-burdened. But the Minneapolis Fed reported multifamily operators in 'a precarious position' in 2025, and the high per-unit cost is a downside risk.",
+          "sources": ["https://rebusinessonline.com/ls-black-breaks-ground-on-71m-affordable-housing-development-in-minneapolis", "https://www.northmarq.com/sites/default/files/docs/NMMarketInsights-Q42025-Minneapolis.pdf", "https://minneapolisfed.org/article/2025/multifamily-housing-operators-describe-a-precarious-position"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Reachable from Chicago (general knowledge). No local-presence rule found. Requires a local team plan per Form 203A. Bond deals carry larger construction-loan guarantees than 9% deals.",
+          "sources": ["https://partners.mnhousing.gov/documents/52356/qualification_developer_form203artf/view"]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Minneapolis: North Minneapolis, West Broadway corridor (planned METRO Blue Line Extension) near Upper Harbor Terminal",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "West Broadway is north Minneapolis's main commercial street and was chosen in 2022 as the route of the Blue Line Extension light rail, which received federal environmental approval in September 2025. No sourced data on past commercial vibrancy was found.",
+      "sources": ["https://masstransitmag.com/rail/infrastructure/press-release/55309771/metropolitan-council-minneapolis-blue-line-extension-project-receives-federal-environmental-approval", "https://www.minneapolismn.gov/government/projects/blue-line-extension/"]
+    },
+    "anchorInstitutions": {
+      "score": null,
+      "evidence": "No hospital, university or large-employer investment specific to the corridor was researched within the search budget.",
+      "sources": []
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Upper Harbor Terminal is a former city-owned industrial riverfront site being redeveloped, with a planned 500+ unit affordable housing component (delayed after state loan requests were rejected in 2022 and 2023). The city is seeking development partners for housing near future Blue Line Extension stations. No specific available parcel for DL3 was identified.",
+      "sources": ["https://www.startribune.com/facing-financial-uncertainty-north-minneapolis-upper-harbor-affordable-housing-development-may-be-less-affordable/600377246", "https://news.nationgraph.com/articles/minneapolis-seeks-developers-for-blue-line-extension-neighborhoods-before-trains-arrive"]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "In July 2025 the City Council approved leases for an 8,000-seat First Avenue outdoor concert venue in the $350 million Upper Harbor redevelopment; Phase 1 construction (housing, jobs, performing arts center) was listed as starting 2025. Blue Line Extension cleared federal environmental review in Sept. 2025, and the state set aside $10 million for anti-displacement. Upper Harbor housing has $5M city trust funds, $2M Met Council LCDA and $1M Hennepin County funds.",
+      "sources": ["https://www.startribune.com/minneapolis-approves-upper-harbor-concert-first-avenue/601442969", "https://www.minneapolismn.gov/government/programs-initiatives/upper-harbor/timeline", "https://masstransitmag.com/rail/infrastructure/press-release/55309771/metropolitan-council-minneapolis-blue-line-extension-project-receives-federal-environmental-approval"]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "The City of Minneapolis is proactively recruiting developers for Blue Line Extension station areas 'to secure affordable housing before land values rise', runs its own 9% sub-allocation and housing revenue bond program, and funds an Affordable Housing Trust Fund. Named individual leaders were not researched.",
+      "sources": ["https://news.nationgraph.com/articles/minneapolis-moves-to-shape-development-around-blue-line-extension-before-market-does", "https://minneapolismn.gov/business-services/business-assistance/financing-developers/housing-tax-credits"]
+    }
+  },
+  "notes": "www.mnhousing.gov and www.stpaul.gov could not be fetched from this session (blocked by the network allowlist), so every rule comes from search-engine excerpts and ruleVerified is false. Key finding: Minnesota Housing's fee formula (15% first 50 units, 8% after, on TDC less fee) gives about $3.94M, or 9.84% of TDC, for the 120-unit example, so it slightly MISSES DL3's 10% threshold; the blending method was not confirmed and the Minneapolis/Saint Paul board's own fee rule was not found. The same rule is assumed for 4% because no separate bond fee rule was found. The $1.7M 9% per-development limit comes from a Jan. 2026 board memo about 2025 credits; the current Chapter 2.H figure was not confirmed. 2024 consolidated RFP: 64 applications, 21 selected (959 units, 523 new construction). 2025: 20 multifamily developments, 1,145 rental units. These cover all Minnesota Housing resources, not 9% alone; new-construction and over-100-unit counts by year were not found. Canvas Apartments (160 units) is described as using tax credits and revenue bonds; the 4% label is inferred from that financing, not stated. The MMB memo says rental projects are regularly waitlisted for volume cap; the current queue length on the Master Priority List was not read. Anchor institutions for the venture market were not researched."
+}

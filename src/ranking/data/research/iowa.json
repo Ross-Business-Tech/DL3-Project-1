@@ -1,0 +1,149 @@
+{
+  "state": "Iowa",
+  "researchedOn": "2026-11-16",
+  "agency": "Iowa Finance Authority (IFA), now part of the Iowa Economic Development Authority (opportunityiowa.gov)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 4858131,
+        "rule": "2026-2027 9% QAP: developer fee (including developer overhead and profit and consultant fees) is tiered by unit count: first 24 units not to exceed 18%, remaining units above 24 not to exceed 15%, of total project costs excluding land, existing structures, developer fee, developer overhead and profit, consultant fees and reserves. No developer fee on acquisition costs. Same 18%/15% tiers appear in the 2023, 2024 and 2025 9% QAPs.",
+        "basis": "Percent of total project cost excluding land, existing structures, developer fee, developer overhead/profit, consultant fees and reserves (circular; solved algebraically). Assumed the unit tiers are applied as a unit-weighted blended rate.",
+        "dollarCap": "None found. (Project-level credit caps limit the deal size instead; see maxFeasibleUnits.)",
+        "arithmetic": "Blended rate for 120 units = (24 x 18% + 96 x 15%) / 120 = 15.6%. Fee base = $40,000,000 - $3,000,000 land - $1,000,000 reserves - F (no existing structures, consultant fee assumed 0). F = 0.156 x ($36,000,000 - F) => F = $5,616,000 / 1.156 = $4,858,131 (12.1% of the $40,000,000 TDC). If instead IFA applies the 15% rate to the whole base, F = 0.15 x 36,000,000 / 1.15 = $4,695,652 (11.7%); either way above 10%.",
+        "ruleVerified": false,
+        "source": "https://opportunityiowa.gov/media/7255/download?inline=",
+        "quote": "\"First 24 Units Not to exceed 18% Remaining Units within the Project above 24 Not to exceed 15%\"; fee base is total project costs \"less land, existing structures, Developer fee, Developer overhead and profit, Consultant fees, and reserves\"; \"Developer fee is not permitted for acquisition costs\" (search-engine excerpts of the 2026-2027 9% QAP; a Second Amended 9% QAP also exists at https://opportunityiowa.gov/media/7565 and was not read)."
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap found, but 9% deals are limited by a per-project credit cap (older QAPs: $1,200,000 in 2023; a draft showed $1,300,000; the Innovation Set-Aside allows up to $1,200,000-$1,400,000 for one project) and a per-unit credit cap ($25,000 per LIHTC unit for family new construction in 2023/2024). The final 2026-2027 figures were not confirmed. Recent rounds are small: 2025 = 10 projects / 331 units; 2026 = 9 developments / 338 units (largest named new construction: Spin Lofts, Council Bluffs, 45 units). No 9% new-construction award over 100 units in 2021-2025 was found.",
+        "source": "https://opportunityiowa.gov/press-release/2026-06-03/iowa-finance-authority-awards-113-million-federal-housing-tax-credits-create-nearly-340-affordable"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "IFA QAPs define 'New Developers or GP/MMs to Iowa' (no prior awards in any state, or none in Iowa) and make them eligible for a limited number of awards per round (2024 QAP: 'Up to one LIHTC award'), rather than barring them. The Developer may be a joint venture. A Qualifying Entity requirement applies (at least one Developer or GP/MM must be a Qualifying Entity holding at least 50% of the developer interest), and an IFA Q&A indicates out-of-state completed projects can count toward Qualifying Entity experience. Experience points are only for Iowa projects with 8609s, so a new entrant loses those points.",
+        "source": "https://opportunityiowa.gov/media/7602/download?inline="
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round. 2026 round: 'IFA received 16 applications requesting more than $21 million in housing tax credits ... with approximately $11.5 million available to allocate'; 9 developments funded. Set-asides found: Innovation Set-Aside (one project, up to $1.2M) and a General Set-Aside; no dedicated urban / large-city pool found. A 120-unit project is unrealistic under the per-project credit cap.",
+        "source": "https://opportunityiowa.gov/press-release/2026-06-03/iowa-finance-authority-awards-113-million-federal-housing-tax-credits-create-nearly-340-affordable"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://opportunityiowa.gov/media/5605/download" },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": 27, "source": "https://opportunityiowa.gov/media/6664/download" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": 23, "source": "https://opportunityiowa.gov/press-release/2025-05-07/iowa-finance-authority-awards-more-95m-federal-housing-tax-credits-construction-more-300-rental" },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": 16, "source": "https://opportunityiowa.gov/press-release/2026-06-03/iowa-finance-authority-awards-113-million-federal-housing-tax-credits-create-nearly-340-affordable" }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": 1.83,
+        "source": "https://opportunityiowa.gov/press-release/2026-06-03/iowa-finance-authority-awards-113-million-federal-housing-tax-credits-create-nearly-340-affordable"
+      },
+      "nextDeadline": "2027 9% round is open (IFA 2027 9% Application Q&A updated 11/13/2026); the application due date was not found in search results.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "New-to-Iowa developers are eligible (limited number of awards per round), JV developers allowed, out-of-state experience can count for Qualifying Entity status. Barriers: no Iowa-experience points, about 1.8x oversubscription in 2026 (2.9x in 2025: $27M requested vs $9.8M available), no urban pool, small per-project credit caps.",
+          "sources": ["https://opportunityiowa.gov/media/7602/download?inline=", "https://opportunityiowa.gov/press-release/2025-05-07/iowa-finance-authority-awards-more-95m-federal-housing-tax-credits-construction-more-300-rental"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Des Moines demand is strong (23 affordable and available units per 100 extremely low-income households in 2022, per NLIHC via Axios; Polk County shortage about 11,000 units for extremely low-income renters). But a 9% award (around $1.2M/yr cap, unconfirmed for 2026-2027) cannot carry a 120-unit, $40M building; recent 9% projects average about 35-37 units. No rent or vacancy data found.",
+          "sources": ["https://www.axios.com/local/des-moines/2025/10/27/des-moines-affordable-housing-shortage", "https://www.unitedwaydm.org/impact/initiatives/opportunity/housing"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Des Moines is roughly a 5.5-hour drive / short flight from Chicago (general knowledge, not sourced). No local-presence rule found. JV / Qualifying Entity partner route exists.",
+          "sources": ["https://opportunityiowa.gov/media/7602/download?inline="]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 5491525,
+        "rule": "2026-2027 First Amended 4% QAP: total developer fees, including developer overhead/profit and consultant fees, shall not exceed 18% of total project costs less land, existing structures and other listed items (by the 9% QAP wording: developer fee, overhead/profit, consultant fees and reserves). No developer fee on acquisition costs. Builder/GC fees separately limited to 15% of hard costs.",
+        "basis": "Percent of total project cost excluding land, existing structures, the fee itself, consultant fees and reserves (exclusion list assumed to match the 9% QAP; not fully visible in the 4% excerpt).",
+        "dollarCap": "None found.",
+        "arithmetic": "F = 0.18 x ($40,000,000 - $3,000,000 land - $1,000,000 reserves - F) => F = $6,480,000 / 1.18 = $5,491,525 (13.7% of the $40,000,000 TDC). The older 2022-2023 4% QAP had a lower tier (12% above 36 units); the 2026-2027 excerpt shows a flat 18%.",
+        "ruleVerified": false,
+        "source": "https://opportunityiowa.gov/media/7602/download?inline=",
+        "quote": "\"Total developer fees, including overhead/profit and consultant fees, shall not exceed 18%\" of total project costs less land, existing structures and other listed items; \"Developer fee is not permitted for acquisition costs\" (search-engine excerpt of the 2026-2027 First Amended 4% QAP)."
+      },
+      "maxFeasibleUnits": {
+        "value": 192,
+        "evidence": "December 3, 2025 4% awards: The Atheneum, Cedar Rapids, 192-unit family new construction (Pedcor Development Associates, an out-of-state developer); Southridge Flats, Des Moines (7210 SE 14th St), 160-unit family new construction. Five projects, 781 units, $11,037,998 of 4% credits.",
+        "source": "https://opportunityiowa.gov/press-release/2025-12-03/iowa-finance-authority-awards-federal-housing-tax-credits-advance-nearly-800-rental-homes-four-iowa"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "2026-2027 First Amended 4% QAP: 'A Developer or GP/MM with no prior Tax Credit awards in any state or with no prior 4% Tax Credit award in Iowa shall be eligible as listed below. Developers or GP/MMs with experience only in 9% Tax Credits shall be considered New Developers or GP/MMs to Iowa' (eligible for up to one award in the round per the chart). 'Application as a Developer (may be a joint venture)'. At least one Developer or GP/MM must be a Qualifying Entity. 4% QAP also limits awards to one Project per Developer per 4% round (with Section 1.3 exceptions).",
+        "source": "https://opportunityiowa.gov/media/7602/download?inline="
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "IFA runs an annual competitive 4% round (2026 applications due Aug. 5, 2026; Board reservations Nov. 4, 2026). A 2026 IFA list shows about $90,000,000 of estimated available tax-exempt bond volume cap, and a proposed QAP amendment limits bonds to the lesser of 35% of aggregate basis or $25 million per project (consistent with the new 25% test). Volume is limited (a few projects per year) but not waitlisted for years; IFA notes a 4% award is not a reservation of Bond Cap.",
+        "source": "https://opportunityiowa.gov/media/7531/download"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://iowafinance.com/content/uploads/2024/09/2023-4percent_awards12282023.pdf" },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://opportunityiowa.gov/press-release/2025-12-03/iowa-finance-authority-awards-federal-housing-tax-credits-advance-nearly-800-rental-homes-four-iowa" },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": null },
+      "nextDeadline": "2026 4% round applications were due Aug. 5, 2026 (passed; Board reservations Nov. 4, 2026). The 2027 4% round date was not found.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "New-to-Iowa developers eligible for one award per round; JV developer allowed; Qualifying Entity rule; one project per developer per 4% round; bond cap about $90M in 2026 with a $25M per-project limit means only a few awards a year. Out-of-state Pedcor won a 192-unit award in Dec. 2025.",
+          "sources": ["https://opportunityiowa.gov/media/7602/download?inline=", "https://opportunityiowa.gov/media/7531/download"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Large 4% new construction is happening in Des Moines (Southridge Flats, 160 units) and Cedar Rapids (Atheneum, 192 units). Demand gap: 23 affordable/available units per 100 extremely low-income households in metro Des Moines (2022); about 11,000-unit shortage for extremely low-income renters in Polk County. No rent, vacancy, insurance or tax data found for a downside test.",
+          "sources": ["https://opportunityiowa.gov/press-release/2025-12-03/iowa-finance-authority-awards-federal-housing-tax-credits-advance-nearly-800-rental-homes-four-iowa", "https://www.axios.com/local/des-moines/2025/10/27/des-moines-affordable-housing-shortage"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Reachable from Chicago (general knowledge). No local-presence rule found; JV / Qualifying Entity partner route exists. Bond deals carry larger construction guarantees.",
+          "sources": ["https://opportunityiowa.gov/media/7602/download?inline="]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Des Moines: Market District (south of downtown / Court Avenue, along the Des Moines River near Two Rivers Park)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "Former industrial hub adjacent to downtown being converted to a new street grid with housing and retail; downtown has DART Central Station (620 Cherry St) and the 1.2-mile Principal Riverwalk. No sourced data on historic commercial vibrancy.",
+      "sources": ["https://landscapearchitect.com/landscape-articles/market-district-redevelopment-des-moines-ia", "https://www.architectmagazine.com/project-gallery/dart-central-station-5829"]
+    },
+    "anchorInstitutions": {
+      "score": 3,
+      "evidence": "Downtown Des Moines employers; the Principal Riverwalk was funded by the city, Principal Financial and the State of Iowa. No institution-specific commitment to the Market District was found.",
+      "sources": ["https://worddisk.com/wiki/Principal_Riverwalk"]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Former industrial land with city-controlled sites; the city amended a development agreement for 'Lot 9' to give flexibility for a project proposing long-term LIHTC affordability; TWG's $40M, 211-unit mixed-income proposal is the district's second residential project; described as 'slow-to-develop'.",
+      "sources": ["https://councildocs.dsm.city/resolutions/20260323/23.pdf", "https://www.yahoo.com/news/articles/opening-two-rivers-park-seen-210243479.html"]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "$15.5M, 9-acre Two Rivers Park anchors the district; IEDA approved $9.5M for a hotel and parking ramp (March 2026 city document); Foundry Lofts (46 affordable units, city HOME $400,000 plus TIF, construction July 2026); TWG 211-unit proposal; 1,400 apartments proposed downtown.",
+      "sources": ["https://www.yahoo.com/news/articles/opening-two-rivers-park-seen-210243479.html", "https://councildocs.dsm.city/communications/2026/26-092.pdf", "https://businessrecord.com/?p=409961"]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "City council is actively approving Market District agreements (HOME, TIF, LIHTC flexibility, DART Unlimited Access and HERS requirements). A draft citywide housing strategy is under debate; Polk County Housing Trust Fund director Eric Burmeister questioned its equity; council member Joe Gatto called affordable housing a priority.",
+      "sources": ["https://councildocs.dsm.city/resolutions/20260323/23.pdf", "https://www.iowapublicradio.org/ipr-news/2026-05-15/affordable-housing-polk-county-central-iowa-community-land-trust-des-moines"]
+    }
+  },
+  "notes": "opportunityiowa.gov and iowafinance.com cannot be reached from this session (blocked by network settings), so every IFA rule comes from search-engine excerpts and ruleVerified is false for both fees. The 9% fee tiers are from the 2026-2027 9% QAP (media/7255); a Second Amended 9% QAP and First Amended 4% QAP (drafts open for comment to Jan. 21, 2026) were not read in full, and the final adopted text was not confirmed. How IFA applies the 18%/15% unit tiers (blended vs per-unit) is assumed. The 4% fee exclusion list was assumed to match the 9% wording. The final 2026-2027 9% per-project and per-unit credit caps were not found (older: $1.2M/project, $25,000/unit). The new-developer award chart was not seen in full. Award counts by year: application counts found for 9% 2024 (27), 2025 (23), 2026 (16); new-construction and >100-unit counts not found for any year (Dec. 2025 4% round had at least two new-construction projects over 100 units: Atheneum 192, Southridge Flats 160). The 4% bond cap formula (35% of aggregate basis or $25M) is a proposed amendment; an older document says 55%. Market facts come from news and city documents, not IFA. No Des Moines rent or vacancy data was found."
+}

@@ -1,0 +1,146 @@
+{
+  "state": "Tennessee",
+  "researchedOn": "2026-11-16",
+  "agency": "Tennessee Housing Development Agency",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 3913043,
+        "rule": "2026 LIHTC QAP, 'Developer Fees and Consultant Fees Limits': the combined developer + consultant fees that may be included in eligible basis are capped at 15% of the portion of THDA-determined eligible basis attributable to new construction (and 15% of the acquisition portion), measured before those fees are added. A separate, broader cap limits developer fees + consultant fees + contractor profit/overhead/general requirements together to 25% of the new-construction basis. All consulting fees count toward the developer fee maximum.",
+        "basis": "Percent of THDA-determined eligible basis, excluding the developer and consultant fees themselves (per search summary of the QAP text).",
+        "dollarCap": "None found.",
+        "arithmetic": "Eligible basis assumed = 75% x $40,000,000 = $30,000,000 including the fee. Fee-excluded basis = $30,000,000 - F. F = 0.15 x ($30,000,000 - F) => 1.15F = $4,500,000 => F = $3,913,043 (9.8% of the $40,000,000 TDC). If THDA instead applies 15% to basis inclusive of the fee, F = 0.15 x $30,000,000 = $4,500,000 (11.25% of TDC). The fee-excluded reading is reported.",
+        "ruleVerified": false,
+        "source": "https://thda.org/wp-content/uploads/2025/10/2026-QAP-FOR-GOV-SIGNATURE-10.23.2025.pdf",
+        "quote": "Search-engine excerpts of the 2026 QAP (Section 'Developer Fees and Consultant Fees Limits'): the total of Developer and Consultant fees that may be included in the determination of eligible basis 'cannot exceed' 15% of the THDA determined eligible basis attributable to acquisition and to new construction or rehabilitation (before fees); developer, consultant fees and contractor profit together 'cannot exceed 25% of that portion of THDA determined eligible basis'; 'All consulting fees are considered part of the calculation of the maximum allowable Developer fee.' Exact wording not read; excerpts were fragmentary and partly conflicting."
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap was found, and no 9% new-construction award over 100 units in 2021-2025 was identified. The 2025 round awarded over $25M of 9% credits for 988 units statewide; the 2026 round reserved $21,789,055 for 1,072 units (project count not readable from the excerpt), which implies typical 9% deals well under 100 units. The QAP has a section on limits on housing credit allocations per development, but the amount was not visible.",
+        "source": "https://thda.org/wp-content/uploads/2025/08/MF_2026-Competitive-Awards-Final-07.07.2026.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "2026 QAP (excerpt): 'THDA prefers Development Teams that have successful experience in Tennessee with the THDA Housing Credit Program', evidenced by recent construction and placing in service; out-of-state entities 'must be qualified to do business in Tennessee'. The draft 2026 QAP applies experience rules 'for all entities that receive any portion of the Developer Fee', implying shared-fee co-developer teams are contemplated. A 2025 evaluation of the QAP (The Kelsey, for the State of Tennessee) says 'projects led by experienced joint venture partners are given favorable' treatment and that the QAP 'does not incentivize new developers'. So a JV with a Tennessee-experienced partner is the path; the explicit QAP JV clause was not read directly.",
+        "source": "https://www.tn.gov/content/dam/tn/disability-and-aging/documents/disability-aging-programs/housing-innovation/TN%20QAP%20Recommendations%20Latest%20Accessibility%20Report%20-%20Accessible.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "THDA runs an annual competitive 9% round. 2026 awards ($21,789,055, 1,072 units) were made under QAP Section 11, with Shelby (Memphis), Davidson (Nashville) and Hamilton (Chattanooga) projects funded under a 'New Construction General Pool' and county pools. The draft 2027 QAP keeps a 'new construction general priority category' (Section 14). No dedicated large-city/urban set-aside was found in current rules (older 2022 listings tagged Davidson/Shelby/Knox projects 'Urban'). A $3.6M PHA priority category also exists.",
+        "source": "https://thda.org/wp-content/uploads/2025/08/MF_2026-Competitive-Awards-Final-07.07.2026.pdf"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://thdadev.exemplifi.io/wp-content/uploads/2025/06/2022-Competitive-Listing.pdf" },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://thda.org/news/9057-2/" },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://thda.org/wp-content/uploads/2025/08/MF_2026-Competitive-Awards-Final-07.07.2026.pdf" }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": "https://thda.org/wp-content/uploads/2026/06/MF_2026-Competitive-Preliminary-Ranking.pdf" },
+      "nextDeadline": "Not found. A draft 2027 LIHTC QAP was released Feb. 4, 2026; the 2027 competitive application date was not visible in search results.",
+      "scores": {
+        "access": {
+          "score": 2,
+          "evidence": "The QAP explicitly prefers teams with Tennessee THDA experience and, per the State's own QAP evaluation, does not incentivize new developers; an experienced JV partner is the realistic route. No dedicated urban/large-city pool was found (new construction competes in a general pool and county pools). 9% deals are small (about 1,000 units statewide per year). Between 0 and 3 because the partner path is implied rather than quoted from the QAP.",
+          "sources": ["https://thda.org/wp-content/uploads/2025/10/2026-QAP-FOR-GOV-SIGNATURE-10.23.2025.pdf", "https://www.tn.gov/content/dam/tn/disability-and-aging/documents/disability-aging-programs/housing-innovation/TN%20QAP%20Recommendations%20Latest%20Accessibility%20Report%20-%20Accessible.pdf"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Market facts from city and broker sources, not THDA: 49% of Nashville renters are cost burdened (Unified Housing Strategy, April 2025); the 2021 task force projected a need for 52,498 affordable units by 2030. Market-rate vacancy is elevated after a supply wave (about 8.5-9.2% in 2026 per Apartment List / Lee & Associates), so lease-up risk is not zero. A 120-unit 9% deal would be large relative to typical 9% awards and need gap funding (e.g. Barnes Fund).",
+          "sources": ["https://www.nashville.gov/sites/default/files/2025-06/Unified-Housing-Strategy-Executive-Summary-April-2025.pdf", "https://www.lee-associates.com/wp-content/uploads/2026/10/2026-Q3-Nashville-TN-Multifamily.pdf"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Nashville is roughly a 7-8 hour drive or short direct flight from Chicago (general knowledge, not sourced). No local-office rule found; entity must be qualified to do business in Tennessee. A Tennessee-experienced partner is effectively needed, and developers without prior Housing Credit experience face a full preconstruction meeting.",
+          "sources": ["https://thda.org/wp-content/uploads/2025/10/2026-QAP-FOR-GOV-SIGNATURE-10.23.2025.pdf"]
+        }
+      },
+      "confidence": "Low"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 7800000,
+        "rule": "2026 Multifamily Tax-Exempt Bond Authority (MTBA) Program Description, 'Limit on Developer's Fee': for MTBA paired with noncompetitive housing credits, developer and consultant fees shown on the THOMAS development costs page may not exceed 25% of total development costs, less cash reserves and the claimed developer fee. The same 25% limit appears in the 2024 and 2025 program descriptions. QAP limits on fees included in eligible basis (15%) also apply to the credit calculation.",
+        "basis": "Total development cost excluding cash reserves and the developer fee itself.",
+        "dollarCap": "None found.",
+        "arithmetic": "F = 0.25 x ($40,000,000 - $1,000,000 reserves - F) => 1.25F = $9,750,000 => F = $7,800,000 (19.5% of the $40,000,000 TDC). Only the portion up to the QAP basis limit earns credits; the excess would be outside basis.",
+        "ruleVerified": false,
+        "source": "https://thda.org/wp-content/uploads/2026/01/2026-MTBA-PD-12.09.2025.pdf",
+        "quote": "Search excerpt of the 2026 MTBA PD: developer and consultant 'fees reflected in THOMAS on the development costs page may not exceed 25% of total development costs (less cash reserves and the claimed developer fee).' The 2025 PD adds that developer fees 'may not be increased in conjunction with a request for supplemental MTBA.'"
+      },
+      "maxFeasibleUnits": {
+        "value": 190,
+        "evidence": "Ewing Heights (LDG), Nashville: 190-unit new-construction affordable project, about $79.6M, financed with 4% LIHTC and THDA tax-exempt bonds plus $13.5M from Amazon's Housing Equity Fund; first units expected online in 2024 (award year inferred to be 2021-2022 from that timing, not confirmed). Other large Nashville 4% / bond deals: Holladay Ventures artist housing (251 units, THDA 4% and bonds), Dominium's 900 at Cleveland Park (256 units, THDA 4%, Metro IDB bonds), MDHA Park Point East (203 affordable units, THDA 4% and bonds); award years not confirmed. Eastpoint Flats on the East Bank (323 affordable units) broke ground June 2026; its financing was not confirmed.",
+        "source": "https://www.multihousingnews.com/ldg-breaks-ground-on-80m-nashville-affordable-project/"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Same QAP development-team rules as 9% (Tennessee experience preferred; JV with experienced partner the route). The 2026 MTBA program description scores Tennessee housing credit experience by year of most recent allocation, with 'No Tennessee Experience' scoring zero, so a new entrant alone loses points but is not barred. MTBA also limits bond authority per developer or related parties.",
+        "source": "https://thda.org/wp-content/uploads/2026/01/2026-MTBA-PD-12.09.2025.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "THDA runs up to three competitive MTBA rounds a year. Novogradac lists Tennessee's 2026 Round 1 at $487,873,000 (deadline 3/19/26, competitive point system). A THDA memo reported by NH&RA said $280.4M remained available for multifamily use in Round 3, with applications due Sept. 24, 2026. Volume is available, not waitlisted. Local issuers (e.g. Nashville IDB, Health and Educational Facilities Boards) also issue bonds.",
+        "source": "https://www.housingonline.com/2026/09/08/tennessee-hda-mtba-round-3-open-now-through-september-24/"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://thda.org/pdf/2024-MTBA-Ranking-Round-One-Version-Three-for-Posting.pdf" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.housingonline.com/2026/09/08/tennessee-hda-mtba-round-3-open-now-through-september-24/" }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": null },
+      "nextDeadline": "2026 MTBA Round 3 closed Sept. 24, 2026 (4:30 PM CT). The 2027 MTBA program description and Round 1 date were not found; 2026 Round 1 was due March 19, 2026.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Ample bond volume across multiple rounds and no 9%-style scarcity, but MTBA scoring gives zero points for no Tennessee experience, so a Tennessee-experienced JV partner is needed to rank well. Per-developer bond authority limits apply.",
+          "sources": ["https://thda.org/wp-content/uploads/2026/01/2026-MTBA-PD-12.09.2025.pdf", "https://www.housingonline.com/2026/09/08/tennessee-hda-mtba-round-3-open-now-through-september-24/"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Several 190-323 unit 4% new-construction deals have closed in Nashville (Ewing Heights 190, 900 at Cleveland Park 256, Holladay artist housing 251, Eastpoint Flats 323), showing large 4% deals pencil with gap sources (Amazon Housing Equity Fund, Barnes Fund, PILOTs). Demand: 49% of renters cost burdened. Downside risk: 2026 market vacancy about 8.5-9.2% with concessions. No insurance/tax data found.",
+          "sources": ["https://www.multihousingnews.com/ldg-breaks-ground-on-80m-nashville-affordable-project/", "https://www.nashville.gov/sites/default/files/2025-06/Unified-Housing-Strategy-Executive-Summary-April-2025.pdf", "https://www.lee-associates.com/wp-content/uploads/2026/10/2026-Q3-Nashville-TN-Multifamily.pdf"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Reachable from Chicago by short flight (general knowledge). No local-office rule found. JV partner with Tennessee experience needed; bond deals carry larger construction guarantees than 9% deals.",
+          "sources": ["https://thda.org/wp-content/uploads/2026/01/2026-MTBA-PD-12.09.2025.pdf"]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Nashville: East Bank (Eastpoint / River North, across the Cumberland River from downtown, near the new Titans stadium)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "The East Bank sits directly across the river from downtown Nashville and has been the subject of 'decades of planning'; Metro is investing in infrastructure and connectivity there. Historically it was largely industrial land and stadium parking rather than a vibrant commercial district, and no transit-service data was found.",
+      "sources": ["https://www.newschannel5.com/news/east-bank-redevelopment-to-break-ground-after-decades-of-planning", "https://www.nashville.gov/departments/mayor/news/mayor-freddie-oconnell-partners-laying-groundwork-infrastructure-connectivity-nashvilles-east-bank"]
+    },
+    "anchorInstitutions": {
+      "score": 5,
+      "evidence": "Oracle is relocating its world headquarters to River North on the East Bank, with 8,500 jobs projected by 2031 (Propmodo). The new Titans stadium anchors the Eastpoint district. Downtown employers sit across the river.",
+      "sources": ["https://propmodo.com/?p=181427", "https://www.axios.com/local/nashville/2025/10/28/new-renderings-show-affordable-housing-development-near-new-titans-stadium"]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Metro is redeveloping its first 30 acres of East Bank land (about 1,550 housing units planned, per a Law360 summary) through master developer The Fallon Company, so much publicly owned land is already committed; DL3 would likely need a partnership with Fallon or a parcel elsewhere on the East Bank. Development is on former parking/industrial land, limiting displacement.",
+      "sources": ["https://law360.com/real-estate-authority/amp/articles/1806710", "https://www.wsmv.com/2026/03/30/nashvilles-east-bank-development-clears-final-hurdle-breaks-ground-soon/"]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "Fallon and Elmington broke ground (June 2026) on Eastpoint Flats, the first 100% affordable building on the East Bank: 323 affordable units plus childcare and retail; the East Bank Development Authority approved a PILOT for it. New Titans stadium, Oracle HQ, and Metro infrastructure investment.",
+      "sources": ["https://www.nashville.gov/departments/mayor/news/fallon-company-and-elmington-capital-break-ground-eastpoint-flats-first-100-affordable-building-inside-east-banks-eastpoint-development", "https://therealdeal.com/national/nashville/2026/02/26/nashville-east-bank-board-approves-tax-break-for-apartments"]
+    },
+    "localLeadership": {
+      "score": 5,
+      "evidence": "Mayor Freddie O'Connell has made the East Bank a focus and filed legislation to deliver the 'Imagine East Bank' neighborhoods; an East Bank Development Authority exists. The Barnes Housing Trust Fund has awarded nearly $110M for 4,700+ homes; O'Connell's first budget added $30M and he proposed $22M in 2026. Metro funding supported 1,800+ affordable units in FY2025. Advocates criticize the pace.",
+      "sources": ["https://nashville.gov/departments/mayor/news/oconnell-administration-files-legislation-deliver-neighborhoods-envisioned-imagine-east-bank", "https://www.axios.com/local/nashville/2026/05/27/nashville-metro-affordable-housing-bond", "https://www.nashville.gov/departments/mayor/news/nashville-receives-first-its-kind-federal-grant-remove-obstacles-housing"]
+    }
+  },
+  "notes": "thda.org, its CloudFront mirror (dogvxws799i6n.cloudfront.net), thdadev.exemplifi.io and novoco.com could not be opened from this session (network blocked), so every THDA rule comes from search-engine excerpts and ruleVerified is false for both fees. 9% fee: excerpts gave 15% of new-construction eligible basis (before fees) for developer + consultant fees, plus a 25% combined cap including contractor profit; one excerpt mentioned 25% for the developer/consultant cap itself, so the exact rule is uncertain. Fee-excluded reading gives $3.91M (9.8% of TDC, just under DL3's 10% target); fee-inclusive gives $4.5M (11.25%). The QAP limit may only govern fees included in eligible basis, not total fee. 4% fee: 25% of TDC less reserves and fee gives $7.8M (19.5%). The 2026 QAP was adopted (Board Sept. 23, 2025; Governor Dec. 2025); a draft 2027 QAP (Feb. 4, 2026) exists but its final adoption and the 2027 9% deadline were not confirmed. No per-development credit cap amount was found. 9% sponsorPath = true rests on QAP excerpts plus the State-commissioned Kelsey evaluation describing favorable treatment of experienced JV partners; the exact QAP JV clause was not read. Year-by-year application and new-construction award counts were not found for any year; 2025 9% = $25M+ / 988 units; 2026 9% = $21,789,055 / 1,072 units. The Ewing Heights award year is inferred from its 2024 delivery date. Eastpoint Flats' LIHTC/bond financing was not confirmed. Market facts are from city, news and broker sources, not THDA. Chicago travel times are general knowledge."
+}
