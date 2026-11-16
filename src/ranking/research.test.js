@@ -107,6 +107,21 @@ test('the researched-scores view can give a full numeric score when every criter
   assert.ok(Math.abs(r.score.point - (125 + 20 * r.criteria.funding.score + 45 + 30 + 40 + 30 + 34) / 5) < 1e-9)
 })
 
+test('in the researched-scores view an unverified fee feeds Economics (labeled) but still cannot pass the fee check', () => {
+  const f = FILE()
+  f.pathways['9%'].fee.ruleVerified = false
+  const { records } = applyResearch(base(), [{ name: 'alabama.json', json: f }])
+  const pick = (out) => out.lists.find((l) => l.pathway === '9%').ranked.concat(out.lists.find((l) => l.pathway === '9%').needsVerification).find((x) => x.id === 'alabama-9')
+  const normal = pick(rankRecords(records, { asOf: '2026-11-16' }))
+  assert.equal(normal.economicsDetail, null)
+  assert.equal(normal.gates.checks.find((c) => c.key === 'fee').status, 'unknown')
+  const researched = pick(rankRecords(records, { asOf: '2026-11-16', settings: RESEARCH_VIEW_SETTINGS }))
+  assert.equal(researched.criteria.economics.score, 5)
+  assert.match(researched.criteria.economics.reasons.join(' '), /fee rule behind it is not verified/)
+  assert.equal(researched.gates.checks.find((c) => c.key === 'fee').status, 'unknown')
+  assert.equal(researched.previewOnly, true) // ranked only provisionally
+})
+
 test('the statewide settings are off by default', () => {
   assert.equal(SETTINGS.scaleAcceptStatewide, false)
   assert.equal(SETTINGS.fundingAcceptStatewide, false)

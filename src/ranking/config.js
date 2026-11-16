@@ -119,6 +119,9 @@ export const SETTINGS = {
   // Scale and Funding (labeled "statewide" wherever they appear). Off in the evidence-only view.
   scaleAcceptStatewide: false,
   fundingAcceptStatewide: false,
+  // RESEARCHED-SCORES view: let a fee read from excerpts (not yet verified) feed Developer economics,
+  // labeled as such. The fee CHECK still never passes on an unverified rule.
+  economicsFromUnverifiedFee: false,
 }
 
 // The "Researched scores" view: AI-researched judgments count (labeled, never as DL3-approved),
@@ -134,6 +137,7 @@ export const RESEARCH_VIEW_SETTINGS = {
   economicsHurdles: { minRetainedCash: 1_000_000, minPresentValue: 1_000_000 },
   previewIncludeOpenChecks: true,
   fillUnknownScore: null,
+  economicsFromUnverifiedFee: true,
 }
 
 export const PATHWAYS = ['9%', '4%']

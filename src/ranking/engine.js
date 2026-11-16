@@ -335,7 +335,8 @@ function economicsFromFee(r, settings) {
 // The guide 5B model for display (and, in preview, for scoring): only for a known fee on a rule
 // that is not flagged unverified.
 function economicsDetailFor(r, settings) {
-  if (!isNum(r.approvedGrossFee) || !isNum(r.totalDevelopmentCost) || r.feeRuleVerified === false) return null
+  if (!isNum(r.approvedGrossFee) || !isNum(r.totalDevelopmentCost)) return null
+  if (r.feeRuleVerified === false && !settings.economicsFromUnverifiedFee) return null
   return economicsModel(r.approvedGrossFee, r.totalDevelopmentCost, settings.economicsAssumptions)
 }
 
@@ -480,7 +481,15 @@ export function rankRecords(records, options = {}) {
     const criteria = scoreCriteria({ ...r, economics }, settings, funding)
     if (economics?.derived) {
       // Calculated from the real fee, but with placeholder terms: shown as such, never counted as evidence.
-      criteria.economics = { ...criteria.economics, placeholder: true, reasons: [...criteria.economics.reasons, 'Uses placeholder terms (DL3 share, timing, probabilities, hurdles) that DL3 has not set'] }
+      criteria.economics = {
+        ...criteria.economics,
+        placeholder: true,
+        reasons: [
+          ...criteria.economics.reasons,
+          'Uses placeholder terms (DL3 share, timing, probabilities, hurdles) that DL3 has not set',
+          ...(r.feeRuleVerified === false ? ['The fee rule behind it is not verified yet (read from search excerpts or a draft)'] : []),
+        ],
+      }
     }
     const scores = {}
     for (const comp of COMPONENTS) {
