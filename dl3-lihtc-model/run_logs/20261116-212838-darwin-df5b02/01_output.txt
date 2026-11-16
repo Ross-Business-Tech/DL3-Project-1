@@ -1,0 +1,21 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python run_all.py --awards --extract
+
+MuPDF error: format error: No default Layer config
+
+MI_PROGRAM deadlines: 0 for review, 0 rejected by validation
+MI_PROGRAM credit_availability: 1 for review, 0 rejected by validation
+P3 deadlines: 0 for review, 0 rejected by validation
+P6 deadlines: 10 for review, 0 rejected by validation
+P7 deadlines: 1 for review, 0 rejected by validation
+P7 sponsor_eligibility: 0 for review, 0 rejected by validation
+P8 deadlines: 7 for review, 0 rejected by validation
+P8 credit_availability: 0 for review, 1 rejected by validation
+MuPDF error: format error: No default Layer config
+
+Re-checked 69 stored answers with validator v2: 780 for review, 16 rejected (no API calls)
+Run 0a5d19ef: {'fetched': 71, 'new': 0, 'changed': 1, 'unchanged': 70, 'failed': 0, 'blocking': 0}
+Report: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/runs/20261116_0a5d19ef/change_report.html
+Awards: 0 rows from 0 files (0 flagged, 0 errors). Rows to check: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/award_rows.csv
+Extraction: 8 calls (83 reused), 19 findings for review, 1 rejected by validation, 0 errors (gemini gemini-3.5-flash-lite; tokens {'input_tokens': 20777, 'output_tokens': 3142, 'cache_read_tokens': 0})
+  rejected   17 x quote not found verbatim on page N -> quote not on any page (paraphrased or invented)
+Review packet: python -m src.review.build_packet

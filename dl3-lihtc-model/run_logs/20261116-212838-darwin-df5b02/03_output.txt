@@ -1,0 +1,88 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python -m src.report.coverage MI OH IN
+
+
+MI: 6 of 26 items collected
+  [x] sources registered                     8
+  [x] sources never retrieved                0
+  [x] sources older than freshness limit     0
+  [x] QAP archived                           1
+  [x] QAP that is not a draft                1
+  [ ] QAP confirmed final by a person        0  <- set status to final in config/source_register.csv once checked
+  [x] underwriting manual archived           1
+  [ ] bond / 4% page archived                0  <- none
+  [ ] news page archived                     0  <- none
+  [ ] rules: fee_rule                        0 approved, 14 to review, 0 failed quote check  <- 14 waiting for review
+  [ ] rules: unit_credit_caps                0 approved, 6 to review, 0 failed quote check  <- 6 waiting for review
+  [ ] rules: cost_limits                     0 approved, 7 to review, 0 failed quote check  <- 7 waiting for review
+  [ ] rules: bond_volume_cap                 0 approved, 0 to review, 0 failed quote check  <- not extracted yet
+  [ ] rules: set_asides                      0 approved, 13 to review, 0 failed quote check  <- 13 waiting for review
+  [ ] rules: deadlines                       0 approved, 39 to review, 0 failed quote check  <- 39 waiting for review
+  [ ] rules: sponsor_eligibility             0 approved, 6 to review, 0 failed quote check  <- 6 waiting for review
+  [ ] rules: scoring_criteria                0 approved, 27 to review, 0 failed quote check  <- 27 waiting for review
+  [ ] rules: credit_availability             0 approved, 4 to review, 0 failed quote check  <- 4 waiting for review
+  [ ] extraction calls still failing         2  <- rerun: python -m src.extract.extract --force
+  [ ] awards 2021                            PDF: 39 to review  <- PDF rows waiting for review
+  [ ] awards 2022                            0 rows  <- no award rows for this year
+  [ ] awards 2023                            0 rows  <- no award rows for this year
+  [ ] awards 2024                            0 rows  <- no award rows for this year
+  [ ] awards 2025                            0 rows  <- no award rows for this year
+  [ ] awards 2026                            PDF: 13 to review  <- PDF rows waiting for review
+  [ ] award rows with total development cost 0  <- no cost data in award lists: use the QAP cost limits or application lists
+
+OH: 14 of 26 items collected
+  [x] sources registered                     29
+  [x] sources never retrieved                0
+  [x] sources older than freshness limit     0
+  [x] QAP archived                           1
+  [x] QAP that is not a draft                1
+  [ ] QAP confirmed final by a person        0  <- set status to final in config/source_register.csv once checked
+  [x] underwriting manual archived           1
+  [x] bond / 4% page archived                1
+  [ ] news page archived                     0  <- none
+  [ ] rules: fee_rule                        0 approved, 7 to review, 1 failed quote check  <- 7 waiting for review
+  [ ] rules: unit_credit_caps                0 approved, 0 to review, 13 failed quote check  <- extracted but nothing found
+  [ ] rules: cost_limits                     0 approved, 14 to review, 10 failed quote check  <- 14 waiting for review
+  [ ] rules: bond_volume_cap                 0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: set_asides                      0 approved, 17 to review, 0 failed quote check  <- 17 waiting for review
+  [ ] rules: deadlines                       0 approved, 5 to review, 0 failed quote check  <- 5 waiting for review
+  [ ] rules: sponsor_eligibility             0 approved, 4 to review, 0 failed quote check  <- 4 waiting for review
+  [ ] rules: scoring_criteria                0 approved, 17 to review, 12 failed quote check  <- 17 waiting for review
+  [ ] rules: credit_availability             0 approved, 2 to review, 2 failed quote check  <- 2 waiting for review
+  [ ] extraction calls still failing         2  <- rerun: python -m src.extract.extract --force
+  [x] awards 2021                            36 9%; PDF: 56 to review
+  [x] awards 2022                            31 9%; PDF: 53 to review
+  [x] awards 2023                            30 9%; PDF: 58 to review
+  [x] awards 2024                            24 9%; PDF: 86 to review
+  [x] awards 2025                            23 9%; PDF: 75 to review
+  [x] awards 2026                            25 9%
+  [x] award rows with total development cost 23
+
+IN: 6 of 26 items collected
+  [x] sources registered                     24
+  [x] sources never retrieved                0
+  [x] sources older than freshness limit     0
+  [x] QAP archived                           1
+  [x] QAP that is not a draft                1
+  [ ] QAP confirmed final by a person        0  <- set status to final in config/source_register.csv once checked
+  [x] underwriting manual archived           1
+  [ ] bond / 4% page archived                0  <- none
+  [ ] news page archived                     0  <- none
+  [ ] rules: fee_rule                        0 approved, 8 to review, 0 failed quote check  <- 8 waiting for review
+  [ ] rules: unit_credit_caps                0 approved, 1 to review, 0 failed quote check  <- 1 waiting for review
+  [ ] rules: cost_limits                     0 approved, 8 to review, 7 failed quote check  <- 8 waiting for review
+  [ ] rules: bond_volume_cap                 0 approved, 0 to review, 0 failed quote check  <- not extracted yet
+  [ ] rules: set_asides                      0 approved, 7 to review, 0 failed quote check  <- 7 waiting for review
+  [ ] rules: deadlines                       0 approved, 14 to review, 0 failed quote check  <- 14 waiting for review
+  [ ] rules: sponsor_eligibility             0 approved, 2 to review, 1 failed quote check  <- 2 waiting for review
+  [ ] rules: scoring_criteria                0 approved, 25 to review, 8 failed quote check  <- 25 waiting for review
+  [ ] rules: credit_availability             0 approved, 2 to review, 0 failed quote check  <- 2 waiting for review
+  [ ] extraction calls still failing         1  <- rerun: python -m src.extract.extract --force
+  [ ] awards 2021                            PDF: 19 to review  <- PDF rows waiting for review
+  [ ] awards 2022                            PDF: 17 to review  <- PDF rows waiting for review
+  [ ] awards 2023                            PDF: 33 to review  <- PDF rows waiting for review
+  [ ] awards 2024                            PDF: 27 to review  <- PDF rows waiting for review
+  [ ] awards 2025                            PDF: 30 to review  <- PDF rows waiting for review
+  [ ] awards 2026                            PDF: 30 to review  <- PDF rows waiting for review
+  [ ] award rows with total development cost 0  <- no cost data in award lists: use the QAP cost limits or application lists
+
+Wrote ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/coverage/coverage.csv

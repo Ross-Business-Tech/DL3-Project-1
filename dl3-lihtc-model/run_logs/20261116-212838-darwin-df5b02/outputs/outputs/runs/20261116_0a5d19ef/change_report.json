@@ -1,0 +1,724 @@
+{
+  "run_id": "0a5d19ef",
+  "started_at": "2026-11-16T21:28:38.520743+00:00",
+  "counts": {
+    "fetched": 71,
+    "new": 0,
+    "changed": 1,
+    "unchanged": 70,
+    "failed": 0,
+    "blocking": 0
+  },
+  "changes": [
+    {
+      "source_id": "P7",
+      "status": "changed",
+      "previous_snapshot_id": 400,
+      "current_snapshot_id": 471,
+      "previous_sha256": "4ef2e84c1a909519d478ebab7184831dd4fc91117ba119d65a4e4810501af213",
+      "current_sha256": "fe4371256c4febce8f37342ed500f214e51bb22b6d6acd666cb326dcc23de7b9",
+      "previous_retrieved_at": "2026-11-15T20:12:10.970622+00:00",
+      "current_retrieved_at": "2026-11-16T21:28:55.541792+00:00",
+      "text_diff": {
+        "added_lines": 1,
+        "removed_lines": 1,
+        "unified": [
+          "--- previous",
+          "+++ current",
+          "@@ -165,3 +165,3 @@",
+          " Updated 11",
+          "-/13/2026",
+          "+/16/2026",
+          " Tab EE - Surveyor's Certificate of Facts"
+        ],
+        "truncated": false
+      },
+      "title": "MSHDA combined application page"
+    }
+  ],
+  "furniture_only": [
+    "P2",
+    "P3",
+    "P4",
+    "P6",
+    "P8",
+    "MI_PROGRAM"
+  ],
+  "failures": [],
+  "freshness": [
+    {
+      "source_id": "CENSUS_MSA",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_22",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_23",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_24",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_25",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_BOND",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    }
+  ],
+  "candidates": [
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "cost_limits",
+      "page": 1,
+      "quote": "it to a developer who constructs a 100-unit building at a total cost of $60,000 per unit with taxable financing and reserves all of the apartments for low income tenant"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "of Low Income Units x 40% Qualified Basis $40,000 Applicable Credit Percentage x4% Annual Acquisition Credit $1,600 Rehabilitation Credit Rehabilitation Costs $20"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "ty (MSHDA), this program permits investors in affordable rental housing who are awarded the credit- corporations, banking institutions, and individuals - to claim a cr"
+    },
+    {
+      "source_id": "P3",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "P), approved by IHDA\u2019s Board on July 24, 2026, will govern IHDA\u2019s allocation of 4% and 9% Low-Income Housing Tax Credits (LIHTC) across the state of Illinois for"
+    },
+    {
+      "source_id": "P4",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "listed below. Tier 15 Provides a 25% AV reduction. Properties in which 15% to 34% of the dwelling units rent at or below 60% of AMI. Taxpayer must commit for a p"
+    },
+    {
+      "source_id": "P6",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "riday, July 31, 2026 Preservation Level 1 Review Due Date Friday, July 31, 2026 4%/9% Mixed Transaction Level 1 Review Due Date Friday, July 31, 2026 Addendum III"
+    },
+    {
+      "source_id": "P6",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "tion Plan can be found on the 2028-2029 Qualified Allocation Plan Updates page. Due Dates For Next LIHTC Funding Round: October 2026 Funding Round Initial Meeting with"
+    },
+    {
+      "source_id": "P6",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "cation Plan (QAP): Staff Report for the 2026 QAP Qualified Allocation Plan 2026 Scoring Summary 2026 (PDF) Updated 08/03/2026 Scoring Summary 2026 (Excel) Updated 08/0"
+    },
+    {
+      "source_id": "P7",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "plus Addendum III) \"Taxable Bond\" lending (Application plus Addendum IV) \"TEAM\" tax-exempt bond lending (Application plus Addendum IV) The Section 8 and Section 202 Preservati"
+    },
+    {
+      "source_id": "P7",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "THIS APPLICATION FOR NEW SUBMISSIONS BEGINNING WITH THE OCTOBER 1, 2025 FUNDING ROUND 2026-2027 LIHTC Program Application (PDF) Updated 08/03/2026 2026-2027 LIHTC Prog"
+    },
+    {
+      "source_id": "P7",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "dated 08/03/2026 2026-2027 LIHTC Program Application (Excel) Updated 08/03/2026 Scoring Summary for 2026-2027 (PDF) Updated 08/03/2026 Scoring Summary for 2026-2027 (E"
+    },
+    {
+      "source_id": "P7",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "l) Addendum II - Using HOME Funds for Subsidy Addendum III - Supportive Housing Set Aside (PDF) Updated 07/21/2025 Addendum III - Supportive Housing Set Aside (Word) Upd"
+    },
+    {
+      "source_id": "P8",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "or new construction or rehabilitation of an existing building, if not funded by tax-exempt bonds, can receive a maximum annual tax credit allocation based on a rate which is ge"
+    },
+    {
+      "source_id": "P8",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "\u2013 Historical. Updated October 2026 Recent PPA and LIHTC Full Round Results 2027 Round 2027 \u2013 Preliminary Project Applications Received 2026 PPA LIHTC and Permanent Sup"
+    },
+    {
+      "source_id": "P8",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "od\u201d and a subsequent 15-year \u201cextended use period\u201d. Credit Limitations LIHTC is awarded under two different methodologies. Under either methodology, a project\u2019s \u201celigi"
+    },
+    {
+      "source_id": "P8",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "ments Full Applications Received LIHTC Projects Approved \u2013 Final Round II LIHTC Scoring Ranges 2016 Round I Preliminary Project Assessment Submissions Approved Prelimi"
+    },
+    {
+      "source_id": "P8",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "hout the affordable housing industry, Congress recently created a new occupancy set-aside option known as \u201cincome averaging.\u201d Instead of electing the 20/50 or 40/60 mini"
+    }
+  ],
+  "freshness_days": 90,
+  "ocr": []
+}
