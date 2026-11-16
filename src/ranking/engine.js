@@ -588,7 +588,7 @@ export function rankRecords(records, options = {}) {
         let action
         if (previewOnly) {
           const open = a.gates.checks.filter((c) => c.status !== 'pass').map((c) => c.label).join('; ')
-          reason = `Preview only: these checks have not cleared yet (${open})`
+          reason = `Provisional: these checks have not cleared yet (${open})`
           action = 'Clear the open checks before relying on this score'
         } else if (actionable) {
           reason = `Passes all gates; ranked ${pos.rank}${pos.tied ? ' (tied)' : ''} in the ${pathway} list`

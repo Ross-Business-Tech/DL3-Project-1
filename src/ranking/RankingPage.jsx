@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { COMPONENTS } from './config.js'
+import { COMPONENTS, RESEARCH_VIEW_SETTINGS } from './config.js'
 import { defaultWeights } from './engine.js'
 import { profilesHtml } from './report.js'
 import { refreshDemo, withAssumptionSensitivity } from './sensitivity.js'
@@ -20,7 +20,7 @@ function criterionText(c) {
   if (c.status === 'assumed') return `Assumed ${round(c.score)}`
   if (c.status === 'final') return `${round(c.score)} / 5`
   if (c.status === 'bounded') return `${range} / 5`
-  if (c.status === 'proposed') return `Proposed ${range ?? round(c.score)}`
+  if (c.status === 'proposed') return `${range ?? round(c.score)} / 5 (AI)`
   return 'Unknown'
 }
 
@@ -98,7 +98,7 @@ function CriteriaList({ criteria }) {
               <tr key={comp.key}>
                 <td>
                   {comp.label}
-                  <span className="small block">{c.status === 'unresolved' ? 'needs input' : METHOD_TEXT[c.method]}{c.status === 'proposed' && ', awaiting approval'}</span>
+                  <span className="small block">{c.status === 'unresolved' ? 'needs input' : METHOD_TEXT[c.method]}{c.status === 'proposed' && ', AI-researched, awaiting DL3 review'}</span>
                 </td>
                 <td className="num">{comp.weight}%</td>
                 <td className="num">{criterionText(c)}</td>
@@ -193,7 +193,7 @@ function RankedCard({ r }) {
       <ScoreBar score={r.score} />
       <div className="chips">
         <span className={`chip conf-${r.confidence.toLowerCase()}`}>{r.confidence} confidence</span>
-        {r.previewOnly && <span className="chip warn">Preview only: checks still open</span>}
+        {r.previewOnly && <span className="chip warn">Provisional: checks still open</span>}
         {r.assumptionChanges?.length > 0 && <span className="chip warn">Sensitive to assumptions</span>}
         {feeCheckOf(r)?.denominatorSensitive && <span className="chip warn">Fee result depends on the cost definition</span>}
         {r.actionable && <span className="chip good">Actionable shortlist</span>}
@@ -368,7 +368,7 @@ function FeeScreenList({ rows }) {
 }
 
 export default function RankingPage() {
-  const [dataset, setDataset] = useState('real') // 'real' | 'preview' | 'sample'
+  const [dataset, setDataset] = useState('research') // 'research' | 'real' | 'preview' | 'sample'
   // PREVIEW placeholders. Every one is a stand-in for something DL3 has not decided yet.
   const [what, setWhat] = useState({ dl3Share: 60, deferred: 40, hurdle: 1000000, pvHurdle: 1000000, fillThree: true, includeOpen: true })
   // Which cost the 10% fee test uses (guide section 5 is the proposed default; section 1 is the alternative).
@@ -378,6 +378,11 @@ export default function RankingPage() {
   const weightTotal = COMPONENTS.reduce((s, c) => s + (Number(weights[c.key]) || 0), 0)
   const [demo, setDemo] = useState(null)
   const real = useMemo(() => withAssumptionSensitivity(REAL_DATA.records, { asOf: TODAY, settings: { feeDenominator: denominator } }), [denominator])
+  // Researched scores: AI-researched judgments count (labeled), with the settings in config.js.
+  const research = useMemo(
+    () => withAssumptionSensitivity(REAL_DATA.records, { asOf: TODAY, settings: { ...RESEARCH_VIEW_SETTINGS, feeDenominator: denominator } }),
+    [denominator],
+  )
   const preview = useMemo(
     () =>
       withAssumptionSensitivity(REAL_DATA.records, {
@@ -396,7 +401,7 @@ export default function RankingPage() {
     [what, denominator, weights],
   )
   const sample = useMemo(() => withAssumptionSensitivity(SAMPLE_RECORDS, { asOf: SAMPLE_AS_OF, settings: { feeDenominator: denominator } }), [denominator])
-  const result = dataset === 'real' ? real : dataset === 'preview' ? preview : sample
+  const result = dataset === 'research' ? research : dataset === 'real' ? real : dataset === 'preview' ? preview : sample
   const setNumber = (field, max) => (e) => setWhat({ ...what, [field]: Math.min(max, Math.max(0, Number(e.target.value) || 0)) })
   const [pathway, setPathway] = useState('9%')
   const list = result.lists.find((l) => l.pathway === pathway) ?? result.lists[0]
@@ -449,8 +454,9 @@ export default function RankingPage() {
         <p className="eyebrow">DL3 LIHTC opportunity model</p>
         <h1>State ranking</h1>
         <div className="seg" role="group" aria-label="Which data to show">
-          <button aria-pressed={dataset === 'real'} className={dataset === 'real' ? 'on' : ''} onClick={() => setDataset('real')}>Real data (draft)</button>
-          <button aria-pressed={dataset === 'preview'} className={dataset === 'preview' ? 'on' : ''} onClick={() => setDataset('preview')}>Preview scores</button>
+          <button aria-pressed={dataset === 'research'} className={dataset === 'research' ? 'on' : ''} onClick={() => setDataset('research')}>Researched scores</button>
+          <button aria-pressed={dataset === 'real'} className={dataset === 'real' ? 'on' : ''} onClick={() => setDataset('real')}>Evidence only</button>
+          <button aria-pressed={dataset === 'preview'} className={dataset === 'preview' ? 'on' : ''} onClick={() => setDataset('preview')}>What-if</button>
           <button aria-pressed={dataset === 'sample'} className={dataset === 'sample' ? 'on' : ''} onClick={() => setDataset('sample')}>Sample (made up)</button>
         </div>
         <label className="denom">
@@ -460,7 +466,12 @@ export default function RankingPage() {
             <option value="net">Cost less fee, land and reserves (guide section 1)</option>
           </select>
         </label>
-        {dataset === 'preview' ? (
+        {dataset === 'research' && (
+          <p className="banner">
+            <strong>Researched scores.</strong> AI research agents gathered cited evidence from official agency sources for {REAL_DATA.stats.researchedByAgents} states on top of our own research. Their 0–5 judgments count here, marked “AI”, and have not been reviewed by DL3. Developer economics uses placeholder terms; Scale and Funding use statewide award counts until the urban filter has site facts. States with a check still open are ranked provisionally; a state that failed a check is never ranked.
+          </p>
+        )}
+        {dataset === 'research' ? null : dataset === 'preview' ? (
           <>
             <p className="banner">
               <strong>Preview, not a result.</strong> These scores use placeholders DL3 has not approved. Change them below and everything re-scores.

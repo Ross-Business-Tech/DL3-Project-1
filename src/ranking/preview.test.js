@@ -91,7 +91,7 @@ test('preview ranks only states researched in depth with checks still open, neve
   assert.equal(four.counts.previewRanked, 3)
   assert.equal(four.counts.pass, 0)
   assert.ok(!four.needsVerification.some((r) => r.id === 'ohio-4')) // listed under the ranking instead
-  assert.match(four.ranked[0].reason, /Preview only: these checks have not cleared/)
+  assert.match(four.ranked[0].reason, /Provisional: these checks have not cleared/)
 })
 
 test('preview result on the real data: Michigan 4% is clearly last; Ohio and Indiana cannot be separated yet', () => {

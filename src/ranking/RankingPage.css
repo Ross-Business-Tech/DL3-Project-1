@@ -57,7 +57,9 @@
 
 .summary { margin: 4px 0 0; }
 
-.seg { display: flex; margin: 4px 0 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; margin: 4px 0 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+@media (min-width: 640px) { .seg { grid-template-columns: repeat(4, 1fr); } }
+.seg button { border-bottom: 1px solid var(--border); }
 .seg button {
   flex: 1;
   font: inherit;

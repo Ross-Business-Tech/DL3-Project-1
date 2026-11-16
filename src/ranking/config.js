@@ -115,6 +115,25 @@ export const SETTINGS = {
   // Preview ranking: also rank states researched in depth whose checks are still OPEN (unknown),
   // not just those that passed. A state that FAILED a check is still never ranked.
   previewIncludeOpenChecks: false,
+  // RESEARCHED-SCORES view: until the urban filter has site facts, use statewide award counts for
+  // Scale and Funding (labeled "statewide" wherever they appear). Off in the evidence-only view.
+  scaleAcceptStatewide: false,
+  fundingAcceptStatewide: false,
+}
+
+// The "Researched scores" view: AI-researched judgments count (labeled, never as DL3-approved),
+// statewide award counts stand in until the urban filter has site facts, Developer economics runs
+// on the placeholder terms, and states researched in depth whose checks are still open are ranked
+// provisionally. A state that failed a check on firm evidence is still never ranked.
+export const RESEARCH_VIEW_SETTINGS = {
+  countProposed: true,
+  scaleAcceptStatewide: true,
+  fundingAcceptStatewide: true,
+  deriveEconomicsFromFee: true,
+  requirePresentValue: true,
+  economicsHurdles: { minRetainedCash: 1_000_000, minPresentValue: 1_000_000 },
+  previewIncludeOpenChecks: true,
+  fillUnknownScore: null,
 }
 
 export const PATHWAYS = ['9%', '4%']

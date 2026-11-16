@@ -9,5 +9,9 @@ import programCapsCsv from './data/program_caps.csv?raw'
 import siteFactsCsv from './data/site_facts.csv?raw'
 import { buildRecords } from './buildData.js'
 
-export const REAL_DATA = buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee, inventoryCsv })
+// The AI research agents' state files (one JSON per state; see data/research/README.md).
+const researchModules = import.meta.glob('./data/research/*.json', { eager: true })
+const researchFiles = Object.entries(researchModules).map(([name, mod]) => ({ name, json: mod.default ?? mod }))
+
+export const REAL_DATA = buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee, inventoryCsv, researchFiles })
 // REAL_DATA.inventory.researchNext lists the 50 states, best award-list coverage first.

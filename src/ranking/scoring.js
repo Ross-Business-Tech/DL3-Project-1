@@ -58,7 +58,9 @@ export function scoreScale(record, settings) {
     // A count of zero is safe to use before the urban filter is applied: filtering can only take
     // awards away, never add them. A positive count has to wait for the urban definition.
     if (row.awardsAbove100Units === 0) return { year, state: 'none', count: 0 }
-    if (row.urbanFiltered !== true) return { year, state: 'unfiltered' }
+    if (row.urbanFiltered !== true) {
+      return settings.scaleAcceptStatewide ? { year, state: 'large', count: row.awardsAbove100Units, statewide: true } : { year, state: 'unfiltered' }
+    }
     return { year, state: 'large', count: row.awardsAbove100Units }
   })
   const large = perYear.filter((y) => y.state === 'large').length
@@ -75,6 +77,7 @@ export function scoreScale(record, settings) {
     needs.push('Apply the urban definition to the 100+ unit awards (site facts for each award are needed: Census urban area, principal city or approved area, density or transit)')
   }
   const base = [`A project of ${units} units is feasible`, ...summary]
+  if (perYear.some((y) => y.statewide)) base.push('Counts are statewide: the urban filter is not applied yet')
 
   // Scores built on awards judged urban by the PROPOSED definition do not count until it is approved.
   const dependsOnDefinition = perYear.some((y) => y.viaDefinition)
@@ -284,7 +287,7 @@ export function scoreFunding(derived) {
 // table, those averages come from it (complete years in the window, urban-filtered rows only).
 export function fundingFromHistory(record, settings) {
   const rows = (record.awardHistory ?? []).filter(
-    (h) => settings.scaleWindowYears.includes(h.year) && h.complete !== false && h.urbanFiltered === true,
+    (h) => settings.scaleWindowYears.includes(h.year) && h.complete !== false && (h.urbanFiltered === true || settings.fundingAcceptStatewide === true),
   )
   const awards = rows.filter((h) => isCount(h.eligibleAwards))
   const both = rows.filter((h) => isCount(h.eligibleAwards) && isCount(h.qualifiedApplications))
