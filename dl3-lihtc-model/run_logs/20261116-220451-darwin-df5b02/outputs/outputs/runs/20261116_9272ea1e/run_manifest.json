@@ -1,0 +1,1320 @@
+{
+  "run_id": "9272ea1e",
+  "started_at": "2026-11-16T22:04:51.339516+00:00",
+  "code_version": "c8ff164",
+  "register": "config/source_register.csv",
+  "settings": {
+    "freshness_days": 90,
+    "fetch": {
+      "timeout_seconds": 30,
+      "max_retries": 3,
+      "backoff_seconds": [
+        2,
+        4,
+        8
+      ],
+      "min_seconds_between_requests_per_host": 2.0,
+      "max_bytes": 52428800,
+      "respect_robots_txt": true,
+      "browser_fallback": true,
+      "allowed_content_types": [
+        "text/html",
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/msword",
+        "text/csv",
+        "application/xml",
+        "text/xml",
+        "application/json"
+      ]
+    },
+    "llm": {
+      "provider": "gemini",
+      "models": {
+        "gemini": "gemini-3.5-flash-lite",
+        "anthropic": "claude-opus-5-5"
+      },
+      "max_tokens": 16000,
+      "timeout_seconds": 300,
+      "gemini_thinking_level": null,
+      "effort": "high",
+      "refusal_fallback": true,
+      "full_document_max_pages": 200,
+      "located_pages_max": 40,
+      "located_neighbor_pages": 1,
+      "price_per_mtok": {
+        "gemini": null,
+        "anthropic": {
+          "input": 4.0,
+          "output": 20.0,
+          "cache_write": 5.0,
+          "cache_read": 0.2
+        }
+      },
+      "topics_by_doc_type": {
+        "qap": [
+          "fee_rule",
+          "unit_credit_caps",
+          "cost_limits",
+          "set_asides",
+          "deadlines",
+          "sponsor_eligibility",
+          "scoring_criteria",
+          "credit_availability"
+        ],
+        "qap_doc": [
+          "fee_rule",
+          "unit_credit_caps",
+          "cost_limits",
+          "set_asides",
+          "deadlines",
+          "sponsor_eligibility",
+          "scoring_criteria",
+          "credit_availability"
+        ],
+        "qap_page": [
+          "deadlines"
+        ],
+        "qap_page_doc": [
+          "fee_rule",
+          "unit_credit_caps",
+          "cost_limits",
+          "set_asides",
+          "deadlines",
+          "sponsor_eligibility",
+          "scoring_criteria",
+          "credit_availability"
+        ],
+        "underwriting": [
+          "fee_rule",
+          "unit_credit_caps",
+          "cost_limits"
+        ],
+        "application": [
+          "deadlines",
+          "sponsor_eligibility"
+        ],
+        "program_page": [
+          "deadlines",
+          "credit_availability"
+        ],
+        "bond_page": [
+          "credit_availability",
+          "bond_volume_cap"
+        ],
+        "bond_cap_report": [
+          "bond_volume_cap"
+        ],
+        "news_page": [
+          "news_items"
+        ],
+        "award_list": [
+          "award_table"
+        ]
+      }
+    },
+    "award_years": {
+      "first": 2021,
+      "last": 2026
+    }
+  },
+  "counts": {
+    "fetched": 81,
+    "new": 10,
+    "changed": 0,
+    "unchanged": 71,
+    "failed": 0,
+    "blocking": 0
+  },
+  "hud_allocator_rows": 0,
+  "inventory": null,
+  "top_msas": null,
+  "retired_sources": [],
+  "extraction": {
+    "documents": 68,
+    "calls": 15,
+    "cached": 86,
+    "errors": 0,
+    "pending_review": 168,
+    "rejected_validation": 0,
+    "skipped": [
+      "OH_AWARDS_1: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+      "OH_AWARDS_12: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+      "OH_AWARDS_16: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+      "OH_AWARDS_18: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+      "OH_AWARDS_20: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+      "OH_AWARDS_24: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)",
+      "OH_AWARDS_8: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet has no text extractor (spreadsheets are parsed in code: python -m src.awards.parse_awards)"
+    ],
+    "estimated_input_tokens": 0,
+    "revalidated": {
+      "calls": 0,
+      "pending_review": 0,
+      "rejected_validation": 0,
+      "skipped_reviewed": 0
+    },
+    "rejected_file": "~/Code/DL3-Project-1/dl3-lihtc-model/outputs/extract/rejected.csv",
+    "rejected_reasons": {
+      "quote not found verbatim on page N -> quote not on any page (paraphrased or invented)": 17
+    },
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "tokens": {
+      "input_tokens": 65271,
+      "output_tokens": 63536,
+      "cache_read_tokens": 1757
+    },
+    "estimated_cost_usd": null
+  },
+  "awards": {
+    "files": 0,
+    "sheets": 0,
+    "rows": 0,
+    "flagged": 0,
+    "reused": 7,
+    "errors": [],
+    "no_table": [],
+    "flag_reasons": {},
+    "export": "~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/award_rows.csv"
+  },
+  "sources": [
+    {
+      "source_id": "P1",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "ae7f05ea",
+      "path": "US/allocator_list/20261116_ae7f05ea.html"
+    },
+    {
+      "source_id": "P2",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "b03305d2",
+      "path": "US/program_data/20261116_b03305d2.html"
+    },
+    {
+      "source_id": "P3",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "427a81c5",
+      "path": "IL/qap_page/20261116_427a81c5.html"
+    },
+    {
+      "source_id": "P4",
+      "method": "http",
+      "result": "changed",
+      "sha256": "7e94a1ee",
+      "path": "IL/incentive/20261116_7e94a1ee.html"
+    },
+    {
+      "source_id": "P5",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "93eac7ea",
+      "path": "IL/statute/20261116_93eac7ea.html"
+    },
+    {
+      "source_id": "P6",
+      "method": "browser",
+      "result": "changed",
+      "sha256": "6e26797d",
+      "path": "MI/qap_page/20261116_6e26797d.html"
+    },
+    {
+      "source_id": "P7",
+      "method": "browser",
+      "result": "changed",
+      "sha256": "ab2d8986",
+      "path": "MI/application/20261116_ab2d8986.html"
+    },
+    {
+      "source_id": "P8",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "0d6437fc",
+      "path": "IL/program_page/20261116_0d6437fc.html"
+    },
+    {
+      "source_id": "P9",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "78fdc032",
+      "path": "US/guidance/20261116_78fdc032.pdf"
+    },
+    {
+      "source_id": "CENSUS_MSA",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "55dd2ea1",
+      "path": "US/reference_data/20261116_55dd2ea1.json"
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "a7974b31",
+      "path": "MI/qap_doc/20261116_a7974b31.pdf"
+    },
+    {
+      "source_id": "MI_UW",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "f4160ff4",
+      "path": "MI/underwriting/20261116_f4160ff4.pdf"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "method": "browser",
+      "result": "changed",
+      "sha256": "0b60f228",
+      "path": "MI/program_page/20261116_0b60f228.html"
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "599fec5b",
+      "path": "MI/award_list/20261116_599fec5b.pdf"
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "776d6267",
+      "path": "MI/award_list/20261116_776d6267.pdf"
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "5f1c9387",
+      "path": "MI/award_list/20261116_5f1c9387.pdf"
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "9dfa4f62",
+      "path": "MI/award_list/20261116_9dfa4f62.pdf"
+    },
+    {
+      "source_id": "MI_AWARDS_5",
+      "method": "browser",
+      "result": "unchanged",
+      "sha256": "9a015b4a",
+      "path": "MI/award_list/20261116_9a015b4a.pdf"
+    },
+    {
+      "source_id": "OH_QAP_CURRENT",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "26da4008",
+      "path": "OH/qap_doc/20261116_26da4008.pdf"
+    },
+    {
+      "source_id": "OH_UW",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "e9df9f12",
+      "path": "OH/underwriting/20261116_e9df9f12.pdf"
+    },
+    {
+      "source_id": "OH_PROGRAM",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "c122335b",
+      "path": "OH/program_page/20261116_c122335b.html"
+    },
+    {
+      "source_id": "OH_BOND",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "c122335b",
+      "path": "OH/bond_page/20261116_c122335b.html"
+    },
+    {
+      "source_id": "OH_AWARDS_1",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "81cb2212",
+      "path": "OH/award_list/20261116_81cb2212.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_2",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "3ff7149b",
+      "path": "OH/award_list/20261116_3ff7149b.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_3",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "8c19b4ff",
+      "path": "OH/award_list/20261116_8c19b4ff.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_4",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "efd2959d",
+      "path": "OH/award_list/20261116_efd2959d.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_5",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "8f11b657",
+      "path": "OH/award_list/20261116_8f11b657.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_6",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "64d8a7f5",
+      "path": "OH/award_list/20261116_64d8a7f5.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_7",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "37906547",
+      "path": "OH/award_list/20261116_37906547.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_8",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "e50aca54",
+      "path": "OH/award_list/20261116_e50aca54.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_9",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "42f8633f",
+      "path": "OH/award_list/20261116_42f8633f.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_10",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "3432f2a5",
+      "path": "OH/award_list/20261116_3432f2a5.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_11",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "401f3bae",
+      "path": "OH/award_list/20261116_401f3bae.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_12",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "fc397054",
+      "path": "OH/award_list/20261116_fc397054.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_13",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "25633ea2",
+      "path": "OH/award_list/20261116_25633ea2.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_14",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "c9f67dc9",
+      "path": "OH/award_list/20261116_c9f67dc9.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_15",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "b57d9cc0",
+      "path": "OH/award_list/20261116_b57d9cc0.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_16",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "0180d3df",
+      "path": "OH/award_list/20261116_0180d3df.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_17",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "3505b3b0",
+      "path": "OH/award_list/20261116_3505b3b0.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_18",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "97bef9bb",
+      "path": "OH/award_list/20261116_97bef9bb.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_19",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "2d38d349",
+      "path": "OH/award_list/20261116_2d38d349.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_20",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "31c727cd",
+      "path": "OH/award_list/20261116_31c727cd.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_21",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "75506ed3",
+      "path": "OH/award_list/20261116_75506ed3.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_22",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "3a697147",
+      "path": "OH/award_list/20261116_3a697147.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_23",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "06ef892e",
+      "path": "OH/award_list/20261116_06ef892e.pdf"
+    },
+    {
+      "source_id": "OH_AWARDS_24",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "2159ccd1",
+      "path": "OH/award_list/20261116_2159ccd1.xlsx"
+    },
+    {
+      "source_id": "OH_AWARDS_25",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "aef1deca",
+      "path": "OH/award_list/20261116_aef1deca.pdf"
+    },
+    {
+      "source_id": "IN_QAP_CURRENT",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "a07cde89",
+      "path": "IN/qap_doc/20261116_a07cde89.pdf"
+    },
+    {
+      "source_id": "IN_UW",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "dd628969",
+      "path": "IN/underwriting/20261116_dd628969.pdf"
+    },
+    {
+      "source_id": "IN_PROGRAM",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "4b209db3",
+      "path": "IN/program_page/20261116_4b209db3.html"
+    },
+    {
+      "source_id": "IN_AWARDS_1",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "a87b57af",
+      "path": "IN/award_list/20261116_a87b57af.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_2",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "d439ec16",
+      "path": "IN/award_list/20261116_d439ec16.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_3",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "addf9000",
+      "path": "IN/award_list/20261116_addf9000.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_4",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "64d2a3ab",
+      "path": "IN/award_list/20261116_64d2a3ab.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_5",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "3b4567c9",
+      "path": "IN/award_list/20261116_3b4567c9.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_6",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "e25f8b63",
+      "path": "IN/award_list/20261116_e25f8b63.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_7",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "ae117f2b",
+      "path": "IN/award_list/20261116_ae117f2b.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_8",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "a513e21c",
+      "path": "IN/award_list/20261116_a513e21c.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_9",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "04ff2b62",
+      "path": "IN/award_list/20261116_04ff2b62.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_10",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "855a7177",
+      "path": "IN/award_list/20261116_855a7177.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_11",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "1c252bf4",
+      "path": "IN/award_list/20261116_1c252bf4.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_12",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "9696b145",
+      "path": "IN/award_list/20261116_9696b145.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_13",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "dd9ce074",
+      "path": "IN/award_list/20261116_dd9ce074.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_14",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "26453849",
+      "path": "IN/award_list/20261116_26453849.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_15",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "d87dd7cb",
+      "path": "IN/award_list/20261116_d87dd7cb.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_16",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "7f8c7da4",
+      "path": "IN/award_list/20261116_7f8c7da4.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_17",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "ed659d36",
+      "path": "IN/award_list/20261116_ed659d36.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_18",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "ac19c5ed",
+      "path": "IN/award_list/20261116_ac19c5ed.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_19",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "efde9951",
+      "path": "IN/award_list/20261116_efde9951.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_20",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "18cf563d",
+      "path": "IN/award_list/20261116_18cf563d.pdf"
+    },
+    {
+      "source_id": "IN_AWARDS_21",
+      "method": "http",
+      "result": "unchanged",
+      "sha256": "9ad9f7de",
+      "path": "IN/award_list/20261116_9ad9f7de.pdf"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "1606502f",
+      "path": "MI/award_list/20261116_1606502f.pdf"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "method": "browser",
+      "result": "new",
+      "sha256": "c61b1f67",
+      "path": "MI/award_list/20261116_c61b1f67.pdf"
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "method": "browser",
+      "result": "new",
+      "sha256": "7432e661",
+      "path": "MI/award_list/20261116_7432e661.pdf"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "f5b6872a",
+      "path": "MI/award_list/20261116_f5b6872a.pdf"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "ba2378cc",
+      "path": "MI/award_list/20261116_ba2378cc.pdf"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "method": "browser",
+      "result": "new",
+      "sha256": "198839c4",
+      "path": "MI/award_list/20261116_198839c4.pdf"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "20e3fd77",
+      "path": "MI/award_list/20261116_20e3fd77.pdf"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "5e59cd75",
+      "path": "MI/award_list/20261116_5e59cd75.pdf"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "fe7e4c99",
+      "path": "MI/award_list/20261116_fe7e4c99.pdf"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "method": "browser",
+      "result": "new",
+      "sha256": "ee6f3642",
+      "path": "MI/award_list/20261116_ee6f3642.pdf"
+    }
+  ],
+  "snapshots": [
+    {
+      "snapshot_id": 536,
+      "source_id": "P1",
+      "sha256": "ae7f05ea224016f3633e792e8549d1d936a0ca87f9db654e822d2103fb51ce0a",
+      "retrieved_at": "2026-11-16T22:04:55.480497+00:00",
+      "archive_path": "US/allocator_list/20261116_ae7f05ea.html"
+    },
+    {
+      "snapshot_id": 537,
+      "source_id": "P2",
+      "sha256": "b03305d262a0d91cb1682202091b0c09713bf77bc6aa58fe74ea5d7ab60a80a6",
+      "retrieved_at": "2026-11-16T22:04:58.929659+00:00",
+      "archive_path": "US/program_data/20261116_b03305d2.html"
+    },
+    {
+      "snapshot_id": 538,
+      "source_id": "P3",
+      "sha256": "427a81c596a82b19e20128aedb0df3d26d45ad2ac543bdd2ccda6393ac69ac70",
+      "retrieved_at": "2026-11-16T22:04:59.203079+00:00",
+      "archive_path": "IL/qap_page/20261116_427a81c5.html"
+    },
+    {
+      "snapshot_id": 539,
+      "source_id": "P4",
+      "sha256": "7e94a1ee8e64aa2f4cfada2a6910fd88ba1d096332a3eadc40ac82e8e4445a24",
+      "retrieved_at": "2026-11-16T22:05:00.097150+00:00",
+      "archive_path": "IL/incentive/20261116_7e94a1ee.html"
+    },
+    {
+      "snapshot_id": 540,
+      "source_id": "P5",
+      "sha256": "93eac7ea338abe895aeaa594d2f6d28334f02fabeaaec3a646dd42aeb0538d82",
+      "retrieved_at": "2026-11-16T22:05:00.425897+00:00",
+      "archive_path": "IL/statute/20261116_93eac7ea.html"
+    },
+    {
+      "snapshot_id": 541,
+      "source_id": "P6",
+      "sha256": "6e26797d2bcb1667cc8b20f38c528ed2635fb8dbf6a88211b8e441c7e05b14ca",
+      "retrieved_at": "2026-11-16T22:05:05.554627+00:00",
+      "archive_path": "MI/qap_page/20261116_6e26797d.html"
+    },
+    {
+      "snapshot_id": 542,
+      "source_id": "P7",
+      "sha256": "ab2d89866078ef7ba4a49dd5e21ef3d16fb8a88a449f8280204d27290fb16f9f",
+      "retrieved_at": "2026-11-16T22:05:09.129344+00:00",
+      "archive_path": "MI/application/20261116_ab2d8986.html"
+    },
+    {
+      "snapshot_id": 543,
+      "source_id": "P8",
+      "sha256": "0d6437fce03a431fa982544eb03792c273b25041dbbce6d608608f94927ffc62",
+      "retrieved_at": "2026-11-16T22:05:09.240462+00:00",
+      "archive_path": "IL/program_page/20261116_0d6437fc.html"
+    },
+    {
+      "snapshot_id": 544,
+      "source_id": "P9",
+      "sha256": "78fdc032b6fd907d6674a3acc5ad83e55d7689d425e2ec33d0d11259f4f82b1c",
+      "retrieved_at": "2026-11-16T22:05:09.661180+00:00",
+      "archive_path": "US/guidance/20261116_78fdc032.pdf"
+    },
+    {
+      "snapshot_id": 545,
+      "source_id": "CENSUS_MSA",
+      "sha256": "55dd2ea1e30be6e0b86f2dee9c2b3afd7bcfae410d3cdc377fd26b3909320694",
+      "retrieved_at": "2026-11-16T22:05:10.217906+00:00",
+      "archive_path": "US/reference_data/20261116_55dd2ea1.json"
+    },
+    {
+      "snapshot_id": 546,
+      "source_id": "MI_QAP_CURRENT",
+      "sha256": "a7974b314b9312a1b88ea1348edcfb6adf01fab9121cc058391fd9ea45520aac",
+      "retrieved_at": "2026-11-16T22:05:12.687212+00:00",
+      "archive_path": "MI/qap_doc/20261116_a7974b31.pdf"
+    },
+    {
+      "snapshot_id": 547,
+      "source_id": "MI_UW",
+      "sha256": "f4160ff451b8302573a65f9292c093297f563c8193afadccc8ca29e2cd5d000b",
+      "retrieved_at": "2026-11-16T22:05:16.430947+00:00",
+      "archive_path": "MI/underwriting/20261116_f4160ff4.pdf"
+    },
+    {
+      "snapshot_id": 548,
+      "source_id": "MI_PROGRAM",
+      "sha256": "0b60f228f94aa26590cc4fd32d0fe18fdc8a4dca8f9e39dff3ddc7c86ee17b82",
+      "retrieved_at": "2026-11-16T22:05:21.694922+00:00",
+      "archive_path": "MI/program_page/20261116_0b60f228.html"
+    },
+    {
+      "snapshot_id": 549,
+      "source_id": "MI_AWARDS_1",
+      "sha256": "599fec5b3cfd0694403f4d98a145945453bc556c38880be91ad4e93691b2309e",
+      "retrieved_at": "2026-11-16T22:05:24.345334+00:00",
+      "archive_path": "MI/award_list/20261116_599fec5b.pdf"
+    },
+    {
+      "snapshot_id": 550,
+      "source_id": "MI_AWARDS_2",
+      "sha256": "776d62677e0e13dabc60f9cac6506002de927a0af306d15cb5be2696d2623eac",
+      "retrieved_at": "2026-11-16T22:05:28.414190+00:00",
+      "archive_path": "MI/award_list/20261116_776d6267.pdf"
+    },
+    {
+      "snapshot_id": 551,
+      "source_id": "MI_AWARDS_3",
+      "sha256": "5f1c9387577634fabd7ee67df3ab94799aa39de15e5498db0f0be9465fc6d898",
+      "retrieved_at": "2026-11-16T22:05:32.331972+00:00",
+      "archive_path": "MI/award_list/20261116_5f1c9387.pdf"
+    },
+    {
+      "snapshot_id": 552,
+      "source_id": "MI_AWARDS_4",
+      "sha256": "9dfa4f628addc34a854404a588039716060e9f5953f194bfd1c502f0c28e6c26",
+      "retrieved_at": "2026-11-16T22:05:36.436166+00:00",
+      "archive_path": "MI/award_list/20261116_9dfa4f62.pdf"
+    },
+    {
+      "snapshot_id": 553,
+      "source_id": "MI_AWARDS_5",
+      "sha256": "9a015b4af7a120515230584bd6e86eed6942964453f1beef017e659b0fbc146a",
+      "retrieved_at": "2026-11-16T22:05:40.466731+00:00",
+      "archive_path": "MI/award_list/20261116_9a015b4a.pdf"
+    },
+    {
+      "snapshot_id": 554,
+      "source_id": "OH_QAP_CURRENT",
+      "sha256": "26da40085682bba79bea2110378491f8d056288c110eb4b3017a5acadc0194ca",
+      "retrieved_at": "2026-11-16T22:05:40.975165+00:00",
+      "archive_path": "OH/qap_doc/20261116_26da4008.pdf"
+    },
+    {
+      "snapshot_id": 555,
+      "source_id": "OH_UW",
+      "sha256": "e9df9f12014cd838f443e74422f3777aee1002718de75ca8ba7b50fc89016754",
+      "retrieved_at": "2026-11-16T22:05:42.719984+00:00",
+      "archive_path": "OH/underwriting/20261116_e9df9f12.pdf"
+    },
+    {
+      "snapshot_id": 556,
+      "source_id": "OH_PROGRAM",
+      "sha256": "c122335b144d206a8d1dfba45d53996b16adb75fed645c7ef40d4fc83880eeec",
+      "retrieved_at": "2026-11-16T22:05:44.650178+00:00",
+      "archive_path": "OH/program_page/20261116_c122335b.html"
+    },
+    {
+      "snapshot_id": 557,
+      "source_id": "OH_BOND",
+      "sha256": "c122335b144d206a8d1dfba45d53996b16adb75fed645c7ef40d4fc83880eeec",
+      "retrieved_at": "2026-11-16T22:05:46.654703+00:00",
+      "archive_path": "OH/bond_page/20261116_c122335b.html"
+    },
+    {
+      "snapshot_id": 558,
+      "source_id": "OH_AWARDS_1",
+      "sha256": "81cb22129778fa7510d72a1f132b219678318fb15cdd5c52775a32f978618a75",
+      "retrieved_at": "2026-11-16T22:05:48.704396+00:00",
+      "archive_path": "OH/award_list/20261116_81cb2212.xlsx"
+    },
+    {
+      "snapshot_id": 559,
+      "source_id": "OH_AWARDS_2",
+      "sha256": "3ff7149be4d503b086dc28f9c450c1e1a1358c06c346e8fd240f12d9c218b2fc",
+      "retrieved_at": "2026-11-16T22:05:50.673366+00:00",
+      "archive_path": "OH/award_list/20261116_3ff7149b.pdf"
+    },
+    {
+      "snapshot_id": 560,
+      "source_id": "OH_AWARDS_3",
+      "sha256": "8c19b4ff30178f8c05cafafe071e1f684438323615995acf0c3c9025f7c6d756",
+      "retrieved_at": "2026-11-16T22:05:52.725517+00:00",
+      "archive_path": "OH/award_list/20261116_8c19b4ff.pdf"
+    },
+    {
+      "snapshot_id": 561,
+      "source_id": "OH_AWARDS_4",
+      "sha256": "efd2959d9290eaf669bd43a88a63bec9ccec81127271364bf07b971cc54e76a5",
+      "retrieved_at": "2026-11-16T22:05:54.680390+00:00",
+      "archive_path": "OH/award_list/20261116_efd2959d.pdf"
+    },
+    {
+      "snapshot_id": 562,
+      "source_id": "OH_AWARDS_5",
+      "sha256": "8f11b657c0e721604dc03d1328c0458e4f84a9c68c15aff250daadec3608ba89",
+      "retrieved_at": "2026-11-16T22:05:56.666257+00:00",
+      "archive_path": "OH/award_list/20261116_8f11b657.pdf"
+    },
+    {
+      "snapshot_id": 563,
+      "source_id": "OH_AWARDS_6",
+      "sha256": "64d8a7f59a27fdacbc511e7630c986d2b9f66500e1c603483c78950a7308b991",
+      "retrieved_at": "2026-11-16T22:05:58.678886+00:00",
+      "archive_path": "OH/award_list/20261116_64d8a7f5.pdf"
+    },
+    {
+      "snapshot_id": 564,
+      "source_id": "OH_AWARDS_7",
+      "sha256": "379065474870c5da14b01e7aaf5e12dc580d9055e19727fa00e06b07c76c7aa8",
+      "retrieved_at": "2026-11-16T22:06:00.678944+00:00",
+      "archive_path": "OH/award_list/20261116_37906547.pdf"
+    },
+    {
+      "snapshot_id": 565,
+      "source_id": "OH_AWARDS_8",
+      "sha256": "e50aca545a6102e3273a9e103b3302f84fde262ceddb67ca1112856e225ade5b",
+      "retrieved_at": "2026-11-16T22:06:02.704241+00:00",
+      "archive_path": "OH/award_list/20261116_e50aca54.xlsx"
+    },
+    {
+      "snapshot_id": 566,
+      "source_id": "OH_AWARDS_9",
+      "sha256": "42f8633fe27d85e7dcd487401a69b993c60649536d2e1238f64319dc588b5d86",
+      "retrieved_at": "2026-11-16T22:06:04.693678+00:00",
+      "archive_path": "OH/award_list/20261116_42f8633f.pdf"
+    },
+    {
+      "snapshot_id": 567,
+      "source_id": "OH_AWARDS_10",
+      "sha256": "3432f2a51afc287dfbfcc51ce306281fd0d1f54742335e2805e66d855acf4301",
+      "retrieved_at": "2026-11-16T22:06:06.692913+00:00",
+      "archive_path": "OH/award_list/20261116_3432f2a5.pdf"
+    },
+    {
+      "snapshot_id": 568,
+      "source_id": "OH_AWARDS_11",
+      "sha256": "401f3bae396d86b785e4373f0009c71b0832ae11e5b401704b648f68df474b29",
+      "retrieved_at": "2026-11-16T22:06:08.698473+00:00",
+      "archive_path": "OH/award_list/20261116_401f3bae.pdf"
+    },
+    {
+      "snapshot_id": 569,
+      "source_id": "OH_AWARDS_12",
+      "sha256": "fc39705429498f2d3e7b5582668642b1a309d7e39ab9ec1699c91ee6abeea639",
+      "retrieved_at": "2026-11-16T22:06:10.728247+00:00",
+      "archive_path": "OH/award_list/20261116_fc397054.xlsx"
+    },
+    {
+      "snapshot_id": 570,
+      "source_id": "OH_AWARDS_13",
+      "sha256": "25633ea245ad51a4b83df41eb5e48ad780776890aa5a4abbad92d855b9edfd42",
+      "retrieved_at": "2026-11-16T22:06:12.704198+00:00",
+      "archive_path": "OH/award_list/20261116_25633ea2.pdf"
+    },
+    {
+      "snapshot_id": 571,
+      "source_id": "OH_AWARDS_14",
+      "sha256": "c9f67dc98c9d1e807b000e6151b61d89f89a05b84ac0d7242f5ad3a2e8c2f33d",
+      "retrieved_at": "2026-11-16T22:06:14.712652+00:00",
+      "archive_path": "OH/award_list/20261116_c9f67dc9.pdf"
+    },
+    {
+      "snapshot_id": 572,
+      "source_id": "OH_AWARDS_15",
+      "sha256": "b57d9cc014038a51163f9dfbb18b2aad129106262df3cc98ba6840cfe9894e3f",
+      "retrieved_at": "2026-11-16T22:06:16.719965+00:00",
+      "archive_path": "OH/award_list/20261116_b57d9cc0.pdf"
+    },
+    {
+      "snapshot_id": 573,
+      "source_id": "OH_AWARDS_16",
+      "sha256": "0180d3dfe2154ebbca67557cbfba393179c0a7dd669a55f44d476a61b1789709",
+      "retrieved_at": "2026-11-16T22:06:18.735176+00:00",
+      "archive_path": "OH/award_list/20261116_0180d3df.xlsx"
+    },
+    {
+      "snapshot_id": 574,
+      "source_id": "OH_AWARDS_17",
+      "sha256": "3505b3b057a3f945dbc1ec18afbac4e656a073830bfc66b3bda829281aa3caf9",
+      "retrieved_at": "2026-11-16T22:06:20.730145+00:00",
+      "archive_path": "OH/award_list/20261116_3505b3b0.pdf"
+    },
+    {
+      "snapshot_id": 575,
+      "source_id": "OH_AWARDS_18",
+      "sha256": "97bef9bb0bae0fb46ba211152cf63d45b99de26cde9b716f035c39b53a8dbf44",
+      "retrieved_at": "2026-11-16T22:06:22.728313+00:00",
+      "archive_path": "OH/award_list/20261116_97bef9bb.xlsx"
+    },
+    {
+      "snapshot_id": 576,
+      "source_id": "OH_AWARDS_19",
+      "sha256": "2d38d3499c2725f42ea3e965482cf1d8fd5e9df136afe4dc99eceff507e222f9",
+      "retrieved_at": "2026-11-16T22:06:24.740615+00:00",
+      "archive_path": "OH/award_list/20261116_2d38d349.pdf"
+    },
+    {
+      "snapshot_id": 577,
+      "source_id": "OH_AWARDS_20",
+      "sha256": "31c727cddfd9cd1045cd886839963042393bda975d6114a1fd7f97cebbc6699d",
+      "retrieved_at": "2026-11-16T22:06:26.728598+00:00",
+      "archive_path": "OH/award_list/20261116_31c727cd.xlsx"
+    },
+    {
+      "snapshot_id": 578,
+      "source_id": "OH_AWARDS_21",
+      "sha256": "75506ed338ca3a18a0531fb54b931958071782f3066b29e4b747f9f9d0687a9c",
+      "retrieved_at": "2026-11-16T22:06:28.739367+00:00",
+      "archive_path": "OH/award_list/20261116_75506ed3.pdf"
+    },
+    {
+      "snapshot_id": 579,
+      "source_id": "OH_AWARDS_22",
+      "sha256": "3a697147e1a7c0e042b160377ff0d1f095425602ac4653abdaad355dd55fa6e6",
+      "retrieved_at": "2026-11-16T22:06:30.753150+00:00",
+      "archive_path": "OH/award_list/20261116_3a697147.pdf"
+    },
+    {
+      "snapshot_id": 580,
+      "source_id": "OH_AWARDS_23",
+      "sha256": "06ef892e8029ed1bf85c493a91beb7003d920d289301d4092c3c4e228a41c6ec",
+      "retrieved_at": "2026-11-16T22:06:32.725726+00:00",
+      "archive_path": "OH/award_list/20261116_06ef892e.pdf"
+    },
+    {
+      "snapshot_id": 581,
+      "source_id": "OH_AWARDS_24",
+      "sha256": "2159ccd131a63a26ed0831e1b24e89be8e828e95c4997b81161de23024f35cbc",
+      "retrieved_at": "2026-11-16T22:06:34.741455+00:00",
+      "archive_path": "OH/award_list/20261116_2159ccd1.xlsx"
+    },
+    {
+      "snapshot_id": 582,
+      "source_id": "OH_AWARDS_25",
+      "sha256": "aef1deca406eef421e31ead50820c065a9064906868c5d3a8d4ec67370bdff30",
+      "retrieved_at": "2026-11-16T22:06:36.748070+00:00",
+      "archive_path": "OH/award_list/20261116_aef1deca.pdf"
+    },
+    {
+      "snapshot_id": 583,
+      "source_id": "IN_QAP_CURRENT",
+      "sha256": "a07cde89cd6ad7312a06ec12b4a34fa63c2d9ca6504438dfee7363d15e90a261",
+      "retrieved_at": "2026-11-16T22:06:37.676919+00:00",
+      "archive_path": "IN/qap_doc/20261116_a07cde89.pdf"
+    },
+    {
+      "snapshot_id": 584,
+      "source_id": "IN_UW",
+      "sha256": "dd628969a7b0358182eab3a85dd1e7211d78e69e30025254dce254c1b6b1369c",
+      "retrieved_at": "2026-11-16T22:06:39.278209+00:00",
+      "archive_path": "IN/underwriting/20261116_dd628969.pdf"
+    },
+    {
+      "snapshot_id": 585,
+      "source_id": "IN_PROGRAM",
+      "sha256": "4b209db3cc830ea78c45e0be9b88c85f4282ab4327bdc96b31486ed64f06b5f2",
+      "retrieved_at": "2026-11-16T22:06:41.345722+00:00",
+      "archive_path": "IN/program_page/20261116_4b209db3.html"
+    },
+    {
+      "snapshot_id": 586,
+      "source_id": "IN_AWARDS_1",
+      "sha256": "a87b57af9161110e7084e4ceb8a499d77b95b196dddaa718e4d23e8c5857740d",
+      "retrieved_at": "2026-11-16T22:06:43.211075+00:00",
+      "archive_path": "IN/award_list/20261116_a87b57af.pdf"
+    },
+    {
+      "snapshot_id": 587,
+      "source_id": "IN_AWARDS_2",
+      "sha256": "d439ec16ffaf882c8dddec7278932a76c154c80816ada054aa83cefa0db6f567",
+      "retrieved_at": "2026-11-16T22:06:45.284858+00:00",
+      "archive_path": "IN/award_list/20261116_d439ec16.pdf"
+    },
+    {
+      "snapshot_id": 588,
+      "source_id": "IN_AWARDS_3",
+      "sha256": "addf9000db114e1ae335062f2dc410bc37712e592145a2ec22eff22fdbb49462",
+      "retrieved_at": "2026-11-16T22:06:47.193359+00:00",
+      "archive_path": "IN/award_list/20261116_addf9000.pdf"
+    },
+    {
+      "snapshot_id": 589,
+      "source_id": "IN_AWARDS_4",
+      "sha256": "64d2a3abd40f53f3e1ee4a9d5e7414414b8c49250c93b5ef1118a3a93518abae",
+      "retrieved_at": "2026-11-16T22:06:49.355150+00:00",
+      "archive_path": "IN/award_list/20261116_64d2a3ab.pdf"
+    },
+    {
+      "snapshot_id": 590,
+      "source_id": "IN_AWARDS_5",
+      "sha256": "3b4567c986831dcba66990b90c487ab6b210a95705f5a784de79b4c5ba88f050",
+      "retrieved_at": "2026-11-16T22:06:51.494191+00:00",
+      "archive_path": "IN/award_list/20261116_3b4567c9.pdf"
+    },
+    {
+      "snapshot_id": 591,
+      "source_id": "IN_AWARDS_6",
+      "sha256": "e25f8b63b3aadcc5df074f09e4f2a957de7cbd8046dfccae38400bcec46b84a1",
+      "retrieved_at": "2026-11-16T22:06:53.476156+00:00",
+      "archive_path": "IN/award_list/20261116_e25f8b63.pdf"
+    },
+    {
+      "snapshot_id": 592,
+      "source_id": "IN_AWARDS_7",
+      "sha256": "ae117f2b368ff7b7e1739e5e092be6863222fdafe2e5b65cf7dbdc709f99c792",
+      "retrieved_at": "2026-11-16T22:06:55.346213+00:00",
+      "archive_path": "IN/award_list/20261116_ae117f2b.pdf"
+    },
+    {
+      "snapshot_id": 593,
+      "source_id": "IN_AWARDS_8",
+      "sha256": "a513e21cd481d06e6f9cae451dec036c2a04cd14ce843ab1163e0c3756dfcca9",
+      "retrieved_at": "2026-11-16T22:06:57.378831+00:00",
+      "archive_path": "IN/award_list/20261116_a513e21c.pdf"
+    },
+    {
+      "snapshot_id": 594,
+      "source_id": "IN_AWARDS_9",
+      "sha256": "04ff2b62cf144e0aefa8e744d69c624c5d67383793c89bf566ab8fdcf89e5ea3",
+      "retrieved_at": "2026-11-16T22:06:59.313199+00:00",
+      "archive_path": "IN/award_list/20261116_04ff2b62.pdf"
+    },
+    {
+      "snapshot_id": 595,
+      "source_id": "IN_AWARDS_10",
+      "sha256": "855a71772420a282a08a6265e830537b2ab176bd9234ccdd82af0d2ed2f8cf2c",
+      "retrieved_at": "2026-11-16T22:07:01.304316+00:00",
+      "archive_path": "IN/award_list/20261116_855a7177.pdf"
+    },
+    {
+      "snapshot_id": 596,
+      "source_id": "IN_AWARDS_11",
+      "sha256": "1c252bf4f418c5ed9e2189360eeb3adfa1c1fa2cd27f2e6d0a23bf881ce2aff4",
+      "retrieved_at": "2026-11-16T22:07:03.231864+00:00",
+      "archive_path": "IN/award_list/20261116_1c252bf4.pdf"
+    },
+    {
+      "snapshot_id": 597,
+      "source_id": "IN_AWARDS_12",
+      "sha256": "9696b14515c0a41d973e225ce8efea6f54cab5b87edbff5bb33faa4cf898e890",
+      "retrieved_at": "2026-11-16T22:07:05.207399+00:00",
+      "archive_path": "IN/award_list/20261116_9696b145.pdf"
+    },
+    {
+      "snapshot_id": 598,
+      "source_id": "IN_AWARDS_13",
+      "sha256": "dd9ce07423b860d524c46cecfe41f40240482266f6b3ee79be7d2d793f1bf91a",
+      "retrieved_at": "2026-11-16T22:07:07.289103+00:00",
+      "archive_path": "IN/award_list/20261116_dd9ce074.pdf"
+    },
+    {
+      "snapshot_id": 599,
+      "source_id": "IN_AWARDS_14",
+      "sha256": "26453849f1fec4d4b7bf1f60898b911d138918757e512c31311e348c25facd07",
+      "retrieved_at": "2026-11-16T22:07:09.162461+00:00",
+      "archive_path": "IN/award_list/20261116_26453849.pdf"
+    },
+    {
+      "snapshot_id": 600,
+      "source_id": "IN_AWARDS_15",
+      "sha256": "d87dd7cb5b22c547c18efffea86f23549372f4693177eeb2b7e3c07b53dbde4d",
+      "retrieved_at": "2026-11-16T22:07:11.274395+00:00",
+      "archive_path": "IN/award_list/20261116_d87dd7cb.pdf"
+    },
+    {
+      "snapshot_id": 601,
+      "source_id": "IN_AWARDS_16",
+      "sha256": "7f8c7da47f64d84f153c21928efd7a48376356a755089d25327a132030f034c1",
+      "retrieved_at": "2026-11-16T22:07:13.219797+00:00",
+      "archive_path": "IN/award_list/20261116_7f8c7da4.pdf"
+    },
+    {
+      "snapshot_id": 602,
+      "source_id": "IN_AWARDS_17",
+      "sha256": "ed659d3634fa298dbfda0c55aeabd7de8991f3bd634b3738a213abe21ef0d889",
+      "retrieved_at": "2026-11-16T22:07:15.233743+00:00",
+      "archive_path": "IN/award_list/20261116_ed659d36.pdf"
+    },
+    {
+      "snapshot_id": 603,
+      "source_id": "IN_AWARDS_18",
+      "sha256": "ac19c5ed09b3ff95cb02126b477b8f552fab8271d0803aa037eac434dc02a179",
+      "retrieved_at": "2026-11-16T22:07:17.249776+00:00",
+      "archive_path": "IN/award_list/20261116_ac19c5ed.pdf"
+    },
+    {
+      "snapshot_id": 604,
+      "source_id": "IN_AWARDS_19",
+      "sha256": "efde9951f62035d7e27df8b845df56180ad2527a25cc39dcbc59704c9b0b9c83",
+      "retrieved_at": "2026-11-16T22:07:19.370553+00:00",
+      "archive_path": "IN/award_list/20261116_efde9951.pdf"
+    },
+    {
+      "snapshot_id": 605,
+      "source_id": "IN_AWARDS_20",
+      "sha256": "18cf563de17610d177a0e9b71a22e3679ce78ebff2e5ea1e93e3c4d094de3090",
+      "retrieved_at": "2026-11-16T22:07:21.300923+00:00",
+      "archive_path": "IN/award_list/20261116_18cf563d.pdf"
+    },
+    {
+      "snapshot_id": 606,
+      "source_id": "IN_AWARDS_21",
+      "sha256": "9ad9f7de6600ee5d151839e9b56752aa429c2440105346c5387663bbe09fb59e",
+      "retrieved_at": "2026-11-16T22:07:23.280902+00:00",
+      "archive_path": "IN/award_list/20261116_9ad9f7de.pdf"
+    },
+    {
+      "snapshot_id": 607,
+      "source_id": "MI_RES_2022_APR1",
+      "sha256": "1606502f26959852f1f77847fe11303207666ed75d83794660cee47d1397cae5",
+      "retrieved_at": "2026-11-16T22:07:25.785344+00:00",
+      "archive_path": "MI/award_list/20261116_1606502f.pdf"
+    },
+    {
+      "snapshot_id": 608,
+      "source_id": "MI_RES_2022_DEC12",
+      "sha256": "c61b1f67e1b9a350c0297f081ffc3a1ac55fba6bce5edb98998025333303a72e",
+      "retrieved_at": "2026-11-16T22:07:29.635189+00:00",
+      "archive_path": "MI/award_list/20261116_c61b1f67.pdf"
+    },
+    {
+      "snapshot_id": 609,
+      "source_id": "MI_RES_2022_JAN18",
+      "sha256": "7432e6614dc120961ec1c9d842745aa60658548249ebac4f120b036d7250d3db",
+      "retrieved_at": "2026-11-16T22:07:33.705075+00:00",
+      "archive_path": "MI/award_list/20261116_7432e661.pdf"
+    },
+    {
+      "snapshot_id": 610,
+      "source_id": "MI_RES_2022_JULY1",
+      "sha256": "f5b6872ae621257a6f1ac4e79379bbfb27d19be51a5dc8fd8a967f4c4c15a3bf",
+      "retrieved_at": "2026-11-16T22:07:37.782297+00:00",
+      "archive_path": "MI/award_list/20261116_f5b6872a.pdf"
+    },
+    {
+      "snapshot_id": 611,
+      "source_id": "MI_RES_2022_OCT1",
+      "sha256": "ba2378cc8fc4484596a969a998ce8dee026d29aa9603d3e37c5c46790d517baf",
+      "retrieved_at": "2026-11-16T22:07:41.770075+00:00",
+      "archive_path": "MI/award_list/20261116_ba2378cc.pdf"
+    },
+    {
+      "snapshot_id": 612,
+      "source_id": "MI_RES_2023_APR3",
+      "sha256": "198839c417ee390004a3584e328c72dc4023c92d6c94610a03512b248d7bc5d8",
+      "retrieved_at": "2026-11-16T22:07:45.663468+00:00",
+      "archive_path": "MI/award_list/20261116_198839c4.pdf"
+    },
+    {
+      "snapshot_id": 613,
+      "source_id": "MI_RES_2023_DEC1",
+      "sha256": "20e3fd77f8f1e971945c5d5d87381f8eec38293911c80d41198a891ba66c9755",
+      "retrieved_at": "2026-11-16T22:07:49.755026+00:00",
+      "archive_path": "MI/award_list/20261116_20e3fd77.pdf"
+    },
+    {
+      "snapshot_id": 614,
+      "source_id": "MI_RES_2024_OCT1",
+      "sha256": "5e59cd7589b59620b3f0eafacf0676c7b5fe546451f3eca634e89c77ebef7def",
+      "retrieved_at": "2026-11-16T22:07:53.658572+00:00",
+      "archive_path": "MI/award_list/20261116_5e59cd75.pdf"
+    },
+    {
+      "snapshot_id": 615,
+      "source_id": "MI_RES_2025_APR1",
+      "sha256": "fe7e4c99188e4698f510648bb3181244eb22bad2c8c5de7daba765b4daa5cfa6",
+      "retrieved_at": "2026-11-16T22:07:57.554522+00:00",
+      "archive_path": "MI/award_list/20261116_fe7e4c99.pdf"
+    },
+    {
+      "snapshot_id": 616,
+      "source_id": "MI_RES_2025_OCT1",
+      "sha256": "ee6f3642922191470ec339c085d844604fbde95ae2c544676d3f8992af7b83e0",
+      "retrieved_at": "2026-11-16T22:08:01.546428+00:00",
+      "archive_path": "MI/award_list/20261116_ee6f3642.pdf"
+    }
+  ]
+}
