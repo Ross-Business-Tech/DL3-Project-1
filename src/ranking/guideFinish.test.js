@@ -153,3 +153,77 @@ test('with both hurdles required (the guide\'s rule) preview can now score Econo
   assert.deepEqual([e.status, e.score], ['final', 5]) // 1.728M >= 1.5M, 1.61M >= 1.5M, downside 1.15M / 1.02M >= 1M
   assert.doesNotMatch(e.reasons.join(' '), /present-value test not applied/)
 })
+
+// ------------------------------------------------------ assumption stress tests (7B)
+
+import { assumptionScenarios, withAssumptionSensitivity } from './sensitivity.js'
+
+const one = (over) => ({ id: 'x', state: 'X', pathway: '4%', confidence: 'High', maxFeasibleUnits: 140, approvedGrossFee: 4_800_000, totalDevelopmentCost: 40_000_000, sponsorPath: true, financingPath: true, criticalSourceDates: ['2026-11-10'], ...over })
+const changesFor = (records, settings, id = 'x') => {
+  const out = withAssumptionSensitivity(records, { asOf: '2026-11-16', settings })
+  return out.lists.flatMap((l) => [...l.ranked, ...l.needsVerification, ...l.excluded]).find((r) => r.id === id).assumptionChanges
+}
+
+test('the normal view tests the denominator and costs; preview adds DL3 share and deferral', () => {
+  assert.deepEqual(assumptionScenarios(SETTINGS).map((s) => s.key), ['denominator', 'cost'])
+  assert.deepEqual(assumptionScenarios({ ...SETTINGS, deriveEconomicsFromFee: true }).map((s) => s.key), ['denominator', 'cost', 'share-down', 'share-up', 'deferral-up', 'deferral-down'])
+})
+
+test('a fee just above 10% is flagged when costs rise 10%', () => {
+  const c = changesFor([one({ approvedGrossFee: 4_200_000 })]) // 10.5% -> 9.55% with costs up 10%
+  assert.ok(c.some((m) => /Development cost 10% higher.*fee check pass -> fail.*ranked -> excluded/.test(m)))
+})
+
+test('a fee between the two definitions is flagged by the denominator scenario', () => {
+  const c = changesFor([one({ approvedGrossFee: 3_800_000 })]) // fails on total cost, passes on net cost
+  assert.ok(c.some((m) => /cost less fee, land and reserves.*fee check fail -> pass/.test(m)))
+})
+
+test('a solid fee is not flagged; nothing changes means no sentence', () => {
+  assert.deepEqual(changesFor([one({ approvedGrossFee: 6_000_000 })]), [])
+})
+
+test('in preview, a lower DL3 share can drop Developer economics', () => {
+  const settings = { deriveEconomicsFromFee: true, economicsHurdles: { minRetainedCash: 1_000_000, minPresentValue: 1_000_000 } }
+  const c = changesFor([one({})], settings)
+  assert.ok(c.some((m) => /DL3 fee share 20% lower: Developer economics 5 -> 3/.test(m)))
+})
+
+test('every state in the real data gets a (possibly empty) list, and the base result is unchanged', () => {
+  const plain = rankRecords(built.records, { asOf: '2026-11-16' })
+  const tested = withAssumptionSensitivity(built.records, { asOf: '2026-11-16' })
+  assert.deepEqual(tested.lists.map((l) => l.counts), plain.lists.map((l) => l.counts))
+  const all = tested.lists.flatMap((l) => [...l.ranked, ...l.needsVerification, ...l.excluded])
+  assert.ok(all.every((r) => Array.isArray(r.assumptionChanges)))
+  assert.ok(all.some((r) => r.assumptionChanges.length > 0)) // some fee-screen states sit close to 10%
+})
+
+// ------------------------------------------------------- change report and refresh demo
+
+import { compareRuns, refreshDemo } from './sensitivity.js'
+
+test('identical inputs give identical runs: the change report is empty', () => {
+  const a = rankRecords(built.records, { asOf: '2026-11-16' })
+  const b = rankRecords(structuredClone(built.records), { asOf: '2026-11-16' })
+  assert.deepEqual(compareRuns(a, b), [])
+})
+
+test('refresh demo: Indiana 15% -> 12% flows through to the fee check, the list, and the economics', () => {
+  const demo = refreshDemo(built.records, { asOf: '2026-11-16' })
+  assert.match(demo.description, /15% to 12%/)
+  const ids = demo.changes.map((c) => c.id)
+  assert.deepEqual(ids, ['indiana-4']) // Indiana 9% has no fee in our research, so nothing to change there
+  const text = demo.changes[0].changes.join(' | ')
+  assert.match(text, /fee.*pass -> fail.*9\.60% of total development cost/i) // $4.8M x 12/15 = $3.84M = 9.60%
+  assert.match(text, /Now excluded \(was held for verification\)/) // Medium confidence, so a firm fail
+  assert.match(text, /Fee 4,800,000 -> 3,840,000; present value/)
+})
+
+test('a change report also catches moves into the ranking', () => {
+  const rec = { id: 'x', state: 'X', pathway: '9%', confidence: 'High', maxFeasibleUnits: 140, approvedGrossFee: 4_800_000, totalDevelopmentCost: 40_000_000, sponsorPath: null, financingPath: true, criticalSourceDates: ['2026-11-10'], scores: { economics: 3, funding: 3, access: 3, scale: 3, urban: 3, execution: 3, venture: 3 } }
+  const before = rankRecords([rec], { asOf: '2026-11-16' })
+  const after = rankRecords([{ ...rec, sponsorPath: true }], { asOf: '2026-11-16' })
+  const c = compareRuns(before, after)[0].changes.join(' | ')
+  assert.match(c, /Eligible sponsor or documented partnership path: unknown -> pass/)
+  assert.match(c, /Now ranked \(was held for verification\)/)
+})
