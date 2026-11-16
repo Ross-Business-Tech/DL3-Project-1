@@ -179,15 +179,15 @@ function RankedCard({ r }) {
     <li className={`card ${r.actionable ? 'is-actionable' : ''}`}>
       <div className="card-head">
         <span className={`rank ${r.rank === null ? 'rank-open' : ''}`} title={r.rank === null ? 'Rank withheld: missing evidence could change it' : undefined}>
-          {rankText(r).replace(' (withheld)', '').replace(' to ', '–')}
+          {r.estimateRank ? `#${r.estimateRank}` : rankText(r).replace(' (withheld)', '').replace(' to ', '–')}
         </span>
         <div className="grow">
           <h3>{r.state}</h3>
           <p className="small">{r.allocator}</p>
         </div>
         <div className="score">
-          <strong>{r.score.point !== null ? round(r.score.point) : `${round(r.score.lo)}–${round(r.score.hi)}`}</strong>
-          <span className="small">{r.score.point !== null ? 'out of 100' : 'provisional'}</span>
+          <strong>{r.score.point !== null ? round(r.score.point) : r.score.estimate != null ? round(r.score.estimate) : `${round(r.score.lo)}–${round(r.score.hi)}`}</strong>
+          <span className="small">{r.score.point !== null ? 'out of 100' : r.score.estimate != null ? `best estimate (range ${round(r.score.lo)}–${round(r.score.hi)})` : 'provisional'}</span>
         </div>
       </div>
       <ScoreBar score={r.score} />
@@ -468,7 +468,7 @@ export default function RankingPage() {
         </label>
         {dataset === 'research' && (
           <p className="banner">
-            <strong>Researched scores.</strong> AI research agents gathered cited evidence from official agency sources for {REAL_DATA.stats.researchedByAgents} states on top of our own research. Their 0–5 judgments count here, marked “AI”, and have not been reviewed by DL3. Developer economics uses placeholder terms; Scale and Funding use statewide award counts until the urban filter has site facts. States with a check still open are ranked provisionally; a state that failed a check is never ranked.
+            <strong>Researched scores.</strong> AI research agents gathered cited evidence (from search excerpts of agency documents; the agency sites themselves were blocked, so fee rules are marked unverified) for {REAL_DATA.stats.researchedByAgents} states on top of our own research. Their 0–5 judgments count here, marked “AI”, and have not been reviewed by DL3. Developer economics uses placeholder terms; Scale and Funding use statewide award counts until the urban filter has site facts. States with a check still open are ranked provisionally; a state that failed a check is never ranked. Where evidence is still missing, the big number is a best estimate: the middle of the range the score could fall in, and states are ordered by it.
           </p>
         )}
         {dataset === 'research' ? null : dataset === 'preview' ? (

@@ -1,0 +1,152 @@
+{
+  "state": "Ohio",
+  "researchedOn": "2026-11-16",
+  "agency": "Ohio Housing Finance Agency (OHFA)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 3000000,
+        "rule": "Maximum budgeted developer fee = 20% of the project's LIHTC eligible basis, net of the Developer Fee (developer fee plus developer-charged financing fees, and in Draft 2 also developer-charged asset management fees), capped at $3,000,000.",
+        "basis": "LIHTC eligible basis net of the developer fee",
+        "dollarCap": "$3,000,000",
+        "arithmetic": "Eligible basis assumed = 75% x $40,000,000 = $30,000,000 (includes the fee). Fee F = 20% x ($30,000,000 - F) -> 1.2F = $6,000,000 -> F = $5,000,000. Apply $3,000,000 cap -> approved gross fee = $3,000,000 (7.5% of TDC, i.e. below DL3's 10%-of-TDC target).",
+        "ruleVerified": false,
+        "source": "https://ohiohome.org/ppd/documents/2026-2027-9Percent-LIHTC-QAP.pdf",
+        "quote": "Search-engine excerpt of the final 2026-2027 9% QAP: developer fee cap of 20% of the project's LIHTC eligible basis, net of the Developer Fee and the listed fees, capped at $3 million. (ohiohome.org could not be opened from this session; rule read only via search excerpts, so ruleVerified=false. The 2027 Technical Amendment approved 8/20/2026 also has a 'Developer Fee Limit' section whose text was not visible.)"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit-count cap found, but per-project credit is capped (kickoff deck: Maximum Annual LIHTC Request of $1.8M for New Affordability in Metro, $1.6M Rural) and 25% of scoring rewards a low annual LIHTC request per unit. OHFA's 2025 reservations summary reports an average project size of 62 total units across 23 projects; 2026 averaged ~59 units (1,468 units / 25 developments). No 2021-2025 9% new-construction award above 100 units was found.",
+        "source": "https://ohiohome.org/ppd/documents/2026-9-LIHTC-QAP-KickoffEvent.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "OHFA requires Experience & Capacity (E&C) approval of the lead developer and co-developer(s) before the Proposal Application. 2025 E&C Standards: a lead developer qualifies with one IRS Form 8609 for a project placed in service 'in Ohio ... or another state within the last 10 years'. 2026 E&C Standards: entities with 8609s only in 'state(s) other than Ohio ... are limited to one reservation'; entities without experience 'must partner with an OHFA experienced mentor developer'; the 2026 cycle 'created the concept of Mentor Developers and Co-Developers'. A 9% FAQ says a co-developer 'may provide the necessary experience (8609) and capacity'. So DL3 can apply directly on its out-of-state 8609s (one reservation) or co-develop with an Ohio-experienced developer. OHFA does not combine two entities' 8609s and a consultant's experience does not count.",
+        "source": "https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round with four pools: New Affordability (General Occupancy), New Affordability (Senior), Preserved Affordability, and Special Housing Needs; Metro vs Rural regions rather than an 'urban' pool. County award limits apply (kickoff deck: Franklin and Cuyahoga three awards, Hamilton two). 2026 round: 25 reservations, $39.17M, 19 of them new affordability. A large urban new-construction deal is feasible only at a size that fits the ~$1.8M annual credit cap.",
+        "source": "https://www.ohiohome.org/ppd/documents/2026-9-LIHTC-ReservationsSummary.pdf"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ohiohome.org/ppd/documents/2026-9Percent- Results.pdf (excerpt '9% LIHTC Reservations 39 31 31 24 23 25' read as 2021-2026; year labels not visible, so 39 total reservations for 2021 is unconfirmed and not entered)" },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ohiohome.org/ppd/documents/2026-9Percent- Results.pdf (31 total reservations per same unlabeled excerpt; unconfirmed)" },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://ohiohome.org/news/releases/2023/lihtc-awards.aspx (more than $29M in credits; development and application counts not visible)" },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": 65, "source": "https://ohiohome.org/news/releases/2024/may-update.aspx (24 developments, 1,514 apartments, $34.7M; 65 applications requesting $95.9M)" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": 61, "source": "https://ohiohome.org/news/releases/2025/may-fundedprojects.aspx (23 developments, 1,436 units, $35.4M; 61 applications requesting $94.1M; average project size 62 units per https://www.ohiohome.org/ppd/documents/2025-9-LIHTC-ReservationsSummary.pdf)" },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": 62, "source": "https://ohiohome.org/news/releases/2026/9percent-taxcredits.aspx (25 developments, 1,468 apartments, $39.1M; 62 applications requesting $98.4M; 19 'new affordability' reservations, which is not the same as a new-construction count)" }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": 2.51,
+        "source": "https://www.ohiohome.org/ppd/documents/2026-9-LIHTC-ReservationsSummary.pdf (2026 requests $98,449,146 / reservations $39,173,937 = 2.51. OHFA's June 2026 blog separately says requests over the last three years ran 'more than three times' the credits it can allocate in a year; that does not match this round's figures.)"
+      },
+      "nextDeadline": "2027 program calendar not found. The 2027 Technical Amendment was board-approved 8/20/2026. The 2026 Proposal Application deadline was February 26, 2026 and 2025's was February 27, 2025, so expect late February 2027, with E&C approval due earlier (unconfirmed).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Out-of-state 8609s count toward E&C approval, but out-of-state-only entities are limited to one reservation. A documented mentor/co-developer path exists. Barriers: E&C approval needed before the proposal, about 2.5x oversubscription, county award caps (Franklin/Cuyahoga 3, Hamilton 2), and scoring that rewards a low credit request per unit and favors smaller deals.",
+          "sources": ["https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf", "https://ohiohome.org/ppd/documents/2026-9-LIHTC-QAP-KickoffEvent.pdf", "https://ohiohome.org/ppd/documents/25OHC-9-LIHTCH-QAP-Webinar.pdf"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Columbus has recent 100+ unit LIHTC new construction (380-unit Sawyer Towers redevelopment, 150-unit Barthman Family Homes), so rents and costs plausibly support large LIHTC buildings. Under 9%, though, the ~$1.8M annual credit cap and 2025's 62-unit average mean a 100+ unit deal would need heavy gap funding. No rent, vacancy or cost study was gathered (search budget ran out).",
+          "sources": ["https://www.ncsha.org/?p=156236", "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx", "https://www.ohiohome.org/ppd/documents/2025-9-LIHTC-ReservationsSummary.pdf"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Columbus and Cleveland are about a day's drive from Chicago. No local-office rule was found. A co-developer/mentor route is written into the E&C standards. Burdens: projects that get additional credits must defer at least 50% of the developer fee (2026 Additional Credits Policy), and the fee may not rise after the Proposal Application.",
+          "sources": ["https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf", "https://ohiohome.org/ppd/documents/2026-AdditionalCreditsPolicy.pdf"]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 5000000,
+        "rule": "Maximum budgeted developer fee for the 4% LIHTC program = 20% of the project's LIHTC eligible basis, net of the Developer Fee (developer fee + developer-charged financing fees + developer-charged asset management fees). No dollar cap appears in any excerpt. A separate limit says the paid developer fee may not exceed 70% of the budgeted fee (Ohio LIHTC / BGF guidelines). The 2023 BGF guidelines capped the paid fee at $20,000 per LIHTC unit; that cap was not seen in 2025-2026 documents.",
+        "basis": "LIHTC eligible basis net of the developer fee",
+        "dollarCap": "None found in 4% QAP excerpts (unverified); paid fee limited to 70% of budgeted fee in the Ohio LIHTC/BGF layers",
+        "arithmetic": "Eligible basis assumed = $30,000,000 (includes the fee). F = 20% x ($30,000,000 - F) -> 1.2F = $6,000,000 -> F = $5,000,000. No dollar cap applied -> approved gross fee = $5,000,000 (12.5% of TDC). If Ohio LIHTC or BGF gap funds are layered in, at most 70% ($3,500,000) can be paid; the rest is deferred.",
+        "ruleVerified": false,
+        "source": "https://ohiohome.org/ppd/documents/4-LIHTC-QAP-Final.pdf",
+        "quote": "Search excerpt of the 4% LIHTC QAP (effective March 19, 2025): 'The maximum budgeted developer fee for the 4% LIHTC program is 20% of the project's LIHTC eligible basis net of the Developer Fee calculation below. Developer Fee is calculated as the sum of the following fees: Developer Fee, Developer-charged financing fees, Developer-charged asset management fees.' (PDF not openable from this session; Novoco also hosts a copy dated 12/10/2025 at https://www.novoco.com/public-media/documents/ohio-4-percent-qap-lihtc-final-12102025.pdf)"
+      },
+      "maxFeasibleUnits": {
+        "value": 380,
+        "evidence": "A 380-unit family development in Columbus (Sawyer Towers redevelopment, 525 Sawyer Blvd, on a vacant, blighted site) received 2025 4% LIHTCs. Other large 4% deals: 209 new units at Union at Cleveland Harbor in Cleveland (May 2026, TDC about $69.3M) and the 150-unit Barthman Family Homes in Columbus (Feb 2026). Our earlier context also lists Dering Family Homes, 245 units, Columbus (2022 BGF list), which was not re-verified here. No unit cap found. The 2025 cost-containment cap for metro new construction appears to be $448,000 per unit (the example's $333,333 per unit fits under it).",
+        "source": "https://www.ncsha.org/?p=156236"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "The 4% QAP Appendix B accepts a lead developer or co-developer that 'has successfully placed in service at least one LIHTC project in a state other than Ohio.' 'Developers that have not previously worked with OHFA will be limited to one reservation of LIHTC.' A 4%-only Programmatic Exception lets a developer 'participate in more than one 4% LIHTC project' if it provides 'at least five IRS 8609s from other states and a letter from the state for each', due at Pre-Application. Per a 2024 FAQ, multiple applications based on out-of-state experience are allowed only for 4% LIHTC Only (without Ohio LIHTC or other state gap). The co-developer and mentor route in the 2026 E&C Standards also applies.",
+        "source": "https://ohiohome.org/ppd/documents/ExceptionRequestForm-4Only.docx"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Ohio Department of Development: 2026 state ceiling $1,592,925,480 ($135 per capita), with $120M set aside for multifamily housing and $852,925,480 in the Director's Discretionary line; unused cap can be carried forward three years. Ohio's 4% bond window was listed as first come, first served, February 2 to October 30, 2026. No waitlist or exhaustion notice was found. OHFA's FY2026 annual report notes the bond test drops from 50% to 25% of aggregate basis starting in 2026, which stretches volume cap. Gap layers (Ohio LIHTC, BGF, HDGF) are competitive, and Ohio LIHTC sunsets June 30, 2027 unless reauthorized.",
+        "source": "https://development.ohio.gov/business/state-incentives/volume-cap"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found (the 4% program is non-competitive; no annual award list was located)" },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not re-verified; earlier context cites a 2022 BGF award list including Dering Family Homes (245 units, Columbus)" },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ncsha.org/?p=156236 (at least one 2025 4% deal above 100 new units: the 380-unit Columbus family development; full count not found)" },
+        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://ohiohome.org/news/releases/2026/may-fundedprojects.aspx (2026 monthly releases show at least 209 new units in Cleveland, 150 in Columbus and 120 in Youngstown with 4% credits; full count not compiled)" }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "Not published for 4% bond/volume cap. The competitive gap layer (August 2026) invited 11 applicants for 4% LIHTC with $11.1M in credits available (secondary report: https://samsearch.co/government-contracting-news/ohio-housing-finance-agency-allocates-425m-for-affordable-housing-initiatives-176539), but no request total was found."
+      },
+      "nextDeadline": "4% LIHTC Only is first come, first served. The 2026 volume cap window ran Feb 2 to Oct 30, 2026 (Novoco 2026 State Bond Caps page), so expect the 2027 window to open in early 2027 (not confirmed). Ohio LIHTC and BGF gap rounds have their own annual calendars, which were not found.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "An out-of-state LIHTC placed in service qualifies the lead developer or co-developer. New-to-OHFA developers are limited to one reservation unless they file a Programmatic Exception with at least five out-of-state 8609s. The 4% Only path is non-competitive, but gap funds (Ohio LIHTC/BGF) are competitive, and multiple applications based on out-of-state experience are allowed only for 4% Only.",
+          "sources": ["https://ohiohome.org/ppd/documents/4-LIHTC-QAP-Final.pdf", "https://ohiohome.org/ppd/documents/ExceptionRequestForm-4Only.docx", "https://www.novoco.com/public-media/documents/ohio-lihtc-faqs-01232024.pdf"]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Several 2025-2026 new-construction 4% deals above 100 units in Columbus (380, 150) and Cleveland (209, TDC about $69.3M) show that underwriting supports large urban LIHTC buildings. No rent, vacancy, tax or insurance data was gathered (search budget ran out), so 5 is not supported.",
+          "sources": ["https://www.ncsha.org/?p=156236", "https://ohiohome.org/news/releases/2026/may-fundedprojects.aspx", "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx"]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Ohio's big metros are drivable from Chicago. No local-presence rule was found. The co-developer/mentor path is documented. Volume cap appears available on a first-come basis. Burdens: the paid fee is limited to 70% of the budgeted fee when gap layers are used (30% or more deferred), plus competitive gap funding.",
+          "sources": ["https://development.ohio.gov/business/state-incentives/volume-cap", "https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf", "https://ohiohome.org/ppd/documents/2026-BGF-Guidelines.pdf"]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Columbus: Near East Side (Sawyer Blvd area); Cleveland Harbor/lakefront is the alternative",
+    "historicSuccess": {
+      "score": null,
+      "evidence": "Not researched: the shared web-search budget ran out before market research on Columbus's history, infrastructure or transit.",
+      "sources": []
+    },
+    "anchorInstitutions": {
+      "score": null,
+      "evidence": "Not researched (search budget ran out).",
+      "sources": []
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "The 380-unit Sawyer Towers redevelopment at 525 Sawyer Blvd turns a vacant, blighted site into affordable housing. That shows large vacant sites exist on the Near East Side without displacing residents (one site documented).",
+      "sources": ["https://www.ncsha.org/?p=156236"]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "Recent large LIHTC investment in Columbus: a 380-unit family development (2025 4% LIHTC, placed in OHFA's Strategic Initiative Set-Aside) and the 150-unit Barthman Family Homes (Feb 2026, $2M Housing Development Loan plus 4% LIHTC).",
+      "sources": ["https://www.ncsha.org/?p=156236", "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx", "https://ohiohome.org/ppd/documents/2026-OLIHTC-StrategicInitiativeMemo.pdf"]
+    },
+    "localLeadership": {
+      "score": null,
+      "evidence": "Not researched (search budget ran out).",
+      "sources": []
+    }
+  },
+  "notes": "1) ohiohome.org (all subdomains) and novoco.com could not be reached from this session (DNS blocked), so every official rule comes from search-engine excerpts and ruleVerified=false for both fees. Ask for ohiohome.org to be allowed in the session's network settings to verify. 2) 9% fee: 20% of eligible basis net of fee, $3M cap, confirmed in several excerpts of the final 2026-2027 QAP; the 8/20/2026 Technical Amendment's fee text was not seen. 3) 4% fee: 20% of eligible basis net of fee; no dollar cap in any excerpt of the 4% QAP or the 2025/2026 BGF guidelines, so this is unverified, not a confirmed absence. Paid fee is limited to 70% of the budgeted fee in the Ohio LIHTC/BGF layers, and the 2023 BGF guidelines had a $20,000-per-unit paid-fee cap. A Novoco copy of the 4% QAP dated 12/10/2025 suggests a possible later revision that I could not confirm. 4) The 2026 9% requested-to-available ratio is 2.51 from OHFA's summary ($98.4M / $39.2M), which conflicts with the 'more than three times' claim in our earlier context and in OHFA's blog (which describes the last three years). 5) Per-year new-construction and above-100-unit counts were not found for either pathway; the 9% totals for 2021-2023 come from an unlabeled chart excerpt and were left null. 6) The 2027 9% calendar was not found. 7) Venture factors historicSuccess, anchorInstitutions and localLeadership are null because the shared 200-search limit was reached before market research; a follow-up session should cover Columbus (OSU, LinkUS transit corridors, Columbus housing bond, Intel/New Albany) and Cleveland market data. 8) The 2026 E&C Standards excerpt on out-of-state-only entities was garbled; 'limited to one reservation' is the clearest reading."
+}

@@ -1,0 +1,251 @@
+{
+  "state": "Louisiana",
+  "researchedOn": "2026-11-16",
+  "agency": "Louisiana Housing Corporation (LHC)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 2000000,
+        "rule": "9% projects: developer fee may not exceed 15% of Total Development Cost and is subject to a maximum of $2,000,000.",
+        "basis": "Total Development Cost (per LHC FAQ: excluding lease payments for self-owned equipment, payments to related entities, and acquisition/land for certain rehab projects)",
+        "dollarCap": "$2,000,000 per 9% project (earlier 2025 final of 03/13/2024 had $2,000,000 rural / $2,500,000 urban parishes; a 2024 draft also had $35,000 per unit for new construction. Neither was seen in the amended 01-13-26 excerpt.)",
+        "arithmetic": "15% x $40,000,000 TDC = $6,000,000; capped at $2,000,000 -> $2,000,000. (If the $35,000/unit draft limit still applied: 120 x $35,000 = $4,200,000, still above the $2,000,000 cap.)",
+        "ruleVerified": false,
+        "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/CDBG/2025%20QAP%20Final%20as%20amended%20as%20of%2001-13-26.pdf",
+        "quote": "9% LIHTC projects are subject to a Maximum developer fee of $2,000,000. Projects utilizing tax-exempt bonds are not subject to a fee cap. Developer Fees cannot exceed fifteen percent (15%) of the project's Total Development Cost. (search excerpt of the 2025 QAP as amended 01-13-26)"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap found, but per-project credits are capped at $1,000,000 (rural parishes) and $1,500,000 (8 metropolitan parishes) per the amended 2025 QAP excerpt, which makes a $40M, 120-unit 9% deal unlikely without large other subsidy. The 2024 round averaged about 43 units per award (513 units / 12 projects). No 2021-2025 9% new-construction award over 100 units was identified.",
+        "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/CDBG/2025%20QAP%20Final%20as%20amended%20as%20of%2001-13-26.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "The QAP's developer-experience rule counts LIHTC experience from any state, so an experienced out-of-state developer is not treated as new. Rule (2024 final QAP; repeated in the 2025-2026 draft and, per search excerpt, in the amended 2025 QAP): 'A Developer that has never been allocated tax credits is only eligible to receive an award of tax credits for one (1) project submitted under the QAP. A new developer shall complete at least one (1) LIHTC Project in which all LIHTC units have been leased and has received an IRS Form 8609, in Louisiana or any other state, before being allowed to submit a subsequent application.' No in-state-presence requirement and no explicit co-developer / joint-venture clause was found. Read from search excerpts only; the current amended QAP text could not be opened.",
+        "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2024%20QAP%20Final%2001-18-23.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "There is a competitive 9% round with new-construction pools split rural/urban; the urban pool covers Caddo, East Baton Rouge, Calcasieu, Jefferson, Lafayette, Orleans, Ouachita and St. Tammany parishes (2024 QAP). The February 2025 final QAP sets rural and urban rehab and new-construction sub-pools plus a Choice Neighborhood Initiative pool (max $3,000,000), totalling about $13,000,000. Whether a 2026 or 2027 round has been scheduled was not found. The per-project cap of $1.5M in metro parishes limits project size.",
+        "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2025%20QAP%20Final%20as%20of%2002.14.25.pdf"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": 8,
+          "above100Units": null,
+          "applications": 40,
+          "source": "https://www.lhc.la.gov/press-releases/2024-qualified-allocation-plan-summary",
+          "note": "2024 QAP round (rankings approved July 12, 2023). LHC summary: 'LHC received 40 applications for LIHTC funds'; 'awarded eight new construction projects from a total of 20 and selected four acquisition and rehabilitation projects from a total of 11'; 12 projects, $13,011,708, 513 units total (about 43 units per project on average). Final rankings: https://www.lhc.la.gov/hubfs/Document%20Libraries/Board%20Meeting%20Archives/2023/July/2024%20LIHTC%20Final%20Rankings%20-%20July%2012_%202023.pdf"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Board%20Meeting%20Archives/2025/October/PCM/Resolution%20approving%20the%20Final%20Rankings%20of%20Applicants%20under%20the%202025%20QAP.pdf",
+          "note": "Board resolution approving final rankings under the 2025 QAP (October 2025) exists; its Exhibit A could not be read."
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.lhc.la.gov/press-releases/2024-qualified-allocation-plan-summary",
+        "note": "Credits requested not found. 2024 round: 40 applications received, 12 awarded (8 of 20 new-construction applications funded)."
+      },
+      "nextDeadline": "Not found. The amended 2025 QAP refers to a pre-submission deadline of March 24, 2025 (passed). No 2026/2027 QAP or round schedule was located.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Out-of-state LIHTC experience counts ('in Louisiana or any other state'), and there is an urban new-construction pool covering Orleans and East Baton Rouge parishes. Barriers: per-project cap of $1.5M credits in metro parishes, a first-time-in-program developer can get only one award until it completes a project, and the 2025 QAP removed two tie-breakers (Legislative Auditor). No scoring plan was built.",
+          "sources": [
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2024%20QAP%20Final%2001-18-23.pdf",
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2025%20QAP%20Final%20as%20of%2002.14.25.pdf",
+            "https://lla.la.gov/publicreports.nsf/0/7fc828a7b2b7377e86258c7b0067290a/$file/0000756cb.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "In the chosen market, large LIHTC projects are getting financed: NSA East Bank Apartments in Bywater, New Orleans (294 affordable units, 20-60% AMI, 74 project-based-voucher units; 4% LIHTC of about $48.4M plus a HUD 220 loan and historic credits) broke ground in early 2026, and 4100 Bywater / Mazant Royal (82 new-construction units, $22M bond resolution, June 2025). No rent, vacancy, insurance or tax data was collected, so this is a plausibility score, not a 5.",
+          "sources": [
+            "https://louisianapublicnotice.com/notices/381150",
+            "https://thelensnola.org/2026/01/22/bywater-poland-avenue-navy-base-redevelopment-affordable-housing/",
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Board%20Meeting%20Archives/2025/June%202025/Final%20Agenda%20%20-%20Regular%20Monthly%20Board%20Meeting%20-%20Wednesday%2C%20June%2011%2C%202025%20at%201030am.pdf",
+            "https://nola.gov/getattachment/NEXT/Community-Development/Topics/Public-Notifications/Mazant-Royal-Housing_-FONSI.pdf/?lang=en-US"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "No local-presence or in-state-developer rule was found; LIHTC experience in 'Louisiana or any other state' qualifies. Large urban bond/4% deals are being done by out-of-state sponsors (e.g. Lincoln Avenue Communities at NSA East Bank, New Orleans, 294 units). New Orleans is a direct flight from Chicago, but this is general knowledge, not a sourced fact. Guarantee and capital requirements were not researched.",
+          "sources": [
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2024%20QAP%20Final%2001-18-23.pdf",
+            "https://louisianapublicnotice.com/notices/381150"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 6000000,
+        "rule": "Bond/4% projects: no dollar cap ('Projects utilizing tax-exempt bonds are not subject to a fee cap'), but the same section says developer fees cannot exceed 15% of Total Development Cost, and LHC's FAQ says it applies the 15% cap.",
+        "basis": "Total Development Cost (per LHC FAQ: excluding lease payments for self-owned equipment, payments to related entities, and acquisition/land for certain rehab projects; land is not excluded for new construction)",
+        "dollarCap": "None for tax-exempt bond projects",
+        "arithmetic": "15% x $40,000,000 TDC = $6,000,000; no dollar cap -> $6,000,000. Note: the rule is stated as a percent of TDC, which already includes the fee, so no algebraic solve is needed.",
+        "ruleVerified": false,
+        "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/CDBG/2025%20QAP%20Final%20as%20amended%20as%20of%2001-13-26.pdf",
+        "quote": "Projects utilizing tax-exempt bonds are not subject to a fee cap. Developer Fees cannot exceed fifteen percent (15%) of the project's Total Development Cost. (search excerpt of the 2025 QAP as amended 01-13-26; LHC FAQ 02-28-25 says LHC applies the 15% cap to Total Development Costs)"
+      },
+      "maxFeasibleUnits": {
+        "value": 144,
+        "evidence": "The Reserve at Power Place, Lake Charles: 144-unit new affordable community; LHC 'awarded $21 million in Multifamily Housing Revenue Bonds and $1.7 million in Low Income Housing Tax Credits'; broke ground May 2024, opened June 2025. Also Capstone at the Oaks, Lake Charles, 120 units ($22M MRB + $1.8M LIHTC, groundbreaking Dec 2023). Larger NSA East Bank (294 units, New Orleans) is adaptive reuse, not new construction.",
+        "source": "https://www.lhc.la.gov/press-releases/lhc-and-partners-break-ground-on-144-multifamily-units-in-lake-charles"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "The QAP's developer-experience rule counts LIHTC experience from any state, so an experienced out-of-state developer is not treated as new. Rule (2024 final QAP; repeated in the 2025-2026 draft and, per search excerpt, in the amended 2025 QAP): 'A Developer that has never been allocated tax credits is only eligible to receive an award of tax credits for one (1) project submitted under the QAP. A new developer shall complete at least one (1) LIHTC Project in which all LIHTC units have been leased and has received an IRS Form 8609, in Louisiana or any other state, before being allowed to submit a subsequent application.' No in-state-presence requirement and no explicit co-developer / joint-venture clause was found. Read from search excerpts only; the current amended QAP text could not be opened.",
+        "source": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2024%20QAP%20Final%2001-18-23.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Bond volume is not exhausted: Executive Order JML 26-014 reports that $211,010,787 of the 2025 ceiling was not allocated during 2025 and carried it forward (to LHC single-family bonds and two industrial users). LHC's board approved over $477 million in multifamily housing revenue bonds at its November 2024 meeting, and an early-2026 order allocated $52,215,000 to LHC for The Batture Apartments.",
+        "source": "https://doa.louisiana.gov/media/3agjwrnq/jml-26-014-bond-allocation-2026-ceiling-and-carry-forward-bond-allocation-2025.pdf"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.lhc.la.gov/press-releases/lhc-and-partners-break-ground-on-144-multifamily-units-in-lake-charles",
+          "note": "Counts not found. Known 100+ unit new-construction bond/4% deals: The Reserve at Power Place, Lake Charles, 144 units (groundbreaking May 2024; $21M MRB + $1.7M LIHTC); Capstone at the Oaks, Lake Charles, 120 units (groundbreaking Dec 2023; $22M MRB + $1.8M LIHTC)."
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://doa.louisiana.gov/media/3agjwrnq/jml-26-014-bond-allocation-2026-ceiling-and-carry-forward-bond-allocation-2025.pdf",
+        "note": "Not applicable as a ratio; 2025 private activity bond ceiling partly unused ($211,010,787 carried forward)."
+      },
+      "nextDeadline": "Not found (bond/4% deals appear to come to the LHC board individually throughout the year, but no published schedule was located).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "4% credits are non-competitive once bonds are allocated; out-of-state LIHTC experience counts; bond volume was left unused in 2025. LHC still applies threshold/development-team review. No partner was identified, so not a 5.",
+          "sources": [
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2024%20QAP%20Final%2001-18-23.pdf",
+            "https://doa.louisiana.gov/media/3agjwrnq/jml-26-014-bond-allocation-2026-ceiling-and-carry-forward-bond-allocation-2025.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "In the chosen market, large LIHTC projects are getting financed: NSA East Bank Apartments in Bywater, New Orleans (294 affordable units, 20-60% AMI, 74 project-based-voucher units; 4% LIHTC of about $48.4M plus a HUD 220 loan and historic credits) broke ground in early 2026, and 4100 Bywater / Mazant Royal (82 new-construction units, $22M bond resolution, June 2025). No rent, vacancy, insurance or tax data was collected, so this is a plausibility score, not a 5.",
+          "sources": [
+            "https://louisianapublicnotice.com/notices/381150",
+            "https://thelensnola.org/2026/01/22/bywater-poland-avenue-navy-base-redevelopment-affordable-housing/",
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Board%20Meeting%20Archives/2025/June%202025/Final%20Agenda%20%20-%20Regular%20Monthly%20Board%20Meeting%20-%20Wednesday%2C%20June%2011%2C%202025%20at%201030am.pdf",
+            "https://nola.gov/getattachment/NEXT/Community-Development/Topics/Public-Notifications/Mazant-Royal-Housing_-FONSI.pdf/?lang=en-US"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "No local-presence or in-state-developer rule was found; LIHTC experience in 'Louisiana or any other state' qualifies. Large urban bond/4% deals are being done by out-of-state sponsors (e.g. Lincoln Avenue Communities at NSA East Bank, New Orleans, 294 units). New Orleans is a direct flight from Chicago, but this is general knowledge, not a sourced fact. Guarantee and capital requirements were not researched.",
+          "sources": [
+            "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2024%20QAP%20Final%2001-18-23.pdf",
+            "https://louisianapublicnotice.com/notices/381150"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "New Orleans: Bywater / former Naval Support Activity (Poland Avenue) riverfront",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "The site is a historic Navy base (decommissioned Naval Support Activity) being redeveloped with state and federal historic tax credits; Bywater is an established historic neighborhood. No transit or commercial-history data was collected.",
+      "sources": [
+        "https://louisianapublicnotice.com/notices/381150",
+        "https://thelensnola.org/2026/01/22/bywater-poland-avenue-navy-base-redevelopment-affordable-housing/"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": null,
+      "evidence": "Not researched before the search budget ran out.",
+      "sources": []
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "The former Navy base is described as blighted/vacant; NSA East Bank alone covers 10.285 acres at 4400 Dauphine St, and the nearby 4100 Bywater / Mazant Royal project uses a 1.8-acre HANO-owned lot, so publicly controlled land exists without displacing residents.",
+      "sources": [
+        "https://www.lhc.la.gov/hubfs/Document%20Libraries/Public%20Comments%20and%20Notices/Public%20Notices/Notice%20of%20Public%20Hearing%20-%20NSA%20East%20Bank%20Apartments.pdf",
+        "https://thelensnola.org/2026/01/22/bywater-poland-avenue-navy-base-redevelopment-affordable-housing/",
+        "https://nola.gov/getattachment/NEXT/Community-Development/Topics/Public-Notifications/Mazant-Royal-Housing_-FONSI.pdf/?lang=en-US"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "Redevelopment kicked off in January 2026 with 294 affordable units and ground-floor retail, reported as a record $197M Louisiana affordable-housing investment; a separate 82-unit new-construction bond deal (4100 Bywater) was on LHC's June 2025 board agenda.",
+      "sources": [
+        "https://www.globest.com/amp/2026/01/22/record-louisiana-affordable-housing-investment-at-197m-breaks-ground/",
+        "https://thelensnola.org/2026/01/22/bywater-poland-avenue-navy-base-redevelopment-affordable-housing/",
+        "https://www.lhc.la.gov/hubfs/Document%20Libraries/Board%20Meeting%20Archives/2025/June%202025/Final%20Agenda%20%20-%20Regular%20Monthly%20Board%20Meeting%20-%20Wednesday%2C%20June%2011%2C%202025%20at%201030am.pdf"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "City Councilmember Lesli Harris championed the council approval for the project (November 2025); the City of New Orleans and LHC have an ongoing affordable-housing funding partnership.",
+      "sources": [
+        "https://council.nola.gov/news/november-2025/councilmember-lesli-harris-champions-the-approval/"
+      ]
+    }
+  },
+  "notes": "All findings come from web-search excerpts. Fetching pages was blocked in this session (lhc.la.gov, novoco.com, ncsha.org and nolanewswire.com would not resolve), so no QAP was read in full and ruleVerified is false. The shared web-search budget ran out partway through. Conflicts and gaps: (1) Bond-deal fee: the amended QAP says bond projects are 'not subject to a fee cap' yet also states the 15% of TDC limit; the 4% figure assumes 15% applies with no dollar cap (FAQ supports this). (2) The 03/13/2024 version of the 2025 QAP had $2.0M rural / $2.5M urban caps and a 2024 draft had $35,000/unit; the amended 01-13-26 excerpt shows a flat $2,000,000 for 9%. Under a $2.5M urban cap the 9% fee would be $2,500,000. (3) No 2026/2027 QAP or next 9% deadline was found. (4) Year-by-year award counts were found only for the 2024 QAP round; 2025 final rankings exist (Oct 2025) but could not be opened. (5) 9% per-project credit cap ($1.5M metro) is the main barrier to a 100+ unit 9% deal. (6) Anchor institutions and rent/vacancy data for New Orleans were not researched."
+}

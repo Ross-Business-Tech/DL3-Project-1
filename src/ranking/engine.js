@@ -635,6 +635,13 @@ export function rankRecords(records, options = {}) {
         (a, b) =>
           b.score.lo - a.score.lo || b.score.hi - a.score.hi || a.state.localeCompare(b.state),
       )
+    // RESEARCHED-SCORES view: a single best-estimate number (middle of the possible range) and an
+    // order by it, so every scored state gets a place. The true rank is still withheld when ranges overlap.
+    if (settings.rankByEstimate) {
+      ranked.forEach((a) => { a.score = { ...a.score, estimate: a.score.point ?? (a.score.lo + a.score.hi) / 2 } })
+      ranked.sort((a, b) => b.score.estimate - a.score.estimate || a.state.localeCompare(b.state))
+      ranked.forEach((a, i) => { a.estimateRank = i + 1 })
+    }
 
     const needsVerification = group
       .filter((a) => a.gates.status === 'Needs verification' && !pool.includes(a)) // preview-ranked ones are listed under the ranking

@@ -122,6 +122,20 @@ test('in the researched-scores view an unverified fee feeds Economics (labeled) 
   assert.equal(researched.previewOnly, true) // ranked only provisionally
 })
 
+test('the researched-scores view orders every scored state by a best estimate (middle of its range)', () => {
+  const { records } = applyResearch(base(), [{ name: 'alabama.json', json: FILE() }])
+  const out = rankRecords(records, { asOf: '2026-11-16', settings: RESEARCH_VIEW_SETTINGS })
+  for (const l of out.lists) {
+    l.ranked.forEach((r, i) => {
+      assert.equal(r.estimateRank, i + 1)
+      assert.equal(r.score.estimate, r.score.point ?? (r.score.lo + r.score.hi) / 2)
+      if (i > 0) assert.ok(l.ranked[i - 1].score.estimate >= r.score.estimate)
+    })
+  }
+  const normal = rankRecords(records, { asOf: '2026-11-16' })
+  assert.ok(normal.lists.every((l) => l.ranked.every((r) => r.estimateRank === undefined)))
+})
+
 test('the statewide settings are off by default', () => {
   assert.equal(SETTINGS.scaleAcceptStatewide, false)
   assert.equal(SETTINGS.fundingAcceptStatewide, false)

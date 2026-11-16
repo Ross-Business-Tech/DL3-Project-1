@@ -122,6 +122,7 @@ export const SETTINGS = {
   // RESEARCHED-SCORES view: let a fee read from excerpts (not yet verified) feed Developer economics,
   // labeled as such. The fee CHECK still never passes on an unverified rule.
   economicsFromUnverifiedFee: false,
+  rankByEstimate: false,
 }
 
 // The "Researched scores" view: AI-researched judgments count (labeled, never as DL3-approved),
@@ -138,6 +139,7 @@ export const RESEARCH_VIEW_SETTINGS = {
   previewIncludeOpenChecks: true,
   fillUnknownScore: null,
   economicsFromUnverifiedFee: true,
+  rankByEstimate: true,
 }
 
 export const PATHWAYS = ['9%', '4%']

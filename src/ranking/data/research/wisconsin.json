@@ -1,0 +1,257 @@
+{
+  "state": "Wisconsin",
+  "researchedOn": "2026-11-16",
+  "agency": "Wisconsin Housing and Economic Development Authority",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 3000000,
+        "rule": "Total Developer Costs (fee received + deferred + overhead + consultant + other developer fees) limited to the lesser of $25,000 per unit or the percentage-based calculation (new construction: 12% on first 55 units, 9% on units beyond 55, applied to TDC net of land/buildings, developer costs and reserves). An Additional Fee up to the lesser of $50,000/unit or a percentage calculation is available only if at least 50% of the total developer fee is deferred.",
+        "basis": "Total Development Cost minus land and building purchase, developer fee, consultant fee, construction supervision, developer overhead and project reserves",
+        "dollarCap": "$25,000 per unit (base); $50,000 per unit (Additional Fee with >=50% deferral)",
+        "arithmetic": "Percentage-based: blended rate on 120 units = (55 x 12% + 65 x 9%) / 120 = 10.375% (assumes unit-weighted blending of the tiers; calculator mechanics not seen). Base = TDC - land - fee - reserves = 40,000,000 - 3,000,000 - 1,000,000 - F = 36,000,000 - F (consultant/supervision/overhead assumed inside the fee). F = 0.10375 x (36,000,000 - F) -> F = 3,735,000 / 1.10375 = 3,383,918. Per-unit cap = 120 x 25,000 = 3,000,000. Lesser = 3,000,000 (cap binds; it would bind even at a flat 12%: 0.12 x 36,000,000 / 1.12 = 3,857,143). Approved base fee 3,000,000 = 7.5% of TDC.",
+        "ruleVerified": false,
+        "source": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2026/appendices/appendix-j---developer-fee-policy-2026.pdf",
+        "quote": "Appendix J 2026 (search excerpts): 'Developer Fees (as defined below) on all projects using Housing Tax Credit will use the base calculation' in the 'Developer Fee Limit Calculator' on the Project Costs tab of the MFA; 'Total Developer Costs shall be limited to the lesser of: i) $25,000 per unit; or ii) The Percentage-Based Calculation'; Additional Fee: 'limited to the lesser of: i) $50,000 per unit; or ii) The Percentage-Based Calculation' and 'A minimum of 50% of the developer fee must be deferred'; 'New Construction and Adaptive Reuse costs: Developer Fee % identified below * (Total Development Cost - Purchase of Land and Buildings - Developer Fee - Consultant Fee - Construction Supervision - Developer Overhead - Project Reserves)'; new construction tiers reported as 15% (24 or fewer units), 12% (25-55 units), 12% on the first 55 units plus 9% on remaining units."
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap found, but the 2025-26 QAP lowered the 'maximum credit award per project ... from $1.4 million to $1.2 million', which caps a 9% deal well below what a $40M, 120-unit project would need. No 2021-2025 9% new-construction award above 100 units was identified: 2025 awards were 19 projects / 967 units and 2026 awards were 26 projects / 1,160 units (averages of ~51 and ~45 units); visible rows include 56, 60, 64 and 67 unit projects.",
+        "source": "https://www.novoco.com/public-media/documents/wisconsin-summary-changes-2025-26-07172024.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Appendix P (2025-26): 'Development Team scoring will be calculated based on scores of the Primary Developer and the Co-Developer(s) (if any)'; scoring uses the higher of the primary developer's score or the average with the co-developer. The final 2027-28 QAP (excerpt) says a team with an inexperienced developer must partner with an experienced party (see Appendix P). Out-of-state experience has counted in WHEDA rules (2021-22 Innovative set-aside threshold: 'at least two successful HTC properties that received 8609s in Wisconsin or at least four successful HTC properties that received 8609s in other states'). Limit: 'a developer may receive up to two awards of HTCs in any year' with co-developers counted toward the same limit (2025-26 QAP). Read from search excerpts only.",
+        "source": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/appendices/appendix-p---development-team_2025.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round with a General set-aside (the 2025-26 QAP set-asides are 'General, Small Urban, and Rural'; Milwaukee falls in General). 2026 round: '$25,529,627 to 26 different projects ... 1,160 housing units'. Constraint: $1.2M per-project credit cap makes a 101+ unit 9% building impractical without major other subsidy.",
+        "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/9-percent-htc-awards"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.wheda.com/about-wheda/press-room/news/2021/wheda-announces-awards-for-innovation-housing-tax-credits"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 49,
+          "source": "https://www.wheda.com/about-wheda/press-room/news/2022/2022-htc-awards"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.wheda.com/about-wheda/press-room/news/2023/2023-htc-announcement"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 40,
+          "source": "https://biztimes.com/four-milwaukee-affordable-housing-proposals-win-tax-credits/"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2025/9-percent-htc-awards"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/9-percent-htc-awards"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2026/2026-9-federal-htc-applicant-list.pdf"
+      },
+      "nextDeadline": "2027 round: project concept was due November 2, 2026 at 5:00 PM CST (passed); full application due February 5, 2027; awards expected April 2027. 2028 round: concept due November 1, 2027, full application February 4, 2028 (2027-28 QAP).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Co-developer path and inexperienced-developer-must-partner rule exist; out-of-state HTC experience has been counted; Milwaukee competes in the General set-aside. Barriers: 2027 concept deadline already passed (earliest entry is the 2028 round, concept due Nov 1, 2027), two-awards-per-developer annual limit, and the $1.2M per-project credit cap that rules out a 101+ unit 9% deal on its own.",
+          "sources": [
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/2025-26-qap.pdf",
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/appendices/appendix-p---development-team_2025.pdf",
+            "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2027/2027-program",
+            "https://www.novoco.com/public-media/documents/wisconsin-summary-changes-2025-26-07172024.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Milwaukee repeatedly wins 9% awards (2026 list includes Compass Lofts 67 units, Sears Market Square, District 740 and others in Milwaukee) and 709 new affordable apartments were funded in Milwaukee in 2026, indicating demand and underwriting acceptance. No rent/vacancy/cost data was gathered (search budget exhausted), and 9% deals there are typically under 70 units.",
+          "sources": [
+            "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/9-percent-htc-awards",
+            "https://urbanmilwaukee.com/2026/06/03/funding-approved-for-709-new-affordable-apartments-in-milwaukee/"
+          ]
+        },
+        "execution": {
+          "score": 4,
+          "evidence": "Milwaukee is about 90 miles from Chicago (day-trip oversight). Partner route is written into the rules (co-developer scoring; inexperienced developer must partner with experienced party). No local-presence rule was seen, but this was not verified, and guarantee requirements were not reviewed.",
+          "sources": [
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/appendices/appendix-p---development-team_2025.pdf",
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2027/2027-2028-qap-final-draft.pdf"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 3000000,
+        "rule": "Total Developer Costs (fee received + deferred + overhead + consultant + other developer fees) limited to the lesser of $25,000 per unit or the percentage-based calculation (new construction: 12% on first 55 units, 9% on units beyond 55, applied to TDC net of land/buildings, developer costs and reserves). An Additional Fee up to the lesser of $50,000/unit or a percentage calculation is available only if at least 50% of the total developer fee is deferred. The 2025 Appendix J version separately limited 4% transactions to $50,000 per unit; the 2026 version folds this into the Additional Fee tier.",
+        "basis": "Total Development Cost minus land and building purchase, developer fee, consultant fee, construction supervision, developer overhead and project reserves",
+        "dollarCap": "$25,000 per unit (base); $50,000 per unit (Additional Fee with >=50% deferral)",
+        "arithmetic": "Percentage-based: blended rate on 120 units = (55 x 12% + 65 x 9%) / 120 = 10.375% (assumes unit-weighted blending of the tiers; calculator mechanics not seen). Base = TDC - land - fee - reserves = 40,000,000 - 3,000,000 - 1,000,000 - F = 36,000,000 - F (consultant/supervision/overhead assumed inside the fee). F = 0.10375 x (36,000,000 - F) -> F = 3,735,000 / 1.10375 = 3,383,918. Per-unit cap = 120 x 25,000 = 3,000,000. Lesser = 3,000,000 (cap binds; it would bind even at a flat 12%: 0.12 x 36,000,000 / 1.12 = 3,857,143). Approved base fee 3,000,000 = 7.5% of TDC. Additional Fee (requires >=50% of total fee deferred): lesser of 120 x 50,000 = 6,000,000 or a percentage-based calculation whose 2026 percentage could not be read; therefore not used. If the Additional Fee percentage allowed it, the ceiling would be 6,000,000 (15% of TDC) with at least 3,000,000 deferred.",
+        "ruleVerified": false,
+        "source": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2026/appendices/appendix-j---developer-fee-policy-2026.pdf",
+        "quote": "Appendix J 2026 (search excerpts): 'Developer Fees (as defined below) on all projects using Housing Tax Credit will use the base calculation' in the 'Developer Fee Limit Calculator' on the Project Costs tab of the MFA; 'Total Developer Costs shall be limited to the lesser of: i) $25,000 per unit; or ii) The Percentage-Based Calculation'; Additional Fee: 'limited to the lesser of: i) $50,000 per unit; or ii) The Percentage-Based Calculation' and 'A minimum of 50% of the developer fee must be deferred'; 'New Construction and Adaptive Reuse costs: Developer Fee % identified below * (Total Development Cost - Purchase of Land and Buildings - Developer Fee - Consultant Fee - Construction Supervision - Developer Overhead - Project Reserves)'; new construction tiers reported as 15% (24 or fewer units), 12% (25-55 units), 12% on the first 55 units plus 9% on remaining units."
+      },
+      "maxFeasibleUnits": {
+        "value": 212,
+        "evidence": "Cudahy Farms Phase 1, Milwaukee: '212 / 212 New Construction Family', federal request $2,862,652 and state request $1,200,000, General Set-Aside, shown as Awarded on WHEDA's 2025 non-competitive 4% list (Highland Park Apartments, Milwaukee, 150 units also awarded; construction type not shown). From search excerpts; award status should be confirmed on the award list.",
+        "source": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/2025-4-htc-full-applicant-list.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Appendix P (2025-26): 'Development Team scoring will be calculated based on scores of the Primary Developer and the Co-Developer(s) (if any)'; scoring uses the higher of the primary developer's score or the average with the co-developer. The final 2027-28 QAP (excerpt) says a team with an inexperienced developer must partner with an experienced party (see Appendix P). Out-of-state experience has counted in WHEDA rules (2021-22 Innovative set-aside threshold: 'at least two successful HTC properties that received 8609s in Wisconsin or at least four successful HTC properties that received 8609s in other states'). Limit: 'a developer may receive up to two awards of HTCs in any year' with co-developers counted toward the same limit (2025-26 QAP). Read from search excerpts only.",
+        "source": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/appendices/appendix-p---development-team_2025.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "2026 4% Non-competitive Cycle: $300,000,000 total bond amount; $37,394,967 committed, $180,324,966 under review, $119,675,034 available as of October 20, 2026; 'WHEDA will close the cycle when all available bonds have been committed.' Federal H.R. 1 cut the bond-financed test from 50% to 25% of aggregate basis for bonds issued after Jan 1, 2026, stretching volume cap. A Wisconsin state credit (3% for General set-aside) can be paired with the federal 4%.",
+        "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/2026-non-competitive-program"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2025/4-percent-htc-awards"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/4-percent-htc-awards"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/2026-non-competitive-program"
+      },
+      "nextDeadline": "Non-competitive 4% (bond-only): rolling in the 2026 cycle until bonds are committed ($119.7M available as of Oct 20, 2026). Non-competitive applications open the first Monday of May each year (per QAP excerpt). The combined 4% federal + state credit competitive round for 2027 already received 26 applications (Nov 2026 report), awards April 2027.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Same co-developer / experienced-partner path as 9%. Non-competitive bond cycle is open and rolling with volume cap available; WHEDA has awarded 4% to 100+ unit Milwaukee new construction (Cudahy Farms Phase 1, 212 units). Fee capped at $25,000/unit base unless 50% deferred.",
+          "sources": [
+            "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/2026-non-competitive-program",
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/2025-4-htc-full-applicant-list.pdf",
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/appendices/appendix-p---development-team_2025.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Large Milwaukee 4% new-construction deals are being underwritten and awarded (Cudahy Farms 212 units; Highland Park 150 units; Austin Commons 100 units), and Urban Milwaukee reported 709 new affordable apartments funded in Milwaukee in 2026. No rent, vacancy, tax or insurance data gathered.",
+          "sources": [
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/2025-4-htc-full-applicant-list.pdf",
+            "https://urbanmilwaukee.com/2026/06/03/funding-approved-for-709-new-affordable-apartments-in-milwaukee/"
+          ]
+        },
+        "execution": {
+          "score": 4,
+          "evidence": "About 90 miles from Chicago; partner route written into the rules; bond cap available. Guarantee and local-presence requirements not reviewed.",
+          "sources": [
+            "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2026/2026-non-competitive-program",
+            "https://www.wheda.com/globalassets/documents/tax-credits/htc/2025/appendices/appendix-p---development-team_2025.pdf"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Milwaukee: Bronzeville / North Avenue corridor (Near North Side)",
+    "historicSuccess": {
+      "score": null,
+      "evidence": "Not researched with citable sources before the search budget ran out (city 6th & North RFP likely describes it but was not read).",
+      "sources": [
+        "https://city.milwaukee.gov/ImageLibrary/Groups/cityDCD/realestate/DevelopmentSites/6th_North_RFP.pdf"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": null,
+      "evidence": "No anchor institution investment evidence gathered for this corridor.",
+      "sources": []
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "City-owned land is being offered: the city's 6th and North Avenue RFP; in 2026 the Bronzeville Advisory Committee selected a developer for a vacant building and park site (three mixed-use affordable housing proposals competed); site preparation underway on a former state DNR parcel near the Bronzeville Center for the Arts.",
+      "sources": [
+        "https://city.milwaukee.gov/ImageLibrary/Groups/cityDCD/realestate/DevelopmentSites/6th_North_RFP.pdf",
+        "https://urbanmilwaukee.com/2026/06/01/see-selected-plan-to-replace-vacant-building-park/",
+        "https://urbanmilwaukee.com/2026/05/23/city-weighing-three-options-for-key-bronzeville-site/"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "Bronzeville Arts and Tech Hub: city approved the last piece of a $29.3 million financing package (Aug 2026); first phase of 60 apartments (48 LIHTC) nearly full; $700,000 TIF; Redevelopment Authority brownfield loan funds used on the site.",
+      "sources": [
+        "https://urbanmilwaukee.com/2026/08/11/city-financing-will-help-complete-bronzeville-arts-and-tech-hub/",
+        "https://biztimes.com/20-2-million-apartment-arts-and-tech-hub-planned-for-bronzeville-area/"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "Identifiable civic structure: Bronzeville Advisory Committee scoring RFPs, Redevelopment Authority of the City of Milwaukee financing, Common Council approvals, city TIF support.",
+      "sources": [
+        "https://urbanmilwaukee.com/2026/06/01/see-selected-plan-to-replace-vacant-building-park/",
+        "https://city.milwaukee.gov/ImageLibrary/Groups/cityDCD/RACM/061225-RACM-Agenda.pdf"
+      ]
+    }
+  },
+  "notes": "All WHEDA, Novogradac and Urban Milwaukee hosts were unreachable for WebFetch in this session (DNS blocked), so every value comes from search-result excerpts; ruleVerified is false and confidence Medium. The shared web-search budget ran out before market data (rents, vacancy, costs) and venture historic/anchor evidence could be gathered. FEE: 2026 Appendix J (2025-26 QAP, revised Sept 2025) is the cited rule; the unit-weighted 12%/9% blend is an assumption about the calculator, but the $25,000/unit cap binds regardless, so the base fee is $3,000,000 (7.5% of TDC), below DL3's >10% target. The Additional Fee tier (lesser of $50,000/unit or a percentage, with >=50% deferral) could raise the gross fee up to $6,000,000 but its 2026 percentage was not readable. The final 2027-28 QAP (announced ~May 2026) governs the 2027 round; its draft lists Appendix J as [reserved], and its 2027 Appendix Q (identity of interest) excerpt says consultant fee, developer fee and developer overhead are 'limited to 20% of the total development costs' net of those items, so the 2027 fee rule may differ; verify. AWARDS: totals found but not split by construction type: 2022 federal 9% = 14 projects / 700 units (49 applications reported Jan 2022, may include 4%/state); 2023 = 13 federal 9% developments; 2024 = 23 developments from 40 applicants (may combine credit types); 2025 = 19 projects / 967 units; 2026 = 26 projects / 1,160 units; 2027 round received 48 9% applications and 26 4%+state applications (Urban Milwaukee, Nov 13 2026). 2021 statewide totals not found. No 9% award above 100 units identified; $1.2M per-project credit cap. 4% path is the realistic one for 101+ units in Milwaukee."
+}

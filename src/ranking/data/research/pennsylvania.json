@@ -1,0 +1,144 @@
+{
+  "state": "Pennsylvania",
+  "researchedOn": "2026-11-16",
+  "agency": "Pennsylvania Housing Finance Agency (PHFA)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 2000000,
+        "rule": "Base developer's fee = 15% of the first $10 million of replacement cost less all costs of acquisition, plus 10% of every $1 of replacement cost thereafter; overall not to exceed 12% of replacement cost less acquisition. For Competitive 9% applications a hard dollar cap applies: $2,000,000 for projects with 60+ affordable units where at least 51% of units are two-bedroom or larger (and for supportive housing), otherwise $1,750,000. No waivers of the 9% cap. An optional additional 5% fee may be requested only to fund a supportive-services escrow (not counted here).",
+        "basis": "Replacement cost of the development less all costs of acquisition (land treated as acquisition). Example: $40,000,000 TDC - $3,000,000 land = $37,000,000. Whether replacement cost includes the fee itself was not confirmed; the dollar cap binds either way.",
+        "dollarCap": "$2,000,000 (60+ affordable units with >=51% 2BR+, or supportive housing); $1,750,000 otherwise. No waivers for 9%.",
+        "arithmetic": "Base: 15% x $10,000,000 = $1,500,000; 10% x ($37,000,000 - $10,000,000) = $2,700,000; total $4,200,000. 12% overall check: 12% x $37,000,000 = $4,440,000 (not binding). 9% dollar cap: $2,000,000 assuming the 120-unit example has >=51% two-bedroom-or-larger units ($1,750,000 if not). Approved gross fee = min($4,200,000, $4,440,000, $2,000,000) = $2,000,000 = 5.0% of TDC (below DL3's >10% target).",
+        "ruleVerified": false,
+        "source": "https://www.phfa.org/forms/multifamily_application_guidelines/application/2025-2026-mai-07.pdf",
+        "quote": "The developer's fee is limited to 15 percent of the first $10 million of replacement cost of the development less all costs of acquisition and 10 percent on every $1 of replacement cost thereafter ... $1,750,000 for projects which do not meet the criteria outlined in (1) and (2), above ... Waivers of the developer's fee cap for projects that request Competitive 9% Tax Credits ... will not be granted by the Agency. (Search-result excerpts of the 2025/2026 QAP and underwriting guide; the $2,000,000 tier for 60+ unit / 51% 2BR+ projects was reported in the same excerpts. PDFs could not be opened directly.)"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No rule found capping unit count for 9% (2025/2026 per-project credit maxima are about $1.7M-$1.85M of annual credits; max basis $320,000 per unit for 9%). No 2021-2025 9% new-construction award of more than 100 units was found: 2025 round averaged ~47 units per project (41 awards, 1,946 units); largest Philadelphia 2025 award found was Westbrook (40 units); Pittsburgh's six 2025 awards totaled 330 units. The per-project credit cap makes 101+ units on 9% alone difficult.",
+        "source": "https://www.phfa.org/forms/press_releases/2025/phfa-2025-lihtc-awards-final.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Experience is judged by the Agency, not restricted to in-state deals: 'The development team must have sufficient experience, as determined in the sole discretion of the Agency' (2025/2026 QAP section 3.2.9, via search excerpt). The QAP also references joint ventures (e.g., with a Small Diverse Business/Veteran Business Enterprise) and earlier QAPs scored 'Owner/Developer Joint Venture' separately. An experienced out-of-state developer appears able to apply directly or via JV; not verified from the full PDF.",
+        "source": "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "PHFA runs one annual competitive 9% round; 2025/2026 QAP splits credits into an Urban Pool (~50%) and a Suburban/Rural Pool (~50%), with 25% of the Urban Pool initially set aside for municipalities other than Philadelphia (helps Pittsburgh). 2025 round: $66.5M in credits to 41 developments (new construction and rehab), board-approved Oct 9, 2025.",
+        "source": "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.phfa.org/forms/multifamily_news/news/2024/2024-9-lihtc-applications-received.pdf" },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": 0, "applications": null, "source": "https://www.phfa.org/forms/press_releases/2025/phfa-2025-lihtc-awards-final.pdf" }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf" },
+      "nextDeadline": "Not confirmed. The 2025 round full application was due 3:00 p.m. Tuesday, February 11, 2025 (intent to submit in December). The next round (2027) will run under the 2027/2028 QAP, posted as a public-comment draft July 8, 2026; a 2026 round deadline/award list was not found.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Experience judged at Agency discretion (no in-state requirement found), JV references in QAP, and a ~50% Urban Pool with 25% reserved for non-Philadelphia cities. But the 9% fee is hard-capped at $2.0M (no waivers), so DL3's >10% fee goal cannot be met on 9%; per-project credit caps (~$1.8M) push toward ~50-unit deals; tiebreakers favor deep affordability and geographic distribution.",
+          "sources": ["https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf", "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"]
+        },
+        "urban": {
+          "score": null,
+          "evidence": "No rent, cost, vacancy or affordability-gap data for Pittsburgh was gathered before the search budget ran out; cannot score.",
+          "sources": []
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Pittsburgh/Philadelphia are a short flight from Chicago; no local-presence requirement was seen in the excerpts read, and the QAP allows experience to be judged by the Agency with JV references. Not verified against the full QAP text.",
+          "sources": ["https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 2550000,
+        "rule": "Same base formula as 9% (15% of first $10M of replacement cost less acquisition + 10% thereafter, not to exceed 12% of replacement cost less acquisition), but for 4% Tax Credit + Tax-Exempt Bond projects the developer's PAID fee is capped at $2,550,000. The Agency may review waivers to exceed the cap only if the excess is reinvested as deferred fee and/or capital contribution.",
+        "basis": "Replacement cost less all costs of acquisition: $40,000,000 - $3,000,000 land = $37,000,000.",
+        "dollarCap": "$2,550,000 paid fee (waiver possible only if excess is reinvested as deferred fee / capital contribution). 2027/2028 draft QAP proposes $2,550,000 or $10,000 per unit, whichever is higher (draft only).",
+        "arithmetic": "Base: 15% x $10,000,000 = $1,500,000 + 10% x $27,000,000 = $2,700,000 = $4,200,000; 12% check $4,440,000 (not binding). Paid-fee cap $2,550,000 -> approved fee $2,550,000 = 6.4% of TDC. Up to $1,650,000 more ($4,200,000 total) might be approved only by waiver and only if reinvested as deferred fee/capital contribution (not assumed). Under the 2027/2028 draft, $10,000 x 120 units = $1,200,000 < $2,550,000, so the cap would be unchanged for this example.",
+        "ruleVerified": false,
+        "source": "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf",
+        "quote": "a developer's paid fee cap of $2,550,000 for projects that request 4% Tax Credits and Tax-Exempt bonds ... The Agency may review waivers to exceed the $2,550,000 cap if the excess is reinvested as a deferred fee and/or capital contribution. (Search-result excerpts; PDF not opened directly.)"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit maximum found. The 2025/2026 Tax-Exempt RFP sets a minimum of 30 units ('minimum property unit requirement of 30 units, unless otherwise approved by PHFA') and limits each developer to two volume-cap applications. Max basis $380,000 per unit for 4%. No named 2021-2025 Pennsylvania 4% new-construction project of 101+ units was found.",
+        "source": "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026_tax_exempt_request_for_proposals.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Same QAP experience standard applies ('The development team must have sufficient experience, as determined in the sole discretion of the Agency'); no in-state experience requirement seen. RFP limit: 'will limit the number of Applications for volume cap to two (2) per developer.'",
+        "source": "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026_tax_exempt_request_for_proposals.pdf"
+      },
+      "financingPath": {
+        "value": null,
+        "evidence": "PHFA awards 4% credits outside the annual round under the 2025/2026 Tax-Exempt Volume Cap RFP (4% applications in 2026 still underwritten under the 2025/2026 QAP and RFP). PHFA adopted a 25% bond test retroactive to Jan 1, 2026, citing 'increased demand in the multifamily volume cap program' to stretch cap across more developments; the July 2026 draft 2027/2028 QAP says some 4% deals 'are not currently competitive in PA but may become competitive at a later date based on supply of tax-exempt volume cap.' Cap is scarce but no multi-year waitlist was documented; volume figures not found.",
+        "source": "https://www.ncsha.org/wp-content/uploads/Bond-Test-Policy-March-19-2026-FINAL.pdf"
+      },
+      "awardsByYear": [
+        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
+        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null }
+      ],
+      "oversubscription": { "requestedToAvailable": null, "source": null },
+      "nextDeadline": "Rolling: 4% applications accepted outside the annual round under the 2025/2026 Tax-Exempt Volume Cap RFP; a mandatory Intent to Submit a Tax Credit Application is required. No specific 2026/2027 date found.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Rolling access with no in-state experience rule seen; limits of two volume-cap applications per developer and 30-unit minimum; 25% bond test from 2026; volume cap described as in increased demand. Paid fee capped at $2.55M (6.4% of the example TDC), short of DL3's >10% goal unless deferred fee is approved by waiver.",
+          "sources": ["https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026_tax_exempt_request_for_proposals.pdf", "https://www.ncsha.org/wp-content/uploads/Bond-Test-Policy-March-19-2026-FINAL.pdf"]
+        },
+        "urban": {
+          "score": null,
+          "evidence": "No Pittsburgh rent/cost/vacancy evidence gathered before the search budget ran out; cannot score.",
+          "sources": []
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Reachable from Chicago; no local-presence rule seen; 4% deals are expected to close within 180 days of award, which requires a ready capital stack. Not verified against the full RFP.",
+          "sources": ["https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"]
+        }
+      },
+      "confidence": "Low"
+    }
+  },
+  "venture": {
+    "market": "Pittsburgh: Lower Hill District (former Civic Arena site) / Greater Hill District",
+    "historicSuccess": {
+      "score": null,
+      "evidence": "Not researched with a citable source before the search budget ran out.",
+      "sources": []
+    },
+    "anchorInstitutions": {
+      "score": null,
+      "evidence": "Not researched with a citable source before the search budget ran out (nearby downtown, university and hospital anchors are likely but uncited).",
+      "sources": []
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "URA sought developers (responses due June 9, 2026) for a 6.82-acre URA-owned parcel within the 28-acre Lower Hill site, with affordable housing among community priorities; a URA notice says 21.038 acres of developable land remain. Vacant former arena land, so low displacement risk. The parcel may already be committed after the June 2026 RFP.",
+      "sources": ["https://www.ura.org/news/ura-seeking-proposals-for-housing-on-lower-hill-redevelopment-site", "https://www.ura.org/news/update-on-lower-hill-development-site-option-agreement-expiration"]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "URA took over Lower Hill development rights from the Penguins; March 2026 URA board vote on $930,000 for four Greater Hill District projects; Lower Hill LERTA redirects half of site tax revenue to the Greater Hill District Neighborhood Reinvestment Fund; April 2026 board items on a Lower Hill Public Infrastructure Fund and Block A site control. Pittsburgh won six 9% awards (330 units) in 2025.",
+      "sources": ["https://www.ura.org/pages/lower-hill", "https://www.ura.org/news/pittsburgh-awarded-six-low-income-housing-tax-credits-to-bring-309-affordable-homes-to-the-city"]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "The Urban Redevelopment Authority of Pittsburgh is actively running the Lower Hill housing RFP and infrastructure fund, with Hill District community priorities (affordable housing, job access, youth and family investment) written into the process.",
+      "sources": ["https://www.ura.org/requests/lower-hill-district-housing", "https://www.ura.org/news/ura-seeking-proposals-for-housing-on-lower-hill-redevelopment-site"]
+    }
+  },
+  "notes": "Research limits: WebFetch and curl could not reach phfa.org or novoco.com (blocked by this session's network allowlist), so every PHFA rule comes from search-engine excerpts of the official PDFs, not from reading them; ruleVerified is false for both fees. The shared web-search budget then ran out, so market (urban) evidence and two venture factors could not be researched. Key finding: PHFA caps the developer fee in dollars ($2.0M/$1.75M for 9%, no waivers; $2.55M paid fee for 4%), giving 5.0% and 6.4% of the $40M example TDC, well below DL3's >10% target. Draft 2027/2028 QAP (July 8, 2026, public comment) proposes 9% caps of $1.9M-$2.3M and 4% cap of $2.55M or $10,000/unit (whichever higher); adoption not confirmed. Excerpts disagreed on one 9% per-project credit tier (supportive housing $1.85M vs other figures). Annual counts of new-construction awards, applications, and oversubscription were not found for any year; 2025 round = 41 awards, 1,946 units, $66.5M (new construction + rehab not split). No 2026 9% award list was found. The 12% overall cap's exact scope was not confirmed. Whether 'replacement cost' includes the fee itself was not confirmed (dollar caps bind regardless)."
+}
