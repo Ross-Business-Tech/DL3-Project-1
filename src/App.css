@@ -388,7 +388,7 @@
   border-color: var(--teal);
 }
 
-/* Small states grow when hovered: a larger copy is drawn on top and ignores the mouse */
+/* Hovered states grow: a larger copy is drawn on top and ignores the mouse */
 .state-copy {
   fill: var(--teal-deep);
   stroke: var(--navy);
@@ -397,13 +397,55 @@
   pointer-events: none;
   transform-box: fill-box;
   transform-origin: center;
-  transform: scale(2.4);
-  animation: state-grow 0.15s ease both;
+  animation: state-grow 0.18s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @keyframes state-grow {
   from { transform: scale(1); }
-  to { transform: scale(2.4); }
+  to { transform: scale(var(--grow, 1.06)); }
+}
+
+.us-map.is-zoomed {
+  cursor: grab;
+}
+
+.us-map.is-zoomed:active {
+  cursor: grabbing;
+}
+
+/* Hover lift for buttons and rows: a soft shadow and a slight grow, so they feel responsive */
+.list-row,
+.zoom-controls button,
+.text-button,
+.source-row,
+.nav-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.list-row:hover {
+  transform: translateY(-2px) scale(1.01);
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(10, 17, 28, 0.06), 0 10px 24px rgba(10, 17, 28, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.zoom-controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(10, 17, 28, 0.12);
+}
+
+.text-button:hover {
+  transform: translateX(3px);
+}
+
+.source-row:hover {
+  transform: translateX(4px);
+}
+
+.nav-item:hover {
+  transform: translateY(-1px);
 }
 
 /* Territory cards are buttons that open that territory's own page */
