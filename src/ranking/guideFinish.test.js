@@ -89,3 +89,67 @@ test('the sheet\'s own value wins, and states with no such award stay unknown', 
   assert.equal(by['ohio-9'].maxFeasibleUnits, null)
   assert.equal(by['michigan-9'].maxFeasibleUnits, null) // Michigan's lists do not state construction type
 })
+
+// ------------------------------------------------------------- economics model (5B, 5C)
+
+import { ECONOMICS_TERMS, downsidePasses, economicsModel } from './economics.js'
+
+const near = (a, b, tol = 1) => assert.ok(Math.abs(a - b) <= tol, `${a} should be within ${tol} of ${b}`)
+
+test('the guide\'s own 5C illustration: $4.5M fee, DL3 keeps 60%, 40% deferred -> $1.62M non-deferred cash', () => {
+  const m = economicsModel(4_500_000, 40_000_000)
+  near(m.retainedFee, 2_700_000)
+  near(m.deferredAmount, 1_080_000)
+  near(m.nonDeferredCash, 1_620_000)
+  near(m.grossFeeToTdc, 0.1125, 1e-12)
+  near(m.cash.closing + m.cash.construction + m.cash.completion, 1_620_000)
+})
+
+test('present value of expected net receipts, by hand: Indiana 4% at $4.8M', () => {
+  const m = economicsModel(4_800_000, 40_000_000)
+  // cash 518,400 (yr 1, x0.9) + 691,200 (yr 2, x0.9) + 518,400 (yr 3, x0.9x0.95), deferred 1,152,000 x 0.75 x 0.855
+  // repaid evenly in years 4-13, all discounted at 10%
+  const df = (y) => 1 / 1.1 ** y
+  let pv = 518_400 * 0.9 * df(1) + 691_200 * 0.9 * df(2) + 518_400 * 0.855 * df(3)
+  for (let y = 4; y <= 13; y++) pv += ((1_152_000 * 0.75 * 0.855) / 10) * df(y)
+  near(m.presentValue, pv)
+  near(m.presentValue, 1_612_298)
+  near(m.expectedPursuitValue, 0.5 * pv) // the award probability only enters the pursuit value
+  // downside: 60% deferred, one year later, 40% repayment
+  near(m.downside.nonDeferredCash, 1_152_000)
+  near(m.downside.presentValue, 1_018_488)
+})
+
+test('overhead and pursuit costs come off once; no expense is counted twice', () => {
+  const a = economicsModel(4_800_000, 40_000_000)
+  const b = economicsModel(4_800_000, 40_000_000, { ...ECONOMICS_TERMS, overheadAndPursuitCosts: 200_000 })
+  near(a.nonDeferredCash - b.nonDeferredCash, 200_000)
+  near(a.presentValue - b.presentValue, 200_000)
+  near(a.expectedPursuitValue - b.expectedPursuitValue, 200_000)
+  assert.equal(economicsModel(null, 40_000_000), null)
+})
+
+test('the downside test needs the hurdles; with them it passes or fails on cash and present value', () => {
+  const m = economicsModel(4_800_000, 40_000_000)
+  assert.equal(downsidePasses(m, { minRetainedCash: null }, false), null)
+  assert.equal(downsidePasses(m, { minRetainedCash: 1_000_000 }, false), true)
+  assert.equal(downsidePasses(m, { minRetainedCash: 1_000_000, minPresentValue: 1_100_000 }, true), false) // downside PV 1.02M
+  assert.equal(downsidePasses(m, { minRetainedCash: 1_000_000, minPresentValue: null }, true), null)
+})
+
+test('the economics breakdown is always shown, but in the normal view it never scores Economics', () => {
+  const out = rankRecords(built.records, { asOf: '2026-11-16' })
+  const r = out.lists.find((l) => l.pathway === '4%').needsVerification.find((x) => x.id === 'indiana-4')
+  near(r.economicsDetail.presentValue, 1_612_298)
+  assert.equal(r.criteria.economics.status, 'unresolved')
+  // and no breakdown is invented for a fee on an unverified rule
+  const neb = out.lists.find((l) => l.pathway === '9%').needsVerification.find((x) => x.id === 'nebraska-9')
+  assert.equal(neb.economicsDetail, null)
+})
+
+test('with both hurdles required (the guide\'s rule) preview can now score Economics fully', () => {
+  const out = rankRecords(built.records, { asOf: '2026-11-16', settings: { deriveEconomicsFromFee: true, economicsHurdles: { minRetainedCash: 1_000_000, minPresentValue: 1_000_000 } } })
+  const e = out.lists.find((l) => l.pathway === '4%').needsVerification.find((x) => x.id === 'indiana-4').criteria.economics
+  assert.deepEqual([e.status, e.score], ['final', 5]) // 1.728M >= 1.5M, 1.61M >= 1.5M, downside 1.15M / 1.02M >= 1M
+  assert.doesNotMatch(e.reasons.join(' '), /present-value test not applied/)
+})

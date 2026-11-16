@@ -2,6 +2,8 @@
 // Everything here is a PROPOSED value awaiting Leon Walker / Andrew Stables approval
 // (guide sections 5, 6, 7 and 9). Change a value here and every score updates.
 
+import { ECONOMICS_TERMS } from './economics.js'
+
 export const MODEL_VERSION = 'sprint-0.1'
 
 // Section 6: the seven ranking criteria and their proposed weights (must total 100).
@@ -102,7 +104,9 @@ export const SETTINGS = {
   // paid later, so the cash in hand is the rest, less overhead and pursuit costs. The 60% / 40%
   // are the guide's own illustration (5C: "illustration only"), not DL3's terms.
   deriveEconomicsFromFee: false,
-  economicsAssumptions: { dl3Share: 0.6, deferredShare: 0.4, overheadAndPursuitCosts: 0 },
+  // The full set of placeholder terms (share, timing, probabilities, discount rate, downside) lives in
+  // economics.js; the page lets you change the main ones.
+  economicsAssumptions: ECONOMICS_TERMS,
   // Guide 7A needs a cash AND a present-value hurdle. Preview can run on cash alone.
   requirePresentValue: true,
   // What-if: score every criterion that has no evidence at this value (the "3" anchor), so a

@@ -32,9 +32,11 @@ test('preview is off by default: the normal run still ranks nothing and scores n
 
 test('Economics is calculated from each state\'s fee: fee x DL3 share x (1 - deferred share) against the cash hurdle', () => {
   const out = run({ deriveEconomicsFromFee: true, requirePresentValue: false, economicsHurdles: { minRetainedCash: 1_000_000 } })
-  // Indiana 4%: $4.8M x 60% x 60% = $1,728,000, at least 1.5x the hurdle, but a 5 needs the downside test
+  // Indiana 4%: $4.8M x 60% x 60% = $1,728,000, at least 1.5x the hurdle; the downside case (more fee deferred,
+  // a year's delay) still leaves $1,152,000, so the downside test passes and it scores 5
   const indiana = find(out, '4%', 'indiana-4').criteria.economics
-  assert.deepEqual([indiana.status, indiana.interval], ['bounded', { lo: 3, hi: 5 }])
+  assert.deepEqual([indiana.status, indiana.score], ['final', 5])
+  assert.equal(indiana.placeholder, true) // built on placeholder terms, so never counted as evidence
   // Michigan 4%: $2.1M x 60% x 60% = $756,000, below the hurdle
   assert.deepEqual(find(out, '4%', 'michigan-4').criteria.economics.interval, { lo: 1, hi: 2 })
   assert.match(find(out, '4%', 'indiana-4').criteria.economics.reasons.join(' '), /present-value test not applied/)
@@ -42,7 +44,7 @@ test('Economics is calculated from each state\'s fee: fee x DL3 share x (1 - def
 
 test('changing the placeholders changes the score; the page can use this to re-score live', () => {
   const at = (hurdle) => find(run({ deriveEconomicsFromFee: true, requirePresentValue: false, economicsHurdles: { minRetainedCash: hurdle } }), '4%', 'indiana-4').criteria.economics
-  assert.deepEqual(at(1_000_000).interval, { lo: 3, hi: 5 }) // $1.73M is at least 1.5x $1M
+  assert.equal(at(1_000_000).score, 5) // $1.73M is at least 1.5x $1M, and the downside ($1.15M) clears $1M
   assert.equal(at(1_500_000).score, 3) // meets $1.5M, but not 1.5x it
   assert.deepEqual(at(2_000_000).interval, { lo: 1, hi: 2 }) // below $2M
   const half = find(run({ deriveEconomicsFromFee: true, requirePresentValue: false, economicsHurdles: { minRetainedCash: 1_000_000 }, economicsAssumptions: { dl3Share: 0.3 } }), '4%', 'indiana-4').criteria.economics
@@ -72,8 +74,8 @@ test('what-if: criteria with no evidence are assumed at the chosen value and lab
   assert.match(r.criteria.access.reasons[0], /What-if only/)
   assert.equal(r.scores.access, 3)
   // real evidence is never overwritten by the assumption
-  assert.equal(r.criteria.economics.status, 'bounded')
-  assert.notEqual(r.criteria.economics.method, 'assumed')
+  assert.equal(r.criteria.economics.status, 'final')
+  assert.equal(r.criteria.economics.method, 'calculated')
   // and the open item is still on the still-needed list
   assert.ok(out.reviewQueue.some((q) => q.id === 'ohio-4' && q.key === 'access'))
 })
@@ -100,14 +102,14 @@ test('preview result on the real data: Michigan 4% is clearly last; Ohio and Ind
   assert.equal(by['indiana-4'].rank, null)
   assert.deepEqual(by['ohio-4'].rankRange, [1, 2])
   assert.deepEqual(by['indiana-4'].rankRange, [1, 2])
-  // Ohio: econ 3-5, Scale 1-5 (a 245-unit award proves size is feasible, award years unknown), five others
-  // assumed 3 -> low (25*3 + 20*3 + 15*3 + 10*1 + 10*3*3) / 5 = 56, high (25*5 + 20*3 + 15*3 + 10*5 + 90) / 5 = 74
-  assert.ok(Math.abs(by['ohio-4'].score.lo - 56) < 1e-9 && Math.abs(by['ohio-4'].score.hi - 74) < 1e-9)
+  // Ohio: econ 5 (calculated with placeholder terms), Scale 1-5 (a 245-unit award proves size is feasible, award
+  // years unknown), five others assumed 3 -> low (25*5 + 20*3 + 15*3 + 10*1 + 90) / 5 = 66, high (... + 10*5 ...) / 5 = 74
+  assert.ok(Math.abs(by['ohio-4'].score.lo - 66) < 1e-9 && Math.abs(by['ohio-4'].score.hi - 74) < 1e-9)
 })
 
 test('evidence coverage never counts what-if assumptions or ranges as evidence', () => {
   const ohio = run(PREVIEW).lists.find((l) => l.pathway === '4%').ranked.find((r) => r.id === 'ohio-4')
-  assert.equal(ohio.score.coverage, 0.65) // five criteria hold a number, all five only assumed
+  assert.equal(ohio.score.coverage, 0.9) // six criteria hold a number: five assumed, one on placeholder terms
   assert.equal(ohio.evidenceCoverage, 0) // but none of the weight rests on real evidence
   // typed-in scores are evidence
   const typed = rankRecords([{ id: 'x', state: 'X', pathway: '9%', confidence: 'High', maxFeasibleUnits: 140, approvedGrossFee: 4_800_000, totalDevelopmentCost: 40_000_000, sponsorPath: true, financingPath: true, criticalSourceDates: ['2026-11-09'], scores: { economics: 3, funding: 3, access: 3, scale: 3, urban: 3, execution: 3, venture: 3 } }], { asOf: '2026-11-10' })

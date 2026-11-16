@@ -14,6 +14,7 @@
 
 import { COMPONENTS, CRITERIA_OWNERS, GATE_OWNERS, SETTINGS, MODEL_VERSION } from './config.js'
 import { fundingFromHistory, scoreCriteria } from './scoring.js'
+import { downsidePasses, economicsModel } from './economics.js'
 
 const EPS = 1e-9
 const isNum = (x) => typeof x === 'number' && Number.isFinite(x)
@@ -321,11 +322,21 @@ function withHistoryFunding(record, settings) {
 // have no economics of their own, and only when the fee rule is not flagged unverified.
 function economicsFromFee(r, settings) {
   if (r.economics || !settings.deriveEconomicsFromFee) return r.economics
-  if (!isNum(r.approvedGrossFee) || !isNum(r.totalDevelopmentCost) || r.feeRuleVerified === false) return undefined
-  const a = settings.economicsAssumptions
-  const retainedFee = r.approvedGrossFee * a.dl3Share
-  const cashNow = retainedFee * (1 - a.deferredShare)
-  return { retainedNetCash: cashNow - a.overheadAndPursuitCosts, presentValue: null, downsidePasses: null, derived: true }
+  const model = economicsDetailFor(r, settings)
+  if (!model) return undefined
+  return {
+    retainedNetCash: model.nonDeferredCash,
+    presentValue: model.presentValue,
+    downsidePasses: downsidePasses(model, settings.economicsHurdles, settings.requirePresentValue !== false),
+    derived: true,
+  }
+}
+
+// The guide 5B model for display (and, in preview, for scoring): only for a known fee on a rule
+// that is not flagged unverified.
+function economicsDetailFor(r, settings) {
+  if (!isNum(r.approvedGrossFee) || !isNum(r.totalDevelopmentCost) || r.feeRuleVerified === false) return null
+  return economicsModel(r.approvedGrossFee, r.totalDevelopmentCost, settings.economicsAssumptions)
 }
 
 // What is still needed to finish scoring, for researched states only (the unresearched ones
@@ -465,7 +476,12 @@ export function rankRecords(records, options = {}) {
 
     // One 0-5 result per criterion; what feeds the ranking is the usable part of each.
     const funding = fundingByRecord.get(r.id)
-    const criteria = scoreCriteria({ ...r, economics: economicsFromFee(r, settings) }, settings, funding)
+    const economics = economicsFromFee(r, settings)
+    const criteria = scoreCriteria({ ...r, economics }, settings, funding)
+    if (economics?.derived) {
+      // Calculated from the real fee, but with placeholder terms: shown as such, never counted as evidence.
+      criteria.economics = { ...criteria.economics, placeholder: true, reasons: [...criteria.economics.reasons, 'Uses placeholder terms (DL3 share, timing, probabilities, hurdles) that DL3 has not set'] }
+    }
     const scores = {}
     for (const comp of COMPONENTS) {
       const typed = r.scores?.[comp.key]
@@ -510,6 +526,7 @@ export function rankRecords(records, options = {}) {
       programCaps: r.programCaps ?? null,
       feeScreen: r.feeScreen ?? null,
       sources: r.sources ?? null,
+      economicsDetail: economicsDetailFor(r, settings),
       screenOnly: r.screenOnly === true,
       researched: r.researched ?? true,
       benchmarkOnly: r.benchmarkOnly === true,
@@ -517,7 +534,7 @@ export function rankRecords(records, options = {}) {
       score: scoreComponents(scores, weights),
       // How much of the total weight rests on real evidence. Ranges, proposals and what-if
       // assumptions do not count, so a preview cannot look more complete than it is.
-      evidenceCoverage: COMPONENTS.reduce((sum, c) => sum + (criteria[c.key].status === 'final' ? weights[c.key] : 0), 0) / COMPONENTS.reduce((sum, c) => sum + weights[c.key], 0),
+      evidenceCoverage: COMPONENTS.reduce((sum, c) => sum + (criteria[c.key].status === 'final' && !criteria[c.key].placeholder ? weights[c.key] : 0), 0) / COMPONENTS.reduce((sum, c) => sum + weights[c.key], 0),
       warnings: scoreWarnings(r),
     }
   })
