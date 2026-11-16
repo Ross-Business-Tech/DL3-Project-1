@@ -101,12 +101,17 @@ def test_value_not_in_quote_is_flagged(env):
     assert r["status"] == "pending_review" and r["value_in_quote"] == 0 and "18" in r["validation_note"]
 
 
-def test_page_not_sent_or_empty_quote_rejected(env):
+def test_wrong_page_corrected_unsent_page_or_empty_quote_rejected(env):
     go(env, FakeClient({"fee_rule": {"findings": [
-        finding("developer_fee_max_percent", "15%", 9, "The developer fee shall not exceed 15%"),
+        finding("developer_fee_max_percent", "15%", 9, "The developer fee shall not exceed 15%"),   # really on p.2
+        finding("deferred_fee_max", "50%", 9, "Developers can defer anything they like."),          # nowhere
         finding("developer_fee_dollar_cap", "$2,000,000", 2, "")], "not_found": []}}))
-    notes = sorted(r["validation_note"] for r in rows(env))
-    assert notes == ["cited page 9 was not in the pages sent", "no quote"]
+    by = {r["field"]: r for r in rows(env)}
+    fixed = by["developer_fee_max_percent"]
+    assert fixed["status"] == "pending_review" and fixed["page"] == 2 and fixed["quote_verified"] == 1
+    assert fixed["validation_note"].startswith("page corrected from 9 to 2")
+    assert by["deferred_fee_max"]["validation_note"] == "cited page 9 was not in the pages sent"
+    assert by["developer_fee_dollar_cap"]["validation_note"] == "no quote"
 
 
 def test_document_is_wrapped_as_data_with_page_tags(env):

@@ -249,6 +249,96 @@ def test_rejected_quotes_are_explained(tmp_path):
     cfg = {"llm": {**fetch.load_settings()["llm"], "model": "m", "topics_by_doc_type": {"qap_doc": ["scoring_criteria"]}}}
     s = extract.run(tmp_path / "t.db", tmp_path / "archive", cfg, client=Fake(), progress=lambda m: None)
     rows = {r["quote"]: r for r in csv.DictReader(open(s["rejected_file"]))}
-    assert rows["Category Proximity to transit 10"]["likely_cause"].startswith("words are on the page in order")
+    assert "Category Proximity to transit 10" not in rows          # table quote: accepted on layout, see below
     assert rows["Applicants must hold 20 years of experience"]["likely_cause"].startswith("quote not on any page")
-    assert sum(s["rejected_reasons"].values()) == s["rejected_validation"] == 3
+    conn = archive.connect(tmp_path / "t.db")
+    ok = conn.execute("SELECT * FROM extraction WHERE quote='Category Proximity to transit 10'").fetchone()
+    assert ok["status"] == "pending_review" and ok["quote_verified"] == 2 and "table layout" in ok["validation_note"]
+    assert sum(s["rejected_reasons"].values()) == s["rejected_validation"]
+
+
+# --- validator v2 (2026-11-16 run log: Indiana award forms, Michigan page numbers) ------------------
+FORM_PAGE = ("PROJECT NAME:\nSITE LOCATION:\nAPPLICANT:\nCREDIT RECOMMENDED:\nChapman Crossing\n"
+             "HWY 337 N & Poolside Drive NW\nCorydon, IN 47112\nChapman Crossing Limited Partnership\n$1,183,013")
+
+
+def form_row(**kw):
+    r = {"project_name": "Chapman Crossing", "annual_credit_amount": "$1,183,013", "page": 5, "credit_type": "9%",
+         "quote": "PROJECT NAME: Chapman Crossing SITE LOCATION: HWY 337 N & Poolside Drive NW Corydon, IN 47112 "
+                  "APPLICANT: Chapman Crossing Limited Partnership CREDIT RECOMMENDED: $1,183,013"}
+    r.update(kw)
+    return r
+
+
+def test_award_form_layout_verified_by_name_and_amount():
+    from src.extract.extract import LAYOUT, REJECTED, verify
+    pages = {4: "other project", 5: FORM_PAGE}
+    level, page, _, note = verify(form_row(), "$1,183,013", pages, is_table=True)
+    assert (level, page) == (LAYOUT, 5) and "form or table layout" in note
+    level, page, _, note = verify(form_row(page=4), "$1,183,013", pages, is_table=True)     # wrong page cited
+    assert (level, page) == (LAYOUT, 5) and note.startswith("page corrected from 4 to 5")
+    assert verify(form_row(annual_credit_amount="$9,999,999"), "$9,999,999", pages, True)[0] == REJECTED  # amount not there
+    assert verify(form_row(project_name="Invented Towers"), "$1,183,013", pages, True)[0] == REJECTED     # name not there
+    assert verify(form_row(project_name=""), "$1,183,013", pages, True)[0] == REJECTED
+
+
+def test_rule_layout_needs_words_in_order_and_value_numbers():
+    from src.extract.extract import LAYOUT, REJECTED, verify
+    page = {3: "Category Points\nProximity to transit 10\nDeveloper experience 5"}
+    item = {"page": 3, "quote": "Proximity to transit: 10 points"}
+    assert verify({"page": 3, "quote": "Category Proximity to transit 10"}, "10 points", page, False)[0] == LAYOUT
+    assert verify({"page": 3, "quote": "Category Proximity to transit 10"}, "12 points", page, False)[0] == REJECTED
+    assert verify(item, "10 points", page, False)[0] == REJECTED          # "points" after 10 is not on the page
+
+
+def test_stored_answers_rechecked_without_api_calls(tmp_path):
+    import pymupdf
+    from src.extract import extract
+    from src.extract.llm_client import LLMResult
+    d = pymupdf.open()
+    d.new_page().insert_text((72, 72), "Cover")
+    d.new_page().insert_textbox(pymupdf.Rect(50, 50, 550, 800), "The developer fee shall not exceed 15% of cost.", fontsize=10)
+    conn = archive.connect(tmp_path / "t.db")
+    src = {"source_id": "S", "jurisdiction": "T", "state": "ZZ", "doc_type": "qap_doc", "title": "QAP",
+           "url": "https://x/q.pdf", "status": "unknown", "critical": 1, "notes": ""}
+    archive.upsert_source(conn, src)
+    archive.store_snapshot(conn, tmp_path / "archive", source=src, data=d.tobytes(), requested_url=src["url"],
+                           final_url=src["url"], content_type="application/pdf", http_status=200)
+    calls = []
+
+    class Fake:
+        def extract(self, *a):
+            calls.append(1)
+            return LLMResult(json.dumps({"findings": [{"field": "developer_fee_max_percent", "value": "15%", "units": "",
+                             "applies_to": "9%", "page": 1, "section": "", "quote": "The developer fee shall not exceed 15%",
+                             "confidence": "high", "notes": ""}], "not_found": []}), "m", "r", "STOP", {})
+
+    cfg = {"llm": {**fetch.load_settings()["llm"], "model": "m", "topics_by_doc_type": {"qap_doc": ["fee_rule"]}}}
+    extract.run(tmp_path / "t.db", tmp_path / "archive", cfg, client=Fake(), progress=lambda m: None)
+    # pretend this answer was checked by the old validator: rejected, wrong page
+    conn.execute("UPDATE extraction SET status='rejected_validation', quote_verified=0, page=1")
+    conn.execute("UPDATE llm_call SET validator_version=NULL")
+    conn.commit()
+    s = extract.run(tmp_path / "t.db", tmp_path / "archive", cfg, client=Fake(), progress=lambda m: None)
+    assert len(calls) == 1 and s["calls"] == 0 and s["revalidated"]["calls"] == 1
+    r = conn.execute("SELECT * FROM extraction").fetchone()
+    assert (r["status"], r["page"], r["quote_verified"]) == ("pending_review", 2, 1)
+    assert conn.execute("SELECT COUNT(*) FROM extraction").fetchone()[0] == 1          # replaced, not duplicated
+    # a call a reviewer has touched is never rewritten
+    conn.execute("UPDATE extraction SET reviewer='R', status='approved'")
+    conn.execute("UPDATE llm_call SET validator_version=NULL")
+    conn.commit()
+    s = extract.run(tmp_path / "t.db", tmp_path / "archive", cfg, client=Fake(), progress=lambda m: None)
+    assert s["revalidated"]["skipped_reviewed"] == 1
+    assert conn.execute("SELECT status FROM extraction").fetchone()[0] == "approved"
+
+
+def test_layout_verified_findings_can_be_approved(tmp_path):
+    from src.review import import_review
+    conn = archive.connect(tmp_path / "t.db")
+    conn.execute("PRAGMA foreign_keys = OFF")  # a bare extraction row is enough for the review rule
+    conn.execute("INSERT INTO extraction (call_id, snapshot_id, source_id, topic, field, quote_verified, value_in_quote, "
+                 "status, created_at) VALUES (1,1,'S','award_table','award_row',2,1,'pending_review','t')")
+    conn.commit()
+    res = import_review.apply(conn, [{"extraction_id": "1", "decision": "approve", "reviewer": "R"}])
+    assert res["approved"] == 1 and res["errors"] == []

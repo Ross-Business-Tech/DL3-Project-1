@@ -72,6 +72,8 @@ def build(db_path: Path | None = None, out_dir: Path | None = None, include_reje
         "corrected_value: optional. If the value is wrong but the quote is right, type the right value.",
         "doc_status 'draft' means the document is a draft: approve only as a draft rule; it never replaces a final rule.",
         "validation_note flags numbers the code could not find in the quote. Look closely at those rows.",
+        "A note saying 'form or table layout' means the facts were found on the page but the quote is not one "
+        "continuous passage: open the page and check the values themselves.",
         "Save into review/returned/ and run: python -m src.review.import_review",
     ]:
         help_.append([line])

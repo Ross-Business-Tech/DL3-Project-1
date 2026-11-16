@@ -44,6 +44,7 @@ MIGRATIONS = [
     ("award_row", "total_development_cost", "REAL"), ("award_row", "cost_per_unit", "REAL"),
     ("snapshot", "retrieved_by", "TEXT"), ("snapshot", "import_note", "TEXT"),
     ("source", "retired", "INTEGER"),
+    ("llm_call", "validator_version", "TEXT"),
     ("crawl_status", "start_error", "TEXT"), ("crawl_status", "moved_to", "TEXT"),
     ("crawl_status", "start_method", "TEXT"),
 ]

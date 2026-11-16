@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS extraction (
     notes           TEXT,
     row_json        TEXT,              -- award rows: all columns as JSON
     doc_status      TEXT,              -- draft | final | unknown, copied from the snapshot
-    quote_verified  INTEGER NOT NULL,  -- 1 if the quote was found verbatim on the cited page
+    quote_verified  INTEGER NOT NULL,  -- 1 quote word for word on the page; 2 facts found but layout broke the quote; 0 not found
     value_in_quote  INTEGER NOT NULL,  -- 1 if every number in the value appears in the quote
     status          TEXT NOT NULL,     -- pending_review | rejected_validation | approved | rejected_by_reviewer
     validation_note TEXT,

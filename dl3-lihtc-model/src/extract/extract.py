@@ -103,20 +103,54 @@ def numbers(text: str) -> set[str]:
     return out
 
 
-def validate(item: dict, value: str, page_text: dict[int, str]) -> tuple[bool, bool, str]:
-    """(quote_verified, value_in_quote, note)."""
-    page, quote = item.get("page"), (item.get("quote") or "").strip()
+VALIDATOR_VERSION = "v2"  # v2: page correction; layout-aware checks for tables and award forms
+
+EXACT, LAYOUT, REJECTED = 1, 2, 0  # stored in extraction.quote_verified
+
+
+def _in_page(needle: str, page: str) -> bool:
+    return bool(needle) and norm(needle).lower() in norm(page).lower()
+
+
+def verify(item: dict, value: str, page_text: dict[int, str], is_table: bool) -> tuple[int, int | None, bool, str]:
+    """Check one finding against the pages that were sent. Returns (level, page, value_in_quote, note).
+
+    EXACT: the quote is on the cited page word for word (or on another sent page: the page is corrected).
+    LAYOUT: the quote is not one continuous passage because the PDF text runs in a different order (tables,
+    one-project-per-page forms), but code finds the facts on the page: for award rows the project name and
+    credit amount; for rules every quote word in order plus every number of the value. Reviewers see a note.
+    REJECTED: none of the above. Nothing here ever trusts the model's own word.
+    """
+    cited, quote = item.get("page"), (item.get("quote") or "").strip()
     if not quote:
-        return False, False, "no quote"
-    if page not in page_text:
-        return False, False, f"cited page {page} was not in the pages sent"
-    q = norm(quote)
-    if q not in norm(page_text[page]):
-        return False, False, f"quote not found verbatim on page {page}"
-    missing = numbers(value) - numbers(quote)
-    if missing:
-        return True, False, f"number(s) {', '.join(sorted(missing))} in the value are not in the quote: check"
-    return True, True, ""
+        return REJECTED, cited, False, "no quote"
+    order = ([cited] if cited in page_text else []) + [p for p in page_text if p != cited]
+
+    def moved(p):
+        return "" if p == cited else f"page corrected from {cited} to {p} (the quote is there); "
+
+    for p in order:
+        if norm(quote) in norm(page_text[p]):
+            missing = numbers(value) - numbers(quote)
+            note = moved(p) + (f"number(s) {', '.join(sorted(missing))} in the value are not in the quote: check"
+                               if missing else "")
+            return EXACT, p, not missing, note.strip("; ")
+    for p in order:
+        text = page_text[p]
+        if numbers(value) - numbers(text):
+            continue
+        if is_table:
+            name = (item.get("project_name") or "").strip()
+            if name and _in_page(name, text):
+                return LAYOUT, p, not (numbers(value) - numbers(quote)), (
+                    moved(p) + "project name and amount found on the page, but the quote is not one continuous "
+                    "passage (form or table layout): check against the page")
+        elif words_in_order(quote, text):
+            return LAYOUT, p, not (numbers(value) - numbers(quote)), (
+                moved(p) + "quote words found in order with other text between (table layout): check against the page")
+    if cited not in page_text:
+        return REJECTED, cited, False, f"cited page {cited} was not in the pages sent"
+    return REJECTED, cited, False, f"quote not found verbatim on page {cited}"
 
 
 # --- documents --------------------------------------------------------------------------------------
@@ -178,32 +212,78 @@ def store(conn, snap, bundle, cfg, pages_sent, res: LLMResult, page_text, run_id
     call_id = cur.lastrowid
     counts = {"pending_review": 0, "rejected_validation": 0}
     if parsed is not None:
-        is_table = bundle["meta"].get("kind") == "table"
-        items = parsed.get("rows", []) if is_table else parsed.get("findings", [])
-        for it in items:
-            value = it.get("annual_credit_amount" if is_table else "value", "")
-            ok, num_ok, note = validate(it, value, page_text)
-            if ok and is_table and norm(it.get("project_name", "")) not in norm(page_text[it["page"]]):
-                note = (note + "; " if note else "") + "project name not found on page: check"
-            if ok and it.get("page") in ocr_pages:
-                note = (note + "; " if note else "") + "page is a scan read by OCR: check the quote against the image"
-            status = "pending_review" if ok else "rejected_validation"
-            counts[status] += 1
-            conn.execute(
-                "INSERT INTO extraction (call_id, snapshot_id, source_id, topic, field, value, units, applies_to, page,"
-                " section, quote, confidence, notes, row_json, doc_status, quote_verified, value_in_quote, status,"
-                " validation_note, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (call_id, snap["snapshot_id"], snap["source_id"], bundle["topic"],
-                 "award_row" if is_table else it.get("field"), value,
-                 "USD (annual credit, as printed)" if is_table else it.get("units"),
-                 it.get("credit_type") if is_table else it.get("applies_to"), it.get("page"), it.get("section"),
-                 it.get("quote"), it.get("confidence"), it.get("notes"),
-                 json.dumps(it, sort_keys=True) if is_table else None, snap["doc_status"],
-                 int(ok), int(num_ok), status, note or None, now))
-        for f in ([] if is_table else parsed.get("not_found", [])):
-            conn.execute("INSERT INTO extraction_not_found VALUES (?,?)", (call_id, f))
+        counts = insert_findings(conn, call_id, snap, bundle, parsed, page_text, ocr_pages, now)
+    conn.execute("UPDATE llm_call SET validator_version=? WHERE call_id=?", (VALIDATOR_VERSION, call_id))
     conn.commit()
     return {"call_id": call_id, "error": error, **counts}
+
+
+def insert_findings(conn, call_id, snap, bundle, parsed, page_text, ocr_pages, now) -> dict:
+    counts = {"pending_review": 0, "rejected_validation": 0}
+    is_table = bundle["meta"].get("kind") == "table"
+    items = parsed.get("rows", []) if is_table else parsed.get("findings", [])
+    for it in items:
+        value = it.get("annual_credit_amount" if is_table else "value", "") or ""
+        level, page, num_ok, note = verify(it, value, page_text, is_table)
+        if level and page in ocr_pages:
+            note = (note + "; " if note else "") + "page is a scan read by OCR: check the quote against the image"
+        status = "pending_review" if level else "rejected_validation"
+        counts[status] += 1
+        conn.execute(
+            "INSERT INTO extraction (call_id, snapshot_id, source_id, topic, field, value, units, applies_to, page,"
+            " section, quote, confidence, notes, row_json, doc_status, quote_verified, value_in_quote, status,"
+            " validation_note, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (call_id, snap["snapshot_id"], snap["source_id"], bundle["topic"],
+             "award_row" if is_table else it.get("field"), value,
+             "USD (annual credit, as printed)" if is_table else it.get("units"),
+             it.get("credit_type") if is_table else it.get("applies_to"), page, it.get("section"),
+             it.get("quote"), it.get("confidence"), it.get("notes"),
+             json.dumps(it, sort_keys=True) if is_table else None, snap["doc_status"],
+             level, int(num_ok), status, note or None, now))
+    for f in ([] if is_table else parsed.get("not_found", [])):
+        conn.execute("INSERT INTO extraction_not_found VALUES (?,?)", (call_id, f))
+    return counts
+
+
+def revalidate(conn, archive_root: Path, cfg: dict, progress=print) -> dict:
+    """Re-check stored answers with the current validator, from the raw output saved with each call: no API
+    calls. Calls with any reviewer decision are left alone."""
+    out = {"calls": 0, "pending_review": 0, "rejected_validation": 0, "skipped_reviewed": 0}
+    calls = conn.execute(
+        "SELECT c.* FROM llm_call c WHERE c.error IS NULL AND c.raw_output IS NOT NULL "
+        "AND COALESCE(c.validator_version, '') <> ? AND c.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
+        "AND c.call_id IN (SELECT MAX(call_id) FROM llm_call WHERE error IS NULL GROUP BY snapshot_id, topic)",
+        (VALIDATOR_VERSION,)).fetchall()
+    pages_cache: dict = {}
+    for c in calls:
+        if conn.execute("SELECT 1 FROM extraction WHERE call_id=? AND reviewer IS NOT NULL", (c["call_id"],)).fetchone():
+            out["skipped_reviewed"] += 1
+            continue
+        snap = conn.execute("SELECT s.*, src.doc_type, src.title FROM snapshot s JOIN source src USING(source_id) "
+                            "WHERE s.snapshot_id=?", (c["snapshot_id"],)).fetchone()
+        if snap["snapshot_id"] not in pages_cache:
+            pages = pages_from_bytes((archive_root / snap["archive_path"]).read_bytes(), snap["content_type"]) or []
+            chosen, _ = select_pages(conn, snap, pages, cfg)
+            pages_cache[snap["snapshot_id"]] = chosen
+        chosen = pages_cache[snap["snapshot_id"]]
+        try:
+            bundle = prompt_bundle(c["topic"])
+            parsed = json.loads(c["raw_output"])
+        except (FileNotFoundError, ValueError):
+            continue
+        conn.execute("DELETE FROM extraction WHERE call_id=?", (c["call_id"],))
+        conn.execute("DELETE FROM extraction_not_found WHERE call_id=?", (c["call_id"],))
+        counts = insert_findings(conn, c["call_id"], snap, bundle, parsed, {p.number: p.text for p in chosen},
+                                 {p.number for p in chosen if p.ocr}, archive.utcnow().isoformat())
+        conn.execute("UPDATE llm_call SET validator_version=? WHERE call_id=?", (VALIDATOR_VERSION, c["call_id"]))
+        out["calls"] += 1
+        out["pending_review"] += counts["pending_review"]
+        out["rejected_validation"] += counts["rejected_validation"]
+    conn.commit()
+    if out["calls"]:
+        progress(f"Re-checked {out['calls']} stored answers with validator {VALIDATOR_VERSION}: "
+                 f"{out['pending_review']} for review, {out['rejected_validation']} rejected (no API calls)")
+    return out
 
 
 def resolve_cfg(llm: dict) -> dict:
@@ -335,6 +415,7 @@ def run(db_path: Path, archive_root: Path, settings: dict, client=None, only: se
             progress(f"{snap['source_id']} {topic}: {out['pending_review']} for review, "
                      f"{out['rejected_validation']} rejected by validation" + (f", ERROR {out['error']}" if out["error"] else ""))
     if not dry_run:
+        summary["revalidated"] = revalidate(conn, Path(archive_root), cfg, progress)
         summary["rejected_file"], summary["rejected_reasons"] = write_rejected(
             conn, Path(archive_root).parent / "outputs" / "extract" if Path(archive_root) != ROOT / "archive"
             else ROOT / "outputs" / "extract", Path(archive_root))

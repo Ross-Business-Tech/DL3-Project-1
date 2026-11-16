@@ -42,7 +42,9 @@ A source belongs to a jurisdiction by ID prefix: `MI_QAP_CURRENT` belongs to `MI
 **extraction**: one row per extracted value.
 `source_id`, `topic`, `field`, `value`, `units`, `applies_to` (9% / 4% / both / unknown), `page`, `section`,
 `quote`, `confidence` (the model's own label), `notes`, `row_json` (award rows), `doc_status`,
-`quote_verified` (quote found word for word on the cited page), `value_in_quote` (numbers in the value appear
+`quote_verified` (1 = quote found word for word on the page, the page corrected if the model cited the wrong
+one; 2 = the facts were found on the page but the PDF's layout breaks the quote, e.g. a table or a
+one-project-per-page form; 0 = not found), `value_in_quote` (numbers in the value appear
 in the quote), `status`, `reviewer`, `reviewed_at`, `reviewer_value`, `review_note`.
 Status values: `pending_review`, `rejected_validation` (quote not found; can never be approved),
 `approved`, `rejected_by_reviewer`.
