@@ -45,13 +45,29 @@ function normalizeWeights(weights) {
 
 // Strictly greater than 10% passes; exactly 10% fails. Compared in whole cents so that
 // floating-point rounding can never turn 10.0% into 10.0000001%.
+//
+// The guide defines the denominator two ways (an open DL3 decision):
+//   'tdc'  section 5 (proposed default): total development cost, including land, reserves and the fee
+//   'net'  section 1: total development cost LESS the fee, land and capitalized reserves
+// Both ratios are always reported, and `denominatorSensitive` says when the choice flips the result.
 export function feeTest(approvedGrossFee, totalDevelopmentCost, settings = SETTINGS) {
   if (!isNum(approvedGrossFee) || !isNum(totalDevelopmentCost) || approvedGrossFee < 0 || totalDevelopmentCost <= 0) {
-    return { status: 'unknown', ratio: null }
+    return { status: 'unknown', ratio: null, ratios: null, denominatorSensitive: false }
   }
-  const ratio = approvedGrossFee / totalDevelopmentCost
-  const passes = toCents(approvedGrossFee) * 100 > toCents(totalDevelopmentCost) * settings.minFeePercent
-  return { status: passes ? 'pass' : 'fail', ratio }
+  const fee = approvedGrossFee
+  const tdc = totalDevelopmentCost
+  const net = tdc - fee - tdc * (settings.landShareOfTdc ?? 0) - tdc * (settings.reservesShareOfTdc ?? 0)
+  const clears = (denom) => denom > 0 && toCents(fee) * 100 > toCents(denom) * settings.minFeePercent
+  const useNet = settings.feeDenominator === 'net'
+  const denom = useNet ? net : tdc
+  if (!(denom > 0)) return { status: 'unknown', ratio: null, ratios: null, denominatorSensitive: false }
+  const passes = clears(denom)
+  return {
+    status: passes ? 'pass' : 'fail',
+    ratio: fee / denom,
+    ratios: { tdc: fee / tdc, net: net > 0 ? fee / net : null },
+    denominatorSensitive: passes !== clears(useNet ? tdc : net),
+  }
 }
 
 // Section 5B: three distinct outcomes, without counting any deduction twice.
@@ -108,24 +124,34 @@ export function evaluateGates(record, { asOf, settings = SETTINGS }) {
     status: capped ? 'fail' : isNum(units) ? (units >= settings.minUnits ? 'pass' : 'fail') : 'unknown',
     detail: capped
       ? `The program caps projects at ${cap} units`
-      : isNum(units) ? `Largest plausible urban project: ${units} units` : 'Largest feasible project size not known',
+      : isNum(units)
+        ? record.unitsEvidence ?? `Largest plausible urban project: ${units} units`
+        : 'Largest feasible project size not known',
   })
 
   const fee = feeTest(record.approvedGrossFee, record.totalDevelopmentCost, settings)
   // Unknown rules cannot receive a pass (guide 5D): a fee that clears 10% only on a rule that is
   // not verified yet stays unknown. It can still fail, and then it is held for verification.
   const unverifiedPass = fee.status === 'pass' && record.feeRuleVerified === false
+  const denomText = settings.feeDenominator === 'net' ? 'cost less fee, land and reserves' : 'total development cost'
+  const pct = (x) => `${(x * 100).toFixed(2)}%`
+  // Always show the ratio under the other definition too (guide 5: "also show" both bases).
+  const otherRatio = fee.ratios ? (settings.feeDenominator === 'net' ? fee.ratios.tdc : fee.ratios.net) : null
+  const otherText = settings.feeDenominator === 'net' ? 'total development cost' : 'cost less fee, land and reserves'
+  const both = otherRatio !== null && otherRatio !== undefined ? ` (${pct(otherRatio)} of ${otherText})` : ''
   checks.push({
     key: 'fee',
-    label: `Developer fee above ${settings.minFeePercent}% of total development cost`,
+    label: `Developer fee above ${settings.minFeePercent}% of ${denomText}`,
     ratio: fee.ratio,
+    ratios: fee.ratios,
+    denominatorSensitive: fee.denominatorSensitive,
     status: unverifiedPass ? 'unknown' : fee.status,
     detail:
       fee.ratio === null
         ? 'Approved fee or development cost missing'
         : unverifiedPass
-          ? `Fee would be ${(fee.ratio * 100).toFixed(2)}% of total development cost, but the fee rule is not verified yet`
-          : `Fee is ${(fee.ratio * 100).toFixed(2)}% of total development cost`,
+          ? `Fee would be ${pct(fee.ratio)} of ${denomText}, but the fee rule is not verified yet${both}`
+          : `Fee is ${pct(fee.ratio)} of ${denomText}${both}${fee.denominatorSensitive ? '. The result flips under the other definition of cost' : ''}`,
   })
 
   checks.push({
@@ -428,7 +454,11 @@ export function rankRecords(records, options = {}) {
   const weights = checkWeights(options.weights ?? defaultWeights())
   const asOf = options.asOf ?? new Date().toISOString().slice(0, 10)
 
-  const prepared = records.map((r) => withHistoryFunding(r, settings))
+  // Stress test "cost +10% with the fee unchanged": scale the development cost only.
+  const costed = settings.costMultiplier === 1
+    ? records
+    : records.map((r) => (isNum(r.totalDevelopmentCost) ? { ...r, totalDevelopmentCost: r.totalDevelopmentCost * settings.costMultiplier } : r))
+  const prepared = costed.map((r) => withHistoryFunding(r, settings))
   const fundingByRecord = fundingAccess(prepared, settings)
   const assessed = prepared.map((r) => {
     const gates = evaluateGates(r, { asOf, settings })

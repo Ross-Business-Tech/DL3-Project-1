@@ -100,13 +100,14 @@ test('preview result on the real data: Michigan 4% is clearly last; Ohio and Ind
   assert.equal(by['indiana-4'].rank, null)
   assert.deepEqual(by['ohio-4'].rankRange, [1, 2])
   assert.deepEqual(by['indiana-4'].rankRange, [1, 2])
-  // Ohio: econ 3-5, the six others assumed 3 -> (25*3 + 20*3 + 15*3 + 10*3 + 10*3 + 10*3 + 10*3) / 5 = 60 up to 70
-  assert.ok(Math.abs(by['ohio-4'].score.lo - 60) < 1e-9 && Math.abs(by['ohio-4'].score.hi - 70) < 1e-9)
+  // Ohio: econ 3-5, Scale 1-5 (a 245-unit award proves size is feasible, award years unknown), five others
+  // assumed 3 -> low (25*3 + 20*3 + 15*3 + 10*1 + 10*3*3) / 5 = 56, high (25*5 + 20*3 + 15*3 + 10*5 + 90) / 5 = 74
+  assert.ok(Math.abs(by['ohio-4'].score.lo - 56) < 1e-9 && Math.abs(by['ohio-4'].score.hi - 74) < 1e-9)
 })
 
 test('evidence coverage never counts what-if assumptions or ranges as evidence', () => {
   const ohio = run(PREVIEW).lists.find((l) => l.pathway === '4%').ranked.find((r) => r.id === 'ohio-4')
-  assert.equal(ohio.score.coverage, 0.75) // six criteria hold a number, five of them only assumed
+  assert.equal(ohio.score.coverage, 0.65) // five criteria hold a number, all five only assumed
   assert.equal(ohio.evidenceCoverage, 0) // but none of the weight rests on real evidence
   // typed-in scores are evidence
   const typed = rankRecords([{ id: 'x', state: 'X', pathway: '9%', confidence: 'High', maxFeasibleUnits: 140, approvedGrossFee: 4_800_000, totalDevelopmentCost: 40_000_000, sponsorPath: true, financingPath: true, criticalSourceDates: ['2026-11-09'], scores: { economics: 3, funding: 3, access: 3, scale: 3, urban: 3, execution: 3, venture: 3 } }], { asOf: '2026-11-10' })

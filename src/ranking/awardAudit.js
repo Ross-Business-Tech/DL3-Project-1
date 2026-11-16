@@ -118,3 +118,20 @@ export function urbanLowerBounds(awards, classify) {
   }
   return out
 }
+
+/**
+ * The largest new-construction award per state and pathway within `years` (guide 5D: "Pass only
+ * where rules allow a plausible urban project above 100 units"). A program that actually awarded a
+ * 101+ unit new-construction project in the window evidently allows one. Returns
+ * Map("State|4%" -> the award row). Awards of unknown construction type are never used.
+ */
+export function largestNewConstruction(awards, years) {
+  const out = new Map()
+  for (const a of awards) {
+    if (a.newConstruction !== true || a.units === null || !years.includes(a.year)) continue
+    const key = `${a.state}|${a.pathway}`
+    const current = out.get(key)
+    if (!current || a.units > current.units) out.set(key, a)
+  }
+  return out
+}

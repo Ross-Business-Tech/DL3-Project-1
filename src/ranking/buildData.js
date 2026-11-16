@@ -2,8 +2,8 @@
 // and the site facts, with the urban definition applied. Plain functions on text, so it runs in
 // the browser and in tests alike.
 
-import { URBAN_DEFINITION } from './config.js'
-import { parseAwards, urbanLowerBounds } from './awardAudit.js'
+import { SETTINGS, URBAN_DEFINITION } from './config.js'
+import { largestNewConstruction, parseAwards, urbanLowerBounds } from './awardAudit.js'
 import { attachAwardHistory, awardHistoryFromCsv } from './loadAwardHistory.js'
 import { attachInventory, inventoryFromCsv, researchOrder } from './loadInventory.js'
 import { applyFeeScreen } from './loadNationalFee.js'
@@ -30,7 +30,16 @@ export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCs
 
   // The 50-state fee screen fills in states we have not researched (and never overwrites ones we have).
   const fee = nationalFee ? applyFeeScreen(sheet.records, nationalFee) : { records: sheet.records, warnings: [], stats: {}, comparison: [] }
-  const merged = attachAwardHistory(fee.records, rows)
+  // Project size evidence: where the sheet does not know the largest feasible project, a 101+ unit
+  // new-construction award in 2021-2025 shows the program allows one (guide 5D).
+  const largest = largestNewConstruction(awards.awards, SETTINGS.scaleWindowYears)
+  const sized = fee.records.map((r) => {
+    if (typeof r.maxFeasibleUnits === 'number') return r
+    const a = largest.get(`${r.state}|${r.pathway}`)
+    if (!a || a.units < SETTINGS.minUnits) return r
+    return { ...r, maxFeasibleUnits: a.units, unitsEvidence: `A ${a.units}-unit new-construction award (${a.project}, ${a.city}, ${a.year}) shows the program allows a project this size` }
+  })
+  const merged = attachAwardHistory(sized, rows)
   const withCaps = attachProgramCaps(merged.records, programCaps.caps)
   // The scraping pipeline's inventory: where each state's documents are (found automatically, not verified).
   const inventory = inventoryFromCsv(inventoryCsv ?? '')

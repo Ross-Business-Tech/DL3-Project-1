@@ -60,6 +60,15 @@ export const SETTINGS = {
   minUnits: 101,
   // Section 5: fee must be strictly greater than 10% of total development cost.
   minFeePercent: 10,
+  // Which cost the 10% is measured against (an open DL3 decision; the guide defines it two ways):
+  // 'tdc' = section 5's proposed default, total development cost; 'net' = section 1, total
+  // development cost less the fee, land and capitalized reserves. Land and reserve shares are
+  // the research pack's illustrative assumption (A2), not sourced figures.
+  feeDenominator: 'tdc',
+  landShareOfTdc: 0.05,
+  reservesShareOfTdc: 0.025,
+  // A cost multiplier for stress tests ("cost +10% with the fee unchanged"); 1 = as given.
+  costMultiplier: 1,
   // Section 9A: a critical fee / deadline / eligibility source older than this blocks a
   // current recommendation until it is re-checked.
   staleAfterDays: 90,
