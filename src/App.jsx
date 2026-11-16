@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { TERRITORIES } from './data.js'
 import RankingsPage from './RankingsPage.jsx'
 import TerritoriesPage from './TerritoriesPage.jsx'
+import TerritoryPage from './TerritoryPage.jsx'
 import SourcesPage from './SourcesPage.jsx'
 import './App.css'
 
@@ -29,7 +30,7 @@ const MENU = [
 
 // Screens that are built. Everything else shows "Coming soon".
 const BUILT = new Set(['overview', 'rankings', 'territories', 'sources'])
-const SAMPLE_NOTE = new Set(['overview', 'rankings', 'territories'])
+const SAMPLE_NOTE = new Set(['overview', 'rankings', 'territories', 'territory'])
 
 const SAMPLE_STATS = [
   { value: '60', label: 'States & territories' },
@@ -89,6 +90,14 @@ function App() {
   const [screen, setScreen] = useState('overview')
   const [selectedId, setSelectedId] = useState(null)
   const current = MENU.flatMap((g) => g.items).find((item) => item.id === screen)
+  // A territory's own page takes its name as the title and is still under the Territories menu item.
+  const selected = TERRITORIES.find((t) => t.id === selectedId)
+  const title = screen === 'territory' ? selected?.name ?? 'Territory' : current?.label ?? ''
+
+  // A new page starts at the top, so its title is not hidden under the header.
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [screen, selectedId])
 
   // Scroll reveal: anything marked data-reveal slides or fades in the first time it reaches the screen.
   useEffect(() => {
@@ -111,16 +120,17 @@ function App() {
     return () => io.disconnect()
   }, [screen, selectedId])
 
-  // Opening a territory from any page jumps to the Territories screen at that territory.
+  // Opening a territory from any page shows that territory's own page.
   const openTerritory = (id) => {
     setSelectedId(id)
-    setScreen('territories')
+    setScreen('territory')
   }
 
   let page
   if (screen === 'overview') page = <Overview onOpenTerritory={openTerritory} />
   else if (screen === 'rankings') page = <RankingsPage onOpenTerritory={openTerritory} />
-  else if (screen === 'territories') page = <TerritoriesPage selectedId={selectedId} onBack={() => setScreen('rankings')} />
+  else if (screen === 'territories') page = <TerritoriesPage onOpen={openTerritory} />
+  else if (screen === 'territory') page = <TerritoryPage id={selectedId} onBack={() => setScreen('territories')} onSources={() => setScreen('sources')} />
   else if (screen === 'sources') page = <SourcesPage />
   else page = <ComingSoon title={current.label} />
 
@@ -141,7 +151,7 @@ function App() {
       <section className="page-band">
         <div className="page-band-inner">
           <div className="band-rule" aria-hidden="true" />
-          <h1>{current.label}</h1>
+          <h1>{title}</h1>
           {screen === 'overview' && <p>Last ranking update: November 2026</p>}
           {SAMPLE_NOTE.has(screen) && <span className="sample-note">Sample numbers for design only</span>}
         </div>

@@ -388,16 +388,52 @@
   border-color: var(--teal);
 }
 
-/* Small states grow when hovered, so they are easy to pick with a mouse */
-.state.is-small {
+/* Small states grow when hovered: a larger copy is drawn on top and ignores the mouse */
+.state-copy {
+  fill: var(--teal-deep);
+  stroke: var(--navy);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
   transform-box: fill-box;
   transform-origin: center;
-  transition: transform 0.15s ease;
+  transform: scale(2.4);
+  animation: state-grow 0.15s ease both;
 }
 
-.state.is-small:hover,
-.state.is-small:focus-visible {
-  transform: scale(2.4);
+@keyframes state-grow {
+  from { transform: scale(1); }
+  to { transform: scale(2.4); }
+}
+
+/* Territory cards are buttons that open that territory's own page */
+.territory-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.territory-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(10, 17, 28, 0.08), 0 12px 28px rgba(10, 17, 28, 0.1);
+}
+
+.open-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--teal);
+  text-underline-offset: 4px;
+}
+
+.territory-page {
+  max-width: 900px;
 }
 
 /* Modern page header: a soft glow, a teal rule that draws in, and a title that slides in */

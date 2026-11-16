@@ -1,33 +1,26 @@
-import { useEffect } from 'react'
 import { TERRITORIES } from './data.js'
 
 const byScore = (a, b) => b.score - a.score
 
-export default function TerritoriesPage({ selectedId, onBack }) {
-  // When a territory was picked on the Rankings page, jump to its card.
-  useEffect(() => {
-    if (!selectedId) return
-    document.getElementById(`t-${selectedId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [selectedId])
-
+// The Territories list. Each card opens that territory's own page.
+export default function TerritoriesPage({ onOpen }) {
   return (
     <>
-      <div className="page-actions">
-        <button type="button" className="text-button" onClick={onBack}>← Back to rankings</button>
-      </div>
+      <p className="small-note page-note">Select a territory to open its own page.</p>
       <div className="territory-list">
         {[...TERRITORIES].sort(byScore).map((t, i) => (
-          <section
+          <button
+            type="button"
             key={t.id}
-            id={`t-${t.id}`}
             data-reveal
             style={{ '--d': `${Math.min(i, 4) * 90}ms` }}
-            className={`card territory-card${selectedId === t.id ? ' is-selected' : ''}`}
-            aria-labelledby={`t-${t.id}-name`}
+            className="card territory-card territory-button"
+            onClick={() => onOpen(t.id)}
+            aria-label={`${t.name}: open details`}
           >
             <div className="territory-head">
               <div>
-                <h2 id={`t-${t.id}-name`}>{t.name}</h2>
+                <h2>{t.name}</h2>
                 <p className="small-note">{t.kind} · {t.status} · Research: {t.depth}</p>
               </div>
               <div className="score-pill">{t.score} / 100</div>
@@ -41,7 +34,8 @@ export default function TerritoriesPage({ selectedId, onBack }) {
               <div><dt>Credit cap</dt><dd>{t.creditCap}</dd></div>
               <div><dt>Next deadline</dt><dd>{t.deadline}</dd></div>
             </dl>
-          </section>
+            <span className="open-link">View {t.name} →</span>
+          </button>
         ))}
       </div>
     </>

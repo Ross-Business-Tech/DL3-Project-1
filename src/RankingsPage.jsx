@@ -70,12 +70,7 @@ function MapView({ onOpen }) {
     }
   }
 
-  // Draw the hovered state last so it sits on top of its neighbors when it grows.
   const entries = Object.entries(MAP.states)
-  if (hover) {
-    const i = entries.findIndex(([code]) => code === hover)
-    if (i >= 0) entries.push(...entries.splice(i, 1))
-  }
 
   const w = VW / view.z
   const h = VH / view.z
@@ -108,6 +103,10 @@ function MapView({ onOpen }) {
               </path>
             )
           })}
+          {/* A grown copy of a small hovered state, drawn on top. It ignores the mouse, so clicks still reach the real state. */}
+          {hover && SMALL.has(hover) && (
+            <path className="state-copy" d={MAP.states[hover]} aria-hidden="true" />
+          )}
         </svg>
         <div className="zoom-controls" role="group" aria-label="Zoom">
           <button type="button" aria-label="Zoom in" onClick={() => setView((v) => zoomAt(v, 0.5, 0.5, 1.5))}>+</button>
