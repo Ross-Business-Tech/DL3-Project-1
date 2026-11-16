@@ -440,3 +440,17 @@ def test_promote_full_award_history_and_pages(tmp_path):
     assert awards[0] == "https://m/awards-2026.xlsx" and "https://m/awards-2021.xlsx" in awards
     assert "https://m/awards-2019.xlsx" not in awards and "https://youtu.be/x" not in awards
     assert "https://m/all-awards.xlsx" in awards and "https://m/awards-page" not in awards and len(awards) == 7
+
+
+def test_unique_sources_from_packet(tmp_path):
+    from src.review import unique_sources
+    p = tmp_path / "review_20261116_2200.csv"
+    with open(p, "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=["extraction_id", "source_id", "topic", "page", "source_url", "decision"])
+        w.writeheader()
+        w.writerows([{"extraction_id": 1, "source_id": "A", "topic": "fee_rule", "page": 3, "source_url": "https://a"},
+                     {"extraction_id": 2, "source_id": "B", "topic": "award_table", "page": 1, "source_url": "https://b"},
+                     {"extraction_id": 3, "source_id": "A", "topic": "deadlines", "page": 9, "source_url": "https://a"}])
+    out = list(csv.DictReader(open(unique_sources.write(p))))
+    assert [r["source_url"] for r in out] == ["https://a", "https://b"] and out[0]["extraction_id"] == "1"
+    assert (out[0]["findings_for_this_url"], out[0]["topics"], out[0]["pages_cited"]) == ("2", "deadlines, fee_rule", "3, 9")
