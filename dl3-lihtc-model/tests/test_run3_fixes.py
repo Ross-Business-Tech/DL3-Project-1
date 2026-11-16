@@ -342,3 +342,25 @@ def test_layout_verified_findings_can_be_approved(tmp_path):
     conn.commit()
     res = import_review.apply(conn, [{"extraction_id": "1", "decision": "approve", "reviewer": "R"}])
     assert res["approved"] == 1 and res["errors"] == []
+
+
+def test_extra_register_files_add_michigan_reservation_lists(tmp_path, monkeypatch):
+    reg = {r["source_id"]: r for r in fetch.load_register()}
+    mi = sorted(k for k in reg if k.startswith("MI_RES_"))
+    assert len(mi) == 10 and "MI_RES_2023_DEC1" in mi and "MI_RES_2021_OCT1" not in mi
+    r = reg["MI_RES_2024_OCT1"]
+    assert r["doc_type"] == "award_list" and r["status"] == "unknown" and r["critical"] == 0
+    assert pa.year_in(r["title"]) == 2024 and pa.credit_type_in(r["title"]) == "9%"
+    assert "michigan.gov" in r["url"]
+    # an extra row whose URL or id is already in the main register is skipped
+    cfg = tmp_path / "config"
+    cfg.mkdir()
+    (cfg / "source_register.csv").write_text("source_id,jurisdiction,state,doc_type,title,url,status,critical,notes\n"
+                                             "A,J,MI,award_list,t,https://www.x.gov/a.pdf?rev=1,unknown,false,\n")
+    (cfg / "source_register_more.csv").write_text("source_id,jurisdiction,state,doc_type,title,url,status,critical,notes\n"
+                                                  "B,J,MI,award_list,t,https://x.gov/a.pdf?rev=2,unknown,false,\n"
+                                                  "A,J,MI,award_list,t,https://x.gov/other.pdf,unknown,false,\n"
+                                                  "C,J,MI,award_list,t,https://x.gov/c.pdf,unknown,false,\n")
+    monkeypatch.setattr(fetch, "ROOT", tmp_path)
+    assert [r["source_id"] for r in fetch.load_register()] == ["A", "C"]
+    assert [r["source_id"] for r in fetch.load_register(cfg / "source_register.csv")] == ["A"]   # explicit path: that file only

@@ -71,10 +71,13 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
         item(f"rules: {topic}", f"{approved} approved, {pending} to review, "
              f"{counts.get('rejected_validation', 0)} failed quote check", approved > 0, detail)
 
-    errs = conn.execute("SELECT COUNT(*) FROM llm_call c WHERE error IS NOT NULL AND snapshot_id IN (SELECT snapshot_id "
-                        "FROM snapshot WHERE source_id LIKE ? ESCAPE '\\') AND NOT EXISTS (SELECT 1 FROM llm_call d WHERE "
-                        "d.snapshot_id=c.snapshot_id AND d.topic=c.topic AND d.error IS NULL)", (like,)).fetchone()[0]
-    item("extraction calls still failing", errs, errs == 0, "rerun: python -m src.extract.extract --force")
+    failing = conn.execute(
+        "SELECT s.source_id, c.topic, c.error FROM llm_call c JOIN snapshot s USING(snapshot_id) WHERE c.error IS NOT NULL "
+        "AND c.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) AND s.source_id LIKE ? ESCAPE '\\' "
+        "AND NOT EXISTS (SELECT 1 FROM llm_call d WHERE d.snapshot_id=c.snapshot_id AND d.topic=c.topic AND d.error IS NULL) "
+        "GROUP BY s.source_id, c.topic", (like,)).fetchall()
+    item("extraction calls still failing", len(failing), not failing,
+         "; ".join(f"{f['source_id']} {f['topic']}: {f['error'][:80]}" for f in failing[:4]))
 
     by_year = {}
     for r in conn.execute(

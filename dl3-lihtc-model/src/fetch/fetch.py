@@ -103,8 +103,24 @@ def use_os_trust_store() -> bool:
 
 
 def load_register(path: Path | None = None) -> list[dict]:
+    """The source register. By default config/source_register.csv plus any config/source_register_*.csv
+    (shared additions kept in their own files so they never clash with local edits to the main register).
+    An added row is skipped if its source_id or its URL is already registered."""
     with open(path or ROOT / "config" / "source_register.csv", newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
+    if path is None:
+        def key(u):
+            p = urlparse(u or "")
+            return ((p.hostname or "").lower().removeprefix("www."), p.path.lower())
+        ids, urls = {r["source_id"] for r in rows}, {key(r["url"]) for r in rows}
+        for extra in sorted((ROOT / "config").glob("source_register_*.csv")):
+            with open(extra, newline="", encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r["source_id"] in ids or key(r["url"]) in urls:
+                        continue
+                    ids.add(r["source_id"])
+                    urls.add(key(r["url"]))
+                    rows.append(r)
     for r in rows:
         r["critical"] = 1 if str(r.get("critical", "")).strip().lower() in ("1", "true", "yes") else 0
         r["status"] = (r.get("status") or "unknown").strip().lower()
