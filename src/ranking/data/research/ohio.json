@@ -30,12 +30,48 @@
         "source": "https://www.ohiohome.org/ppd/documents/2026-9-LIHTC-ReservationsSummary.pdf"
       },
       "awardsByYear": [
-        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ohiohome.org/ppd/documents/2026-9Percent- Results.pdf (excerpt '9% LIHTC Reservations 39 31 31 24 23 25' read as 2021-2026; year labels not visible, so 39 total reservations for 2021 is unconfirmed and not entered)" },
-        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ohiohome.org/ppd/documents/2026-9Percent- Results.pdf (31 total reservations per same unlabeled excerpt; unconfirmed)" },
-        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://ohiohome.org/news/releases/2023/lihtc-awards.aspx (more than $29M in credits; development and application counts not visible)" },
-        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": 65, "source": "https://ohiohome.org/news/releases/2024/may-update.aspx (24 developments, 1,514 apartments, $34.7M; 65 applications requesting $95.9M)" },
-        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": 61, "source": "https://ohiohome.org/news/releases/2025/may-fundedprojects.aspx (23 developments, 1,436 units, $35.4M; 61 applications requesting $94.1M; average project size 62 units per https://www.ohiohome.org/ppd/documents/2025-9-LIHTC-ReservationsSummary.pdf)" },
-        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": 62, "source": "https://ohiohome.org/news/releases/2026/9percent-taxcredits.aspx (25 developments, 1,468 apartments, $39.1M; 62 applications requesting $98.4M; 19 'new affordability' reservations, which is not the same as a new-construction count)" }
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.ohiohome.org/ppd/documents/2026-9Percent- Results.pdf (excerpt '9% LIHTC Reservations 39 31 31 24 23 25' read as 2021-2026; year labels not visible, so 39 total reservations for 2021 is unconfirmed and not entered)"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.ohiohome.org/ppd/documents/2026-9Percent- Results.pdf (31 total reservations per same unlabeled excerpt; unconfirmed)"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://ohiohome.org/news/releases/2023/lihtc-awards.aspx (more than $29M in credits; development and application counts not visible)"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 65,
+          "source": "https://ohiohome.org/news/releases/2024/may-update.aspx (24 developments, 1,514 apartments, $34.7M; 65 applications requesting $95.9M)"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 61,
+          "source": "https://ohiohome.org/news/releases/2025/may-fundedprojects.aspx (23 developments, 1,436 units, $35.4M; 61 applications requesting $94.1M; average project size 62 units per https://www.ohiohome.org/ppd/documents/2025-9-LIHTC-ReservationsSummary.pdf)"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 62,
+          "source": "https://ohiohome.org/news/releases/2026/9percent-taxcredits.aspx (25 developments, 1,468 apartments, $39.1M; 62 applications requesting $98.4M; 19 'new affordability' reservations, which is not the same as a new-construction count)"
+        }
       ],
       "oversubscription": {
         "requestedToAvailable": 2.51,
@@ -46,17 +82,28 @@
         "access": {
           "score": 3,
           "evidence": "Out-of-state 8609s count toward E&C approval, but out-of-state-only entities are limited to one reservation. A documented mentor/co-developer path exists. Barriers: E&C approval needed before the proposal, about 2.5x oversubscription, county award caps (Franklin/Cuyahoga 3, Hamilton 2), and scoring that rewards a low credit request per unit and favors smaller deals.",
-          "sources": ["https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf", "https://ohiohome.org/ppd/documents/2026-9-LIHTC-QAP-KickoffEvent.pdf", "https://ohiohome.org/ppd/documents/25OHC-9-LIHTCH-QAP-Webinar.pdf"]
+          "sources": [
+            "https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf",
+            "https://ohiohome.org/ppd/documents/2026-9-LIHTC-QAP-KickoffEvent.pdf",
+            "https://ohiohome.org/ppd/documents/25OHC-9-LIHTCH-QAP-Webinar.pdf"
+          ]
         },
         "urban": {
           "score": 3,
           "evidence": "Columbus has recent 100+ unit LIHTC new construction (380-unit Sawyer Towers redevelopment, 150-unit Barthman Family Homes), so rents and costs plausibly support large LIHTC buildings. Under 9%, though, the ~$1.8M annual credit cap and 2025's 62-unit average mean a 100+ unit deal would need heavy gap funding. No rent, vacancy or cost study was gathered (search budget ran out).",
-          "sources": ["https://www.ncsha.org/?p=156236", "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx", "https://www.ohiohome.org/ppd/documents/2025-9-LIHTC-ReservationsSummary.pdf"]
+          "sources": [
+            "https://www.ncsha.org/?p=156236",
+            "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx",
+            "https://www.ohiohome.org/ppd/documents/2025-9-LIHTC-ReservationsSummary.pdf"
+          ]
         },
         "execution": {
           "score": 3,
           "evidence": "Columbus and Cleveland are about a day's drive from Chicago. No local-office rule was found. A co-developer/mentor route is written into the E&C standards. Burdens: projects that get additional credits must defer at least 50% of the developer fee (2026 Additional Credits Policy), and the fee may not rise after the Proposal Application.",
-          "sources": ["https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf", "https://ohiohome.org/ppd/documents/2026-AdditionalCreditsPolicy.pdf"]
+          "sources": [
+            "https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf",
+            "https://ohiohome.org/ppd/documents/2026-AdditionalCreditsPolicy.pdf"
+          ]
         }
       },
       "confidence": "Medium"
@@ -88,12 +135,50 @@
         "source": "https://development.ohio.gov/business/state-incentives/volume-cap"
       },
       "awardsByYear": [
-        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found (the 4% program is non-competitive; no annual award list was located)" },
-        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not re-verified; earlier context cites a 2022 BGF award list including Dering Family Homes (245 units, Columbus)" },
-        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
-        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
-        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.ncsha.org/?p=156236 (at least one 2025 4% deal above 100 new units: the 380-unit Columbus family development; full count not found)" },
-        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://ohiohome.org/news/releases/2026/may-fundedprojects.aspx (2026 monthly releases show at least 209 new units in Cleveland, 150 in Columbus and 120 in Youngstown with 4% credits; full count not compiled)" }
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found (the 4% program is non-competitive; no annual award list was located)"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not re-verified; earlier context cites a 2022 BGF award list including Dering Family Homes (245 units, Columbus)"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": 1,
+          "applications": null,
+          "source": "https://www.ncsha.org/?p=156236",
+          "lowerBound": true,
+          "evidence": "Lower bound only, from the earlier research pass: the NCSHA-posted OHFA release describes a 2025 non-competitive 4% award for a 380-unit new family development in Columbus. Full 2025 4% new-construction count not found."
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://ohiohome.org/news/releases/2026/may-fundedprojects.aspx (2026 monthly releases show at least 209 new units in Cleveland, 150 in Columbus and 120 in Youngstown with 4% credits; full count not compiled)"
+        }
       ],
       "oversubscription": {
         "requestedToAvailable": null,
@@ -104,17 +189,29 @@
         "access": {
           "score": 3,
           "evidence": "An out-of-state LIHTC placed in service qualifies the lead developer or co-developer. New-to-OHFA developers are limited to one reservation unless they file a Programmatic Exception with at least five out-of-state 8609s. The 4% Only path is non-competitive, but gap funds (Ohio LIHTC/BGF) are competitive, and multiple applications based on out-of-state experience are allowed only for 4% Only.",
-          "sources": ["https://ohiohome.org/ppd/documents/4-LIHTC-QAP-Final.pdf", "https://ohiohome.org/ppd/documents/ExceptionRequestForm-4Only.docx", "https://www.novoco.com/public-media/documents/ohio-lihtc-faqs-01232024.pdf"]
+          "sources": [
+            "https://ohiohome.org/ppd/documents/4-LIHTC-QAP-Final.pdf",
+            "https://ohiohome.org/ppd/documents/ExceptionRequestForm-4Only.docx",
+            "https://www.novoco.com/public-media/documents/ohio-lihtc-faqs-01232024.pdf"
+          ]
         },
         "urban": {
           "score": 3,
           "evidence": "Several 2025-2026 new-construction 4% deals above 100 units in Columbus (380, 150) and Cleveland (209, TDC about $69.3M) show that underwriting supports large urban LIHTC buildings. No rent, vacancy, tax or insurance data was gathered (search budget ran out), so 5 is not supported.",
-          "sources": ["https://www.ncsha.org/?p=156236", "https://ohiohome.org/news/releases/2026/may-fundedprojects.aspx", "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx"]
+          "sources": [
+            "https://www.ncsha.org/?p=156236",
+            "https://ohiohome.org/news/releases/2026/may-fundedprojects.aspx",
+            "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx"
+          ]
         },
         "execution": {
           "score": 3,
           "evidence": "Ohio's big metros are drivable from Chicago. No local-presence rule was found. The co-developer/mentor path is documented. Volume cap appears available on a first-come basis. Burdens: the paid fee is limited to 70% of the budgeted fee when gap layers are used (30% or more deferred), plus competitive gap funding.",
-          "sources": ["https://development.ohio.gov/business/state-incentives/volume-cap", "https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf", "https://ohiohome.org/ppd/documents/2026-BGF-Guidelines.pdf"]
+          "sources": [
+            "https://development.ohio.gov/business/state-incentives/volume-cap",
+            "https://www.ohiohome.org/ppd/documents/2026-ExperienceCapacityStandards.pdf",
+            "https://ohiohome.org/ppd/documents/2026-BGF-Guidelines.pdf"
+          ]
         }
       },
       "confidence": "Medium"
@@ -123,30 +220,47 @@
   "venture": {
     "market": "Columbus: Near East Side (Sawyer Blvd area); Cleveland Harbor/lakefront is the alternative",
     "historicSuccess": {
-      "score": null,
-      "evidence": "Not researched: the shared web-search budget ran out before market research on Columbus's history, infrastructure or transit.",
-      "sources": []
+      "score": 3,
+      "evidence": "Mount Vernon Avenue was the center of a thriving Black business district and the heart of Columbus`s African American community during Jim Crow; the Columbus Near East Side District was listed on the National Register of Historic Places in 1978. The corridor later declined as residents left. Transit and infrastructure were not researched.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mount_Vernon_(Columbus,_Ohio)",
+        "https://10tv.com/article/news/local/the-rise-and-fall-of-a-black-business-mecca-in-columbus/530-feec17b8-b86a-41ab-a578-820c04408ede"
+      ]
     },
     "anchorInstitutions": {
-      "score": null,
-      "evidence": "Not researched (search budget ran out).",
-      "sources": []
+      "score": 4,
+      "evidence": "Ohio State University, the City of Columbus and Columbus Metropolitan Housing Authority launched the PACT community development initiative covering the 800-acre Near East Side (Blueprint for Community Investment), including the Poindexter Village redevelopment (McCormack Baron, Choice Neighborhoods). The Near East Side realized about $300 million of additional neighborhood investment over the life of the Choice Neighborhoods grant. OSU`s East Hospital is in the area, but its current expansion plans were not confirmed.",
+      "sources": [
+        "https://purposebuiltcommunities.org/?p=2514",
+        "https://www.mccormackbaron.com/community-profiles/poindexter",
+        "https://www.huduser.gov/portal/node/10703"
+      ]
     },
     "availableProperty": {
       "score": 3,
       "evidence": "The 380-unit Sawyer Towers redevelopment at 525 Sawyer Blvd turns a vacant, blighted site into affordable housing. That shows large vacant sites exist on the Near East Side without displacing residents (one site documented).",
-      "sources": ["https://www.ncsha.org/?p=156236"]
+      "sources": [
+        "https://www.ncsha.org/?p=156236"
+      ]
     },
     "emergingMomentum": {
       "score": 3,
       "evidence": "Recent large LIHTC investment in Columbus: a 380-unit family development (2025 4% LIHTC, placed in OHFA's Strategic Initiative Set-Aside) and the 150-unit Barthman Family Homes (Feb 2026, $2M Housing Development Loan plus 4% LIHTC).",
-      "sources": ["https://www.ncsha.org/?p=156236", "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx", "https://ohiohome.org/ppd/documents/2026-OLIHTC-StrategicInitiativeMemo.pdf"]
+      "sources": [
+        "https://www.ncsha.org/?p=156236",
+        "https://ohiohome.org/news/releases/2026/february-fundedprojects.aspx",
+        "https://ohiohome.org/ppd/documents/2026-OLIHTC-StrategicInitiativeMemo.pdf"
+      ]
     },
     "localLeadership": {
-      "score": null,
-      "evidence": "Not researched (search budget ran out).",
-      "sources": []
+      "score": 3,
+      "evidence": "The City of Columbus adopted the Near East Area Plan (City Council, September 19, 2005), with commercial guidelines for Mount Vernon Avenue, Long Street, Main Street and Parsons Avenue, plus the King-Lincoln District Plan (2002) and the Olde Towne Quarter strategy (2010). The PACT partnership (City, OSU, CMHA) gives an identifiable redevelopment coalition. The Columbus Foundation funded planning for the Pythian Theater restoration on Mt. Vernon Avenue. Plans are older; current named leaders were not researched.",
+      "sources": [
+        "https://columbus.gov/files/sharedassets/city/v/1/building-and-zoning/bzs-boards-and-commissions/planning-document-library/near-east-area-plan-2005.pdf",
+        "https://columbus.gov/files/sharedassets/city/v/1/building-and-zoning/bzs-boards-and-commissions/planning-document-library/king-lincoln-district-plan-2002.pdf",
+        "https://columbusfoundation.org/stories-of-impact/investing-in-the-neighborhood"
+      ]
     }
   },
-  "notes": "1) ohiohome.org (all subdomains) and novoco.com could not be reached from this session (DNS blocked), so every official rule comes from search-engine excerpts and ruleVerified=false for both fees. Ask for ohiohome.org to be allowed in the session's network settings to verify. 2) 9% fee: 20% of eligible basis net of fee, $3M cap, confirmed in several excerpts of the final 2026-2027 QAP; the 8/20/2026 Technical Amendment's fee text was not seen. 3) 4% fee: 20% of eligible basis net of fee; no dollar cap in any excerpt of the 4% QAP or the 2025/2026 BGF guidelines, so this is unverified, not a confirmed absence. Paid fee is limited to 70% of the budgeted fee in the Ohio LIHTC/BGF layers, and the 2023 BGF guidelines had a $20,000-per-unit paid-fee cap. A Novoco copy of the 4% QAP dated 12/10/2025 suggests a possible later revision that I could not confirm. 4) The 2026 9% requested-to-available ratio is 2.51 from OHFA's summary ($98.4M / $39.2M), which conflicts with the 'more than three times' claim in our earlier context and in OHFA's blog (which describes the last three years). 5) Per-year new-construction and above-100-unit counts were not found for either pathway; the 9% totals for 2021-2023 come from an unlabeled chart excerpt and were left null. 6) The 2027 9% calendar was not found. 7) Venture factors historicSuccess, anchorInstitutions and localLeadership are null because the shared 200-search limit was reached before market research; a follow-up session should cover Columbus (OSU, LinkUS transit corridors, Columbus housing bond, Intel/New Albany) and Cleveland market data. 8) The 2026 E&C Standards excerpt on out-of-state-only entities was garbled; 'limited to one reservation' is the clearest reading."
+  "notes": "1) ohiohome.org (all subdomains) and novoco.com could not be reached from this session (DNS blocked), so every official rule comes from search-engine excerpts and ruleVerified=false for both fees. Ask for ohiohome.org to be allowed in the session's network settings to verify. 2) 9% fee: 20% of eligible basis net of fee, $3M cap, confirmed in several excerpts of the final 2026-2027 QAP; the 8/20/2026 Technical Amendment's fee text was not seen. 3) 4% fee: 20% of eligible basis net of fee; no dollar cap in any excerpt of the 4% QAP or the 2025/2026 BGF guidelines, so this is unverified, not a confirmed absence. Paid fee is limited to 70% of the budgeted fee in the Ohio LIHTC/BGF layers, and the 2023 BGF guidelines had a $20,000-per-unit paid-fee cap. A Novoco copy of the 4% QAP dated 12/10/2025 suggests a possible later revision that I could not confirm. 4) The 2026 9% requested-to-available ratio is 2.51 from OHFA's summary ($98.4M / $39.2M), which conflicts with the 'more than three times' claim in our earlier context and in OHFA's blog (which describes the last three years). 5) Per-year new-construction and above-100-unit counts were not found for either pathway; the 9% totals for 2021-2023 come from an unlabeled chart excerpt and were left null. 6) The 2027 9% calendar was not found. 7) Venture factors historicSuccess, anchorInstitutions and localLeadership are null because the shared 200-search limit was reached before market research; a follow-up session should cover Columbus (OSU, LinkUS transit corridors, Columbus housing bond, Intel/New Albany) and Cleveland market data. 8) The 2026 E&C Standards excerpt on out-of-state-only entities was garbled; 'limited to one reservation' is the clearest reading. [research2 gap-fill, 2026-11-16] Added a 2025 4% above100Units lower bound (1, the 380-unit Columbus family deal) and venture historicSuccess, anchorInstitutions and localLeadership. Other 4% award counts are still not found. Candidates seen but not entered because the award year was not confirmed: Havens Edge Apartments, Columbus (246 new units, $4,421,655 annual 4% credits, up to $56.5M OHFA bonds; SFY2024 application, https://ohiohome.org/ppd/proposals/2024/4-Percent/NewConstruction/HavensEdgeApartments.pdf), The Reserve at Chatford, Columbus (192 units, SFY2024 application, status unclear), and West Fork, Columbus (216 units, 2023 Bond Gap Financing reservation, construction type unconfirmed; https://ohiohome.org/news/releases/2023/fundedprojects.aspx). OHFA publishes SFY 4% application and reservation lists (e.g. https://ohiohome.org/ppd/documents/SFY2024-4-LIHTC-OLIHTC-Applications.pdf, https://www.ohiohome.org/ppd/documents/2025-4-OLIHTC-Results.pdf) that would settle the counts if they can be opened."
 }

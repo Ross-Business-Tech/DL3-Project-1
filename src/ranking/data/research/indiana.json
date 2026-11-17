@@ -30,12 +30,48 @@
         "source": "https://www.in.gov/ihcda/files/Summary-of-Changes-2026-2027-QAP-1st-Draft.pdf"
       },
       "awardsByYear": [
-        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found (search budget exhausted)" },
-        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found (search budget exhausted)" },
-        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": 33, "source": "https://events.in.gov/event/lt_gov_crouch_ihcda_announce_2023_low_income_housing_tax_credit_program_recipients" },
-        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": 35, "source": "https://www.ncsha.org/hfa-news/lt-gov-crouch-ihcda-announce-historic-affordable-housing-investment/" },
-        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": 37, "source": "https://events.in.gov/event/lt-gov-crouch-ihcda-announce-investment-in-affordable-housing" },
-        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.in.gov/ihcda/developers/rental-housing-tax-credits-rhtc/applications-and-awards" }
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found (search budget exhausted)"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found (search budget exhausted)"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 33,
+          "source": "https://events.in.gov/event/lt_gov_crouch_ihcda_announce_2023_low_income_housing_tax_credit_program_recipients"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 35,
+          "source": "https://www.ncsha.org/hfa-news/lt-gov-crouch-ihcda-announce-historic-affordable-housing-investment/"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 37,
+          "source": "https://events.in.gov/event/lt-gov-crouch-ihcda-announce-investment-in-affordable-housing"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.in.gov/ihcda/developers/rental-housing-tax-credits-rhtc/applications-and-awards"
+        }
       ],
       "oversubscription": {
         "requestedToAvailable": null,
@@ -46,17 +82,28 @@
         "access": {
           "score": 3,
           "evidence": "Large City set-aside restored (17% of 9% credits, cities of 70,000+). Co-developer role recognized. A new entrant may file up to two applications before an Indiana 8609. Limits: $1.3M per-development credit cap (context) restricts deal size, and roughly 33-37 applications compete for about 16-17 awards a year.",
-          "sources": ["https://www.in.gov/ihcda/files/2026-2027-QAP-2ND-DRAFT.pdf", "https://www.in.gov/ihcda/files/Summary-of-Changes-2026-2027-QAP-1st-Draft.pdf"]
+          "sources": [
+            "https://www.in.gov/ihcda/files/2026-2027-QAP-2ND-DRAFT.pdf",
+            "https://www.in.gov/ihcda/files/Summary-of-Changes-2026-2027-QAP-1st-Draft.pdf"
+          ]
         },
         "urban": {
-          "score": null,
-          "evidence": "No Indianapolis rent, vacancy, cost or affordability-gap data was collected before the search budget ran out. Separately, a 100+ unit 9% deal looks hard under the $1.3M per-development credit cap.",
-          "sources": []
+          "score": 3,
+          "evidence": "Demand evidence for Indianapolis: the Fair Housing Center of Central Indiana (Nov 2025) reports Marion County rental vacancy at a 15-year-plus low of 3.9% in 2024 (metro 4.2%); WFYI reports metro rents up about 30% since 2020 and, citing NLIHC, only 26-32 affordable and available units per 100 extremely low-income renter households. Counterpoint: HUD`s January 2025 market summary calls the apartment market balanced, with new completions (over 24,000 metro multifamily units 2020-2025) pushing vacancy above its historical average in 2024. Construction costs, taxes and insurance were not researched, so not scored 5. For 9%, demand supports LIHTC but the per-development credit cap makes a 100+ unit building hard to finance (2024: three Indianapolis 9% awards totaled 177 units).",
+          "sources": [
+            "https://www.indplsul.org/fair-housing-center-of-central-indiana-fhcci-releases-new-report-on-rising-rental-burdens/",
+            "https://www.wfyi.org/news/articles/fair-housing-report-highlights-growing-rental-burden-in-indianapolis",
+            "https://www.wfyi.org/news/articles/indianapolis-faces-a-housing-shortage-why-is-it-so-hard-to-build-more",
+            "https://www.huduser.gov/portal/periodicals/USHMC/reg/IndianapolisCarmelAndersonIN-HMP-January25.pdf",
+            "https://www.ibj.com/articles/trio-of-indianapolis-affordable-housing-projects-receive-tax-credits"
+          ]
         },
         "execution": {
           "score": 3,
           "evidence": "No local-presence rule seen in the QAP excerpts; a co-developer role exists for a local partner. Indianapolis is a short drive from Chicago (geographic fact, not sourced to the QAP).",
-          "sources": ["https://www.in.gov/ihcda/files/2026-2027-QAP-2ND-DRAFT.pdf"]
+          "sources": [
+            "https://www.in.gov/ihcda/files/2026-2027-QAP-2ND-DRAFT.pdf"
+          ]
         }
       },
       "confidence": "Medium"
@@ -88,12 +135,51 @@
         "source": "https://www.in.gov/ihcda/files/RED-Notice-26-11-Noncompetitive-Bond-Round-Open-and-25-Test-Updates.pdf"
       },
       "awardsByYear": [
-        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
-        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
-        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
-        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "not found" },
-        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": 18, "source": "https://events.in.gov/event/lt-gov-crouch-ihcda-announce-investment-in-affordable-housing" },
-        { "year": 2026, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.in.gov/ihcda/files/February-2026-Executed-Minutes.pdf" }
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": 2,
+          "applications": null,
+          "source": "https://indianacapitalchronicle.com/2022/09/26/100-million-in-housing-awards-announced/",
+          "lowerBound": true,
+          "evidence": "Lower bound only. Sept 26, 2022 IHCDA round ($96.2M bonds, $8M LIHTC): Village Premier Apartments, Fort Wayne, $25M tax-exempt bonds and $2,114,048 credits \"to create 208 units\"; City Heights Apartment Homes, Indianapolis, $33M bonds and $3,196,024 credits \"to create 200 units\". New construction is inferred from the word \"create\"; confirm against the IHCDA award list. Full 2022 count not found."
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "not found"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 25,
+          "source": "https://www.ncsha.org/hfa-news/lt-gov-crouch-ihcda-announce-historic-affordable-housing-investment/",
+          "evidence": "IHCDA/NCSHA 2024 release: IHCDA received \"25 tax-exempt bond and AWHTC applications\" (alongside 35 9% LIHTC applications)."
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 18,
+          "source": "https://events.in.gov/event/lt-gov-crouch-ihcda-announce-investment-in-affordable-housing"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.in.gov/ihcda/files/February-2026-Executed-Minutes.pdf"
+        }
       ],
       "oversubscription": {
         "requestedToAvailable": null,
@@ -104,17 +190,27 @@
         "access": {
           "score": 3,
           "evidence": "A rolling noncompetitive round exists, but the draft Schedule D Indiana bond-8609 condition and bond-experience points favor incumbents, so DL3 likely needs an Indiana co-developer with a bond 8609.",
-          "sources": ["https://www.in.gov/ihcda/files/2026-2027-Schedule-D-Noncompetitive-Private-Activity-Tax-Exempt-Bond-Financing-2nd-DRAFT.pdf"]
+          "sources": [
+            "https://www.in.gov/ihcda/files/2026-2027-Schedule-D-Noncompetitive-Private-Activity-Tax-Exempt-Bond-Financing-2nd-DRAFT.pdf"
+          ]
         },
         "urban": {
-          "score": null,
-          "evidence": "No Indianapolis rent, vacancy or cost data was gathered. Several 200+ unit Indianapolis bond-era projects appear in IHCDA documents, but that alone does not establish market feasibility.",
-          "sources": []
+          "score": 3,
+          "evidence": "Demand evidence for Indianapolis: the Fair Housing Center of Central Indiana (Nov 2025) reports Marion County rental vacancy at a 15-year-plus low of 3.9% in 2024 (metro 4.2%); WFYI reports metro rents up about 30% since 2020 and, citing NLIHC, only 26-32 affordable and available units per 100 extremely low-income renter households. Counterpoint: HUD`s January 2025 market summary calls the apartment market balanced, with new completions (over 24,000 metro multifamily units 2020-2025) pushing vacancy above its historical average in 2024. Construction costs, taxes and insurance were not researched, so not scored 5. For 4%, large Indianapolis bond deals are in the pipeline (IHCDA February 2026 minutes describe a 200-unit new-construction project in Indianapolis applied for October 9, 2025; Central at Old Southside, 227 units, 2026A-B Form A).",
+          "sources": [
+            "https://www.indplsul.org/fair-housing-center-of-central-indiana-fhcci-releases-new-report-on-rising-rental-burdens/",
+            "https://www.wfyi.org/news/articles/fair-housing-report-highlights-growing-rental-burden-in-indianapolis",
+            "https://www.wfyi.org/news/articles/indianapolis-faces-a-housing-shortage-why-is-it-so-hard-to-build-more",
+            "https://www.huduser.gov/portal/periodicals/USHMC/reg/IndianapolisCarmelAndersonIN-HMP-January25.pdf",
+            "https://secure.in.gov/ihcda/files/February-2026-Executed-Minutes.pdf"
+          ]
         },
         "execution": {
           "score": 3,
           "evidence": "No local-presence rule seen; partner route via co-developer; Indianapolis is within driving distance of Chicago. Bond deals carry heavier capital and guarantee needs.",
-          "sources": ["https://www.in.gov/ihcda/files/2026-2027-Schedule-D-Noncompetitive-Private-Activity-Tax-Exempt-Bond-Financing-2nd-DRAFT.pdf"]
+          "sources": [
+            "https://www.in.gov/ihcda/files/2026-2027-Schedule-D-Noncompetitive-Private-Activity-Tax-Exempt-Bond-Financing-2nd-DRAFT.pdf"
+          ]
         }
       },
       "confidence": "Medium"
@@ -122,11 +218,46 @@
   },
   "venture": {
     "market": "Indianapolis: Old Southside / near-downtown south",
-    "historicSuccess": { "score": null, "evidence": "Not researched before the search budget ran out.", "sources": [] },
-    "anchorInstitutions": { "score": null, "evidence": "Not researched before the search budget ran out.", "sources": [] },
-    "availableProperty": { "score": null, "evidence": "Only signal: a 227-unit bond application (Central at Old Southside, 2026A-B-006) is proposed here. Site availability was not researched.", "sources": ["https://www.in.gov/ihcda/files/2026A-B-006-Central-at-Old-Southside-Form-A.pdf"] },
-    "emergingMomentum": { "score": null, "evidence": "Not researched. Large recent IHCDA-financed Indianapolis projects (Central at Old Southside 227, Stone Lake 236, Cambridge Square North 380, Trinity Flats 169) suggest activity, but no catalytic-investment source was gathered.", "sources": ["https://www.in.gov/ihcda/files/2025-Annual-Report.pdf"] },
-    "localLeadership": { "score": null, "evidence": "Not researched before the search budget ran out.", "sources": [] }
+    "historicSuccess": {
+      "score": null,
+      "evidence": "Not researched before the search budget ran out.",
+      "sources": []
+    },
+    "anchorInstitutions": {
+      "score": 4,
+      "evidence": "Eli Lilly and Company`s global headquarters and McCarty Street campus sits on the south edge of downtown, next to the Old Southside; about 7,000 of Lilly`s roughly 8,900 local employees worked there (IBJ), Lilly announced a $70M R&D headquarters expansion (2015) and later a conference center on its campus. Lucas Oil Stadium is adjacent. Sources are older (2011-2019); current Lilly investment specific to the neighborhood was not confirmed.",
+      "sources": [
+        "https://www.ibj.com/articles/25353-lilly-s-master-plan-for-downtown-real-estate",
+        "https://investor.lilly.com/node/24706",
+        "https://www.insideindianabusiness.com/?p=169941"
+      ]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "The former Diamond Chain factory site at 402 Kentucky Ave. was bought by Keystone in 2021 for the $1B Eleven Park mixed-use/stadium district, and the factory was demolished, but the city later offered to buy it and Mayor Hogsett said he would like most, if not all, of the site to remain undeveloped (former uses complicate development). A townhouse project near Lucas Oil Stadium shows other developable parcels. No specific site for a 100+ unit LIHTC building was identified.",
+      "sources": [
+        "https://www.ibj.com/articles/future-of-diamond-chain-site-is-unclear",
+        "https://www.ibj.com/articles/former-uses-of-diamond-chain-site-could-pose-bit-of-a-sticky-situation-for-developers",
+        "https://www.ibj.com/articles/townhouse-project-planned-near-lucas-oil-stadium"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "The city designated the Old Southside a Lift Indy neighborhood in 2018 with a $4M commitment and broke ground on a $6.8M Old Southside infrastructure project; IBJ reports an \"Old Southside recovery\" with a townhouse complex and a new hotel at 808 S. Meridian St. planned. The $1B Eleven Park plan has since stalled, and a 227-unit LIHTC bond project (Central at Old Southside) appears in IHCDA`s 2026A-B round.",
+      "sources": [
+        "https://www.ibj.com/articles/city-breaks-ground-on-6-8m-old-southside-infrastructure-project",
+        "https://www.ibj.com/articles/townhouse-project-planned-near-lucas-oil-stadium",
+        "https://www.ibj.com/articles/plans-moving-forward-for-1b-eleven-park-project"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "City of Indianapolis leadership is identifiable and engaged: the Hogsett administration`s Lift Indy designation and infrastructure commitment for the Old Southside, and its direct role in the Diamond Chain site (offer to buy). The direction (keeping much of that site undeveloped) is not clearly pro-housing for that parcel.",
+      "sources": [
+        "https://www.ibj.com/articles/city-breaks-ground-on-6-8m-old-southside-infrastructure-project",
+        "https://insideindianabusiness.com/?p=169607"
+      ]
+    }
   },
-  "notes": "in.gov, novoco.com and other hosts could not be fetched from this session (DNS blocked), so every fact comes from search excerpts and ruleVerified is false. The session web-search limit was hit partway through, so Indianapolis market research (rents, vacancy, anchors, leadership) was not done; venture scores are null. Fee: the 15%-of-eligible-basis rule appears in excerpts of the final v.3 QAP and the bond application forms. No separate 9% formula was found. The 4% fee is computed on basis before boost. The twinning guidance caps the 9% fee at $2.5M if soft funds are requested. Not re-verified: the $1.3M per-development 9% cap and the $45M bond request cap (one excerpt shows $35M or $45M). Large City set-aside (17%, 70,000+ population) comes from 2nd draft / v.3 excerpts. Noncompetitive bond sponsor barrier: the draft Schedule D mentions an Indiana bond-8609 developer condition, but its role (threshold or alternative) is unconfirmed; this is the biggest open question for DL3. Award counts by new construction and size were not obtainable. 2025 9% round: 37 applications requesting $56,998,141 (local news, City-County Observer), with more than $20M awarded to 16 developments. No official 'available' figure was found, so oversubscription is left null. IHCDA 2025 Annual Report: 9% reservations of $24,182,588 annually; 21 projects / 1,039 units. The awardsByYear year labels are credit years from press releases (2023 announced Jan 2023; 2024 announced Nov 2023; 2025 announced Nov 2024)."
+  "notes": "in.gov, novoco.com and other hosts could not be fetched from this session (DNS blocked), so every fact comes from search excerpts and ruleVerified is false. The session web-search limit was hit partway through, so Indianapolis market research (rents, vacancy, anchors, leadership) was not done; venture scores are null. Fee: the 15%-of-eligible-basis rule appears in excerpts of the final v.3 QAP and the bond application forms. No separate 9% formula was found. The 4% fee is computed on basis before boost. The twinning guidance caps the 9% fee at $2.5M if soft funds are requested. Not re-verified: the $1.3M per-development 9% cap and the $45M bond request cap (one excerpt shows $35M or $45M). Large City set-aside (17%, 70,000+ population) comes from 2nd draft / v.3 excerpts. Noncompetitive bond sponsor barrier: the draft Schedule D mentions an Indiana bond-8609 developer condition, but its role (threshold or alternative) is unconfirmed; this is the biggest open question for DL3. Award counts by new construction and size were not obtainable. 2025 9% round: 37 applications requesting $56,998,141 (local news, City-County Observer), with more than $20M awarded to 16 developments. No official 'available' figure was found, so oversubscription is left null. IHCDA 2025 Annual Report: 9% reservations of $24,182,588 annually; 21 projects / 1,039 units. The awardsByYear year labels are credit years from press releases (2023 announced Jan 2023; 2024 announced Nov 2023; 2025 announced Nov 2024). [research2 gap-fill, 2026-11-16] Added urban scores for both pathways and venture anchorInstitutions, availableProperty, emergingMomentum and localLeadership. historicSuccess and awardsByYear new-construction counts remain null (IHCDA award PDFs are listed in search results, e.g. 2023A-C, 2024A-G, 2025A-C, 2025B-C awarded lists and 2025 Noncompetitive Awarded List, but their rows were not visible). IBJ reported the 2024 program funded 17 tax-credit projects with 872 units (all construction types), not entered because it is not a new-construction count. Added 4% 2024 applications (25 bond/AWHTC applications) and a 2022 4% above100Units lower bound of 2 (Village Premier, 208 units; City Heights, 200 units; described as \"create\" units). Undated: Nicholas Landing, Clarksville (252 units, $35M bonds, $2.3M credits) - year not confirmed, not entered."
 }

@@ -34,8 +34,9 @@
           "year": 2023,
           "newConstructionAwards": null,
           "above100Units": null,
-          "applications": null,
-          "source": "https://missouriindependent.com/2023/12/08/commission-awards-380-million-in-tax-credits-for-missouri-low-income-housing/"
+          "applications": 82,
+          "source": "https://missouriindependent.com/2023/12/08/commission-awards-380-million-in-tax-credits-for-missouri-low-income-housing/",
+          "note": "Dec 2023 Commission round (FY2024). Missouri Independent: funded 3 of 11 9% proposals in Kansas City, 5 of 21 in St. Louis, 7 of 26 in purely rural areas, and 4 of 24 near smaller cities. 11+21+26+24 = 82 9% applications, 19 awarded. 24 proposals and 1,532 units in all (9% and 4%). New-construction split not reported."
         },
         {
           "year": 2024,
@@ -122,9 +123,10 @@
         {
           "year": 2025,
           "newConstructionAwards": null,
-          "above100Units": null,
+          "above100Units": 4,
           "applications": null,
-          "source": "https://mhdc.com/media/20zdy2hq/federal-4-lihtc_approvals_2025.pdf"
+          "source": "https://mhdc.com/media/20zdy2hq/federal-4-lihtc_approvals_2025.pdf",
+          "evidence": "Lower bound only. MHDC 'Federal 4% LIHTC Approvals' list headed 'Approved February 26, 2025' (search excerpts) names these new-construction approvals over 100 units: Triton Pointe, St. Louis, 192 units (New Construction, Family, $2,469,615 federal LIHTC, $42,541,429 bonds); 9th and Central, Kansas City, 164 units; Benton Apartments, Kansas City, 280 units; Commons of Belton, Belton, 252 units. The PDF layout may cover more than one approval date in 2025; total new-construction count not extracted."
         },
         {
           "year": 2026,
@@ -171,9 +173,15 @@
   "venture": {
     "market": "Kansas City: Troost Avenue corridor (Midtown, around Linwood Blvd to 27th St, near Hospital Hill)",
     "historicSuccess": {
-      "score": null,
-      "evidence": "Not researched before search budget ran out.",
-      "sources": []
+      "score": 3,
+      "evidence": "Troost was Kansas City's first retail district outside downtown: streetcar lines reached 33rd & Troost by 1889, and between about 1880 and 1920 it changed from 'millionaire's row' into 'Kansas City's premier shopping street' (Woolworth at 3120-3122 Troost; commercial buildings near 31st and Linwood). It declined after the 1960s and became the 'Troost Wall' racial dividing line, with 21st-century revitalization via zoning overlays and streetscape work. Transit: Troost MAX bus rapid transit has run since Jan 1, 2011; RideKC reports 107,343 riders (about 3,578/day) in September 2025. Strong historic vibrancy and transit, offset by decades of disinvestment, so 3.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Troost_Avenue",
+        "https://historic-structures.com/mo/kansas_city/woolworth-building/",
+        "https://midtownkcpost.com/how-troost-changed-from-millionaires-row-to-shoppers-paradise",
+        "https://ridekc.org/assets/uploads/documents/September_2025_System_Wide_Report.pdf",
+        "https://en.wikipedia.org/wiki/Metro_Area_Express"
+      ]
     },
     "anchorInstitutions": {
       "score": 3,
@@ -207,5 +215,5 @@
       ]
     }
   },
-  "notes": "No official document could be opened. mhdc.com and other sites were blocked for direct fetch in this session, so every value comes from search-result excerpts and ruleVerified is false. The fee rules are consistent across the May 2025 summary of changes, the 2026 final QAP and the December 2025 '2027 QAP' (likely the adopted version; a Draft 2028 QAP is now out). MHDC fees, excluded from the 13% base, are unknown and treated as 0. Award years are calendar years of Commission approval: Dec 2023 = FY2024 round (24 proposals and 1,532 units funded statewide; 19 were 9%), Dec 2024 = FY2025 round (applications: 12 9% in the KC region; statewide total not captured), Dec 2025 = FY2026 round (86 applications: 70 9%, 16 4%), 2026 = FY2027 round (82 applications: 72 9%, 10 4%, awards not yet published). New-construction award counts and >100-unit counts could not be extracted. Credits requested vs available were not found. The KC region 9% set-aside percentage was not captured. Venture/market research was cut short when the session web-search limit was reached; no rent, vacancy, cost, insurance or historic-vibrancy data was gathered. St. Louis (closer to Chicago; NGA West campus, St. Louis region at least 25% 9% set-aside) is a credible alternative market that was not researched."
+  "notes": "No official document could be opened. mhdc.com and other sites were blocked for direct fetch in this session, so every value comes from search-result excerpts and ruleVerified is false. The fee rules are consistent across the May 2025 summary of changes, the 2026 final QAP and the December 2025 '2027 QAP' (likely the adopted version; a Draft 2028 QAP is now out). MHDC fees, excluded from the 13% base, are unknown and treated as 0. Award years are calendar years of Commission approval: Dec 2023 = FY2024 round (24 proposals and 1,532 units funded statewide; 19 were 9%), Dec 2024 = FY2025 round (applications: 12 9% in the KC region; statewide total not captured), Dec 2025 = FY2026 round (86 applications: 70 9%, 16 4%), 2026 = FY2027 round (82 applications: 72 9%, 10 4%, awards not yet published). New-construction award counts and >100-unit counts could not be extracted. Credits requested vs available were not found. The KC region 9% set-aside percentage was not captured. Venture/market research was cut short when the session web-search limit was reached; no rent, vacancy, cost, insurance or historic-vibrancy data was gathered. St. Louis (closer to Chicago; NGA West campus, St. Louis region at least 25% 9% set-aside) is a credible alternative market that was not researched. GAP-FILL (2026-11-16): added 4% 2025 above100Units lower bound (4 named new-construction approvals of 164-280 units) and venture historicSuccess (score 3; Wikipedia/local history and RideKC reports, not official agency sources). The Dec 2024 Commission round approved 31 proposals statewide (News-Tribune, https://www.newstribune.com/news/2024/dec/19/local-proposals-fall-short-of-housing-incentives/), but the new-construction split is not stated, so the 2024 9% row is unchanged. The FY2026 round (Dec 2025) received 16 4% applications alongside 70 9%. No 2021-2022 or 4% 2021-2024 award counts were found; those rows remain absent/null. A fare reinstatement in 2026 cut Troost MAX ridership about 50% (Axios), not yet verified. Missouri 9% 2023 applications = 82, summed from the regional counts in the Missouri Independent article (19 awarded)."
 }

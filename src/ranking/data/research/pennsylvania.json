@@ -30,29 +30,71 @@
         "source": "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf"
       },
       "awardsByYear": [
-        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": "https://www.phfa.org/forms/multifamily_news/news/2024/2024-9-lihtc-applications-received.pdf" },
-        { "year": 2025, "newConstructionAwards": null, "above100Units": 0, "applications": null, "source": "https://www.phfa.org/forms/press_releases/2025/phfa-2025-lihtc-awards-final.pdf" }
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.phfa.org/forms/multifamily_news/news/2024/2024-9-lihtc-applications-received.pdf"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": 0,
+          "applications": null,
+          "source": "https://www.phfa.org/forms/press_releases/2025/phfa-2025-lihtc-awards-final.pdf"
+        }
       ],
-      "oversubscription": { "requestedToAvailable": null, "source": "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf" },
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"
+      },
       "nextDeadline": "Not confirmed. The 2025 round full application was due 3:00 p.m. Tuesday, February 11, 2025 (intent to submit in December). The next round (2027) will run under the 2027/2028 QAP, posted as a public-comment draft July 8, 2026; a 2026 round deadline/award list was not found.",
       "scores": {
         "access": {
           "score": 3,
           "evidence": "Experience judged at Agency discretion (no in-state requirement found), JV references in QAP, and a ~50% Urban Pool with 25% reserved for non-Philadelphia cities. But the 9% fee is hard-capped at $2.0M (no waivers), so DL3's >10% fee goal cannot be met on 9%; per-project credit caps (~$1.8M) push toward ~50-unit deals; tiebreakers favor deep affordability and geographic distribution.",
-          "sources": ["https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf", "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"]
+          "sources": [
+            "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf",
+            "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"
+          ]
         },
         "urban": {
-          "score": null,
-          "evidence": "No rent, cost, vacancy or affordability-gap data for Pittsburgh was gathered before the search budget ran out; cannot score.",
-          "sources": []
+          "score": 3,
+          "evidence": "Demand evidence for Pittsburgh is qualitative: Allegheny County`s housing strategy director describes affordable-housing waitlists as very long; the Housing Authority of the City of Pittsburgh has put over $60M into project-based voucher and gap-financing deals since 2012 ($15.7M of gap loans and 272 vouchers in 2024 alone), which adds gap sources; Pennsylvania is short over 100,000 housing units (Sept 2025 report). Pittsburgh rents, vacancy, construction cost, taxes and insurance were NOT found, so this is a low-confidence plausibility score. For 9%, the per-project credit cap (about $1.7M-$1.85M) and 2025 average of about 47 units per award make 100+ units on 9% alone difficult.",
+          "sources": [
+            "https://www.publicsource.org/affordable-housing-pittsburgh-allegheny-county-downtown-hacp-acha/",
+            "https://hacp.org/?p=617910",
+            "https://www.planetizen.com/news/2025/09/136026-pennsylvania-short-over-100000-housing-units"
+          ]
         },
         "execution": {
           "score": 3,
           "evidence": "Pittsburgh/Philadelphia are a short flight from Chicago; no local-presence requirement was seen in the excerpts read, and the QAP allows experience to be judged by the Agency with JV references. Not verified against the full QAP text.",
-          "sources": ["https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"]
+          "sources": [
+            "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"
+          ]
         }
       },
       "confidence": "Medium"
@@ -84,29 +126,71 @@
         "source": "https://www.ncsha.org/wp-content/uploads/Bond-Test-Policy-March-19-2026-FINAL.pdf"
       },
       "awardsByYear": [
-        { "year": 2021, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2022, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2023, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2024, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null },
-        { "year": 2025, "newConstructionAwards": null, "above100Units": null, "applications": null, "source": null }
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        }
       ],
-      "oversubscription": { "requestedToAvailable": null, "source": null },
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": null
+      },
       "nextDeadline": "Rolling: 4% applications accepted outside the annual round under the 2025/2026 Tax-Exempt Volume Cap RFP; a mandatory Intent to Submit a Tax Credit Application is required. No specific 2026/2027 date found.",
       "scores": {
         "access": {
           "score": 3,
           "evidence": "Rolling access with no in-state experience rule seen; limits of two volume-cap applications per developer and 30-unit minimum; 25% bond test from 2026; volume cap described as in increased demand. Paid fee capped at $2.55M (6.4% of the example TDC), short of DL3's >10% goal unless deferred fee is approved by waiver.",
-          "sources": ["https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026_tax_exempt_request_for_proposals.pdf", "https://www.ncsha.org/wp-content/uploads/Bond-Test-Policy-March-19-2026-FINAL.pdf"]
+          "sources": [
+            "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026_tax_exempt_request_for_proposals.pdf",
+            "https://www.ncsha.org/wp-content/uploads/Bond-Test-Policy-March-19-2026-FINAL.pdf"
+          ]
         },
         "urban": {
-          "score": null,
-          "evidence": "No Pittsburgh rent/cost/vacancy evidence gathered before the search budget ran out; cannot score.",
-          "sources": []
+          "score": 3,
+          "evidence": "Demand evidence for Pittsburgh is qualitative: Allegheny County`s housing strategy director describes affordable-housing waitlists as very long; the Housing Authority of the City of Pittsburgh has put over $60M into project-based voucher and gap-financing deals since 2012 ($15.7M of gap loans and 272 vouchers in 2024 alone), which adds gap sources; Pennsylvania is short over 100,000 housing units (Sept 2025 report). Pittsburgh rents, vacancy, construction cost, taxes and insurance were NOT found, so this is a low-confidence plausibility score. 4% plus HACP gap loans/vouchers is the plausible route for 100+ units, but no Pittsburgh 4% new-construction deal above 100 units was confirmed.",
+          "sources": [
+            "https://www.publicsource.org/affordable-housing-pittsburgh-allegheny-county-downtown-hacp-acha/",
+            "https://hacp.org/?p=617910",
+            "https://www.planetizen.com/news/2025/09/136026-pennsylvania-short-over-100000-housing-units"
+          ]
         },
         "execution": {
           "score": 3,
           "evidence": "Reachable from Chicago; no local-presence rule seen; 4% deals are expected to close within 180 days of award, which requires a ready capital stack. Not verified against the full RFP.",
-          "sources": ["https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"]
+          "sources": [
+            "https://www.phfa.org/forms/multifamily_application_guidelines/guidelines/2025/2025-mpg-03.pdf"
+          ]
         }
       },
       "confidence": "Low"
@@ -115,9 +199,14 @@
   "venture": {
     "market": "Pittsburgh: Lower Hill District (former Civic Arena site) / Greater Hill District",
     "historicSuccess": {
-      "score": null,
-      "evidence": "Not researched with a citable source before the search budget ran out.",
-      "sources": []
+      "score": 4,
+      "evidence": "The Lower Hill was the cultural and commercial center of Black Pittsburgh from the Great Migration through the 1950s; the Wylie and Fullerton intersection was called the \"Crossroads of the World\" (Claude McKay), with the Crawford Grill (1930) and the New Granada Theater (1937). The URA cleared 95 acres in 1956-58 (1,300 structures, 400 businesses, about 8,000 residents displaced) for the Civic Arena. The site adjoins downtown Pittsburgh. Strong historic vibrancy; transit not separately researched.",
+      "sources": [
+        "https://www.heinz.org/UserFiles/Library/2018_Issue_2-Hill_Streets.pdf",
+        "https://hilldistrict.org/history",
+        "https://www.heinzhistorycenter.org/?p=7361",
+        "https://urban-renewal-atlas.vercel.app/cities/pittsburgh/lower-hill"
+      ]
     },
     "anchorInstitutions": {
       "score": null,
@@ -127,18 +216,27 @@
     "availableProperty": {
       "score": 3,
       "evidence": "URA sought developers (responses due June 9, 2026) for a 6.82-acre URA-owned parcel within the 28-acre Lower Hill site, with affordable housing among community priorities; a URA notice says 21.038 acres of developable land remain. Vacant former arena land, so low displacement risk. The parcel may already be committed after the June 2026 RFP.",
-      "sources": ["https://www.ura.org/news/ura-seeking-proposals-for-housing-on-lower-hill-redevelopment-site", "https://www.ura.org/news/update-on-lower-hill-development-site-option-agreement-expiration"]
+      "sources": [
+        "https://www.ura.org/news/ura-seeking-proposals-for-housing-on-lower-hill-redevelopment-site",
+        "https://www.ura.org/news/update-on-lower-hill-development-site-option-agreement-expiration"
+      ]
     },
     "emergingMomentum": {
       "score": 3,
       "evidence": "URA took over Lower Hill development rights from the Penguins; March 2026 URA board vote on $930,000 for four Greater Hill District projects; Lower Hill LERTA redirects half of site tax revenue to the Greater Hill District Neighborhood Reinvestment Fund; April 2026 board items on a Lower Hill Public Infrastructure Fund and Block A site control. Pittsburgh won six 9% awards (330 units) in 2025.",
-      "sources": ["https://www.ura.org/pages/lower-hill", "https://www.ura.org/news/pittsburgh-awarded-six-low-income-housing-tax-credits-to-bring-309-affordable-homes-to-the-city"]
+      "sources": [
+        "https://www.ura.org/pages/lower-hill",
+        "https://www.ura.org/news/pittsburgh-awarded-six-low-income-housing-tax-credits-to-bring-309-affordable-homes-to-the-city"
+      ]
     },
     "localLeadership": {
       "score": 3,
       "evidence": "The Urban Redevelopment Authority of Pittsburgh is actively running the Lower Hill housing RFP and infrastructure fund, with Hill District community priorities (affordable housing, job access, youth and family investment) written into the process.",
-      "sources": ["https://www.ura.org/requests/lower-hill-district-housing", "https://www.ura.org/news/ura-seeking-proposals-for-housing-on-lower-hill-redevelopment-site"]
+      "sources": [
+        "https://www.ura.org/requests/lower-hill-district-housing",
+        "https://www.ura.org/news/ura-seeking-proposals-for-housing-on-lower-hill-redevelopment-site"
+      ]
     }
   },
-  "notes": "Research limits: WebFetch and curl could not reach phfa.org or novoco.com (blocked by this session's network allowlist), so every PHFA rule comes from search-engine excerpts of the official PDFs, not from reading them; ruleVerified is false for both fees. The shared web-search budget then ran out, so market (urban) evidence and two venture factors could not be researched. Key finding: PHFA caps the developer fee in dollars ($2.0M/$1.75M for 9%, no waivers; $2.55M paid fee for 4%), giving 5.0% and 6.4% of the $40M example TDC, well below DL3's >10% target. Draft 2027/2028 QAP (July 8, 2026, public comment) proposes 9% caps of $1.9M-$2.3M and 4% cap of $2.55M or $10,000/unit (whichever higher); adoption not confirmed. Excerpts disagreed on one 9% per-project credit tier (supportive housing $1.85M vs other figures). Annual counts of new-construction awards, applications, and oversubscription were not found for any year; 2025 round = 41 awards, 1,946 units, $66.5M (new construction + rehab not split). No 2026 9% award list was found. The 12% overall cap's exact scope was not confirmed. Whether 'replacement cost' includes the fee itself was not confirmed (dollar caps bind regardless)."
+  "notes": "Research limits: WebFetch and curl could not reach phfa.org or novoco.com (blocked by this session's network allowlist), so every PHFA rule comes from search-engine excerpts of the official PDFs, not from reading them; ruleVerified is false for both fees. The shared web-search budget then ran out, so market (urban) evidence and two venture factors could not be researched. Key finding: PHFA caps the developer fee in dollars ($2.0M/$1.75M for 9%, no waivers; $2.55M paid fee for 4%), giving 5.0% and 6.4% of the $40M example TDC, well below DL3's >10% target. Draft 2027/2028 QAP (July 8, 2026, public comment) proposes 9% caps of $1.9M-$2.3M and 4% cap of $2.55M or $10,000/unit (whichever higher); adoption not confirmed. Excerpts disagreed on one 9% per-project credit tier (supportive housing $1.85M vs other figures). Annual counts of new-construction awards, applications, and oversubscription were not found for any year; 2025 round = 41 awards, 1,946 units, $66.5M (new construction + rehab not split). No 2026 9% award list was found. The 12% overall cap's exact scope was not confirmed. Whether 'replacement cost' includes the fee itself was not confirmed (dollar caps bind regardless). [research2 gap-fill, 2026-11-16] Added urban scores for both pathways (low-confidence, qualitative demand evidence only) and venture historicSuccess. anchorInstitutions left null: the planned FNB-anchored 26-story office tower in the Lower Hill (Penguins / Buccini/Pollin, about $1B plan) is documented, but the Hill CDC reports the Penguins` development rights expired on October 22, 2025, and no search result confirmed UPMC Mercy, Pitt or Duquesne commitments in the Hill. awardsByYear remain null: phfa.org is DNS-blocked; PHFA approved $66.5M for 41 developments (about 1,900 units, construction and rehab) on Oct 9, 2025 and announced 41 developments in July 2024, but no new-construction split or application count was visible. The Hill CDC says the neighborhood will see well over 650 new housing units over the next five years (https://hilldistrict.org/lowerhill)."
 }

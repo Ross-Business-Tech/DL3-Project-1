@@ -156,10 +156,11 @@
         {
           "year": 2024,
           "newConstructionAwards": null,
-          "above100Units": null,
+          "above100Units": 4,
           "applications": null,
-          "source": "https://www.lhc.la.gov/press-releases/lhc-and-partners-break-ground-on-144-multifamily-units-in-lake-charles",
-          "note": "Counts not found. Known 100+ unit new-construction bond/4% deals: The Reserve at Power Place, Lake Charles, 144 units (groundbreaking May 2024; $21M MRB + $1.7M LIHTC); Capstone at the Oaks, Lake Charles, 120 units (groundbreaking Dec 2023; $22M MRB + $1.8M LIHTC)."
+          "source": "https://webapps3.lhc.la.gov/documents/BoardCommitteeMaterials/2025/September/BOARD/Pipeline Report 08-27-2025.pdf",
+          "note": "Counts not found. Known 100+ unit new-construction bond/4% deals: The Reserve at Power Place, Lake Charles, 144 units (groundbreaking May 2024; $21M MRB + $1.7M LIHTC); Capstone at the Oaks, Lake Charles, 120 units (groundbreaking Dec 2023; $22M MRB + $1.8M LIHTC).",
+          "evidence": "Lower bound only, from search excerpts of LHC documents. (1) The Batture Apartments, 1494 Tchoupitoulas, New Orleans: LHC Oct 2024 resolution for $98,000,000 MHRB and $3,008,024 LIHTC, 'New Construction Development', synopsis 220 units (165 LIHTC + 55 market) (https://www.lhc.la.gov/hubfs/Document%20Libraries/Board%20Meeting%20Archives/2024/October/Resolutions/Resolution%20issuing%20$98M%20MHRB%20for%20The%20Batture%20Apartments%20located%20in%20New%20Orleans.pdf). (2) NSA East Bank Apartments, New Orleans, 294 units, listed in the LHC Aug 2025 pipeline report as a 2024 PRIME 3 4% LIHTC new-construction project (in practice an adaptive reuse of the Navy depot). (3) BW Cooper Senior, New Orleans, 103 units, and (4) Imperial Terrace, Houma, 120 units, both listed as 2024 PRIME 3 4% LIHTC new construction or adaptive reuse in the same pipeline reports. Not counted: The Reserve at Power Place (144) and Capstone at the Oaks (120), whose award year is unclear."
         },
         {
           "year": 2025,
@@ -217,9 +218,13 @@
       ]
     },
     "anchorInstitutions": {
-      "score": null,
-      "evidence": "Not researched before the search budget ran out.",
-      "sources": []
+      "score": 4,
+      "evidence": "The anchor on the site itself is Newlab New Orleans, an energy-focused innovation hub at the former Naval Support Activity. It broke ground January 21, 2026 as part of a public-private partnership of Louisiana Economic Development (the state agency), the City, FUEL, Louisiana State University, Greater New Orleans Inc. and Shell. Next to it, Lincoln Avenue Communities is building NSA East Bank Apartments ($197M, 294 affordable units, about 30,000 sq ft of retail). This shows several committed institutional partners. No major hospital or university campus right beside the site was confirmed, so the score is 4, not 5.",
+      "sources": [
+        "https://www.opportunitylouisiana.gov/news/newlab-new-orleans-breaks-ground-at-former-naval-support-activity-site",
+        "https://thelensnola.org/2026/01/22/bywater-poland-avenue-navy-base-redevelopment-affordable-housing/",
+        "https://nolanewswire.com/2026/01/naval-support-activity-redevelopment-breaks-ground-launching-major-mixed-use-investment-with-innovation-focus/"
+      ]
     },
     "availableProperty": {
       "score": 3,
@@ -247,5 +252,5 @@
       ]
     }
   },
-  "notes": "All findings come from web-search excerpts. Fetching pages was blocked in this session (lhc.la.gov, novoco.com, ncsha.org and nolanewswire.com would not resolve), so no QAP was read in full and ruleVerified is false. The shared web-search budget ran out partway through. Conflicts and gaps: (1) Bond-deal fee: the amended QAP says bond projects are 'not subject to a fee cap' yet also states the 15% of TDC limit; the 4% figure assumes 15% applies with no dollar cap (FAQ supports this). (2) The 03/13/2024 version of the 2025 QAP had $2.0M rural / $2.5M urban caps and a 2024 draft had $35,000/unit; the amended 01-13-26 excerpt shows a flat $2,000,000 for 9%. Under a $2.5M urban cap the 9% fee would be $2,500,000. (3) No 2026/2027 QAP or next 9% deadline was found. (4) Year-by-year award counts were found only for the 2024 QAP round; 2025 final rankings exist (Oct 2025) but could not be opened. (5) 9% per-project credit cap ($1.5M metro) is the main barrier to a 100+ unit 9% deal. (6) Anchor institutions and rent/vacancy data for New Orleans were not researched."
+  "notes": "All findings come from web-search excerpts. Fetching pages was blocked in this session (lhc.la.gov, novoco.com, ncsha.org and nolanewswire.com would not resolve), so no QAP was read in full and ruleVerified is false. The shared web-search budget ran out partway through. Conflicts and gaps: (1) Bond-deal fee: the amended QAP says bond projects are 'not subject to a fee cap' yet also states the 15% of TDC limit; the 4% figure assumes 15% applies with no dollar cap (FAQ supports this). (2) The 03/13/2024 version of the 2025 QAP had $2.0M rural / $2.5M urban caps and a 2024 draft had $35,000/unit; the amended 01-13-26 excerpt shows a flat $2,000,000 for 9%. Under a $2.5M urban cap the 9% fee would be $2,500,000. (3) No 2026/2027 QAP or next 9% deadline was found. (4) Year-by-year award counts were found only for the 2024 QAP round; 2025 final rankings exist (Oct 2025) but could not be opened. (5) 9% per-project credit cap ($1.5M metro) is the main barrier to a 100+ unit 9% deal. (6) Anchor institutions and rent/vacancy data for New Orleans were not researched. GAP-FILL (2026-11-16): 4% 2024 above100Units set as a lower bound of 4, using named LHC bond and PRIME 3 deals (see evidence; NSA East Bank and BW Cooper may be adaptive reuse). Venture anchorInstitutions filled (score 4: Newlab with LSU, Shell, LED and GNO Inc.). 9% counts for 2021, 2022, 2023 and 2025 are still null: the LHC final-ranking PDFs exist (2021 awards list, 2022 awards list as of 4/19/22, 2025 rankings as of 10/15/25), but lhc.la.gov is blocked and the search excerpts were garbled. An NCSHA item reports a second PRIME 3 award round of 19 projects and 2,132 adaptive-reuse/new-construction units, but it is undated, so it is not used. Another excerpt mentions $129M in 9% LIHTC to 20 developments (877 units) with no year, also not used."
 }

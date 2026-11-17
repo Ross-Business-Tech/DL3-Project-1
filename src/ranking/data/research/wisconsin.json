@@ -34,8 +34,9 @@
           "year": 2021,
           "newConstructionAwards": null,
           "above100Units": null,
-          "applications": null,
-          "source": "https://www.wheda.com/about-wheda/press-room/news/2021/wheda-announces-awards-for-innovation-housing-tax-credits"
+          "applications": 54,
+          "source": "https://urbanmilwaukee.com/?p=514896",
+          "evidence": "Urban Milwaukee (news, 2021 round): \"13 of the 54 applications were Milwaukee projects\"; may combine federal 9% and state/federal 4% competitive applications (same caveat as the 2022 figure of 49). WHEDA 2021: $35M federal and state credits for 33 projects, of which $14.7M federal 9% for 17 projects with 866 units (https://www.ncsha.org/hfa-news/wheda-awards-35-million-in-federal-and-state-housing-tax-credits-for-2021/); new-construction split not stated."
         },
         {
           "year": 2022,
@@ -166,9 +167,11 @@
         {
           "year": 2025,
           "newConstructionAwards": null,
-          "above100Units": null,
+          "above100Units": 2,
           "applications": null,
-          "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2025/4-percent-htc-awards"
+          "source": "https://www.wheda.com/developers-and-property-managers/tax-credits/htc/allocating/2025/2025-non-competitive-program",
+          "lowerBound": true,
+          "evidence": "Lower bound only (search excerpts of the WHEDA 2025 Non-Competitive 4% Program page): WHEDA project #3336, Milwaukee, awarded 8/9/2025, 269/269 units, New Construction, Family; WHEDA project #3341, Milwaukee, awarded 10/6/2025, 212/212 units, New Construction, Family (possibly Cudahy Farms Phase 1, Royal Capital Group, 212 units, per the 2025 State 4% concept determinations list; link unconfirmed). Total 2025 4% new-construction award count not visible; competitive State/Federal 4% awards not counted."
         },
         {
           "year": 2026,
@@ -216,16 +219,23 @@
   "venture": {
     "market": "Milwaukee: Bronzeville / North Avenue corridor (Near North Side)",
     "historicSuccess": {
-      "score": null,
-      "evidence": "Not researched with citable sources before the search budget ran out (city 6th & North RFP likely describes it but was not read).",
+      "score": 3,
+      "evidence": "City of Milwaukee: Walnut Street was historically the economic hub of Bronzeville; historians describe it as a vibrant, self-sufficient Black business and cultural community in the segregation era before 1950s-60s urban renewal and freeway clearance. The city has a Bronzeville Cultural and Entertainment District plan centered on North Avenue. Transit/infrastructure quality was not researched.",
       "sources": [
-        "https://city.milwaukee.gov/ImageLibrary/Groups/cityDCD/realestate/DevelopmentSites/6th_North_RFP.pdf"
+        "https://city.milwaukee.gov/Bronzeville/History",
+        "https://www.wuwm.com/2024-10-04/the-history-of-milwaukees-north-avenue",
+        "https://urbanmilwaukee.com/2022/02/22/the-fall-and-rise-of-bronzeville/"
       ]
     },
     "anchorInstitutions": {
-      "score": null,
-      "evidence": "No anchor institution investment evidence gathered for this corridor.",
-      "sources": []
+      "score": 4,
+      "evidence": "ThriveOn King: the Greater Milwaukee Foundation, the Medical College of Wisconsin and Royal Capital Group redeveloped the former Gimbels/Schuster`s building at 2153 N. Martin Luther King Jr. Drive (about $100M estimate) with about 150,000 sq ft occupied by MCW and the Foundation, bringing hundreds of employees; it includes about 90 mixed-income housing units, and the collaboration committed $5M over five years to nearby early-childhood providers. America`s Black Holocaust Museum and the Bronzeville Center for the Arts also opened nearby. Scored 4 (several committed anchors, but one main hub).",
+      "sources": [
+        "https://biztimes.com/thriveon-king-project-completes-first-phase-welcomes-medical-college-other-tenants/?amp=1",
+        "https://urbanmilwaukee.com/2019/03/26/eyes-on-milwaukee-100-million-will-transform-old-schusters/",
+        "https://greatermilwaukeefoundation.org/news/post/anonymous-donor-gives-1-million-to-foundation-for-thriveon-king-development",
+        "https://wpr.org/more-history-be-made-decade-long-effort-restore-milwaukees-bronzeville-its-glory-gains-momentum"
+      ]
     },
     "availableProperty": {
       "score": 3,
@@ -253,5 +263,5 @@
       ]
     }
   },
-  "notes": "All WHEDA, Novogradac and Urban Milwaukee hosts were unreachable for WebFetch in this session (DNS blocked), so every value comes from search-result excerpts; ruleVerified is false and confidence Medium. The shared web-search budget ran out before market data (rents, vacancy, costs) and venture historic/anchor evidence could be gathered. FEE: 2026 Appendix J (2025-26 QAP, revised Sept 2025) is the cited rule; the unit-weighted 12%/9% blend is an assumption about the calculator, but the $25,000/unit cap binds regardless, so the base fee is $3,000,000 (7.5% of TDC), below DL3's >10% target. The Additional Fee tier (lesser of $50,000/unit or a percentage, with >=50% deferral) could raise the gross fee up to $6,000,000 but its 2026 percentage was not readable. The final 2027-28 QAP (announced ~May 2026) governs the 2027 round; its draft lists Appendix J as [reserved], and its 2027 Appendix Q (identity of interest) excerpt says consultant fee, developer fee and developer overhead are 'limited to 20% of the total development costs' net of those items, so the 2027 fee rule may differ; verify. AWARDS: totals found but not split by construction type: 2022 federal 9% = 14 projects / 700 units (49 applications reported Jan 2022, may include 4%/state); 2023 = 13 federal 9% developments; 2024 = 23 developments from 40 applicants (may combine credit types); 2025 = 19 projects / 967 units; 2026 = 26 projects / 1,160 units; 2027 round received 48 9% applications and 26 4%+state applications (Urban Milwaukee, Nov 13 2026). 2021 statewide totals not found. No 9% award above 100 units identified; $1.2M per-project credit cap. 4% path is the realistic one for 101+ units in Milwaukee."
+  "notes": "All WHEDA, Novogradac and Urban Milwaukee hosts were unreachable for WebFetch in this session (DNS blocked), so every value comes from search-result excerpts; ruleVerified is false and confidence Medium. The shared web-search budget ran out before market data (rents, vacancy, costs) and venture historic/anchor evidence could be gathered. FEE: 2026 Appendix J (2025-26 QAP, revised Sept 2025) is the cited rule; the unit-weighted 12%/9% blend is an assumption about the calculator, but the $25,000/unit cap binds regardless, so the base fee is $3,000,000 (7.5% of TDC), below DL3's >10% target. The Additional Fee tier (lesser of $50,000/unit or a percentage, with >=50% deferral) could raise the gross fee up to $6,000,000 but its 2026 percentage was not readable. The final 2027-28 QAP (announced ~May 2026) governs the 2027 round; its draft lists Appendix J as [reserved], and its 2027 Appendix Q (identity of interest) excerpt says consultant fee, developer fee and developer overhead are 'limited to 20% of the total development costs' net of those items, so the 2027 fee rule may differ; verify. AWARDS: totals found but not split by construction type: 2022 federal 9% = 14 projects / 700 units (49 applications reported Jan 2022, may include 4%/state); 2023 = 13 federal 9% developments; 2024 = 23 developments from 40 applicants (may combine credit types); 2025 = 19 projects / 967 units; 2026 = 26 projects / 1,160 units; 2027 round received 48 9% applications and 26 4%+state applications (Urban Milwaukee, Nov 13 2026). 2021 statewide totals not found. No 9% award above 100 units identified; $1.2M per-project credit cap. 4% path is the realistic one for 101+ units in Milwaukee. [research2 gap-fill, 2026-11-16] Added a 2025 4% above100Units lower bound (2 named WHEDA non-competitive new-construction awards in Milwaukee, 269 and 212 units) and venture historicSuccess/anchorInstitutions. wheda.com and phfa.org could not be fetched (DNS blocked), so award counts by year remain mostly null. A search excerpt of the 2024 State & Federal 4% HTC applicant list showed \"14 Applications\" (about $14.6M requested) but it was unclear whether this was the full list, so it was not entered. Urban Milwaukee reported that in the 2025 competitive round 10 Milwaukee projects submitted concepts and 3 won; WHEDA made 27 awards statewide in May 2025 ($36.6M, 9% and 4%), without a new-construction split. Added 2021 9% applications = 54 (Urban Milwaukee; may include 4% competitive applications). WHEDA 2023: 23 developments, over 1,500 units, with 24 proposals put on hold or declared ineligible (https://www.wheda.com/about-wheda/press-room/news/2023/2023-htc-announcement); 2022: $23.3M for 23 projects (all credit types)."
 }
