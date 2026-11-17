@@ -1,3 +1,9 @@
+// Private local data (optional). If src/private/*.json exists on this computer, its areas replace the
+// sample areas with the same id. src/private/ is ignored by Git, so it never reaches the public site.
+const privateFiles = import.meta.glob('./private/*.json', { eager: true, import: 'default' })
+const PRIVATE_TERRITORIES = Object.values(privateFiles).flat()
+export const HAS_PRIVATE_FACTS = PRIVATE_TERRITORIES.length > 0
+
 // Sample data in the same shape as the ranking system's output (see src/ranking/forFrontEnd.js on the
 // ranking branch). Every field below is one the ranking system fills in, so real results can replace
 // this list one for one. Nothing here is a real ranking.
@@ -16,7 +22,7 @@ export const TOTAL_AREAS = 51
 // `depth` is "In depth", "Fee screen only", or "Not researched".
 // `pathways` gives the 9% and 4% results separately, each with its checks and reason.
 // `sourceLinks` lists the public pages the team found for that state. They're placeholders here.
-export const TERRITORIES = [
+const SAMPLE_TERRITORIES = [
   {
     id: 'MI', name: 'Michigan', kind: 'State',
     score: 92, scoreText: '92 / 100',
@@ -71,6 +77,12 @@ export const TERRITORIES = [
     ],
     sourceLinks: [],
   },
+]
+
+// Private areas first; sample areas only where there is no private area with the same id.
+export const TERRITORIES = [
+  ...PRIVATE_TERRITORIES,
+  ...SAMPLE_TERRITORIES.filter((s) => !PRIVATE_TERRITORIES.some((p) => p.id === s.id)),
 ]
 
 // The source register from the DL3 guide, section 12. These are the public pages the team starts from.

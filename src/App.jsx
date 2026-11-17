@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MODEL_INFO, TERRITORIES, overviewStats } from './data.js'
+import { HAS_PRIVATE_FACTS, MODEL_INFO, TERRITORIES, overviewStats } from './data.js'
 import RankingsPage from './RankingsPage.jsx'
 import TerritoriesPage from './TerritoriesPage.jsx'
 import TerritoryPage from './TerritoryPage.jsx'
@@ -60,6 +60,7 @@ function Overview({ onOpenTerritory }) {
       <div className="overview-grid">
         <section className="card" aria-labelledby="top-heading" data-reveal>
           <h2 id="top-heading">Current rankings</h2>
+          {top.length === 0 && <p className="small-note">No areas are scored yet.</p>}
           {top.map((t, i) => (
             <button type="button" className="list-row" key={t.id} onClick={() => onOpenTerritory(t.id)}>
               <span className="rank-num">#{i + 1}</span>
@@ -158,7 +159,13 @@ function App() {
           <div className="band-rule" aria-hidden="true" />
           <h1>{title}</h1>
           {screen === 'overview' && <p>Last ranking update: {MODEL_INFO.runDate} · Model {MODEL_INFO.modelVersion}</p>}
-          {SAMPLE_NOTE.has(screen) && <span className="sample-note">Sample numbers for design only</span>}
+          {SAMPLE_NOTE.has(screen) && (
+            <span className="sample-note">
+              {HAS_PRIVATE_FACTS
+                ? 'Michigan, Ohio and Indiana show real public facts, not scores. Everything else is sample data.'
+                : 'Sample numbers for design only'}
+            </span>
+          )}
         </div>
       </section>
 

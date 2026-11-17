@@ -27,6 +27,30 @@ export default function TerritoryPage({ id, onBack, onSources }) {
           <div><dt>Credit cap</dt><dd>{t.creditCap}</dd></div>
           <div><dt>Next deadline</dt><dd>{t.deadline}</dd></div>
         </dl>
+        {t.realFacts && (
+          <div className="pathway-block">
+            <h3>Public facts (not scored)</h3>
+            <p className="small-note">
+              From public agency sources. {t.realFacts.awardRowsFlaggedCheck} award rows flagged for checking are left out of the counts below.
+            </p>
+            <table className="facts-table">
+              <thead>
+                <tr><th>Year</th><th>9% awards</th><th>4% awards</th><th>Pathway unknown</th></tr>
+              </thead>
+              <tbody>
+                {Object.entries(t.realFacts.awardsByYear).map(([year, c]) => (
+                  <tr key={year}>
+                    <td>{year}</td><td>{c['9%']}</td><td>{c['4%']}</td><td>{c.Unknown}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="small-note">
+              Approved rules: {t.realFacts.approvedRules}. Not yet reviewed: {t.realFacts.notReviewedRules}.
+            </p>
+          </div>
+        )}
+
         <div className="pathway-block">
           <h3>9% and 4% results</h3>
           {t.pathways.map((p) => (
