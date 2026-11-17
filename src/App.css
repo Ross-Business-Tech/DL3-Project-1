@@ -563,6 +563,76 @@
   margin: 6px 0;
 }
 
+/* Downloads panel */
+.downloads {
+  margin-bottom: 20px;
+}
+
+.download-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.download-button {
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--navy);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.download-button:hover {
+  transform: translateY(-2px);
+  border-color: var(--teal);
+  box-shadow: 0 6px 14px rgba(10, 17, 28, 0.1);
+}
+
+/* Print-only report: hidden on screen, shown alone when printing to PDF */
+.print-report {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-report,
+  .print-report * {
+    visibility: visible;
+  }
+
+  .print-report {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 24px;
+    color: #000;
+    background: #fff;
+  }
+
+  .print-report h1 {
+    color: #000;
+  }
+
+  .print-block {
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+  }
+
+  .print-link {
+    font-size: 12px;
+    word-break: break-all;
+  }
+}
+
 /* Modern page header: a soft glow, a teal rule that draws in, and a title that slides in */
 .page-band {
   background:

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { TERRITORIES } from './data.js'
 import { MAP } from './mapPaths.js'
+import Downloads from './Downloads.jsx'
 
 // Unscored areas go last.
 const byScore = (a, b) => (b.score ?? -1) - (a.score ?? -1)
@@ -284,13 +285,14 @@ function ListView({ onOpen }) {
 }
 
 export default function RankingsPage({ onOpenTerritory }) {
-  const [view, setView] = useState('map')
+  const [view, setView] = useState('list')
 
   return (
     <>
+      <Downloads />
       <div className="segmented view-toggle" role="group" aria-label="Choose a view">
-        <button type="button" aria-pressed={view === 'map'} onClick={() => setView('map')}>Map</button>
         <button type="button" aria-pressed={view === 'list'} onClick={() => setView('list')}>List</button>
+        <button type="button" aria-pressed={view === 'map'} onClick={() => setView('map')}>Map</button>
       </div>
       <div className="card" data-reveal="scale">
         {view === 'map' ? <MapView onOpen={onOpenTerritory} /> : <ListView onOpen={onOpenTerritory} />}
