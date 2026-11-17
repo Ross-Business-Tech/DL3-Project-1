@@ -497,3 +497,14 @@ def test_superseded_answers_leave_the_packet_but_approvals_stay(env):
     packet = list(build_packet.rows(conn))
     assert len(packet) == 1 and packet[0]["extraction_id"] != first        # only the newest unreviewed answer
     assert [v["extraction_id"] for v in import_review.approved_values(conn)] == [first]   # approval kept
+
+
+def test_import_explains_unreadable_file(tmp_path, capsys, monkeypatch):
+    f = tmp_path / "r.csv"
+    f.write_text("extraction_id,decision\n")
+    def deny(path):
+        raise PermissionError(1, "Operation not permitted")
+    monkeypatch.setattr(import_review, "read_rows", deny)
+    assert import_review.main([str(f), "--db", str(tmp_path / "t.db")]) == 1
+    assert "Move the file into" in capsys.readouterr().out
+    assert import_review.main([str(tmp_path / "missing.csv"), "--db", str(tmp_path / "t.db")]) == 1

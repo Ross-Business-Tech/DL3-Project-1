@@ -110,7 +110,17 @@ def main(argv=None) -> int:
     conn = archive.connect(Path(a.db))
     total = {"approved": 0, "rejected": 0, "corrected": 0, "unchanged": 0, "errors": []}
     for f in files:
-        res = apply(conn, read_rows(f), dry_run=a.dry_run)
+        try:
+            data = read_rows(f)
+        except PermissionError:
+            print(f"Cannot read {f}: your computer is not letting this program open that folder.\n"
+                  f"Move the file into {ROOT / 'review' / 'returned'} with Finder and run the command without a path,\n"
+                  "or on a Mac allow access in System Settings > Privacy & Security > Files and Folders.")
+            return 1
+        except FileNotFoundError:
+            print(f"File not found: {f}")
+            return 1
+        res = apply(conn, data, dry_run=a.dry_run)
         for k in ("approved", "rejected", "corrected", "unchanged"):
             total[k] += res[k]
         total["errors"] += [f"{f.name}: {e}" for e in res["errors"]]
