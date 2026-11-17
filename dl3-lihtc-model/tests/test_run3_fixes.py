@@ -29,7 +29,8 @@ def test_award_export_has_latest_snapshot_only(tmp_path):
 
 def test_unconfirmed_ohio_header_flagged_confirmed_header_annual(tmp_path):
     add(tmp_path, xlsx(OHIO))
-    pa.run(tmp_path / "t.db", tmp_path / "a", progress=lambda m: None)
+    unconfirmed = {**pa.load_rules(), "confirmed_headers": {}}   # independent of the project's own config
+    pa.run(tmp_path / "t.db", tmp_path / "a", rules=unconfirmed, progress=lambda m: None)
     conn = archive.connect(tmp_path / "t.db")
     r = conn.execute("SELECT * FROM award_row").fetchone()
     assert r["annual_credit"] is None and r["credit_unlabeled"] == 1031957 and "does not say annual" in r["flags"]
