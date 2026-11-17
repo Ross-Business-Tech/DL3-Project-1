@@ -14,8 +14,8 @@ export const MODEL_INFO = {
   runDate: 'November 2026',
 }
 
-// The ranking system covers the 50 states and DC.
-export const TOTAL_AREAS = 51
+// The pipeline covers 55 jurisdictions: the 50 states, DC, Puerto Rico, the U.S. Virgin Islands, Chicago and NYC.
+export const TOTAL_AREAS = 55
 
 // `score` is null until a state passes every check and all criteria have evidence.
 // `scoreText` is what the site shows in that case, for example "Not scored yet".
