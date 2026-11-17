@@ -1,0 +1,244 @@
+{
+  "state": "Georgia",
+  "researchedOn": "2026-11-16",
+  "agency": "Georgia Department of Community Affairs (DCA)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 2700000,
+        "rule": "9% new construction: developer fee limited to the lesser of 13% of total development cost (excluding developer fee and reserves), $2,700,000, or $38,000 per unit (2026-2027 QAP, per DCA's board-approved substantive-changes summary). Up to 50% of the fee may be deferred, repayable within 15 years from cash flow.",
+        "basis": "Total development cost excluding developer fee and reserves (land included)",
+        "dollarCap": "$2,700,000 per development; $38,000 per unit (one Draft 2 excerpt showed $30,000 per unit; either way the $2.7M cap binds for the example)",
+        "arithmetic": "Cost base = 40,000,000 - F - 1,000,000 reserves. F = 0.13 x (39,000,000 - F) -> 1.13F = 5,070,000 -> F = 4,486,726. Per-unit cap = 120 x 38,000 = 4,560,000 (or 120 x 30,000 = 3,600,000). Dollar cap = 2,700,000. Lesser of 4,486,726 / 4,560,000 / 2,700,000 = 2,700,000.",
+        "ruleVerified": false,
+        "source": "https://dca.georgia.gov/document/document/2026-2027-qap-substantive-changespdf/download",
+        "quote": "9% credits, new construction: lesser of 13% of total development cost (excluding developer fee and reserves), $2,700,000, or $38,000 per unit (search excerpt of DCA 2026-2027 QAP substantive changes, Draft 2 'updated the maximum developer fee calculations'). Full adopted QAP text could not be opened: https://dca.georgia.gov/document/document/2026-2027-qapboard-approvedpdf/download"
+      },
+      "maxFeasibleUnits": {
+        "value": 102,
+        "evidence": "2025 9% award list (announced Sept 23, 2025) includes RHA Redevelopment Phase II in Roswell (metro Atlanta), a 102-unit family new construction project. No QAP unit cap was found. Typical 9% awards are smaller: 31 developments / 1,983 units in 2025 (about 64 units each); Atlanta NC awards that year were 70, 50 and 42 units.",
+        "source": "https://dca.georgia.gov/announcement/2025-09-25/dca-awards-37m-tax-credits"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "QAP 'Experience, Capacity and Performance Requirements for General Partner and Developer Entities' rates developers (Qualified / Probationary). DCA text: it 'generally encourages entities that have insufficient technical expertise and/or experience to partner with Certifying Entities to gain experience and capacity in the Tax Credit program' and 'may, but is not required to, grant a waiver of development/credit award limitations for the proposed certifying partner.' Limits: 'Applicants either qualified as probationary or with minimal development experience (determined by DCA) are limited to one award per competitive round.' Read from search excerpts of QAP drafts (2024-2025 and 2026-2027 Draft 1), not the adopted text.",
+        "source": "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/2026-2027-qap-draft-1/download"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round funds mostly new construction: 2024 round 30 awards (post-reconsideration), 23 New Supply and 7 Preservation, $31.8M credits; 2025 round $37.2M for 31 developments. DCA reports a geographic split of 35% rural, 35% other metro, 30% metro Atlanta (2023 impact report). Note: Georgia HB 1199 caps aggregate annual state credits (9% and 4%) at $100M.",
+        "source": "https://dca.georgia.gov/document/presentations/2024-housing-tax-credit-updates/download"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/node/3451"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": 24,
+          "above100Units": null,
+          "applications": 61,
+          "source": "https://www.dca.ga.gov/newsroom/blog/georgia-department-community-affairs-awards-28-million-housing-tax-credits",
+          "note": "DCA 2022 9% release (search excerpt): $27,980,800 for 28 developments from 61 applications; 9 new construction rural, 7 new construction Atlanta metro, 8 other metro new construction (9+7+8 = 24), plus 4 preservation."
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/document/annual-reports/housing-finance-development-2023-impact-report"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": 23,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/document/presentations/2024-housing-tax-credit-updates/download"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": 25,
+          "above100Units": 1,
+          "applications": null,
+          "source": "https://dca.georgia.gov/announcement/2025-09-25/dca-awards-37m-tax-credits",
+          "evidence": "DCA Sept 25, 2025 release: $37,235,164 for 31 developments, '25 new construction properties and six rehabilitation', 1,983 units (2024-2025 QAP, 9% round). Lower bound for above100Units: RHA Redevelopment Phase II, Roswell, 102-unit family new construction, is on the 2025 award list. Full unit list not read."
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://dca.georgia.gov/document/presentations/2024-housing-tax-credit-updates/download"
+      },
+      "nextDeadline": "2026 round: pre-application Feb 27, 2026; competitive application May 8, 2026 (closed). 2027 9% deadline not found; DCA rounds typically open in spring, awards Sept-Oct.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "A documented partner path exists: DCA encourages less-experienced entities to partner with Certifying Entities and may waive award limits for the certifying partner. New/probationary applicants are limited to one award per round, and all applicants to a capped number of selected projects per round. Metro Atlanta receives about 30% of awards. Scoring details for a 100+ unit Atlanta deal were not reviewed.",
+          "sources": [
+            "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/2026-2027-qap-draft-1/download",
+            "https://dca.georgia.gov/document/annual-reports/housing-finance-development-2023-impact-report"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Atlanta supports large LIHTC buildings (e.g. Herndon Square Phase III 178 units, Bedford Pines 159, Folio House 149 bond-financed), but 9% awards average about 64 units and the $2.7M fee cap and roughly $1.2M average credit per award make a 100+ unit 9% deal hard; the largest 2025 9% NC award found was 102 units. No rent/vacancy data gathered (search budget exhausted).",
+          "sources": [
+            "https://dca.georgia.gov/announcement/2025-09-25/dca-awards-37m-tax-credits",
+            "https://pennrose.com/news-views/news/2025/pennrose-atlanta-housing-and-hunt-companies-close-on-phase-iii-of-herndon-square"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Atlanta is a direct short flight from Chicago; no local-presence rule found in excerpts; a Certifying Entity partner route exists. Partnering with local co-developers (e.g. Atlanta Housing teams) is common on large Atlanta deals.",
+          "sources": [
+            "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/2026-2027-qap-draft-1/download"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 4486726,
+        "rule": "4% Credits/Bonds new construction: developer fee limited to the lesser of 13% of total development cost (excluding developer fee and all reserves) or $4,500,000 (2026-2027 QAP per DCA substantive-changes summary). One garbled Draft 2 excerpt also listed '$30,000 per unit' for 4%; if that applies the fee would be $3,600,000.",
+        "basis": "Total development cost excluding developer fee and all reserves (land included)",
+        "dollarCap": "$4,500,000 per development (possible $30,000 per unit, unconfirmed)",
+        "arithmetic": "F = 0.13 x (40,000,000 - F - 1,000,000) -> 1.13F = 5,070,000 -> F = 4,486,726. Below the $4,500,000 cap, so fee = 4,486,726. Alternative if a $30,000/unit cap applies: 120 x 30,000 = 3,600,000.",
+        "ruleVerified": false,
+        "source": "https://dca.georgia.gov/document/document/2026-2027-qap-substantive-changespdf/download",
+        "quote": "For 4% Credits/Bonds: New construction developments are limited to the lesser of 13% of total development cost (excluding developer fee and all reserves), $4,500,000 (search excerpt; another excerpt of the same document continued ', $30,000 per unit')"
+      },
+      "maxFeasibleUnits": {
+        "value": 178,
+        "evidence": "Herndon Square Phase III (Atlanta, English Avenue/Westside), 178 units, closed financing March 2025 with Georgia DCA 4% Low Income Housing Tax Credits (Pennrose, Atlanta Housing, Hunt Companies). The 2024 4% round drew 71 applications totaling 10,434 units (about 147 units each). No unit cap found.",
+        "source": "https://pennrose.com/news-views/news/2025/pennrose-atlanta-housing-and-hunt-companies-close-on-phase-iii-of-herndon-square"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Same Certifying Entity partner path as 9%. 2023 QAP changes summary: 'probationary developers with experience comparable to fully qualified developers are permitted to be the Certifying Entity for 4% Credits/Bonds applications.' (search excerpt)",
+        "source": "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/22-23qapchangessummarypdf/download"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "DCA runs an annual competitive 4% Credits/Bonds round: $385,000,000 of bonds reserved for 4% awards in the 2025 round example, including a $123.2M Urban Housing Reservation for local urban residential finance authorities (e.g. Invest Atlanta). 2024 housing share of bond cap $585.9M; DCA projected $700M+ capacity and 26-30 awards. Competitive but not a multi-year waitlist. Per-application bond request capped (board-approved figure reported as $25M; drafts said $40M) which may constrain a 120-unit deal. DCA will reclaim excess volume under the new 25% test.",
+        "source": "https://dca.georgia.gov/document/document/4-bond-award-processpdf/download"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/node/3451"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/node/3451"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/document/annual-reports/housing-finance-development-2023-impact-report"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 71,
+          "source": "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/2025-qap-workshop-slides-managerspdf/download"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://dca.georgia.gov/document/document/4-bond-award-processpdf/download"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": 2.49,
+        "source": "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/2025-qap-workshop-slides-managerspdf/download"
+      },
+      "nextDeadline": "2026 4% round competitive applications reported due Sept 25, 2026 (unconfirmed secondary source); 2025 deadline was Aug 1, 2025. Next round likely mid/late 2027 (not stated).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Partner path with a Certifying Entity is documented; probationary developers with comparable experience can be Certifying Entity on 4% deals. Round is scored and ranked and about 2.5x oversubscribed; Invest Atlanta (urban reservation) is a second route to bonds in Atlanta.",
+          "sources": [
+            "https://dca.georgia.gov/document/qualified-allocation-plans-qaps/22-23qapchangessummarypdf/download",
+            "https://dca.georgia.gov/document/document/4-bond-award-processpdf/download"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Multiple 100+ unit new-construction bond/4% deals in Atlanta's Westside and downtown (Herndon Square Phase III 178 units; The Simpson 139 units, Vine City; Bedford Pines 159 units; Folio House 149 units) show rents and costs plausibly support 100+ unit LIHTC buildings. No vacancy or rent-gap data gathered.",
+          "sources": [
+            "https://pennrose.com/news-views/news/2025/pennrose-atlanta-housing-and-hunt-companies-close-on-phase-iii-of-herndon-square",
+            "https://www.investatlanta.com/development/residential-incentives"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Reachable from Chicago; partner route exists; DCA warns it 'will be less flexible on developments awarded 4% Housing Credits/Bonds going forward' and advises not to apply with a financing gap, raising the capital/guarantee burden.",
+          "sources": [
+            "https://dca.georgia.gov/document/presentations/2024-housing-tax-credit-updates/download"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Atlanta: Westside (English Avenue / Vine City, near Mercedes-Benz Stadium and downtown)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "Historic in-town neighborhoods adjacent to downtown, 'in the shadow of Mercedes-Benz Stadium', with long-standing infrastructure; long-disinvested, residents 'have long called for investment'.",
+      "sources": [
+        "https://www.pressreader.com/usa/the-atlanta-journal-constitution/20200831/282548725662046",
+        "https://atlpresscollective.com/2025/11/10/is-5-billion-plan-the-answer-to-calls-for-investment/"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": 3,
+      "evidence": "Mercedes-Benz Stadium and Georgia Tech nearby (a 170-unit LIHTC build near Georgia Tech was nearing opening); Westside Future Fund (civic/corporate-backed) actively investing. Specific university/hospital commitments to these blocks were not documented in my searches.",
+      "sources": [
+        "https://www.westsidefuturefund.org/westside-future-fund-prepares-to-open-two-new-multifamily-complexes-in-english-avenue/",
+        "https://www.pulse.bot/construction/news/affordable-housing-build-near-georgia-tech-nears-opening-42f35685-b417-4d15-a904-0d90397f5a89/"
+      ]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Westside Future Fund plans to 'transform vacant land in the English Avenue neighborhood' (Sunset Avenue, $2.5M TAD); Herndon Square phases redeveloping the former Herndon Homes site. Displacement concerns noted by WFF ('Restoration Without Displacement').",
+      "sources": [
+        "https://www.westsidefuturefund.org/restoration-without-displacement-the-westsides-unfinished-promise/",
+        "https://www.investatlanta.com/about-us/news-press/invest-atlanta-board-approves-tax-allocation-district-funding-to-create-150-affordable-housing-units"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "May 2025 Invest Atlanta Westside TAD awards for 166 units (150 affordable at 30-80% AMI), incl. $2.5M for 172 Vine Street; WFF's $48M North+Oliver, 'largest new affordable housing development in English Avenue in over a generation'; Herndon Square Phase III closed March 2025; Fulton County approved Vine City / English Avenue developments (Sept 2026).",
+      "sources": [
+        "https://www.investatlanta.com/about-us/news-press/invest-atlanta-board-approves-tax-allocation-district-funding-to-create-150-affordable-housing-units",
+        "https://www.atlantanewsfirst.com/2026/09/03/fulton-county-approves-new-affordable-housing-developments/",
+        "https://pennrose.com/news-views/news/2025/pennrose-atlanta-housing-and-hunt-companies-close-on-phase-iii-of-herndon-square"
+      ]
+    },
+    "localLeadership": {
+      "score": 4,
+      "evidence": "Mayor Dickens' $5.1 billion plan 'centers around Thomasville Heights, English Avenue/Vine City, Grove Park/Bankhead'; Invest Atlanta (Westside TAD, Urban Residential Finance Authority bonds), Atlanta Housing and Westside Future Fund are identifiable implementing leaders.",
+      "sources": [
+        "https://atlpresscollective.com/2025/11/10/is-5-billion-plan-the-answer-to-calls-for-investment/",
+        "https://www.westsidefuturefund.org/letter-from-leadership-a-stronger-future-through-the-westside-tad/"
+      ]
+    }
+  },
+  "notes": "dca.georgia.gov and novoco.com were blocked by this session's network policy, so no official PDF could be opened; all values come from search-engine excerpts of DCA documents (hence ruleVerified=false, confidence Medium). The session-wide web search budget ran out before market data (rents, vacancy, costs) could be gathered. Fee conflicts: excerpts of the 2026-2027 QAP substantive-changes summary show 9% NC = lesser of 13% of TDC excl. fee and reserves, $2.7M, $38,000/unit (one Draft 2 excerpt showed $30,000/unit; 9% result is $2.7M either way). For 4%, two excerpts give lesser of 13% or $4.5M ($4,486,726 for the example); one garbled excerpt adds $30,000/unit, which would give $3,600,000. The QAP was amended July 22 / Aug 18, 2026 (not reviewed). 2024 9% counts conflict: Sept 2024 press release says 27 developments incl. 21 new construction; DCA slides say 30 awards post-reconsideration with 23 New Supply (used). 2022: 28 developments, 7 NC in metro Atlanta (total NC not found). 2023: 1,844 9% units and 3,668 4% units funded (counts of awards not found). 9% applications counts not found for any year. 4% oversubscription 2.49 = 2024 round request $1,740,787,071 / DCA projected $700M capacity; vs the $585.9M housing share it would be 2.97. Per-application bond cap reported as $25M in board-approved QAP (drafts $40M) - verify, it could limit a 120-unit deal. Georgia HB 1199 caps aggregate state credits at $100M/year. 2026 9% awards not yet found. GAP-FILL (2026-11-16): 9% 2022 filled (24 new construction = 9 rural + 7 Atlanta metro + 8 other metro; 61 applications) from the DCA 2022 release, replacing the earlier note that the 2022 NC total was not found. 9% 2025 filled (25 new construction; above100Units lower bound 1 = RHA Redevelopment Phase II, 102 units). 2021, 2023 and all 4% year counts still not found; the 4% award lists sit in DCA spreadsheets that could not be read."
+}

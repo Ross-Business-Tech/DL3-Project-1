@@ -1,0 +1,219 @@
+{
+  "state": "Missouri",
+  "researchedOn": "2026-11-16",
+  "agency": "Missouri Housing Development Commission (MHDC)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 4000000,
+        "rule": "9% new construction: developer fee (defined as developer fee plus consultant fees) limited to the lesser of (a) $4,000,000, (b) $45,000 per unit, or (c) 13% of total development costs excluding the Developer/Consultant Fee category, MHDC fees and all reserves.",
+        "basis": "Total development cost excluding developer/consultant fee, MHDC fees and reserves",
+        "dollarCap": "$4,000,000 per development; $45,000 per unit",
+        "arithmetic": "13% test: F = 0.13 x (40,000,000 - F - 1,000,000 reserves) -> 1.13F = 5,070,000 -> F = 4,486,726 (MHDC fees unknown, treated as 0). Per-unit: 120 x 45,000 = 5,400,000. Dollar cap: 4,000,000. Lesser = $4,000,000.",
+        "ruleVerified": false,
+        "source": "https://mhdc.com/media/wrin1f5m/qualified-allocation-plan_2026.pdf",
+        "quote": "New Construction Developments are limited to the lesser of: a. $4,000,000; or b. $45,000 per unit; or c. 13% of total development costs (excluding Developer/Consultant Fee category, MHDC fees, and all reserves). [May 2025 summary of changes (https://mhdc.com/media/dgtl3asn/summary-of-changes-for-mhdcs-draft-qap.pdf), same three-part limit in 2026 final QAP and in the December 2025 2027 QAP per search excerpts]"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap found. The $4M fee cap and per-development credit approval limit make large 9% deals harder. Found no 2021-2025 9% new-construction award of 101+ units. The 2026-round approvals list shows mostly smaller deals (e.g. Greendale Senior Village, 39 units, new construction). Only search excerpts were available.",
+        "source": "https://mhdc.com/media/a0tktr2c/multifamily-rental-production-applications_approvals.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "2027 QAP (December 2025) excerpt: 'An application submitted by a developer with no prior experience with MHDC would be evaluated based on the entire Development Team.' The QAP evaluates developers and co-developers, so a co-developer/partner path exists. Caveat: up to 25 points are 'based on a Development Team's prior MHDC performance', which a new entrant cannot earn on its own. Real example: Milhaus received MHDC 4% approval (2026 round) for 194 units at Linwood & Troost; the press release calls it Milhaus's first LIHTC development in Kansas City. Read from search excerpts only.",
+        "source": "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Annual competitive 9% round: 'Federal 9% LIHTC (Estimated): $18,000,000 annually' (2025 NOFA). 2027 QAP: MHDC 'will allocate approximately 85% of the 9% Credit ... on a population proportionate basis', with a St. Louis Region set-aside of 'at least 25%'. The Kansas City region share was not captured. Competition is heavy: 72 of 82 FY2027 applications were 9%.",
+        "source": "https://mhdc.com/media/j31i4qvi/2025-multifamily-rental-production-nofa.pdf"
+      },
+      "awardsByYear": [
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 82,
+          "source": "https://missouriindependent.com/2023/12/08/commission-awards-380-million-in-tax-credits-for-missouri-low-income-housing/",
+          "note": "Dec 2023 Commission round (FY2024). Missouri Independent: funded 3 of 11 9% proposals in Kansas City, 5 of 21 in St. Louis, 7 of 26 in purely rural areas, and 4 of 24 near smaller cities. 11+21+26+24 = 82 9% applications, 19 awarded. 24 proposals and 1,532 units in all (9% and 4%). New-construction split not reported."
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://mhdc.com/media/4gvntmus/applications-received-detail_2025.pdf"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 70,
+          "source": "https://mhdc.com/media/pc5gh430/multifamily-rental-production-applications-received-2026.pdf"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 72,
+          "source": "https://mhdc.com/media/0dbjvdr2/2027-applications-received.pdf"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://mhdc.com/media/0dbjvdr2/2027-applications-received.pdf"
+      },
+      "nextDeadline": "Not found. The FY2027 round closed Friday, August 7, 2026 at 5:00 p.m. CST, and a Draft 2028 QAP is out for comment. The next (FY2028) deadline was not published in sources seen.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "A new-to-Missouri developer is scored on its whole Development Team, so a co-developer/partner route exists. However, 25 points depend on prior MHDC performance, and roughly 85% of credit is split by region (St. Louis at least 25%). About 72 applications competed for about $18M in federal 9% credit.",
+          "sources": [
+            "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf",
+            "https://mhdc.com/media/0dbjvdr2/2027-applications-received.pdf",
+            "https://mhdc.com/media/j31i4qvi/2025-multifamily-rental-production-nofa.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "In Kansas City, 100% at-or-below-60% AMI new construction is being financed nearby (194-unit Linwood & Troost, 4%, plus $1.5M from the KC Housing Trust Fund). 9% deals in the metro tend to be smaller. No rent, vacancy or insurance data was gathered (search budget exhausted).",
+          "sources": [
+            "https://www.einpresswire.com/article/925339564?promo=4400"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "The team-experience rule allows a partner route, and an out-of-market developer (Milhaus) completed MHDC approval in Kansas City. No local-presence rule was seen in the excerpts. Kansas City and St. Louis are reachable from Chicago by short flight, St. Louis also by rail or a roughly 5-hour drive (general knowledge; not source-verified).",
+          "sources": [
+            "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf",
+            "https://www.einpresswire.com/article/925339564?promo=4400"
+          ]
+        }
+      },
+      "confidence": "Low"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 4486726,
+        "rule": "4% new construction: developer fee (developer plus consultant fees) limited to the lesser of (a) $45,000 per unit or (b) 13% of total development costs excluding the Developer/Consultant Fee category, MHDC fees and all reserves. No per-project dollar cap seen for 4%.",
+        "basis": "Total development cost excluding developer/consultant fee, MHDC fees and reserves",
+        "dollarCap": "$45,000 per unit (no flat per-project cap seen for 4%)",
+        "arithmetic": "13% test: F = 0.13 x (40,000,000 - F - 1,000,000) -> 1.13F = 5,070,000 -> F = 4,486,726 (MHDC fees unknown, treated as 0). Per-unit: 120 x 45,000 = 5,400,000. Lesser = $4,486,726 (about 11.2% of $40M TDC).",
+        "ruleVerified": false,
+        "source": "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf",
+        "quote": "For 4% Applications: New Construction Developments are limited to the lesser of: a) $45,000 per unit; or b) 13% of total development costs (excluding Developer/Consultant Fee category, MHDC fees, and all reserves). [search excerpt of 2027 QAP Dec 2025; 2026 final QAP has the same 4% test]"
+      },
+      "maxFeasibleUnits": {
+        "value": 252,
+        "evidence": "The MHDC Federal 4% approvals list (approved February 26, 2025) includes Commons of Belton, described as a 252-unit new-construction family development in Belton (Kansas City metro). Also, Linwood & Troost Apartments (Milhaus) in Kansas City, 194 units, new construction, was approved in the 2026 4% round. Seen only through search excerpts.",
+        "source": "https://mhdc.com/media/20zdy2hq/federal-4-lihtc_approvals_2025.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "2027 QAP (December 2025) excerpt: 'An application submitted by a developer with no prior experience with MHDC would be evaluated based on the entire Development Team.' The QAP evaluates developers and co-developers, so a co-developer/partner path exists. Caveat: up to 25 points are 'based on a Development Team's prior MHDC performance', which a new entrant cannot earn on its own. Real example: Milhaus received MHDC 4% approval (2026 round) for 194 units at Linwood & Troost; the press release calls it Milhaus's first LIHTC development in Kansas City. Read from search excerpts only.",
+        "source": "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "Missouri's 2026 private activity bond cap is $846,523,035 (Missouri Department of Economic Development, DED), with an allocation calendar running January 1 to November 20. 4% projects go to MHDC first, then are recommended to DED for bonds. The FY2026 4% NOFA ran four rounds through June 3, 2026, and an FY2027 Federal 4% NOFA has been approved. No waitlist or exhaustion evidence was found, but demand data was not found either.",
+        "source": "https://ded.mo.gov/programs/business/private-activity-bond-allocation-program"
+      },
+      "awardsByYear": [
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": 4,
+          "applications": null,
+          "source": "https://mhdc.com/media/20zdy2hq/federal-4-lihtc_approvals_2025.pdf",
+          "evidence": "Lower bound only. MHDC 'Federal 4% LIHTC Approvals' list headed 'Approved February 26, 2025' (search excerpts) names these new-construction approvals over 100 units: Triton Pointe, St. Louis, 192 units (New Construction, Family, $2,469,615 federal LIHTC, $42,541,429 bonds); 9th and Central, Kansas City, 164 units; Benton Apartments, Kansas City, 280 units; Commons of Belton, Belton, 252 units. The PDF layout may cover more than one approval date in 2025; total new-construction count not extracted."
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://mhdc.com/media/vr2bcjd5/federal-4-lihtc-applications_approvals.pdf"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://ded.mo.gov/programs/business/private-activity-bond-allocation-program"
+      },
+      "nextDeadline": "FY2027 Federal 4% NOFA approved (MHDC NOFA page), round dates not captured. Prior FY2026 4% NOFA: four rounds, no applications after June 3, 2026. 4% can also be filed with the main round (FY2027 deadline August 7, 2026).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Same team-based path. 4% credits are non-competitive per MHDC ('as-of-right credits'), and a first-time-in-KC developer (Milhaus) won approval for 194 units in 2026.",
+          "sources": [
+            "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf",
+            "https://www.einpresswire.com/article/925339564?promo=4400"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "A 194-unit, 60%-AMI new-construction 4% deal at 3200 Troost (two vacant lots) assembled financing: 4% credits, a Planned Industrial Expansion Authority (PIEA) tax abatement, and $1.5M from the KC Housing Trust Fund. A 2025 hearing filing listed $35,000,000 bond / TDC and $2,290,109 federal LIHTC. No rent or vacancy data was gathered.",
+          "sources": [
+            "https://www.einpresswire.com/article/925339564?promo=4400",
+            "https://mhdc.com/media/j5wjx33g/4-round-3-public-hearing-data-2025.pdf"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Partner route through the Development Team, with an out-of-market precedent. The fee is about 11.2% of TDC under the example, just above DL3's 10% threshold. Guarantee/capital burden was not researched.",
+          "sources": [
+            "https://mhdc.com/media/juielxo4/2027-qualified-allocation-plan.pdf",
+            "https://www.einpresswire.com/article/925339564?promo=4400"
+          ]
+        }
+      },
+      "confidence": "Low"
+    }
+  },
+  "venture": {
+    "market": "Kansas City: Troost Avenue corridor (Midtown, around Linwood Blvd to 27th St, near Hospital Hill)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "Troost was Kansas City's first retail district outside downtown: streetcar lines reached 33rd & Troost by 1889, and between about 1880 and 1920 it changed from 'millionaire's row' into 'Kansas City's premier shopping street' (Woolworth at 3120-3122 Troost; commercial buildings near 31st and Linwood). It declined after the 1960s and became the 'Troost Wall' racial dividing line, with 21st-century revitalization via zoning overlays and streetscape work. Transit: Troost MAX bus rapid transit has run since Jan 1, 2011; RideKC reports 107,343 riders (about 3,578/day) in September 2025. Strong historic vibrancy and transit, offset by decades of disinvestment, so 3.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Troost_Avenue",
+        "https://historic-structures.com/mo/kansas_city/woolworth-building/",
+        "https://midtownkcpost.com/how-troost-changed-from-millionaires-row-to-shoppers-paradise",
+        "https://ridekc.org/assets/uploads/documents/September_2025_System_Wide_Report.pdf",
+        "https://en.wikipedia.org/wiki/Metro_Area_Express"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": 3,
+      "evidence": "Local news reports an apartment development at 27th and Troost 'near Hospital Hill' receiving tax incentives, which places the corridor next to the Hospital Hill medical campus. Specific institutional investments were not verified.",
+      "sources": [
+        "https://flatlandkc.org/news-issues/apartment-development-at-27th-and-troost-near-hospital-hill-receives-nod-for-tax-incentives/"
+      ]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Linwood & Troost Apartments is being built on 'two vacant lots at 3200 Troost Ave', and UC-B had separately planned an 89-unit project across the street. Both point to vacant parcels on the corridor.",
+      "sources": [
+        "https://www.einpresswire.com/article/925339564?promo=4400",
+        "https://flatlandkc.org/news-issues/workforce-apartment-project-in-the-works-for-troost-and-linwood/"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "Several multifamily projects are under way on Troost: Milhaus's 194-unit LIHTC (approved 2026), a 27th & Troost apartment project with tax incentives, and UC-B's 100-unit plan on Troost.",
+      "sources": [
+        "https://www.einpresswire.com/article/925339564?promo=4400",
+        "https://flatlandkc.org/news-issues/housing/milhaus-teams-with-uc-b-on-100-unit-apartment-plan-on-troost/"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "The city supports affordable deals with tools: the KC Housing Trust Fund awarded $1.5M, PIEA granted an abatement, and the Land Clearance for Redevelopment Authority (LCRA) passed a 2025 resolution authorizing MHDC projects. Named individual leaders were not researched.",
+      "sources": [
+        "https://www.einpresswire.com/article/925339564?promo=4400",
+        "https://edckc-meetings.s3.dualstack.us-east-1.amazonaws.com/LCRA%20Meetings/2025-09-15/LCRA-RES-(2025)-(Authorize%20MHDC%20projects)%20-%204906-2342-4095.pdf"
+      ]
+    }
+  },
+  "notes": "No official document could be opened. mhdc.com and other sites were blocked for direct fetch in this session, so every value comes from search-result excerpts and ruleVerified is false. The fee rules are consistent across the May 2025 summary of changes, the 2026 final QAP and the December 2025 '2027 QAP' (likely the adopted version; a Draft 2028 QAP is now out). MHDC fees, excluded from the 13% base, are unknown and treated as 0. Award years are calendar years of Commission approval: Dec 2023 = FY2024 round (24 proposals and 1,532 units funded statewide; 19 were 9%), Dec 2024 = FY2025 round (applications: 12 9% in the KC region; statewide total not captured), Dec 2025 = FY2026 round (86 applications: 70 9%, 16 4%), 2026 = FY2027 round (82 applications: 72 9%, 10 4%, awards not yet published). New-construction award counts and >100-unit counts could not be extracted. Credits requested vs available were not found. The KC region 9% set-aside percentage was not captured. Venture/market research was cut short when the session web-search limit was reached; no rent, vacancy, cost, insurance or historic-vibrancy data was gathered. St. Louis (closer to Chicago; NGA West campus, St. Louis region at least 25% 9% set-aside) is a credible alternative market that was not researched. GAP-FILL (2026-11-16): added 4% 2025 above100Units lower bound (4 named new-construction approvals of 164-280 units) and venture historicSuccess (score 3; Wikipedia/local history and RideKC reports, not official agency sources). The Dec 2024 Commission round approved 31 proposals statewide (News-Tribune, https://www.newstribune.com/news/2024/dec/19/local-proposals-fall-short-of-housing-incentives/), but the new-construction split is not stated, so the 2024 9% row is unchanged. The FY2026 round (Dec 2025) received 16 4% applications alongside 70 9%. No 2021-2022 or 4% 2021-2024 award counts were found; those rows remain absent/null. A fare reinstatement in 2026 cut Troost MAX ridership about 50% (Axios), not yet verified. Missouri 9% 2023 applications = 82, summed from the regional counts in the Missouri Independent article (19 awarded)."
+}

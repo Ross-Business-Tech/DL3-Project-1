@@ -1,0 +1,1919 @@
+{
+ "_about": "Fee screen for all 50 states, taken from the team's dashboard.html (a snapshot, run date below). DRAFT: it was not produced by this repo, only 17 of the 50 states passed an independent review, and its fee dollars assume the example project below. The 'national' array is copied unchanged from the dashboard.",
+ "origin": "dashboard.html uploaded by the team, Nov 2026",
+ "run_date": "2026-11-01",
+ "scenario": {
+  "tdc": 40000000,
+  "units": 120,
+  "land": 3000000,
+  "reserves": 1000000,
+  "eligible_base": 30000000
+ },
+ "settings": {
+  "min_units": 101,
+  "min_fee_ratio": 0.1,
+  "fee_denominator": "tdc_full"
+ },
+ "national": [
+  {
+   "state": "Alabama",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 5217391,
+    "binding": "percentage",
+    "ratio_full": 0.13043478260869565,
+    "gate_full": "Pass",
+    "ratio_net": 0.16949152542372883,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 5217391,
+    "binding": "percentage",
+    "ratio_full": 0.13043478260869565,
+    "gate_full": "Pass",
+    "ratio_net": 0.16949152542372883,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee for new construction and rehabilitation cannot exceed 15% of the total project costs (excluding the developer fee). No separate 4%/bond fee schedule found.",
+   "encoding": "15% of total project costs excluding the fee",
+   "url": "https://ahfa.atl1.cdn.digitaloceanspaces.com/multifamily/allocation-and-application-info/archives/ahfa-2027-qap-final-governor-approved.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Alaska",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 5550000,
+    "binding": "percentage",
+    "ratio_full": 0.13875,
+    "gate_full": "Pass",
+    "ratio_net": 0.18226600985221675,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 5550000,
+    "binding": "percentage",
+    "ratio_full": 0.13875,
+    "gate_full": "Pass",
+    "ratio_net": 0.18226600985221675,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 1
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer fee table: 15% of TDC less acquisition (+5% of acquisition costs) for new construction and 4% bond deals; fee calculated against total development cost net of certain payments; cash fee capped at 80% of allowed fee and may never exceed $2M. Base mapped to 'TDC less acquisition' is approxim",
+   "encoding": "15% of TDC less acquisition (land proxy); $2M is a cap on CASH fee, not total fee, so not applied as a total cap | QA 2026-11-01: values confirmed; $2M is a cash-fee cap; QAP 'Version June 24, 2026' not labelled final; fee table garbled, check visually",
+   "url": "https://www.ahfc.us/download_file/view/9334/546",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Arizona",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 4800000,
+    "binding": "percentage (rule unverified: current 2026-2027 QAP not read; values from 2024-2025 QAP)",
+    "ratio_full": 0.12,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.15384615384615385,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 5700000,
+    "binding": "percentage (rule unverified: current 2026-2027 QAP not read; values from 2024-2025 QAP)",
+    "ratio_full": 0.1425,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.18811881188118812,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 1,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 2500000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee (incl. consulting) max as % of Total Eligible Basis (Cost Sections I-IV of Uses tab): for 101+ unit projects, 16% for 9% and 19% for 4%. Under 2024-2025 amended QAP; 2026-2027 QAP values not verified.",
+   "encoding": "2024-25 amended QAP values (current 2026-27 QAP not read)",
+   "url": "https://housing.az.gov/sites/default/files/2024-11/2024-2025-QAP-Amended_Final.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Arkansas",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 3272727,
+    "binding": "percentage",
+    "ratio_full": 0.08181818181818182,
+    "gate_full": "Fail",
+    "ratio_net": 0.09999999999999999,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 4000000,
+    "binding": "percentage",
+    "ratio_full": 0.1,
+    "gate_full": "Fail",
+    "ratio_net": 0.125,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1250000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee, overhead, profit, consultant fee and interest on deferred fee cannot exceed 10% of Net Development Costs (total uses less syndication-related costs, developer fee and development reserves) for 9% deals; 12.5% for bond-financed deals. Base is roughly TDC less fee, syndication costs and",
+   "encoding": "Net Development Costs exclude fee, syndication, reserves (land kept out as approximation)",
+   "url": "https://adfa.arkansas.gov/wp-content/uploads/2025/09/2026-QAP-signed-2.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "California",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 2500000,
+    "binding": "dollar cap (rule unverified: whether the 9% $2.5M cap limits the total fee or only the fee in basis; fee section checked against an unofficial transcription)",
+    "ratio_full": 0.0625,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.07462686567164178,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4500000,
+    "binding": "percentage (rule unverified: fee section checked against an unofficial transcription (gocodebook), official PDF unreadable past 10325(c))",
+    "ratio_full": 0.1125,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only); CDLAC allocates tax-exempt bond volume cap that gates 4% credits",
+   "app_counts_published": "yes",
+   "rule_text": "CTCAC caps developer fee in basis at 15% of unadjusted eligible basis; 9% total fee capped at $2.5M; 4% fee may exceed but amounts above the deferral/contribution threshold (and any fee above $6M through 2028) must be deferred or contributed as equity. Note: for a large 101+ unit project, the $2.5M ",
+   "encoding": "4%: fee above $6M (through 2028) and above deferral threshold must be deferred/contributed; $6M treated as cap | QA 2026-11-01: 4% has no total dollar cap: fee above $6M (through 2028) is deferred or contributed, not disallowed (10327(c)(2)(B))",
+   "url": "https://gocodebook.com/library/us/ca/ca-ccr4-ctcac-regulations-adopted-2025-12-10/section-10327.-financial-feasibility-and-determination-of-credit-amounts",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "Colorado",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 3857143,
+    "binding": "percentage (rule unverified: draft QAP only)",
+    "ratio_full": 0.09642857142857142,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.12,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 3857143,
+    "binding": "percentage (rule unverified: draft QAP only)",
+    "ratio_full": 0.09642857142857142,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.12,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 13
+    }
+   },
+   "per_project_cap": 1600000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer/consultant fee capped at 12% (51+ units) or 15% (50 units or less) of total project costs less: amount above the builder fee cap, land, 50% of acquisition cost (except homeless/special-needs projects), developer/consultant fees, and project reserves. A fee reduction reduces eligible basis.",
+   "encoding": "12% for 51+ units of cost less land, reserves, fee",
+   "url": "https://chfainfo.com/getattachment/0da67ab6-1e13-4f15-ad9b-ace245977b11/2025-26-CHFA-QAP-ThirdDraft.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Connecticut",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 6000000,
+    "binding": "percentage (rule unverified: sliding-scale tiers not found; 15% is the maximum)",
+    "ratio_full": 0.15,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.2,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 6000000,
+    "binding": "percentage (rule unverified: sliding-scale tiers not found; 15% is the maximum)",
+    "ratio_full": 0.15,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.2,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "DAF up to 15.0% of TDC on a sliding scale (paid portion per CHFA Procedures); in no event shall the DAF exceed 15% of TDC. Developments not using scarce public resources are entitled to a Paid DAF Portion equal to 15% of TDC. The sliding scale tiers for scarce-resource (e.g., 9%) projects were not l",
+   "encoding": "up to 15% of TDC on a sliding scale; tiers not found",
+   "url": "https://www.chfa.org/assets/1/19/Multifamily_Rental_Housing_Program_Guideline_2024-2025.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Delaware",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 1300000,
+    "binding": "dollar cap",
+    "ratio_full": 0.0325,
+    "gate_full": "Fail",
+    "ratio_net": 0.037463976945244955,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 4000000,
+    "binding": "dollar cap",
+    "ratio_full": 0.1,
+    "gate_full": "Fail",
+    "ratio_net": 0.125,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 1
+    }
+   },
+   "per_project_cap": 1000000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9%: developer fee limited to the lesser of $1,000,000 (<=70 units) / $1.15MM (71-100) / $1.3MM (101+ units) or 15% of Total Development Costs. 4%: lesser of $2MM / $3MM / $4MM or 15% of TDC. For a 101+ unit urban new-construction deal, 15% of TDC is binding only if TDC < $8.67MM (9%) or < $26.67MM (",
+   "encoding": "",
+   "url": "https://www.destatehousing.com/wp-content/uploads/2026/06/2025-2026-LIHTC-Guidelines.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Florida",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 5760000,
+    "binding": "percentage (rule unverified: Text read from Cornell LII copy of the FAC labeled 'effective until 7/10/2025' (last amendment 8/27/2024); flrules.org shows a newer version effective 8/13/2026 whose .doc text could not be read, and RFA 2026-202 may override ('unless a competitive solicitation provides otherwise') though no fee section was found in the RFA text read.)",
+    "ratio_full": 0.144,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.19047619047619047,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer Fee limited to 16% of Development Cost excluding land, operating deficit reserves, and acquisition-related cash reserves/deposits, unless a competitive solicitation provides otherwise. Competitive HC Developments with a Homeless or Persons with Special Needs demographic may get up to 21%, ",
+   "encoding": "16% x (TDC less land and reserves) -> base tdc_less_land_reserves; fee is included in the base (no fee exclusion stated). Example: 0.16 x ($40M - $3M - $1M) = $5,760,000. The 21% Homeless/Special Needs variant is not encoded.",
+   "url": "https://www.law.cornell.edu/regulations/florida/Fla-Admin-Code-Ann-R-67-48-0072",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Georgia",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 2700000,
+    "binding": "dollar cap (rule unverified: Limits come from DCA's board-approved substantive-changes summary, which labels the fee items as Draft 2/Draft 3 changes; the operative text was not located in the readable portions of the amended final QAP (Novogradac copy, 7/23/2026) or Draft 3, so exact wording and section number are unconfirmed.)",
+    "ratio_full": 0.0675,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.08108108108108109,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 3600000,
+    "binding": "per-unit cap (rule unverified: Limits come from DCA's board-approved substantive-changes summary, which labels the fee items as Draft 2/Draft 3 changes; the operative text was not located in the readable portions of the amended final QAP (Novogradac copy, 7/23/2026) or Draft 3, so exact wording and section number are unconfirmed.)",
+    "ratio_full": 0.09,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.1111111111111111,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 3
+    },
+    "4%": {
+     "years": 1,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1350000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9% new construction developer fee limited to the lesser of 13% of total development cost (excluding developer fee and all reserves), $2,700,000, and $38,000 per unit. 9% rehab/adaptive reuse: lesser of $2,700,000 and 30% of hard costs. 4%/bond: same structure with $4,500,000 and $30,000/unit caps. C",
+   "encoding": "min(0.13 x (TDC - reserves - fee), $2.7M, $38,000 x units) for 9% NC; 4% NC uses $4.5M and $30,000/unit. For the 120-unit example: 0.13 x ($40M - $1M) ~ $5.07M if fee not netted (circular solve 0.13 x (39M - F) gives F ~ $4.49M); per-unit $4.56M; so the $2.7M dollar cap binds (9%); for 4%, min(~$4.49M, $4.5M, $3.6M) = $3,600,000 (per-unit binds).",
+   "url": "https://dca.georgia.gov/document/document/2026-2027-qap-substantive-changespdf/download",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Hawaii",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4750000,
+    "binding": "dollar cap",
+    "ratio_full": 0.11875,
+    "gate_full": "Pass",
+    "ratio_net": 0.152,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 7714286,
+    "binding": "tiered formula (hand computed)",
+    "ratio_full": 0.19285715,
+    "gate_full": "Pass",
+    "ratio_net": 0.2727272855831039,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 8
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Total Developer Fee (includes developer fee, developer overhead, management fee, consultant fee, etc.) capped: 9% new construction at the lesser of $55,000 per LIHTC/manager unit or $4,750,000; 4%/bond new construction at 5% of net eligible basis (excluding DDA/QCT boost) less total developer fee. E",
+   "encoding": "9%: lesser of $55,000/unit or $4.75M; 4%: 5% of net eligible basis | QA 2026-11-01: 4%: $55,000/unit with no $4.75M cap PLUS 5% of net eligible basis less the fee (III.B.12.c); at scenario 6,600,000 + 0.05 x (30,000,000 - fee) = ~$7.71M",
+   "url": "https://dbedt.hawaii.gov/hhfdc/files/2025/12/2026-QAP.LIHTC_.FINAL_.11.14.25-223p-v2.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "Idaho",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1500000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee rule is QAP Section 7.3.5 'Developer Fees': 'Developer fees included in eligible basis may not exceed the percentages as identified in the tables below'; fees include Developer Overhead and Profit and any Consultant Fees for services normally performed by the developer; developer fees ",
+   "encoding": "No number encoded. Base appears to be 'fee included in eligible basis' expressed as a percentage per a table (likely by construction type); max_pct left null.",
+   "url": "https://www.idahohousing.com/documents/2023-final-qap-governor-approval-4-4-2023.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Illinois",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2600000,
+    "binding": "tiered formula (hand computed)",
+    "ratio_full": 0.065,
+    "gate_full": "Fail",
+    "ratio_net": 0.07784431137724551,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 2600000,
+    "binding": "tiered formula (hand computed)",
+    "ratio_full": 0.065,
+    "gate_full": "Fail",
+    "ratio_net": 0.07784431137724551,
+    "gate_net": "Fail"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 1
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1700000,
+   "sub_allocators": "City of Chicago Department of Housing (own QAP, 9% cap $1.8M)",
+   "app_counts_published": "yes",
+   "rule_text": "Tiered 15%/10%/5% of fee-based costs; ceiling 15% TDC; $2.5M cap with IHDA soft funds; computed ~$2.6M at scenario",
+   "encoding": "",
+   "url": "https://www.ihda.org/wp-content/uploads/2025/12/Underwriting-Standards-Guide_December-2025-update-Final.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Indiana",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4500000,
+    "binding": "percentage",
+    "ratio_full": 0.1125,
+    "gate_full": "Pass",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 4500000,
+    "binding": "percentage",
+    "ratio_full": 0.1125,
+    "gate_full": "Pass",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 1
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 19
+    }
+   },
+   "per_project_cap": 1300000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes (XLSX)",
+   "rule_text": "15% of eligible basis; amount over $2,500,000 deferred",
+   "encoding": "",
+   "url": "https://www.in.gov/ihcda/files/2026-2027-QAP-FINAL-v.3.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Iowa",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4695652,
+    "binding": "percentage",
+    "ratio_full": 0.1173913043478261,
+    "gate_full": "Pass",
+    "ratio_net": 0.15000000000000002,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 5491525,
+    "binding": "percentage",
+    "ratio_full": 0.13728813559322034,
+    "gate_full": "Pass",
+    "ratio_net": 0.18000000000000002,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1700000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee = 18% for the first 24 Units and 15% for Units above 24, applied to Total Project Costs less land, existing structures, developer fee, developer overhead and profit, consultant fees, and project reserves. Cannot be increased after initial Application. Builder/GC fees capped at 15% of h",
+   "encoding": "18% first 24 units, 15% above; 15% used (conservative); base excludes land, structures, fees, consultants, reserves | QA 2026-11-01: 4% fee is 18% under the separate 2026-2027 First Amended 4% QAP (Sec 4.1A), deferral up to 65%",
+   "url": "https://opportunityiowa.gov/media/7601/download",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "Kansas",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2376000,
+    "binding": "per-unit amount (rule unverified: whether per-unit tiers are by project size or marginal)",
+    "ratio_full": 0.0594,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.07066381156316917,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 2376000,
+    "binding": "per-unit amount (rule unverified: whether per-unit tiers are by project size or marginal)",
+    "ratio_full": 0.0594,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.07066381156316917,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 850000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee capped per unit for new construction: $22,000 (1-50 units), $19,800 (51-149 units), $16,500 (150+ units); rehab capped at 20% of pre-boost eligible basis excl. developer fee and acquisition, plus up to 5% of existing-structure purchase cost. No separate 4%/bond fee rule found. per_unit",
+   "encoding": "new construction per-unit: $22,000 (1-50), $19,800 (51-149), $16,500 (150+); 120-unit tier applied",
+   "url": "https://kshousingcorp.org/wp-content/uploads/2025/10/2026-QAP-FINAL.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Kentucky",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 1800000,
+    "binding": "tiered formula (hand computed)",
+    "ratio_full": 0.045,
+    "gate_full": "Fail",
+    "ratio_net": 0.05263157894736842,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 6666667,
+    "binding": "percentage",
+    "ratio_full": 0.16666666666666669,
+    "gate_full": "Pass",
+    "ratio_net": 0.2272727272727273,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 0,
+     "over_100": null
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "9% HC (and non-credit) developer fee = lesser of a per-unit schedule or $1,800,000: $28,000/unit for first 15 units, $23,800/unit for units 16-45, $16,800/unit for units 46-75, $9,800/unit over 75. Cannot be increased from the initial application amount. Example 120 units: 15x28,000=420,000 + 30x23,",
+   "encoding": "9%: tiered per-unit rule with $1.8M total cap; encoded as dollar_cap 1,800,000 plus computed_fee for the 120-unit test project (max_pct null, no % base). 4%/bond: 20% of TDC less developer/consultant fees -> base tdc_less_fee. | Checked 2026-11-01 against KHC 2027 Multifamily Guidelines Ch.6: 9% per-unit schedule ($28,000/$23,800/$16,800/$9,800) capped at $1.8M; bonds 20% of TDC less developer, consultant and similar fees. Both readings of 'less' give >10% at the scenario.",
+   "url": "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Louisiana",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2000000,
+    "binding": "dollar cap",
+    "ratio_full": 0.05,
+    "gate_full": "Fail",
+    "ratio_net": 0.058823529411764705,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 6000000,
+    "binding": "percentage",
+    "ratio_full": 0.15,
+    "gate_full": "Pass",
+    "ratio_net": 0.2,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 1
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 17
+    }
+   },
+   "per_project_cap": 1500000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9% deals: developer fee max $2,000,000 (IV.D.18(a)). Tax-exempt bond projects are not subject to a fee cap (IV.D.18(b)). Developer fee cannot exceed 15% of Total Development Cost (IV.D.18(c)).",
+   "encoding": "15% of TDC; $2M cap on 9% only | QA 2026-11-01: citation updated to the amended QAP of 01-13-2026 (values unchanged); $1.5M per-project cap is metro only, rural $1.0M",
+   "url": "https://www.lhc.la.gov/hubfs/Document%20Libraries/Housing%20Development/Funding%20Opportunities/LIHTC/2025%20QAP%20Final%20as%20of%2002.14.25.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "Maine",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4500000,
+    "binding": "percentage",
+    "ratio_full": 0.1125,
+    "gate_full": "Pass",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1200000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Total Developer Fee may not exceed 15% of Housing Development Costs plus 10% of acquisition costs (excluding the fee); the non-deferred portion may not exceed $750,000; excess fee only if deferred. Bond-financed (4%) projects are exempt from §7.B fee limits. The $750,000 is a cap on paid (non-deferr",
+   "encoding": "15% of housing development costs; only $750,000 may be paid in cash (cash limit, not total cap); bond deals exempt from fee limits | QA 2026-11-01: citation updated to the 2027-2028 Ch. 16 rule (values unchanged); 10% acquisition add-on not modelled (slight understatement)",
+   "url": "https://www.mainehousing.org/docs/default-source/development/qap/2025-2026-qap.pdf?sfvrsn=a78d9e15_2",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "Maryland",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2500000,
+    "binding": "dollar cap",
+    "ratio_full": 0.0625,
+    "gate_full": "Fail",
+    "ratio_net": 0.07462686567164178,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 2500000,
+    "binding": "dollar cap",
+    "ratio_full": 0.0625,
+    "gate_full": "Fail",
+    "ratio_net": 0.07462686567164178,
+    "gate_net": "Fail"
+   },
+   "awards": {
+    "9%": {
+     "years": 1,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee up to 15% of the first $10M of total development costs (excl. acquisition, contingencies, reserves, syndication, fee) and 10% above $10M; acquisition 10%/5%; generally total developer's fee (including deferred) may not exceed $2.5 million. Guide does not distinguish 4%/bond vs 9%.",
+   "encoding": "15% of first $10M + 10% above, $2.5M total cap (cap binds at scenario)",
+   "url": "https://dhcd.prod.maryland.gov/media/1024",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Massachusetts",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 3590909,
+    "binding": "tiered formula (hand computed) (rule unverified: Reference only: this is MassHousing's policy (different agency), it does not mention 4% bonds explicitly, and it states that for deals with DHCD (now EOHLC) funding plus LIHTC the fee must follow DHCD's QAP. Applies at most to MassHousing-financed deals without EOHLC funding.)",
+    "ratio_full": 0.089772725,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.11079943587433538,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 1,
+     "over_100": null
+    },
+    "4%": {
+     "years": 1,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1000000,
+   "sub_allocators": "MassHousing and MassDevelopment (MDFA) allocate 4% credits alongside tax-exempt bonds (per mass.gov LIHTC page); 9% allocated by EOHLC",
+   "app_counts_published": "not found",
+   "rule_text": "NOT FOUND. QAP 2025-2026 only says the developer's fee and overhead must be 'consistent with HLC's written standards' (Section VII, p.26); XI-A.2 refers related-party builder profit/overhead limits to 'program guidelines'. EOHLC's written fee standard was not located. MassHousing's Dec 2015 policy (",
+   "encoding": "9%/EOHLC: no rule encoded (max_pct null). fee_4pct_if_different holds MassHousing tiered formula as base net_dev_cost plus 5% of acquisition, with computed_fee for the standard test project.",
+   "url": "https://www.mass.gov/doc/2025-2026-lihtc-qap/download",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Michigan",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 1800000,
+    "binding": "dollar cap",
+    "ratio_full": 0.045,
+    "gate_full": "Fail",
+    "ratio_net": 0.05263157894736842,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 2100000,
+    "binding": "dollar cap (rule unverified: whether the $2.1M cap applies to 4% pass-through deals without MSHDA gap funds (9% $1.8M cap is certain))",
+    "ratio_full": 0.0525,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.061946902654867256,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1650000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9%: lesser of $1.8M ($2.1M with Emerging Developer) or 7.5% acq + 7.5% reserves + 15% other costs; 4% 50+ units same formula, lesser of calc or $2.1M (applicability to conduit deals unverified)",
+   "encoding": "",
+   "url": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/liqap/mshda_li_qap_2026_2027_qap_final.pdf?rev=1f6c61133a6d4c76bd07e517dc5adbde&hash=BA9BD929A59B4E39542122674D9671F9",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Minnesota",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 3930000,
+    "binding": "tiered formula (hand computed) (rule unverified: sliding-scale allocation method approximated)",
+    "ratio_full": 0.09825,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.1225444340505145,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 3930000,
+    "binding": "tiered formula (hand computed) (rule unverified: sliding-scale allocation method approximated)",
+    "ratio_full": 0.09825,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.1225444340505145,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1950000,
+   "sub_allocators": "Minneapolis, Saint Paul, Dakota County CDA, Washington County CDA (suballocators)",
+   "app_counts_published": "partial",
+   "rule_text": "15% for first 50 units, 8% for units 51+, on TDC less fee; allocation method approximated (~$3.93M)",
+   "encoding": "",
+   "url": "https://www.mnhousing.gov/document/underwriting-standards_25-26",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Mississippi",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 3900000,
+    "binding": "percentage (rule unverified: construction cost share of TDC is an assumption (65%))",
+    "ratio_full": 0.0975,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.12149532710280374,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 3900000,
+    "binding": "percentage (rule unverified: construction cost share of TDC is an assumption (65%))",
+    "ratio_full": 0.0975,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.12149532710280374,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 2
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 900000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Base developer fee of 15% of the development's construction costs (including builder's profit); fee covers developer overhead and consultant fees; 10% of allowable acquisition cost for acquisition credits. No dollar cap and no separate 4%/bond fee limit stated in §5.8.",
+   "encoding": "15% of construction costs incl. builder profit; construction share of TDC assumed 65%",
+   "url": "https://archivemhc.com/htc/2026/3022026_2026%20QAP_FINAL_Addendum%20L.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Missouri",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 4000000,
+    "binding": "dollar cap (rule unverified: fee rule from the DRAFT 2027 QAP only; final 2027 QAP not located)",
+    "ratio_full": 0.1,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.125,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4601770,
+    "binding": "percentage (rule unverified: fee rule from the DRAFT 2027 QAP only; final 2027 QAP not located)",
+    "ratio_full": 0.11504424778761063,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.14656144306651636,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 8
+    },
+    "4%": {
+     "years": 1,
+     "over_100": 8
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9% NC lesser of $4M, $45k/unit, 13% of TDC (base excludes fee, MHDC fees, reserves); 4% NC lesser of $45k/unit or 13%",
+   "encoding": "13% base modelled as TDC less fee (source base also excludes MHDC fees and reserves); draft 2027 QAP only | QA 2026-11-01: matches draft 2027 QAP II.C.6.a; final 2027 QAP not found; MHDC already consulting on a draft 2028 QAP",
+   "url": "https://mhdc.com/media/l0ul3kbg/2027-draft-qap_clean.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Montana",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4695652,
+    "binding": "percentage",
+    "ratio_full": 0.1173913043478261,
+    "gate_full": "Pass",
+    "ratio_net": 0.15000000000000002,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 4695652,
+    "binding": "percentage",
+    "ratio_full": 0.1173913043478261,
+    "gate_full": "Pass",
+    "ratio_net": 0.15000000000000002,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 1
+    },
+    "4%": {
+     "years": 1,
+     "over_100": 2
+    }
+   },
+   "per_project_cap": 850000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer Fees limited to a maximum of 15% of Total Project Cost; Total Project Cost excludes developer fees, project reserves and land costs. HC consultant fees count toward the limit; A&E and legal fees are not developer fee. (Base = TDC less fee, reserves and land.) applies_to 'both' assumed: no ",
+   "encoding": "15% of total project cost excluding fee, reserves and land",
+   "url": "https://commerce.mt.gov/_shared/housing/Docs/2027GOVAPPQAP.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Nebraska",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 7200000,
+    "binding": "percentage (rule unverified: combined cap with contractor fees; developer-only share not stated)",
+    "ratio_full": 0.18,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.25,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 7200000,
+    "binding": "percentage (rule unverified: combined cap with contractor fees; developer-only share not stated)",
+    "ratio_full": 0.18,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.25,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 1,
+     "over_100": 7
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only); 9% application is joint NIFA/NDED (Nebraska Dept. of Economic Development) for gap funding",
+   "app_counts_published": "yes",
+   "rule_text": "COMBINED cap: developer and contractor overhead and profit, general requirements, developer fee and consultant fees together capped at 24% of total eligible basis (eligible basis measured after subtracting those items). No standalone developer fee % found. A&E/survey capped at 7% of hard costs.",
+   "encoding": "24% of eligible basis is a COMBINED cap on developer fee + contractor overhead/profit/general requirements + consultants",
+   "url": "https://www-nifa-org-files.s3.amazonaws.com/a843-61107177-1_-_26-27-28_9__Allocation_Plan.pdf?pfvId=19y0uc.m8dgu65c",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Nevada",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 3913043,
+    "binding": "percentage",
+    "ratio_full": 0.09782608695652176,
+    "gate_full": "Fail",
+    "ratio_net": 0.12195121951219513,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 5217391,
+    "binding": "percentage",
+    "ratio_full": 0.13043478260869565,
+    "gate_full": "Pass",
+    "ratio_net": 0.16949152542372883,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1500000,
+   "sub_allocators": "none found (state only; geographic accounts for Clark/Washoe/Other within state allocation)",
+   "app_counts_published": "yes",
+   "rule_text": "9%: developer fee max 15% of eligible basis excluding the basis boost and less the developer fee. 4%: max 15% of total development cost excluding developer fees. Lower developer fees earn points (s.7.4.4 Lowest Developer Fees).",
+   "encoding": "9%: 15% of eligible basis excl. boost; 4%: 15% of TDC excl. fee | QA 2026-11-01: 9% base corrected: 15% of eligible basis excluding boost AND less the developer fee (s.6.6)",
+   "url": "https://housing.nv.gov/uploadedFiles/housingnewnvgov/Content/Programs/LIT/QAP/2026 QAP clean final 12.24.2025.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "New Hampshire",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 1933200,
+    "binding": "tiered formula (hand computed)",
+    "ratio_full": 0.04833,
+    "gate_full": "Fail",
+    "ratio_net": 0.056747331712987424,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 5217391,
+    "binding": "percentage",
+    "ratio_full": 0.13043478260869565,
+    "gate_full": "Pass",
+    "ratio_net": 0.16949152542372883,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 942000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "QAP HFA 109.04.E defers to the Developer Fee Schedule in the Underwriting Standards: fee is the LESSER of a per-unit tiered schedule and 15% of TDC. General occupancy per unit: $23,760 (units 1-10), $19,440 (11-40), $16,200 (41-100), $7,020 (above 100). Age-restricted: $21,600 / $17,280 / $14,580 / ",
+   "encoding": "9%: lesser of 15% TDC or per-unit schedule ($23,760 down to $7,020 above 100 units): ~$1.82M for first 100 + $7,020 x 20 (agent computation); 4%: up to 15% of TDC excl. fee, excess over schedule loaned back | QA 2026-11-01: per-unit arithmetic corrected: $1,792,800 for first 100 units + $7,020 x 20 = $1,933,200; schedule capped at 15% of TDC (5.02.B.i)",
+   "url": "https://nhhfa.org/wp-content/uploads/2024/06/Underwriting-Standards-and-Development-Policies-for-Multifamily-Finance.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "New Jersey",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 5400000,
+    "binding": "percentage",
+    "ratio_full": 0.135,
+    "gate_full": "Pass",
+    "ratio_net": 0.17647058823529413,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 5400000,
+    "binding": "percentage (rule unverified: 15% rule assumed to apply to 4% (defined generally in QAP))",
+    "ratio_full": 0.135,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.17647058823529413,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 2000000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fee up to 15% of total development cost excluding acquisition, working capital, marketing, escrows, operating deficit reserves, step-in-the-shoes costs and syndication costs (20% for <=25 units or Supportive Housing Cycle); non-deferred (cash) portion max 8% (13%). Defined in the QAP defin",
+   "encoding": "15% of TDC excl. acquisition, reserves, escrows, syndication (land not excluded here: conservative upward); cash portion max 8% of base | QA 2026-11-01: base corrected: excludes acquisition (land and building) and reserves (N.J.A.C. 5:80-33.2); Senior Preservation cap $1.2M omitted earlier",
+   "url": "https://nj.gov/dca/hmfa/developers/docs/lihtc/qap/tc_qap.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "New Mexico",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 2500000,
+    "binding": "dollar cap (rule unverified: from draft 2027 QAP and 2025 underwriting supplement)",
+    "ratio_full": 0.0625,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.07462686567164178,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4912281,
+    "binding": "percentage (rule unverified: from draft 2027 QAP and 2025 underwriting supplement)",
+    "ratio_full": 0.12280701754385967,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.1580135440180587,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1700000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9%: per low-income unit $25,000 (units 1-30), $22,500 (units 31-60), $20,000 (units 61+), total not to exceed the lesser of $2,500,000 or 14% of TDC (TDC excludes developer fee, consultant fees, reserves, donated land, waived fees); +5% boost with HNM Section 811 PRA. 4%: developer fee shall not exc",
+   "encoding": "9%: lesser of $2.5M or 14% TDC (excl. fee, consultants, reserves); 4%: 14%, no cap",
+   "url": "https://housingnm.org/uploads/documents/2025_Universal_Multifamily_Initial_Underwriting_Supplement_11.07.2024.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "New York",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 5550000,
+    "binding": "percentage (rule unverified: 15% requires developer guarantees; base 10% of acquisition + improvement would be ~10% (fails strict test))",
+    "ratio_full": 0.13875,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.18226600985221675,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 5550000,
+    "binding": "percentage (rule unverified: 15% requires developer guarantees; base 10% of acquisition + improvement would be ~10% (fails strict test))",
+    "ratio_full": 0.13875,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.18226600985221675,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 4
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 2835000,
+   "sub_allocators": "NYC HPD (sub-allocator with its own QAP; NYC HDC issues bonds for 4% deals). HPD developer fee rule and per-project caps NOT researched within budget - see gaps.",
+   "app_counts_published": "yes",
+   "rule_text": "Developer's fee shall be 10 percent of the acquisition and improvement cost associated with the low-income portion of the project; can be increased up to a ceiling of 15 percent of improvement cost of the low-income portion where developer/affiliate provides both a cost completion guarantee and an o",
+   "encoding": "10% of acquisition + improvement cost of low-income portion; up to 15% of improvement cost only with completion and operating-deficit guarantees",
+   "url": "https://hcr.ny.gov/system/files/documents/2025/06/rule-text-title-9-part-2040-9-dhcr-qap-effective-6-11-2025.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "North Carolina",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2880000,
+    "binding": "per-unit amount",
+    "ratio_full": 0.072,
+    "gate_full": "Fail",
+    "ratio_net": 0.08695652173913043,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 2880000,
+    "binding": "per-unit amount",
+    "ratio_full": 0.072,
+    "gate_full": "Fail",
+    "ratio_net": 0.08695652173913043,
+    "gate_net": "Fail"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 15
+    }
+   },
+   "per_project_cap": 1500000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Developer fees shall be up to $24,000 per unit for new construction projects; 28.5% of PDC line item 4 for rehabilitation projects. Per-unit (not percentage) cap: for a 101+ unit urban 4% deal the fee would be ~$24,000 x units, so whether it exceeds 10% of TDC depends on per-unit TDC (exceeds 10% on",
+   "encoding": "$24,000 per unit new construction, no percentage; same for 4%",
+   "url": "https://www.nchfa.com/sites/default/files/forms_resources/2025-12/2026FinalQAP.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "North Dakota",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4500000,
+    "binding": "percentage",
+    "ratio_full": 0.1125,
+    "gate_full": "Pass",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 9000000,
+    "binding": "percentage",
+    "ratio_full": 0.225,
+    "gate_full": "Pass",
+    "ratio_net": 0.3333333333333333,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 2
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9% credits limited to maximum developer fee of 15% of the project's total eligible basis; 4% credits limited to maximum developer fee of 30% of the project's total eligible basis; acquisition portion <=5% of acquisition basis; IOI combined developer+contractor <=20% (9%) / <=35% (4%) of total eligib",
+   "encoding": "9% 15% / 4% 30% of eligible basis; 4% fees above set levels deferred | QA 2026-11-01: values confirmed against 2027 Allocation Plan; 4% deferral tiers mean the 30% is not all cash",
+   "url": "https://www.ndhousing.nd.gov/sites/www/files/documents/Plans/2026LIHTCAllocationPlan.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Ohio",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 3000000,
+    "binding": "dollar cap",
+    "ratio_full": 0.075,
+    "gate_full": "Fail",
+    "ratio_net": 0.09090909090909091,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 6000000,
+    "binding": "percentage",
+    "ratio_full": 0.15,
+    "gate_full": "Pass",
+    "ratio_net": 0.2,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 10
+    }
+   },
+   "per_project_cap": 1900000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "20% of eligible basis net of fee; $3M cap (9%); no cap (4%)",
+   "encoding": "",
+   "url": "https://ohiohome.org/ppd/documents/2026-2027-9Percent-LIHTC-QAP.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Oklahoma",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": null,
+    "binding": "no fee percentage found",
+    "ratio_full": null,
+    "gate_full": "Needs verification",
+    "ratio_net": null,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 900000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "NOT FOUND - QAP refers developer fee limits to Attachment C Program Underwriting Standards, which was not in any readable text. 2027 draft summary of changes (Novogradac) replaces 'Lowest Credits per Bedroom' in Development Cost Efficiency scoring with 'Lowest Percentage of Deferred Developer Fee/To",
+   "encoding": "",
+   "url": "https://www.ohfa.org/wp-content/uploads/2023/08/2024-QAP-2nd-Draft.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Oregon",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 4337143,
+    "binding": "percentage (rule unverified: denominator excludes acquisition and reserves; award lists not found)",
+    "ratio_full": 0.1084285714285714,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.13697888467785596,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4901053,
+    "binding": "percentage (rule unverified: denominator excludes acquisition and reserves; award lists not found)",
+    "ratio_full": 0.12252631578947369,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.15759545085296506,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only) - not explicitly confirmed",
+   "app_counts_published": "not found",
+   "rule_text": "Max developer fee ratio = (developer fee + consultant fees) / (total project cost minus acquisition cost, developer fee, consultant fees and capitalized reserves), per GPGM Tables A-C, plus $4,000/unit add-on ($5,500 for Preservation). For 100+ unit new construction: 12% (9% LIHTC), 14% (4% LIHTC). ",
+   "encoding": "100+ units NC: 12% (9%) / 14% (4%) of TDC less acquisition, fee, consultant, reserves, plus $4,000/unit",
+   "url": "https://www.oregon.gov/ohcs/rental-housing/housing-development/Documents/general-policy-guideline-manual-july-2026.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Pennsylvania",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2000000,
+    "binding": "tiered formula (hand computed)",
+    "ratio_full": 0.05,
+    "gate_full": "Fail",
+    "ratio_net": 0.058823529411764705,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 4100000,
+    "binding": "tiered formula (hand computed) (rule unverified: whether the $2.55M 4% cap limits total or only paid fee)",
+    "ratio_full": 0.1025,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.12852664576802508,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1700000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer fee limited to 15% of first $10M of replacement cost less acquisition, 10% above $10M (lesser of replacement cost or Agency Maximum Basis). 9% per-project fee cap: $2,000,000 for projects with 60+ affordable units and at least 51% 2BR+ units or supportive housing; $1,750,000 all others; no",
+   "encoding": "15% of first $10M replacement cost less acquisition then 10% = ~$4.1M at scenario; 9% cap $2.0M (60+ units, 51% 2BR+); 4% PAID fee cap $2.55M",
+   "url": "https://www.phfa.org/forms/multifamily_program_notices/qap/2025_and_2026/2025-2026-lihtc-qap.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Rhode Island",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2494800,
+    "binding": "per-unit amount",
+    "ratio_full": 0.06237,
+    "gate_full": "Fail",
+    "ratio_net": 0.07446008380788653,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 5217391,
+    "binding": "percentage",
+    "ratio_full": 0.13043478260869565,
+    "gate_full": "Pass",
+    "ratio_net": 0.16949152542372883,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer fee (incl. overhead) set per unit or as % of Fee Based Development Cost (TDC minus capitalized reserves and developer fee). 9% new production: $20,790/unit (0-2BR) or $23,100/unit (3+BR) single-site; $23,650/$25,300 scattered-site. 4%-only new production: 15% of Fee Based Development Cost.",
+   "encoding": "9% NC $20,790/unit (0-2BR single-site); 4%-only NC 15% of TDC less reserves and fee",
+   "url": "https://www.rihousing.com/wp-content/uploads/2025-Section-9-Program-Bulletin.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "South Carolina",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 4695652,
+    "binding": "percentage (rule unverified: per-unit tier amounts unreadable; may bind below 15%)",
+    "ratio_full": 0.1173913043478261,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.15000000000000002,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4695652,
+    "binding": "percentage (rule unverified: per-unit tier amounts unreadable; may bind below 15%)",
+    "ratio_full": 0.1173913043478261,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.15000000000000002,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 2
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "IV.P.3 Maximum Developer Fees, Developer Overhead and Consultant Fees = lesser of (a) 15% of Total Development Costs less Land, Project Consulting Fees, Developer Fees, Developer Overhead, Other Developer Costs and Reserves, or (b) a cumulative per-unit amount tiered for the first 50 units, units 51",
+   "encoding": "lesser of 15% of net cost or tiered per-unit amount (tier figures unreadable)",
+   "url": "https://www.schousing.sc.gov/sites/schousing/files/Documents/Development/LIHTC/2026%20LIHTC%20Program/2026-QAP-20250908.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "South Dakota",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 1000000,
+    "binding": "dollar cap",
+    "ratio_full": 0.025,
+    "gate_full": "Fail",
+    "ratio_net": 0.02857142857142857,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 4285714,
+    "binding": "percentage",
+    "ratio_full": 0.10714285714285714,
+    "gate_full": "Pass",
+    "ratio_net": 0.13513513513513511,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 1
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "no",
+   "rule_text": "Developer fee not to exceed 12% of TDC (<61 units) or 10% of TDC (61+ units), excluding developer and consultant fees; $1,000,000 maximum for any 9% project. Bond projects: 12% of calculated Total Project Costs, no $1M cap. Consultant fees count toward the developer fee and cannot exceed 2% of Total",
+   "encoding": "9% 61+ units 10% of TDC excl. fees, $1M cap; bond 12%, no cap",
+   "url": "https://www.sdhousing.org/s/2026-2027-HTC-QAP-Final-072026.pdf",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Tennessee",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4500000,
+    "binding": "percentage",
+    "ratio_full": 0.1125,
+    "gate_full": "Pass",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 7800000,
+    "binding": "percentage (rule unverified: rule from the 2025 MTBA Program Description (Sec 5.D.1); 2026 version could not be opened)",
+    "ratio_full": 0.195,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.2765957446808511,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 1800000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Combined developer and consultant fees capped at 15% of eligible basis attributable to new construction or rehabilitation (and 15% of acquisition basis), calculated before the fees are added. Contractor fees separately capped at 14% (profit 6%, overhead 2%, general requirements 6%).",
+   "encoding": "15% of eligible basis (developer + consultant combined) | QA 2026-11-01: 4% bond deals have their own rule: developer + consultant fees up to 25% of TDC less cash reserves and the fee; paid portion limited to 15% of basis (2025 MTBA PD 5.D.1)",
+   "url": "https://thda.org/wp-content/uploads/2026/01/2026-QAP-01.06.2026-003.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "Texas",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 4500000,
+    "binding": "percentage (rule unverified: read from pre-2026 rule text (March 2025 copy))",
+    "ratio_full": 0.1125,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4500000,
+    "binding": "percentage (rule unverified: read from pre-2026 rule text (March 2025 copy))",
+    "ratio_full": 0.1125,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.14285714285714285,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 0,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only) - TDHCA is sole allocator of HTCs",
+   "app_counts_published": "yes",
+   "rule_text": "For HTC Developments with 50 or more Units, Developer Fee included in Eligible Basis cannot exceed 15% of the project's eligible costs, less Developer Fee (20% for 49 or fewer Units). No separate 4%/9% rule in this section. Non-HTC developments: up to 7.5% of TDC less fee, land and other items.",
+   "encoding": "15% of eligible costs less developer fee (50+ units)",
+   "url": "https://regulations.justia.com/states/texas/title-10/part-1/chapter-11/subchapter-d/section-11-302/",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Utah",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 3300000,
+    "binding": "percentage",
+    "ratio_full": 0.0825,
+    "gate_full": "Fail",
+    "ratio_net": 0.10091743119266056,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 3900000,
+    "binding": "percentage",
+    "ratio_full": 0.0975,
+    "gate_full": "Fail",
+    "ratio_net": 0.12149532710280374,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 1,
+     "over_100": null
+    },
+    "4%": {
+     "years": 1,
+     "over_100": 4
+    }
+   },
+   "per_project_cap": 2500000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer Fee Limits, as a percent of Qualified Basis: 101-200 units = 11% (9%) / 13% (4%); 201+ units = 10% / 12%. Base is Qualified Basis, not TDC.",
+   "encoding": "101-200 units: 11% (9%) / 13% (4%) of qualified basis (eligible basis used as proxy)",
+   "url": "https://utahhousingcorp.org/pdf/2027_QAP_Governor_Approved.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Vermont",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 4200000,
+    "binding": "per-unit amount",
+    "ratio_full": 0.105,
+    "gate_full": "Pass",
+    "ratio_net": 0.1320754716981132,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 4200000,
+    "binding": "per-unit amount",
+    "ratio_full": 0.105,
+    "gate_full": "Pass",
+    "ratio_net": 0.1320754716981132,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 1,
+     "over_100": 0
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer fee up to $35,000 per LIHTC unit for new construction, or 15% of hard costs for rehabilitation (set at award); no 4%/9% distinction.",
+   "encoding": "$35,000 per LIHTC unit new construction; no percentage",
+   "url": "https://vhfa.org/developers/QAP-current",
+   "qa": "CONFIRMED"
+  },
+  {
+   "state": "Virginia",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 5000000,
+    "binding": "dollar cap (rule unverified: Credit Manual sliding scale (8% above $10M TDC) may override the 15% QAP rule)",
+    "ratio_full": 0.125,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.16129032258064516,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 5000000,
+    "binding": "dollar cap (rule unverified: Credit Manual sliding scale (8% above $10M TDC) may override the 15% QAP rule)",
+    "ratio_full": 0.125,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.16129032258064516,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 1
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "13VAC10-180-60 J: no more than $3 million developer fee in eligible basis for 9% deals; same for 4% unless >=30% of fee deferred; no developer fee may exceed $5 million; no developer fee may exceed 15% of total development cost. Fee cannot increase after reservation without approval.",
+   "encoding": "15% of TDC, max $5M (QAP); Credit Manual shows 15/12/8% of TDC scale (8% if TDC > $10M)",
+   "url": "https://law.lis.virginia.gov/admincode/title13/agency10/chapter180/section60/",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Washington",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 5086957,
+    "binding": "percentage",
+    "ratio_full": 0.12717391304347828,
+    "gate_full": "Pass",
+    "ratio_net": 0.16455696202531647,
+    "gate_net": "Pass"
+   },
+   "4%": {
+    "fee": 5086957,
+    "binding": "percentage",
+    "ratio_full": 0.12717391304347828,
+    "gate_full": "Pass",
+    "ratio_net": 0.16455696202531647,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 1
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "9%: developer fees considered up to 15% of Total Project Costs less reserves, Donation, and Intermediary Costs; fee finalized at Equity Closing. 4% bond: 15% of total residential project costs excluding reserves, donation, intermediary costs and the requested developer fee.",
+   "encoding": "9%: 15% of TPC less reserves/donation/intermediary; 4%: 15% of residential costs also excluding the fee | QA 2026-11-01: base corrected: 15% of TPC less reserves, donation, intermediary costs AND the requested fee (9% Policies 3.7; Bond Policies 2.6)",
+   "url": "https://wshfc.org/sites/default/files/2026-05/9percentTaxCreditPolicies.pdf",
+   "qa": "CORRECTED"
+  },
+  {
+   "state": "West Virginia",
+   "status": "Needs verification",
+   "problems": [],
+   "9%": {
+    "fee": 4576271,
+    "binding": "percentage (rule unverified: Percentages read from the 2023-2024 Tax Credit Manual; the current 2025-2026 Manual's Developer's Fee section (p. 46-47) could not be text-extracted (cut off mid-first sentence, which is identical to the 2023-24 wording), so unchanged percentages are likely but not confirmed.)",
+    "ratio_full": 0.11440677966101696,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.14563106796116504,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 4576271,
+    "binding": "percentage (rule unverified: Percentages read from the 2023-2024 Tax Credit Manual; the current 2025-2026 Manual's Developer's Fee section (p. 46-47) could not be text-extracted (cut off mid-first sentence, which is identical to the 2023-24 wording), so unchanged percentages are likely but not confirmed.)",
+    "ratio_full": 0.11440677966101696,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.14563106796116504,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": null
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": 850000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "Developer's Fee (incl. separately listed consultant fees and other development fees) may not exceed 18% of Adjusted Basis for new construction (10% of acquisition adjusted basis for acquisition; 15% of rehab adjusted basis for substantial rehab), with lower caps where developer and general contracto",
+   "encoding": "Mapped 'Adjusted Basis' (excludes land, non-capitalized costs, over-limit costs and the fee) to eligible_basis_less_fee at 18% (new construction, no identity of interest). Rehab 15% / acquisition 10% and IOI lesser-of rules kept in new_construction_vs_rehab text only.",
+   "url": "https://www.wvhdf.com/wp-content/uploads/2023/03/2023-AND-2024-TAX-CREDIT-MANUAL.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Wisconsin",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 2000000,
+    "binding": "dollar cap (rule unverified: whether the additional-fee tier ($45,000/unit) applies)",
+    "ratio_full": 0.05,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.058823529411764705,
+    "gate_net": "Needs verification"
+   },
+   "4%": {
+    "fee": 3600000,
+    "binding": "per-unit cap (rule unverified: whether the additional-fee tier ($45,000/unit) applies)",
+    "ratio_full": 0.09,
+    "gate_full": "Needs verification",
+    "ratio_net": 0.1111111111111111,
+    "gate_net": "Needs verification"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": 5
+    }
+   },
+   "per_project_cap": 1400000,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "yes",
+   "rule_text": "Per-unit rule (modelled as per-unit cap): 9% NC $25k/unit, $2M total; 4% NC $30k/unit; additional tier up to $45k/unit (2027) if conditions met",
+   "encoding": "",
+   "url": "https://www.wheda.com/globalassets/documents/tax-credits/htc/2027/appendix/appendix-d-housing-tax-credit-applicaion-underwriing-criteria.pdf",
+   "qa": "not reviewed"
+  },
+  {
+   "state": "Wyoming",
+   "status": "Verified",
+   "problems": [],
+   "9%": {
+    "fee": 1000000,
+    "binding": "dollar cap",
+    "ratio_full": 0.025,
+    "gate_full": "Fail",
+    "ratio_net": 0.02857142857142857,
+    "gate_net": "Fail"
+   },
+   "4%": {
+    "fee": 4695652,
+    "binding": "percentage",
+    "ratio_full": 0.1173913043478261,
+    "gate_full": "Pass",
+    "ratio_net": 0.15000000000000002,
+    "gate_net": "Pass"
+   },
+   "awards": {
+    "9%": {
+     "years": 2,
+     "over_100": 0
+    },
+    "4%": {
+     "years": 2,
+     "over_100": null
+    }
+   },
+   "per_project_cap": null,
+   "sub_allocators": "none found (state only)",
+   "app_counts_published": "not found",
+   "rule_text": "9%: developer fee capped at 15% of development costs (excluding acquisition, off-site improvements, developer fee, syndication costs, reserves, consultant fees), max $1,000,000. 4% bond: 15% of net development costs. Builder profit 6%, overhead 2%, general requirements 6%.",
+   "encoding": "9%: 15% of development costs excl. acquisition, fee, reserves etc., max $1M; 4%: 15% of net development costs, no cap",
+   "url": "https://www.wyomingcda.com/wp-content/uploads/2026/06/2027-AHAP-FINAL.pdf",
+   "qa": "CONFIRMED"
+  }
+ ]
+}

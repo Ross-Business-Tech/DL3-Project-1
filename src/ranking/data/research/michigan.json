@@ -1,0 +1,263 @@
+{
+  "state": "Michigan",
+  "researchedOn": "2026-11-16",
+  "agency": "Michigan State Housing Development Authority (MSHDA)",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 1800000,
+        "rule": "9% LIHTC projects without an Emerging Developer partnership: developer fee is the lesser of $1,800,000 or the sum of 7.5% of acquisition costs + 7.5% of project reserves + 15% of all other development costs (excluding developer fee, developer overhead and developer consulting fee). With an Emerging Developer partnership: lesser of $2,100,000 or the formula amount plus $300,000.",
+        "basis": "Formula on acquisition costs, reserves and other development costs excluding the fee (not eligible basis). For the example, land ($3,000,000) is treated as acquisition cost.",
+        "dollarCap": "$1,800,000 standard; $2,100,000 with an Emerging Developer partner (emerging developer must hold at least 25% of the GP/managing member). The 2024-2025 QAP cap was $1,500,000.",
+        "arithmetic": "Other costs excl. fee = 40,000,000 - 3,000,000 - 1,000,000 - F = 36,000,000 - F. F = 0.075*3,000,000 + 0.075*1,000,000 + 0.15*(36,000,000 - F) = 225,000 + 75,000 + 5,400,000 - 0.15F -> 1.15F = 5,700,000 -> F = 4,956,522. Lesser of 1,800,000 and 4,956,522 = 1,800,000 (4.5% of TDC). With an Emerging Developer partner: lesser of 2,100,000 and 4,956,522 + 300,000 = 2,100,000 (5.25% of TDC). Either way the fee is below DL3's 10%-of-TDC target.",
+        "ruleVerified": false,
+        "source": "https://michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/liqap/mshda_li_qap_2026_2027_qap_final.pdf?hash=D016B02C8B16D17A91221E7126F4B15F&rev=55f1e51b583242d69b4115a6524a3a4d",
+        "quote": "Search excerpts of the 2026-2027 final QAP: \"shall be the lesser of $1,800,000 or the sum of the following\" ... \"15% of all other development costs, excluding developer fee, developer overhead, and developer consulting fee\" ... \"9% projects that are funded with an Emerging Developer partnership will be limited to the lesser of $2,100,000 or the amount calculated using the method above plus $300,000.\" (michigan.gov could not be fetched from this session; read from search excerpts only.)"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No 2021-2025 9% new-construction award of 101+ units was confirmed. The July 2025 9% round funded 10 new construction and rehab projects totaling 484 units (about 48 per project); the largest single awards were about $1,650,000 in annual credit (e.g. 130 E. Grand Boulevard Apartments, Detroit). The QAP caps awards at $3,300,000 of annual credit per Principal; a per-project cap was not confirmed. At ~$1.65M of credit, a $40M, 120-unit project would need large additional gap funding, so 101+ units on 9% alone looks unlikely.",
+        "source": "https://www.michigan.gov/mshda/about/press-releases/2025/07/10/governor-whitmer-announces-funding-to-build-and-preserve-484-affordable-rental-homes"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "The 2026-2027 QAP and Addendum I set up an Emerging Developer partnership path: a non-statutory set-aside of 10% of LIHTC for emerging developer projects, a $300,000 developer fee cap increase, and a requirement that \"the emerging developer must hold at least 25% interest in the GP or Managing\" member, with a narrative explaining the partnership. Emerging developer status is \"made at the sole discretion of MSHDA.\" An experienced out-of-state firm like DL3 would be the experienced partner. Experience scoring (Scoring Summary Section D, 'Previous Experience of GP/Member') measures prior experience on projects of comparable scale; no Michigan-only experience requirement was found in the excerpts.",
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lica/mshda_li_ca_03_addendum_i_pdf.pdf?hash=D26AA54CACD61B1FFEC1C4905416C141&rev=1d7f7f001dc8425b9f4da03485b9777e"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "MSHDA runs two competitive 9% rounds per year (April 1 and October 1; the October 1, 2026 round received applications, listed in an October 7, 2026 memo). The July 2025 round funded 10 new construction and rehab projects (484 units, >$14M credits), including Detroit and Grand Rapids. Caveat: the MSHDA FAQ says it is prioritizing MI LIHTC (state credit) with 4% deals and \"does not anticipate funding many, if any, 9% LIHTC developments with MI LIHTC.\" No urban or large-city pool was confirmed in the excerpts.",
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lisr/mshda_li_sr_2026_oct1_lihtc_apps.pdf?rev=5018691514814c36b314b6058eeb588a&hash=FAB02E336BB969C119897ACCF4CF5103"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/developers/lihtc/lihtc/qualified-allocation-plan"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/developers/lihtc/lihtc/qualified-allocation-plan"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/developers/lihtc/lihtc/qualified-allocation-plan"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/liarchive-frn-sr/mshda_li_sr_2024_october1_lihtc_apps.pdf?rev=cbeb391857764866af9cf1cf68cfafb9&hash=6B86F6E4FA052EA980ED42178E9D7D80"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lisr/mshda_li_sr_2025_apr1_lihtc_res.pdf"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lisr/mshda_li_sr_2026_oct1_lihtc_apps.pdf?rev=5018691514814c36b314b6058eeb588a&hash=FAB02E336BB969C119897ACCF4CF5103"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lisr/mshda_li_sr_2026_oct1_lihtc_apps.pdf?rev=5018691514814c36b314b6058eeb588a&hash=FAB02E336BB969C119897ACCF4CF5103"
+      },
+      "nextDeadline": "April 2027 funding round under the 2026-2027 QAP (exact date not confirmed; recent rounds were due April 1 and October 1; the October 1, 2026 round has closed).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Eligible via a documented Emerging Developer partnership (10% set-aside, +$300,000 fee cap, emerging developer holds 25%+ of GP). Experience scoring rewards comparable-scale experience without a confirmed Michigan-only rule. Barriers: per-Principal cap of $3.3M credit, two competitive rounds, and award sizes (~$1.65M credit) that do not fit a 120-unit project; no urban pool confirmed.",
+          "sources": [
+            "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lica/mshda_li_ca_03_addendum_i_pdf.pdf?hash=D26AA54CACD61B1FFEC1C4905416C141&rev=1d7f7f001dc8425b9f4da03485b9777e",
+            "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/liqap/mshda_li_qap_2026_2027_score_sum_final_pdf.pdf?rev=abbdbe9ac318416b8ba89f8876272892&hash=D68F05DD92F0C73DBCB8B7346B8FE72D"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Detroit regularly wins 9% awards (e.g. 130 E. Grand Boulevard Apartments, $1,650,000 in July 2025; four Detroit 9% projects of nearly 200 units announced with the Mayor). No rent, vacancy, cost or tax data was gathered (search budget exhausted), so this is a plausibility judgment only. The 9% award size limits a 100+ unit building.",
+          "sources": [
+            "https://www.michigan.gov/mshda/about/press-releases/2025/07/10/governor-whitmer-announces-funding-to-build-and-preserve-484-affordable-rental-homes",
+            "https://detroitmi.gov/news/mayor-mshda-announce-4-new-major-affordable-supportive-housing-projects-bringing-nearly-200-units"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Detroit is about a 4.5-hour drive or a short flight from Chicago. No local-presence rule was found in the excerpts, and the Emerging Developer partnership gives a documented local-partner route. Guarantee and capital requirements were not reviewed.",
+          "sources": [
+            "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lica/mshda_li_ca_03_addendum_i_pdf.pdf?hash=D26AA54CACD61B1FFEC1C4905416C141&rev=1d7f7f001dc8425b9f4da03485b9777e"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 4956522,
+        "rule": "Tax-exempt bond (4%) projects: 20% of other development costs for projects of 49 units or fewer; for projects of 50 units or more, 15% of all other development costs (excluding developer fee, developer overhead and developer consulting fee), with acquisition and reserves components, and a $2,100,000 limit that applies for purposes of sizing MSHDA gap financing. MSHDA deducts excess fees from total development costs in the gap calculation. Up to 50% of the developer fee may be deferred.",
+        "basis": "Formula on acquisition costs, reserves and other development costs excluding the fee (not eligible basis). Land treated as acquisition.",
+        "dollarCap": "$2,100,000, which appears to apply only when sizing MSHDA gap financing; excess fee is deducted from TDC in the gap calculation rather than prohibited. Whether it binds a Pass-Through Bond deal with no MSHDA gap loan was not confirmed.",
+        "arithmetic": "Same structure as 9%: F = 0.075*3,000,000 + 0.075*1,000,000 + 0.15*(36,000,000 - F) -> 1.15F = 5,700,000 -> F = 4,956,522 (12.4% of TDC). If only the 15%-of-other-costs term applies: 1.15F = 5,400,000 -> F = 4,695,652 (11.7% of TDC). If the $2,100,000 gap-sizing limit applies (deal uses MSHDA gap financing), the fee recognized is 2,100,000 (5.25% of TDC).",
+        "ruleVerified": false,
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/liqap/mshda_li_qap_2026_2027_qap_final.pdf?rev=9acd198ce4dc4a23bc73448cde032429&hash=81D0C583B800C0FB2F449B67A926D4F2",
+        "quote": "Search excerpts: \"For projects financed with tax-exempt bonds eligible for 4% credit, the maximum developer fee shall be 20% of all other development costs, excluding developer fee, developer overhead, and developer consulting fee\"; the 50-units-or-more tier uses \"15% of all other development costs\" and a \"$2,100,000\" limit (LeadingAge summary: https://cdn.ymaws.com/www.leadingagemi.org/resource/resmgr/newsletter_articles/MSHDA_Multifamily_Direct_Len.pdf); \"for purposes of sizing the amount of gap financing...\"; \"Up to 50% of the total developer fee can be deferred to cover a gap in funding sources.\" The 2022-2023 QAP adds: \"MSHDA will deduct excess fees from total development costs when performing the gap calculation.\" Not read in full; michigan.gov blocked from this session."
+      },
+      "maxFeasibleUnits": {
+        "value": 330,
+        "evidence": "350 S. Fifth Ave., downtown Ann Arbor: the MSHDA Board authorized $118.6 million for 330 affordable units using the Direct Lending Program and 4% LIHTC (March 2026). This is outside the 2021-2025 window; no 2021-2025 4% new-construction award of 101+ units was confirmed. HOM Flats at Maynard (Grand Rapids, 240 units) appears as new construction on a tax-exempt bond in an MSHDA pipeline report, but a June 2022 release calls it preservation, so it was not used. A July 2023 Detroit/Flint bond deal had 150 units across two buildings.",
+        "source": "https://www.michiganbusiness.org/press-releases/2026/05/msf-ann-arbor-housing/"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "4% projects must meet the LIHTC threshold requirements for tax-exempt bond projects in the QAP. The Pass-Through Bond Program accepts applications from any sponsor on a rolling basis. The QAP Emerging Developer partnership path (25%+ GP interest) is documented. No rule barring out-of-state developers was found.",
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/ptb/mshda_li_ptb_01_pass_through_bond_program.pdf?rev=670ca4605f81448991aa2b9725c6574d&hash=509D238DFE0158755232EEBC031D667C"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "The 2026-2027 Pass-Through Bond Program (amended June 18, 2026) sets a \"$400 million limit for use of its unified volume cap\" for July 1, 2026-June 30, 2027, with rolling submissions; reservations last 6 months. On March 19, 2026 the Board raised its maximum bond volume cap allocation to $550 million. Proposals are \"subject to availability of volume cap,\" but no waitlist was found. Michigan's new state credit (H.B. 5806, about $42M a year) must allocate half to 4% deals, and MSHDA says it is prioritizing MI LIHTC with 4% credits. MSHDA direct-lending gap financing is also available.",
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/ptb/mshda_li_ptb_01_pass_through_bond_program.pdf?rev=670ca4605f81448991aa2b9725c6574d&hash=509D238DFE0158755232EEBC031D667C"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/leo/news/2021/05/24/mshda-board-approves-321m-in-bond-deals-and-up-to-11m-for-affordable-housing-development"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/about/press-releases/2022/09/19/mshda-board-approves-funding-for-eight-housing-development-projects"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/about/press-releases/2023/07/24/mshda-board-approves-funding-for-new-construction-projects-in-detroit-flint"
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/about/press-releases/2024/09/24/mshda-board-approves-funding-for-housing-across-michigan"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/about/reports/production/FY25-Production-Goals-Report.docx"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": 1,
+          "applications": null,
+          "source": "https://www.michiganbusiness.org/press-releases/2026/05/msf-ann-arbor-housing/"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/ptb/mshda_li_ptb_01_pass_through_bond_program.pdf?rev=670ca4605f81448991aa2b9725c6574d&hash=509D238DFE0158755232EEBC031D667C"
+      },
+      "nextDeadline": "Pass-Through Bond Program: rolling submissions through June 30, 2027 (2026-27 program year). MSHDA direct-lending / MI LIHTC rounds: not confirmed.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Rolling Pass-Through Bond applications, $400M-$550M of bond volume cap, half of the new state credit reserved for 4% deals, and a documented Emerging Developer partnership route. Barriers: the gap-financing fee limit ($2.1M) if MSHDA gap money is used, and competition for gap/state credit was not quantified.",
+          "sources": [
+            "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/ptb/mshda_li_ptb_01_pass_through_bond_program.pdf?rev=670ca4605f81448991aa2b9725c6574d&hash=509D238DFE0158755232EEBC031D667C",
+            "https://www.novoco.com/news/michigan-governor-approves-bill-to-create-new-state-lihtc-the-michigan-housing-opportunity-tax-credit"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Large 4% deals are being underwritten in Michigan cities (330 units in downtown Ann Arbor, 2026; a 150-unit Detroit/Flint bond deal, 2023). Detroit market rents, vacancy, costs and taxes were not gathered (search budget exhausted).",
+          "sources": [
+            "https://www.michiganbusiness.org/press-releases/2026/05/msf-ann-arbor-housing/",
+            "https://www.michigan.gov/mshda/about/press-releases/2023/07/24/mshda-board-approves-funding-for-new-construction-projects-in-detroit-flint"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Detroit and Ann Arbor are reachable from Chicago by short flight or about a 4-5 hour drive. No local-presence rule was found, and a partner route exists. Bond deals carry construction lender and guarantee burdens that were not reviewed.",
+          "sources": [
+            "https://www.michigan.gov/mshda/-/media/Project/Websites/mshda/developers/lihtc/assets/lica/mshda_li_ca_03_addendum_i_pdf.pdf?hash=D26AA54CACD61B1FFEC1C4905416C141&rev=1d7f7f001dc8425b9f4da03485b9777e"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Detroit: Greater Downtown / Midtown-New Center (East Grand Boulevard corridor)",
+    "historicSuccess": {
+      "score": 5,
+      "evidence": "New Center was built in the 1920s as a second downtown: General Motors` Albert Kahn-designed world headquarters (GM HQ there until 1996) and the Fisher Building (1928) across Grand Boulevard; Cadillac Place now houses State of Michigan offices and the Fisher Building houses Detroit Public Schools headquarters. The 3.3-mile QLine streetcar on Woodward connects New Center, the North End and Midtown to downtown.",
+      "sources": [
+        "https://historicdetroit.org/buildings/fisher-building",
+        "https://detroithistorical.org/node/1500",
+        "https://en.wikipedia.com/wiki/New_Center",
+        "https://kresge.org/?p=51537"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": 5,
+      "evidence": "Henry Ford Health, Pistons owner Tom Gores and Michigan State University are building the Future of Health: Detroit district in New Center (announced 2023 at $2.5B; city materials say over $3B), including a $2.2B Henry Ford Hospital tower on West Grand Boulevard (steel at 20 stories, May 2026), an MSU research center, and 600+ new residential units with an affordable component. Midtown Detroit Inc. leads a 10-year Greater New Center Growth and Investment Initiative with Wayne State and TechTown.",
+      "sources": [
+        "https://www.detroitmi.gov/futureofhealth",
+        "https://www.henryford.com/news/2026/05/henry-ford-hospital-construction-milestone",
+        "https://www.cbsnews.com/amp/detroit/news/henry-ford-health-announces-2-5-billion-expansion-in-detroits-new-center",
+        "https://www.dbusiness.com/daily-news/midtown-detroit-announce-coordinated-neighborhood-planning-efforts-with-city/"
+      ]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Detroit has extensive vacant public land and actively offers it: the Housing & Revitalization Department issued multiple 2025-2026 RFPs for city-owned vacant parcels (e.g. Dexter Ave, Mack Ave, Archdale, North Corktown); the city offered two large vacant Midtown sites including the former Wigle recreation center on Selden Street (about 8 acres for 210-260 apartments, with low-income housing; date unconfirmed). In the adjacent North End, demolitions left much unused land and the Land Bank offers discounts of up to 90% for land targeted for affordable housing. No New Center-specific site RFP was found.",
+      "sources": [
+        "https://modeldmedia.com/?p=29328",
+        "https://detroitmi.gov/sites/detroitmi.localhost/files/2025-05/12200%20Dexter%20RFP.pdf",
+        "https://www.bridgedetroit.com/having-trouble-buying-land-bank-property-it-may-be-reserved-for-development/",
+        "https://www.friedmanrealestate.com/?p=51242"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 3,
+      "evidence": "Repeated recent MSHDA investment in Detroit new construction: 130 E. Grand Boulevard Apartments 9% award (July 2025), The Hive on Russell (78 units, Eastern Market, Dec 2023), Trumbull Apartments (88 units, $19.6M, Sept 2025), and city/MSHDA announcements of $38M in LIHTC for 183 deeply affordable units.",
+      "sources": [
+        "https://www.michigan.gov/mshda/about/press-releases/2025/07/10/governor-whitmer-announces-funding-to-build-and-preserve-484-affordable-rental-homes",
+        "https://www.michigan.gov/mshda/about/press-releases/2023/12/18/mshda-board-approves-funding-for-affordable-housing-developments-in-detroit-ovid-township",
+        "https://www.michigan.gov/mshda/about/press-releases/2025/09/19/mshda-board-approves-funding-for-148-housing-units",
+        "https://detroitmi.gov/index%2Ephp/node/55466"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "The City of Detroit Housing & Revitalization Department runs its own affordable housing NOFA (Feb 2025), and the Mayor co-announces LIHTC awards with MSHDA.",
+      "sources": [
+        "https://detroitmi.gov/sites/detroitmi.localhost/files/2025-02/HRD%20NOFA_NOFA%20+%20App_Feb%2025%20v2.pdf",
+        "https://detroitmi.gov/news/mayor-mshda-announce-4-new-major-affordable-supportive-housing-projects-bringing-nearly-200-units"
+      ]
+    }
+  },
+  "notes": "michigan.gov and novoco.com could not be fetched from this session (network blocked), and the shared web-search budget ran out after about 20 searches. All QAP figures come from search-result excerpts, so ruleVerified is false for both pathways. Fee: the 9% cap ($1.8M; $2.1M with Emerging Developer) matches the context given. The 4% rule has a 20% tier for 49 or fewer units and a 15% / $2.1M tier for 50+ units; the $2.1M limit appears to apply only to gap-financing sizing (excess deducted from TDC), so a Pass-Through Bond deal without MSHDA gap money may keep about $4.96M (12.4% of TDC). Confirm this with the full QAP or MSHDA staff. Under the 9% rules, the fee for the example project is only 4.5-5.25% of TDC, below DL3's 10% test. Award counts by year, new-construction splits and oversubscription were not found (2021-2025 reservation PDFs exist but could not be opened). The October 2026 round's applicant list showed roughly 23 entries in an excerpt, with requests from about $312,000 to $1,650,000; this is approximate and not used. The 4% maxFeasibleUnits (330, Ann Arbor) is a March 2026 approval, outside the 2021-2025 window. A 2021-2025 100+ unit 4% new-construction award was not confirmed (HOM Flats at Maynard, 240 units, is called preservation by MSHDA). Detroit was chosen as the venture market, but its historic, anchor and property factors were not researched. Ann Arbor (330-unit 4% deal downtown) is an alternative. [research2 gap-fill, 2026-11-16] Added venture historicSuccess (5), anchorInstitutions (5) and availableProperty (3). awardsByYear new-construction counts remain null: MSHDA 9% releases combine new construction and rehab (April 4, 2024: 22 new construction and rehabilitation projects, $25,065,677 credits; Jan 29, 2025: 15 projects, 708 homes; July 10, 2025: 10 projects, 484 units; June 18, 2026: 13 developments, 603 new units, $18.9M 9% credits), and none states the number of applications. These totals were not entered as newConstructionAwards. No 2024-2025 MSHDA 4% new-construction approval above 100 units was found by search."
+}

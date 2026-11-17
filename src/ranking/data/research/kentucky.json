@@ -1,0 +1,263 @@
+{
+  "state": "Kentucky",
+  "researchedOn": "2026-11-16",
+  "agency": "Kentucky Housing Corporation",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 1800000,
+        "rule": "Developer fee for new construction, rehabilitation and adaptive reuse is set per unit on a declining tiered schedule and must be the lesser of the per-unit total or $1,800,000; consulting fees count as part of the developer fee (2027 Multifamily Guidelines, which go with the 2027-2029 QAP).",
+        "basis": "Per-unit tiered schedule (not a percent of cost): first 15 units $28,000/unit; next 30 units (16-45) $23,800/unit; next 30 units (46-75) $16,800/unit; units above 75 $9,800/unit.",
+        "dollarCap": "$1,800,000 per project (2027 guidelines; the 2025-2026 guidelines capped 9% projects at $1,200,000).",
+        "arithmetic": "120 units: 15 x $28,000 = $420,000; 30 x $23,800 = $714,000; 30 x $16,800 = $504,000; 45 x $9,800 = $441,000. Total = $2,079,000. Lesser of $2,079,000 and the $1,800,000 cap = $1,800,000 (4.5% of the $40,000,000 TDC).",
+        "ruleVerified": false,
+        "source": "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf",
+        "quote": "\"Developer fees must be the lesser of the total per unit amount listed below or $1,800,000. Consulting fees are considered part of the developer fee.\" ... \"First 15 Units at $28,000 per unit, next 30 units at $23,800 per unit\" (search-engine excerpt of the PDF; the 46-75 and 75+ tiers came from the search summary of the same PDF)."
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap for 9% projects was found, but the rules cap each project's annual credit at $1,800,000 (2027 guidelines) and at $25,000 per unit (2025-2026 guidelines). That makes a large 9% deal mostly a gap-funding problem. No 9% new-construction award over 100 units in 2021-2025 was found. The 2026 round funded 15 projects with 698 units in total, about 47 units on average. Gap-fill search (2026-11-16): the largest 9% new-construction awards found in Louisville were Monarch Station (80 units, $1.3M 9% credits, NCSHA/KHC Jan 2025) and Bridlewood Crossing (76 units); none over 100 units, so value stays null.",
+        "source": "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf",
+        "extraSources": [
+          "https://www.ncsha.org/hfa-news/khc-joins-celebration-for-80-unit-affordable-permanent-supportive-housing-development-in-louisville/"
+        ]
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "2027 Multifamily Guidelines (search excerpt): \"Development entities with experience in developing rent-restricted multifamily housing using federal resources in other states may be allowed to engage a consultant with experience in KHC-assisted multifamily housing projects. ... entity has no experience in developing rent-restricted, federally assisted multifamily housing projects, then that entity will be required to engage a co-developer with recent experience.\" Out-of-state developers who have not done business with KHC must also certify their out-of-state experience. KHC sets each developer's annual credit cap from a capacity review.",
+        "source": "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "There is an annual competitive 9% round. For the 2026 round, KHC 'received 31 applications requesting more than $35 million in Housing Credits and was able to fund 15 projects' (about $15.9M of 2026 credits). The 2025-2026 QAP has an Urban Set-Aside for Jefferson (Louisville), Fayette (Lexington) and Boone/Campbell/Kenton (Northern Kentucky). The draft QAP says KHC 'will award up to 33% of 9% LIHTCs available for New Supply' there; the 33% was not confirmed in the final text. The 2027 round (under the new 2027-2029 QAP) took applications due Sept. 11, 2026.",
+        "source": "https://www.housingonline.com/2026/02/11/kentucky-housing-commission-announces-9-lihtc-awards-for-2026/"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 33,
+          "source": "https://www.wallick.com/khc-awards-wallick-9-lihtc-award/"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 33,
+          "source": "https://www.ncsha.org/hfa-news/more-than-12-5-million-in-housing-credits-awarded-for-affordable-rental-housing-projects-throughout-kentucky/",
+          "note": "KHC release (announced about February 2023): 'KHC received 33 applications requesting more than $28 million in Housing Credits and was able to fund 13 projects with $12,508,108 of 2023 Housing Credits.' New-construction split not given. The 2022 row's 33 applications (Wallick) may describe this same round; do not double count."
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.kyhousing.org/Partners/Developers/Multifamily/Documents/2025%20Multifamily%20Funded%20Report.pdf"
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 31,
+          "source": "https://www.housingonline.com/2026/02/11/kentucky-housing-commission-announces-9-lihtc-awards-for-2026/"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": 2.2,
+        "source": "https://www.housingonline.com/2026/02/11/kentucky-housing-commission-announces-9-lihtc-awards-for-2026/"
+      },
+      "nextDeadline": "The 2027 9% round full applications were due by noon ET on Sept. 11, 2026 (passed). The 2028 round date was not found.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Written path for out-of-state sponsors: engage a KHC-experienced consultant or co-developer. There is an urban set-aside covering Louisville, Lexington and Northern Kentucky. Barriers: about 2.2x oversubscription (31 applications, 15 funded in 2026), a per-project credit cap of $1.8M, and developer credit caps set by a capacity review, which may limit new entrants.",
+          "sources": [
+            "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf",
+            "https://www.kyhousing.org/sites/default/files/2026-06/2025-2026%20Qualified%20Allocation%20Plan.pdf"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Market facts below come from news and city sources, not KHC. The 2024 KHC Supply Gap Analysis (cited by KHC) estimates Jefferson County needs about 21,000 rental units for its lowest-income renters. West Louisville median household income is about $21,000, and new 4% deals there have leased up (The Eclipse, 280 units, opened 2025). A 9% deal capped at $1.8M of annual credit cannot fund most of a 120-unit, $40M building without large gap sources. No rent or vacancy data was found.",
+          "sources": [
+            "https://www.ncsha.org/hfa-news/khc-joins-celebration-for-80-unit-affordable-permanent-supportive-housing-development-in-louisville/",
+            "https://www.ncsha.org/hfa-news/280-unit-affordable-housing-community-opens-in-historic-west-louisville-russell-neighborhood/"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Louisville is about a 4.5-5 hour drive from Chicago, which is general geographic knowledge, not from a source. No local-office rule was found. A KHC-experienced consultant or co-developer is required, and the co-developer will likely share the fee.",
+          "sources": [
+            "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 8000000,
+        "rule": "The developer fee on Tax-Exempt Bond projects may not exceed 20% of the total development cost. Bond projects are not held to the 9% per-unit / $1,800,000 cap.",
+        "basis": "Percent of total development cost. The search excerpt does not show whether land, reserves or the fee itself are excluded.",
+        "dollarCap": "None found for bond projects.",
+        "arithmetic": "Literal reading: 20% x $40,000,000 TDC = $8,000,000. If KHC actually measures it on cost excluding the fee (F = 0.20 x ($40,000,000 - F)), the fee would be $6,666,667. The excluded-cost wording could not be confirmed, so the literal value is reported. Either way the fee is far above 10% of TDC.",
+        "ruleVerified": false,
+        "source": "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf",
+        "quote": "\"The developer fee on Tax-Exempt Bond projects may not exceed 20% of the total development cost\" (search excerpt; the same language is in the 2025-2026 guidelines)."
+      },
+      "maxFeasibleUnits": {
+        "value": 280,
+        "evidence": "The Eclipse in Russell (Louisville) is a 280-unit new-construction community by LDG, financed with KHC Multifamily Revenue Bonds (Eclipse in Russell Project), Series 2022. KHC invested $43M in tax-exempt bonds, about $30M of LIHTC equity. Groundbreaking was Feb. 2023 and it opened Oct. 2025. Also Gateway on Broadway (Louisville): 116 senior units, $25M of KHC bonds and $1.75M of 4% credits. The 2025-2026 guidelines say there is no per-unit limit for bond projects.",
+        "source": "https://www.ncsha.org/hfa-news/280-unit-affordable-housing-community-opens-in-historic-west-louisville-russell-neighborhood/"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "The same Multifamily Guidelines experience rules apply: an experienced out-of-state developer may engage a KHC-experienced consultant, or engage a co-developer if it lacks federally assisted experience. Bond projects are not restricted by the 9% annual credit cap.",
+        "source": "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "KHC ran a competitive 2026 tax-exempt-bond-only NOFA offering '$200 million of competitive TEB with 4% LIHTC with no gap funding'. In Aug. 2026 it funded 15 applications requesting more than $231M of bonds, carrying over $20M of 4% credits and 2,134 units. Volume is competitive but not waitlisted for years. Novogradac lists Kentucky's 2026 cap at $300M; that figure is unverified.",
+        "source": "https://www.housingonline.com/2026/08/12/kentucky-housing-corporation-announces-awards-for-tax-exempt-bond-awards/"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": 1,
+          "applications": null,
+          "source": "https://www.ncsha.org/hfa-news/280-unit-affordable-housing-community-opens-in-historic-west-louisville-russell-neighborhood/",
+          "evidence": "Lower bound only. The Eclipse in Russell, Louisville: 280-unit new construction (LDG), financed with KHC Multifamily Revenue Bonds (Eclipse in Russell Project), Series 2022. Total new-construction count not found."
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": 1,
+          "applications": null,
+          "source": "https://www.ncsha.org/hfa-news/echo-trail-breaks-ground-in-bowling-green-bringing-256-units-of-affordable-housing-to-warren-county/",
+          "evidence": "Lower bound only. Echo Trail Apartments, Bowling Green: 256-unit new construction by LDG, about $37.5M tax-exempt bonds, part of the June 2024 KHC/DLG western Kentucky award ($223M, 11 developments, 953 new rental units; $134,601,971 tax-exempt bonds + $12,349,958 projected credit equity). The same package includes Garrison Gardens (120 units, Bowling Green) and 122 units in Mayfield, but their financing type / project split was not confirmed, so they are not counted.",
+          "note": "June 2024 award: 11 new-construction developments, 953 units (Christian, Graves, Hopkins, Warren counties), but not all are confirmed as bond/4% deals, so newConstructionAwards is left null. Sources: https://www.ncsha.org/hfa-news/wky-communities-receive-223m-for-disaster-recovery/ ; https://bgky.org/announcements/1428"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2026,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.housingonline.com/2026/08/12/kentucky-housing-corporation-announces-awards-for-tax-exempt-bond-awards/"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.housingonline.com/2026/02/11/kentucky-housing-commission-opens-2026-nofa-for-teb-only/"
+      },
+      "nextDeadline": "Not found. The 2026 TEB NOFA was announced Feb. 2026 with awards around July 31, 2026, so a 2027 TEB NOFA is likely early 2027. That is an inference, not a stated date.",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "There is a consultant / co-developer path and no per-project credit cap. The TEB round is competitive with a point system and gives no KHC gap funding, so gap sources must be found locally (for example, Louisville Metro put ARP / trust fund money into The Eclipse).",
+          "sources": [
+            "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf",
+            "https://www.housingonline.com/2026/02/11/kentucky-housing-commission-opens-2026-nofa-for-teb-only/"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Large 4% new construction has worked in West Louisville: The Eclipse (280 units, $45M total, about $160k per unit) and Gateway on Broadway (116 units). The 2026 TEB awards averaged about 142 units per project (2,134 units / 15). There is a large documented rental gap (about 21,000 units for the lowest-income renters in Jefferson County). No rent, vacancy, insurance or tax data was found to test a downside case.",
+          "sources": [
+            "https://www.ncsha.org/hfa-news/280-unit-affordable-housing-community-opens-in-historic-west-louisville-russell-neighborhood/",
+            "https://www.housingonline.com/2026/08/12/kentucky-housing-corporation-announces-awards-for-tax-exempt-bond-awards/"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Louisville is drivable from Chicago (general knowledge). No local-presence rule was found. A co-developer or consultant is needed. Bond deals carry larger construction-loan guarantees than 9% deals.",
+          "sources": [
+            "https://www.kyhousing.org/sites/default/files/2026-06/2027%20Multifamily%20Guidelines.pdf"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Louisville: West Louisville, the Russell neighborhood and West Broadway corridor (around 28th St and Broadway)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "Russell is described as 'historic West Louisville' and sits on the Broadway corridor, which now hosts a 20-acre, $100M mixed-use campus at 28th and Broadway. No sourced data on past commercial vibrancy or transit service was found.",
+      "sources": [
+        "https://www.ncsha.org/hfa-news/280-unit-affordable-housing-community-opens-in-historic-west-louisville-russell-neighborhood/",
+        "https://nortonchildrens.com/news/goodwill-industries-of-kentucky-and-norton-healthcare-partner-for-historic-100m-investment-in-west-louisville"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": 5,
+      "evidence": "Goodwill Industries of Kentucky and Norton Healthcare are building a $100M Opportunity Campus at 28th and Broadway, with Goodwill's headquarters and Norton's $70M West Louisville Hospital, the first hospital west of Ninth Street in over a century. Norton's Institute for Health Equity is in Russell, and Norton partnered on the Russell housing development.",
+      "sources": [
+        "https://nortonchildrens.com/news/goodwill-industries-of-kentucky-and-norton-healthcare-partner-for-historic-100m-investment-in-west-louisville",
+        "https://nortonhealthcare.com/news/mayor-greenberg-joins-community-leaders-and-ldg-partners-to-break-ground-on-75-million-housing-development-in-the-russell-neighborhood"
+      ]
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "More than a thousand vacant and abandoned homes, mostly concentrated in west Louisville. The city is converting vacant city land to affordable housing and running the REVERT program. No specific large vacant parcel suitable for 100+ units was identified.",
+      "sources": [
+        "https://www.wdrb.com/news/louisville-to-convert-vacant-city-land-into-affordable-housing-launch-new-rental-search-tool/article_2d82606a-0673-47b9-bb42-5984a88247c3.html",
+        "https://www.wdrb.com/news/louisville-plans-to-forgive-liens-on-some-abandoned-homes-to-create-affordable-housing/article_07582a16-ab3c-11ef-aa81-dfb040465487.html"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "The Eclipse (280 units, opened Oct. 2025). Gateway on Broadway (116 senior units). The Beecher Terrace HUD Choice Neighborhoods redevelopment. Goodwill's Opportunity Village (76 units, 9% credits, 2820 W. Broadway). The Goodwill/Norton $100M campus.",
+      "sources": [
+        "https://www.ncsha.org/hfa-news/280-unit-affordable-housing-community-opens-in-historic-west-louisville-russell-neighborhood/",
+        "https://louisvilleky.gov/news/gateway-broadway-affordable-housing-and-community-resource-center-now-open",
+        "https://goodwillky.org/goodwill-kentucky-woda-cooper-break-ground-on-new-affordable-housing-community-in-west-louisville/"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "Mayor Craig Greenberg's 'My Louisville Home' plan targets 15,000 affordable units by 2027 and calls for at least $20M a year for the Affordable Housing Trust Fund. The FY2026 budget gave the trust fund $12.5M, down from $15M. Metro committed $4M of ARP money to The Eclipse.",
+      "sources": [
+        "https://louisvilleky.gov/government/housing/my-louisville-home-comprehensive-housing-strategy",
+        "https://spectrumnews1.com/ky/louisville/news/2025/07/11/louisville-housing-trust-fund-budget"
+      ]
+    }
+  },
+  "notes": "KHC (kyhousing.org), Novogradac, NCSHA and housingonline.com could not be opened from this session because the network proxy blocks them, so every KHC rule above comes from search-engine excerpts. ruleVerified is false for both fee rules. The 2027-2029 QAP was approved by the Governor (housingonline report), but its text was not read; fee, experience and set-aside language come from the 2027 / 2025-2026 Multifamily Guidelines and the 2025-2026 QAP. The 33% urban set-aside figure is from the DRAFT 2025-2026 QAP. The 9% tier amounts for units 46-75 and 75+ are from a search summary, not a verbatim quote. The cap still binds at 120 units: the first 45 units alone give $1,134,000, and $1.8M is reached before unit 120 under any plausible tiers. For the 4% fee, it is unclear whether '20% of total development cost' excludes land, reserves or the fee ($8.0M literal vs $6.67M fee-excluded). Year-by-year award counts and new-construction / over-100-unit breakdowns were not found for 2021, 2023, 2024 or 2025. In 2022, 13 of 33 applications were awarded (developer Wallick's report, not KHC). The 9% oversubscription of 2.2 is $35M requested over about $15.9M awarded in the 2026 round, a proxy for available credit. No Louisville rent, vacancy or operating-cost data was found. Be careful: kshousingcorp.org is Kansas, not Kentucky. GAP-FILL (2026-11-16): added 2023 9% applications (33) from the KHC release on NCSHA; it may be the same round as the 2022 row (Wallick), since both say 33 applications / 13 funded. Added 4% above100Units lower bounds for 2022 (Eclipse in Russell, 280) and 2024 (Echo Trail, 256) with named evidence. 9% maxFeasibleUnits still null: no 101+ unit 9% new-construction award found. No 4% or 9% new-construction counts found for 2021-2025."
+}

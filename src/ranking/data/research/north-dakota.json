@@ -1,0 +1,249 @@
+{
+  "state": "North Dakota",
+  "researchedOn": "2026-11-16",
+  "agency": "North Dakota Housing Finance Agency",
+  "pathways": {
+    "9%": {
+      "fee": {
+        "approvedGrossFee": 4500000,
+        "rule": "9% applications are limited to a maximum developer fee of 15% of the project's total eligible basis; consultant fees count within the limit; fees above the maximum cannot be included in eligible basis. If developer and contractor are the same or related entity, combined fees may not exceed 20% of eligible basis (2026 LIHTC Allocation Plan).",
+        "basis": "Percent of total eligible basis (assumed $30,000,000 = 75% of TDC).",
+        "dollarCap": "None found.",
+        "arithmetic": "15% x $30,000,000 eligible basis = $4,500,000 = 11.25% of the $40,000,000 TDC.",
+        "ruleVerified": false,
+        "source": "https://www.ndhfa.org/wp-content/uploads/2025/05/2026LIHTCAllocationPlan.pdf",
+        "quote": "\"Applications for 9% credits will be limited to maximum Developer fee of 15% of the project's total eligible basis.\" (search excerpt of the 2026 plan dated 05/13/2025; 2025 plan has the same 15% rule; the 2027 plan was approved in March 2026 but its text could not be read)"
+      },
+      "maxFeasibleUnits": {
+        "value": null,
+        "evidence": "No unit cap found, but no one project may receive more than 34% of the annual LIHTCs available (2024 QAP); the 2025 round lists a 9% pool of $4,115,673 and 'Max LIHTC per Project: 34%' (about $1.4M of annual credit), far short of what a 120-unit, $40M building needs. No pure 9% new-construction award over 100 units in 2021-2025 was found. The closest is Lashkowitz Riverfront (Fargo, 2022 award): 110 new units built as a twinned deal, 27 units with 9% credits ($724,000) and 83 units with 4% credits plus $21.5M of bonds.",
+        "source": "https://www.ndhousing.nd.gov/sites/www/files/documents/Development/2025MultifamilyApplicationRound.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Search summaries of the 2026 and 2027 NDHFA Allocation Plans: applicants new to LIHTC (or teams with limited development, construction or management experience) must partner with an experienced developer, sponsor or consultant; the 2027 plan describes this as a team member that has placed a project in service within the prior five years. Nothing found bars out-of-state developers; the Agency 'may also check other states' allocating agencies' on the applicant's performance history. Barrier: 'An Applicant who has not yet placed a project in-service in North Dakota will be ineligible to submit a subsequent application' (so a new entrant effectively gets one live deal at a time). Real-world proof: Annex Group (Indianapolis-based, general knowledge) won a 2025 NDHFA award for Central at the Horizon in Fargo, its 'first community in North Dakota'. Quotes come from search excerpts, not the PDF text.",
+        "source": "https://www.ndhousing.nd.gov/sites/default/files/documents/Plans/2027LIHTCAllocationPlan.pdf"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "There is an annual competitive round (NDHFA: LIHTCs are 'awarded annually through a competitive application process'); the 2025 round's 9% pool was $4,115,673 with a 34% per-project cap. No urban / large-city set-aside was found (a 10% set-aside for projects on reservations / tribal land appears in an NDHFA program template). The round is open to new construction (2025 Fargo tax credit awards, credit type not stated in the excerpt: 14-4 Apartments, 65 new units, $1.3M; Harvest Acres, 39 new senior units, $1.1M). Realistic only for a small deal or as the 9% piece of a 9%/4% twin.",
+        "source": "https://www.ndhousing.nd.gov/sites/www/files/documents/Development/2025MultifamilyApplicationRound.pdf"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 19,
+          "source": "https://www.ndic.nd.gov/sites/default/files/documents/Press-Releases/2021/11-29-2021-HFA-Agency-makes-affordable-housing-fun.pdf"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.ndic.nd.gov/sites/www/files/documents/Press-Releases/2022/221118-HFA-Application-Awards.pdf"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 17,
+          "source": "https://www.ndhousing.nd.gov/news/housing-finance-agency-awards-development-assistance"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 23,
+          "source": "https://www.ndhousing.nd.gov/news/agency-makes-affordable-housing-funding-commitments"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": "https://www.ndhousing.nd.gov/news/agency-makes-affordable-housing-funding-commitments"
+      },
+      "nextDeadline": "Annual round: the 2025 round opened Sept. 1, 2025 with applications due Sept. 30, 2025. The 2026 round date was not confirmed (a July 2026 Minot Daily News item announced program funds available); the next stated deadline after that was not found. Likely September 2027 by pattern (inference, not stated).",
+      "scores": {
+        "access": {
+          "score": 3,
+          "evidence": "Experienced-partner path is written into the plan and an out-of-state firm (Annex Group) won in 2025. Barriers: a tiny 9% pool (~$4.1M in 2025) with a 34% per-project cap, about 17-23 applications per combined round for ~6 funded projects, and the rule that an applicant without a ND project in service cannot submit a subsequent application. No urban pool.",
+          "sources": [
+            "https://www.ndhousing.nd.gov/sites/default/files/documents/Plans/2027LIHTCAllocationPlan.pdf",
+            "https://www.ndhousing.nd.gov/sites/www/files/documents/Development/2025MultifamilyApplicationRound.pdf",
+            "https://www.ndhousing.nd.gov/news/agency-makes-affordable-housing-funding-commitments",
+            "https://www.ndhousing.nd.gov/news/housing-finance-agency-awards-development-assistance"
+          ]
+        },
+        "urban": {
+          "score": 2,
+          "evidence": "Fargo demand is real (Fargo-Moorhead study: over 40% of renters cost-burdened, at least 15,900 more units needed over 10 years; rental vacancy around 7%), but the ~$1.4M per-project 9% credit cap cannot carry a 120-unit, $40M building; 100+ unit Fargo deals have used 4% bonds or a 9%/4% twin (Lashkowitz: 27 units on 9%).",
+          "sources": [
+            "https://download.fargond.gov/0/fargo_affordable_housing_study_final_04_04_22.pdf",
+            "https://www.ndhousing.nd.gov/sites/www/files/documents/Development/2025MultifamilyApplicationRound.pdf",
+            "https://www.lument.com/lument-closes-21-5-million-in-bonds-to-finance-affordable-multifamily-community-in-north-dakota/"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Fargo is roughly 630 road miles / 9-10 hours from Chicago (general geographic knowledge, not sourced) with direct flights; no local-office or in-state-presence rule was found in the plan excerpts. Partner route: local co-sponsors with a track record exist, e.g. Fargo Housing and Redevelopment Authority partnered with WNC & Associates and BlueLine Development (Lashkowitz Riverfront) and with BlueLine on 14-4 Apartments.",
+          "sources": [
+            "https://rebusinessonline.com/wnc-blueline-break-ground-on-110-unit-affordable-housing-development-in-fargo-north-dakota",
+            "https://www.ndhousing.nd.gov/news/agency-makes-affordable-housing-funding-commitments"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    },
+    "4%": {
+      "fee": {
+        "approvedGrossFee": 9000000,
+        "rule": "4% applications are limited to a maximum developer fee of 30% of the project's total eligible basis (raised from 20% in the 2025 plan). Fees above 15% of eligible basis must be deferred; if developer plus related contractor fees reach 25% or more of eligible basis, fees above 10% must be deferred. Acquisition-portion fee capped at 5% of acquisition basis.",
+        "basis": "Percent of total eligible basis (assumed $30,000,000).",
+        "dollarCap": "None found.",
+        "arithmetic": "30% x $30,000,000 = $9,000,000 gross = 22.5% of the $40,000,000 TDC. Of this, the part above 15% of basis ($4,500,000) must be deferred, so at most $4,500,000 is paid in cash from sources.",
+        "ruleVerified": false,
+        "source": "https://www.ndhfa.org/wp-content/uploads/2025/05/2026LIHTCAllocationPlan.pdf",
+        "quote": "\"Applications for 4% credits will be limited to a maximum Developer fee of 30% of the project's total eligible basis.\" ... \"Developer fees more than 15% of total eligible basis must be deferred.\" (search excerpts; NDIC March 2025 packet: 'Proposed to increase the maximum developer fee for applications utilizing 4% credits from 20% to 30% of the project's eligible basis and requiring a percentage of such fee to be deferred.')"
+      },
+      "maxFeasibleUnits": {
+        "value": 262,
+        "evidence": "Central at the Horizon, downtown Fargo: 262-unit new-construction general-occupancy project by Annex Group, listed on NDHFA's 2025 funded-projects list. 'Annex Group was awarded $4.3 million in 4% tax credits that will provide an estimated $35 million in project equity and $3 million from HIF'; NDHFA also issued $47.5M of tax-exempt multifamily bonds; opening slated summer 2028. Also Lashkowitz Riverfront (110 units, 83 on 4%, 2022 award).",
+        "source": "https://www.ndhousing.nd.gov/sites/www/files/documents/Development/AllNDHFAFundedProjects2025.pdf"
+      },
+      "sponsorPath": {
+        "value": true,
+        "evidence": "Search summaries of the 2026 and 2027 NDHFA Allocation Plans: applicants new to LIHTC (or teams with limited development, construction or management experience) must partner with an experienced developer, sponsor or consultant; the 2027 plan describes this as a team member that has placed a project in service within the prior five years. Nothing found bars out-of-state developers; the Agency 'may also check other states' allocating agencies' on the applicant's performance history. Barrier: 'An Applicant who has not yet placed a project in-service in North Dakota will be ineligible to submit a subsequent application' (so a new entrant effectively gets one live deal at a time). Real-world proof: Annex Group (Indianapolis-based, general knowledge) won a 2025 NDHFA award for Central at the Horizon in Fargo, its 'first community in North Dakota'. Quotes come from search excerpts, not the PDF text. Annex's winning deal was a 4% bond deal.",
+        "source": "https://rebusinessonline.com/annex-group-unveils-plans-to-build-262-unit-affordable-housing-property-in-fargo/"
+      },
+      "financingPath": {
+        "value": true,
+        "evidence": "NDHFA describes the program as 'competitive 9% credits and non-competitive 4% credits'; 4% credits are triggered by tax-exempt private activity bonds, and NDHFA issued $47.5M of bonds for Central at the Horizon (2025). No evidence of a bond waitlist was found. A third-party aggregator puts ND's 2026 PAB cap at about $397M (unverified, not official).",
+        "source": "https://rebusinessonline.com/annex-group-unveils-plans-to-build-262-unit-affordable-housing-property-in-fargo/"
+      },
+      "awardsByYear": [
+        {
+          "year": 2021,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 19,
+          "source": "https://www.ndic.nd.gov/sites/default/files/documents/Press-Releases/2021/11-29-2021-HFA-Agency-makes-affordable-housing-fun.pdf"
+        },
+        {
+          "year": 2022,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": "https://www.ndic.nd.gov/sites/www/files/documents/Press-Releases/2022/221118-HFA-Application-Awards.pdf"
+        },
+        {
+          "year": 2023,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": null,
+          "source": null
+        },
+        {
+          "year": 2024,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 17,
+          "source": "https://www.ndhousing.nd.gov/news/housing-finance-agency-awards-development-assistance"
+        },
+        {
+          "year": 2025,
+          "newConstructionAwards": null,
+          "above100Units": null,
+          "applications": 23,
+          "source": "https://www.ndhousing.nd.gov/news/agency-makes-affordable-housing-funding-commitments"
+        }
+      ],
+      "oversubscription": {
+        "requestedToAvailable": null,
+        "source": null
+      },
+      "nextDeadline": "Not stated separately. 4% commitments have been made in the same annual NDHFA multifamily round (2025 round due Sept. 30, 2025); bond-ready timing for 4% credits is flexible ('a 4% credit allocation can only be triggered by using tax-exempt bonds when the project is ready to move forward').",
+      "scores": {
+        "access": {
+          "score": 4,
+          "evidence": "4% credits are described as non-competitive; the fee cap (30% of basis) is generous; an out-of-state first-time ND developer (Annex Group) won a 262-unit 4% deal in 2025; experienced-partner path in the plan. Not 5 because the plan text could not be read and the one-application-until-placed-in-service rule limits pipeline.",
+          "sources": [
+            "https://www.ndhfa.org/wp-content/uploads/2025/05/2026LIHTCAllocationPlan.pdf",
+            "https://rebusinessonline.com/annex-group-unveils-plans-to-build-262-unit-affordable-housing-property-in-fargo/",
+            "https://www.ndhousing.nd.gov/news/agency-makes-affordable-housing-funding-commitments"
+          ]
+        },
+        "urban": {
+          "score": 3,
+          "evidence": "Two 100+ unit LIHTC new-construction deals in downtown Fargo (Central at the Horizon 262 units, 100% at 60% AMI with Renaissance Zone abatement and HIF; Lashkowitz Riverfront 110 units). Fargo-Moorhead study: over 40% of renters cost-burdened and at least 15,900 more units needed over 10 years. Rental vacancy around 7% (third-party sites) is not tight; no cost/insurance data found for a downside test.",
+          "sources": [
+            "https://rebusinessonline.com/annex-group-unveils-plans-to-build-262-unit-affordable-housing-property-in-fargo/",
+            "https://fargond.gov/city-government/boards-commissions/economic-development-incentives-committee/agendas-minutes/2025-economic-development-incentives-committee-agendas-minutes/november-25-2025-minutes",
+            "https://download.fargond.gov/0/fargo_affordable_housing_study_final_04_04_22.pdf",
+            "https://rebusinessonline.com/wnc-blueline-break-ground-on-110-unit-affordable-housing-development-in-fargo-north-dakota"
+          ]
+        },
+        "execution": {
+          "score": 3,
+          "evidence": "Fargo is roughly 630 road miles / 9-10 hours from Chicago (general geographic knowledge, not sourced) with direct flights; no local-office or in-state-presence rule was found in the plan excerpts. Partner route: local co-sponsors with a track record exist, e.g. Fargo Housing and Redevelopment Authority partnered with WNC & Associates and BlueLine Development (Lashkowitz Riverfront) and with BlueLine on 14-4 Apartments. Bond deals carry larger construction guarantees.",
+          "sources": [
+            "https://rebusinessonline.com/wnc-blueline-break-ground-on-110-unit-affordable-housing-development-in-fargo-north-dakota",
+            "https://rebusinessonline.com/annex-group-unveils-plans-to-build-262-unit-affordable-housing-property-in-fargo/"
+          ]
+        }
+      },
+      "confidence": "Medium"
+    }
+  },
+  "venture": {
+    "market": "Fargo: downtown riverfront / 2nd Street and NP Avenue corridor (sites of Lashkowitz Riverfront and Central at the Horizon)",
+    "historicSuccess": {
+      "score": 3,
+      "evidence": "Downtown Fargo is the city's historic core and a designated Renaissance Zone whose plan prioritizes investing in housing to increase downtown population; private reinvestment is active (Kilbourne Group projects). No sourced data on transit or historic commercial vibrancy was found.",
+      "sources": [
+        "https://download.fargond.gov/0/09-24-2025_rza_packet.pdf",
+        "https://kilbournegroup.com/groundbreaking-set-for-60-million-plus-housing-parking-theater-complex-in-downtown-fargo/"
+      ]
+    },
+    "anchorInstitutions": {
+      "score": null,
+      "evidence": "Not researched within the search budget; no sourced evidence on NDSU's downtown presence or health-system investment nearby.",
+      "sources": []
+    },
+    "availableProperty": {
+      "score": 3,
+      "evidence": "Redevelopment sites have come to market downtown: the 22-story Lashkowitz high-rise was imploded in Sept. 2023 and replaced by 110 affordable units; the city has taken development proposals for 1 2nd Street. No current large vacant parcel was confirmed.",
+      "sources": [
+        "https://rebusinessonline.com/wnc-blueline-break-ground-on-110-unit-affordable-housing-development-in-fargo-north-dakota",
+        "https://download.fargond.gov/0/1_2nd_street_development_proposal_-_eagleridge_development.pdf"
+      ]
+    },
+    "emergingMomentum": {
+      "score": 5,
+      "evidence": "NP Avenue: $60M+ complex with a 472-stall city-owned garage, theater and The Avery (~168 apartments, 2026); RiverHouse (115 apartments, spring 2026); Bartram (121 apartments); Lashkowitz Riverfront (110 affordable, $33.9M); Central at the Horizon (262 affordable, $47.5M bonds, 2028).",
+      "sources": [
+        "https://kilbournegroup.com/groundbreaking-set-for-60-million-plus-housing-parking-theater-complex-in-downtown-fargo/",
+        "https://rebusinessonline.com/wnc-blueline-break-ground-on-110-unit-affordable-housing-development-in-fargo-north-dakota",
+        "https://rebusinessonline.com/annex-group-unveils-plans-to-build-262-unit-affordable-housing-property-in-fargo/",
+        "https://www.ndic.nd.gov/sites/www/files/documents/Press-Releases/2022/221118-HFA-Application-Awards.pdf"
+      ]
+    },
+    "localLeadership": {
+      "score": 3,
+      "evidence": "City of Fargo commissioned an affordable housing study (2022) and a downtown affordable housing presentation; the Renaissance Zone Authority and Economic Development Incentives Committee grant abatements / PILOTs to LIHTC deals (Central at the Horizon); the Fargo Housing and Redevelopment Authority co-sponsors LIHTC deals. Named elected leaders were not researched.",
+      "sources": [
+        "https://download.fargond.gov/0/fargo_affordable_housing_study_final_04_04_22.pdf",
+        "https://fargond.gov/city-government/boards-commissions/economic-development-incentives-committee/agendas-minutes/2025-economic-development-incentives-committee-agendas-minutes/november-25-2025-minutes",
+        "https://download.fargond.gov/0/09-24-2025_rza_packet.pdf"
+      ]
+    }
+  },
+  "notes": "All NDHFA, NDIC and city sites (ndhfa.org, ndhousing.nd.gov, ndic.nd.gov) and minotdailynews.com were blocked from this session, so every rule comes from search-engine excerpts; ruleVerified is false. The 2027 LIHTC Allocation Plan exists (approved by the Industrial Commission March 2026) but its text was not read; fee figures are from the 2026 plan and may have changed. Fee arithmetic assumes eligible basis = 75% of TDC per the brief. Award counts are for NDHFA's combined annual multifamily round (LIHTC 9%, 4%, HOME, HTF, HIF), not 9% alone: 2021: 19 applications, 8 funded, oversubscribed $34M; 2022: 5 funded, 266 units (application count of 9 appears on an NDHFA page whose year is unconfirmed); 2023: nothing found; 2024: 17 applications, 6 funded, 250+ units, oversubscribed $36.7M; 2025: 23 applications, 6 funded, 600+ units, requests exceeded funds by $29M, with at least one 100+ unit new-construction award (Central at the Horizon, 262 units, 4%). New-construction counts per year were not found. Oversubscription is stated only in dollars across all funding sources, so no credit ratio is given. 9% pool ($4,115,673) and 34% per-project cap come from a garbled excerpt of the 2025 round document. Award years are taken as the year the round was held; NDIC release dates are uncertain for 2025. Anchor institutions in Fargo were not researched."
+}

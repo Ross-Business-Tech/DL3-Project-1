@@ -1,0 +1,146 @@
+// Ranking model settings, taken from the DL3 LIHTC Opportunity Model Guide (Oct 30, 2026).
+// Everything here is a PROPOSED value awaiting Leon Walker / Andrew Stables approval
+// (guide sections 5, 6, 7 and 9). Change a value here and every score updates.
+
+import { ECONOMICS_TERMS } from './economics.js'
+
+export const MODEL_VERSION = 'sprint-0.1'
+
+// Section 6: the seven ranking criteria and their proposed weights (must total 100).
+// `fractional`: the guide averages five factors for Venture Development, so its score can be 3.4.
+// Every other criterion is a whole number from 0 to 5.
+export const COMPONENTS = [
+  { key: 'economics', label: 'Developer economics', weight: 25 },
+  { key: 'funding', label: 'Funding and competition', weight: 20 },
+  { key: 'access', label: 'Access and QAP alignment', weight: 15 },
+  { key: 'scale', label: 'Scale above 100 units', weight: 10 },
+  { key: 'urban', label: 'Urban market feasibility', weight: 10 },
+  { key: 'execution', label: 'DL3 ability to execute', weight: 10 },
+  { key: 'venture', label: 'Venture Development fit', weight: 10, fractional: true },
+]
+
+// Who has to supply what before each criterion can be scored (shown in the "still needed" list).
+export const CRITERIA_OWNERS = {
+  economics: 'DL3 (sets the cash and present-value hurdles)',
+  funding: 'Research (yearly award and application counts, urban only)',
+  access: 'AI proposes, DL3 reviewer confirms',
+  scale: 'Research (yearly award history, urban only)',
+  urban: 'AI proposes, DL3 reviewer confirms',
+  execution: 'DL3 (staff, partners and capital)',
+  venture: 'AI proposes, DL3 reviewer confirms',
+}
+
+export const GATE_OWNERS = {
+  units: 'Research (program size rules)',
+  fee: 'Research (confirm the fee rule)',
+  sponsor: 'DL3 (confirm a sponsor or partner path)',
+  financing: 'Research and DL3 (financing path)',
+  freshness: 'Research (re-check the sources)',
+}
+
+// The urban definition (guide 6B: "Andrew approves the final definition"). PROPOSED, NOT APPROVED.
+// A project site is urban only if ALL THREE tests pass. A test that cannot be answered is
+// "unknown", never a pass. Set `approved: true` only when Andrew signs off.
+export const URBAN_DEFINITION = {
+  approved: false,
+  proposedBy: 'DL3 student team',
+  summary:
+    'A site is urban if it is inside a Census Urbanized Area, sits within a principal city or a DL3-approved neighborhood or transit corridor, and has the density or transit access to support a 100+ unit, mid-rise or larger building.',
+  // Test 1: inside an Urbanized Area (population 50,000+) under this boundary vintage. Urban
+  // clusters fail. Re-run when 2030 boundaries are released.
+  boundaryVintage: '2020',
+  minUrbanAreaPopulation: 50000,
+  // Test 3: tract density floor OR fixed-route transit within this distance. PLACEHOLDER numbers:
+  // calibrate against sites DL3 already considers urban in Chicago before locking them.
+  tractDensityFloorPerSqMile: 3000,
+  transitDistanceMiles: 0.5,
+  placeholderThresholds: true,
+}
+
+export const SETTINGS = {
+  // Section 5D: "more than 100" means at least 101 units.
+  minUnits: 101,
+  // Section 5: fee must be strictly greater than 10% of total development cost.
+  minFeePercent: 10,
+  // Which cost the 10% is measured against (an open DL3 decision; the guide defines it two ways):
+  // 'tdc' = section 5's proposed default, total development cost; 'net' = section 1, total
+  // development cost less the fee, land and capitalized reserves. Land and reserve shares are
+  // the research pack's illustrative assumption (A2), not sourced figures.
+  feeDenominator: 'tdc',
+  landShareOfTdc: 0.05,
+  reservesShareOfTdc: 0.025,
+  // A cost multiplier for stress tests ("cost +10% with the fee unchanged"); 1 = as given.
+  costMultiplier: 1,
+  // Section 9A: a critical fee / deadline / eligibility source older than this blocks a
+  // current recommendation until it is re-checked.
+  staleAfterDays: 90,
+  // How many states make the "shortlist" (used to decide when a rank must be withheld).
+  shortlistSize: 10,
+  // Section 7B: vary each weight by +/-20% and renormalize to 100.
+  weightShock: 0.2,
+  // A rank that moves by more than this many places under a weight change is "unstable".
+  rankShiftTolerance: 1,
+  // Section 7A: below this many jurisdictions a percentile is not a national percentile.
+  smallSampleBelow: 10,
+
+  // Section 4A / 7A: the five complete award years used for Scale and Funding. 2026 year-to-date
+  // is tracked separately and never counts toward "3 of 5 years".
+  scaleWindowYears: [2021, 2022, 2023, 2024, 2025],
+  // Section 7A: a 5 for Scale needs 100+ unit awards in at least this many of those years.
+  scaleStrongYears: 3,
+  // Section 5C / 7A: DL3 must approve these before Economics can be scored 3 or higher.
+  // null = not yet set by DL3. A 5 needs `strongMultiple` times both hurdles.
+  economicsHurdles: { minRetainedCash: null, minPresentValue: null, strongMultiple: 1.5 },
+  // Judgments that are proposed but not yet approved by a person do not count toward the score
+  // unless this is true (useful for a preview; never for a final ranking).
+  countProposed: false,
+  urbanDefinition: URBAN_DEFINITION,
+
+  // ---- PREVIEW settings (all off by default; the page's "Preview scores" mode switches them on).
+  // They exist so the tool can show scores today using PLACEHOLDERS that DL3 has not approved.
+  // Nothing produced with them is a result.
+  //
+  // Economics from the fee: DL3 retains `dl3Share` of the approved fee; `deferredShare` of that is
+  // paid later, so the cash in hand is the rest, less overhead and pursuit costs. The 60% / 40%
+  // are the guide's own illustration (5C: "illustration only"), not DL3's terms.
+  deriveEconomicsFromFee: false,
+  // The full set of placeholder terms (share, timing, probabilities, discount rate, downside) lives in
+  // economics.js; the page lets you change the main ones.
+  economicsAssumptions: ECONOMICS_TERMS,
+  // Guide 7A needs a cash AND a present-value hurdle. Preview can run on cash alone.
+  requirePresentValue: true,
+  // What-if: score every criterion that has no evidence at this value (the "3" anchor), so a
+  // preview order can be shown. null = leave unknown criteria unknown.
+  fillUnknownScore: null,
+  // Preview ranking: also rank states researched in depth whose checks are still OPEN (unknown),
+  // not just those that passed. A state that FAILED a check is still never ranked.
+  previewIncludeOpenChecks: false,
+  // RESEARCHED-SCORES view: until the urban filter has site facts, use statewide award counts for
+  // Scale and Funding (labeled "statewide" wherever they appear). Off in the evidence-only view.
+  scaleAcceptStatewide: false,
+  fundingAcceptStatewide: false,
+  // RESEARCHED-SCORES view: let a fee read from excerpts (not yet verified) feed Developer economics,
+  // labeled as such. The fee CHECK still never passes on an unverified rule.
+  economicsFromUnverifiedFee: false,
+  rankByEstimate: false,
+}
+
+// The "Researched scores" view: AI-researched judgments count (labeled, never as DL3-approved),
+// statewide award counts stand in until the urban filter has site facts, Developer economics runs
+// on the placeholder terms, and states researched in depth whose checks are still open are ranked
+// provisionally. A state that failed a check on firm evidence is still never ranked.
+export const RESEARCH_VIEW_SETTINGS = {
+  countProposed: true,
+  scaleAcceptStatewide: true,
+  fundingAcceptStatewide: true,
+  deriveEconomicsFromFee: true,
+  requirePresentValue: true,
+  economicsHurdles: { minRetainedCash: 1_000_000, minPresentValue: 1_000_000 },
+  previewIncludeOpenChecks: true,
+  fillUnknownScore: null,
+  economicsFromUnverifiedFee: true,
+  rankByEstimate: true,
+}
+
+export const PATHWAYS = ['9%', '4%']
+export const CONFIDENCE_LEVELS = ['High', 'Medium', 'Low']
