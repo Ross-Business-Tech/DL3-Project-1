@@ -13,9 +13,12 @@ import { attachProgramCaps, programCapsFromCsv } from './loadProgramCaps.js'
 import { siteFactsFromCsv } from './loadSiteFacts.js'
 import { evaluateUrban, factsForAward } from './urban.js'
 import { attachPipeline, pipelineFromFiles } from './loadPipeline.js'
+import { applyPipelineFacts } from './pipelineFacts.js'
 
 export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee, inventoryCsv, researchFiles, pipelineFiles }, definition = URBAN_DEFINITION) {
   const sheet = recordsFromPartC(partcCsv)
+  // Records researched in our own sheet: nothing below overwrites their values.
+  const sheetDeep = new Set(sheet.records.filter((r) => r.researched && !r.screenOnly).map((r) => r.id))
   const history = awardHistoryFromCsv(awardHistoryCsv)
   const awards = parseAwards(awardsCsv)
   const siteFacts = siteFactsFromCsv(siteFactsCsv, definition)
@@ -48,9 +51,11 @@ export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCs
   // The scraping pipeline's inventory: where each state's documents are (found automatically, not verified).
   const inventory = inventoryFromCsv(inventoryCsv ?? '')
   // The data pipeline's export: approved rules, award rows, cost per unit, top-100 metros, document freshness.
-  // Evidence and display only: nothing in it changes a gate or a score.
+  // Its reviewed facts fill gaps and replace the draft screen and AI research (pipelineFacts.js); our own
+  // sheet research is never overwritten.
   const pipeline = pipelineFromFiles(pipelineFiles ?? {})
-  const records = attachPipeline(attachInventory(withCaps.records, inventory.byState), pipeline.byState)
+  const facts = applyPipelineFacts(withCaps.records, pipeline, { awardsCsv: pipelineFiles?.awardsCsv ?? '', sheetDeep })
+  const records = attachPipeline(attachInventory(facts.records, inventory.byState), pipeline.byState)
   return {
     records,
     warnings: [...sheet.warnings, ...history.warnings, ...awards.warnings, ...siteFacts.warnings, ...programCaps.warnings, ...fee.warnings, ...merged.warnings, ...research.warnings, ...withCaps.warnings, ...inventory.warnings, ...pipeline.warnings],
@@ -62,9 +67,11 @@ export function buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCs
       programCapRows: programCaps.caps.length,
       ...fee.stats,
       researchedByAgents: research.states.length,
+      ...facts.stats,
     },
     research: { states: research.states, comparison: research.comparison },
     feeComparison: fee.comparison,
+    pipelineComparison: facts.comparison,
     inventory: { stats: inventory.stats, researchNext: researchOrder(inventory.byState, records) },
     pipeline: { stats: pipeline.stats, generatedAt: pipeline.generatedAt, codeVersion: pipeline.codeVersion },
   }

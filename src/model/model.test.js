@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
 import { buildRecords } from '../ranking/buildData.js'
 import { withAssumptionSensitivity } from '../ranking/sensitivity.js'
-import { applyStateInputs, inputStatus, sanitize, settingsFor, emptyInputs, loadInputs, saveInputs, STORAGE_KEY } from './dl3Inputs.js'
+import { applyStateInputs, inputStatus, sanitize, settingsFor, emptyInputs, loadInputs, saveInputs, STORAGE_KEY, withDecision } from './dl3Inputs.js'
 import { buildTerritories, codeOf, sourcesFromCsv, overviewStats } from './territories.js'
 import { cleanStates, dispatchBody, fetchNewerResults, looksLikeKey, sealKeys, summarizeRuns, plainStatus } from './pipelineRun.js'
 
@@ -158,4 +158,51 @@ test('newer results: used only when complete and newer than what the site has', 
   delete partial['awards.csv']
   assert.equal(await fetchNewerResults('2026-11-17T02:20:11Z', fake(partial)), null) // half-published
   assert.equal(await fetchNewerResults(null, async () => { throw new Error('offline') }), null)
+})
+
+// ------------------------------------------------------------------ DL3 decisions on proposed scores
+
+const pathwayOf = (inputs, code, pw) => territoriesWith(inputs).find((t) => t.id === code).pathways.find((p) => p.pathway === pw)
+
+test('approving a proposed score makes it final; changing sets DL3\'s score; rejecting leaves it open', () => {
+  const before = pathwayOf(emptyInputs(), 'MI', '9%')
+  assert.equal(before.criteria.access.status, 'proposed')
+  const proposed = before.judgments.access.score
+
+  let inputs = withDecision(emptyInputs(), 'MI', '9%', 'access', { decision: 'approve' }, 'reviewer@example.com')
+  const approved = pathwayOf(sanitize(inputs), 'MI', '9%')
+  assert.equal(approved.criteria.access.status, 'final')
+  assert.equal(approved.criteria.access.score, proposed)
+  assert.match(approved.criteria.access.reasons.join(' '), /Approved by reviewer@example.com/)
+  assert.equal(pathwayOf(sanitize(inputs), 'MI', '4%').criteria.access.status, 'proposed') // per pathway
+
+  inputs = withDecision(emptyInputs(), 'MI', '9%', 'access', { decision: 'change', score: proposed === 5 ? 1 : 5, note: 'DL3 knows the plan' }, 'r')
+  const changed = pathwayOf(sanitize(inputs), 'MI', '9%')
+  assert.equal(changed.criteria.access.score, proposed === 5 ? 1 : 5)
+  assert.equal(changed.criteria.access.status, 'final')
+  assert.match(changed.judgments.access.evidence, /DL3 changed the proposed .* DL3 knows the plan/)
+
+  inputs = withDecision(emptyInputs(), 'MI', '9%', 'access', { decision: 'reject', note: 'weak evidence' }, 'r')
+  const rejected = pathwayOf(sanitize(inputs), 'MI', '9%')
+  assert.equal(rejected.criteria.access.status, 'unresolved')
+  assert.equal(rejected.rejected.access.was.score, proposed)
+
+  assert.deepEqual(withDecision(inputs, 'MI', '9%', 'access', null, 'r').approvals, {}) // undo
+})
+
+test('approving the Venture Development factors; DL3\'s own execution answer beats any proposal', () => {
+  const v = pathwayOf(sanitize(withDecision(emptyInputs(), 'IN', '9%', 'venture', { decision: 'approve' }, 'r')), 'IN', '9%')
+  assert.ok(['final', 'bounded'].includes(v.criteria.venture.status), v.criteria.venture.status)
+  let inputs = withDecision(emptyInputs(), 'IN', '9%', 'execution', { decision: 'change', score: 1 }, 'r')
+  inputs = sanitize({ ...inputs, states: { IN: { execution: 4 } } })
+  assert.equal(pathwayOf(inputs, 'IN', '9%').criteria.execution.score, 4)
+})
+
+test('decisions from storage or a file are checked', () => {
+  const s = sanitize({ approvals: {
+    'MI|9%': { access: { decision: 'approve', by: 'a', on: '2026-11-18' }, urban: { decision: 'change', score: 7 }, venture: { decision: 'change', score: 3 }, other: { decision: 'approve' } },
+    'MI|5%': { access: { decision: 'approve' } }, 'mi|9%': { access: { decision: 'approve' } },
+  } })
+  assert.deepEqual(s.approvals, { 'MI|9%': { access: { decision: 'approve', by: 'a', on: '2026-11-18' } } })
+  assert.equal(inputStatus(s).decisions, 1)
 })

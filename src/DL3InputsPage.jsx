@@ -69,6 +69,7 @@ export default function DL3InputsPage() {
           {inputStatus.usingPlaceholders
             ? `Using placeholders for ${ECONOMIC_FIELDS.length - inputStatus.entered.length} of ${ECONOMIC_FIELDS.length} values. Scores marked ≈ depend on them.`
             : 'All DL3 values entered.'}
+          {inputStatus.decisions > 0 && ` ${inputStatus.decisions} decisions on proposed scores (made on the state pages) are saved here too.`}
           {inputs.updatedAt && ` Last saved ${new Date(inputs.updatedAt).toLocaleString()}.`}
         </p>
       </section>

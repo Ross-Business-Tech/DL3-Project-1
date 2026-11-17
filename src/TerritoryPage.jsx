@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import { COMPONENTS } from './ranking/config.js'
+import { VENTURE_FACTORS } from './ranking/scoring.js'
 import { useModel } from './model/ModelContext.jsx'
+import { approvalKey, withDecision } from './model/dl3Inputs.js'
 
 const money = (n) => (typeof n === 'number' ? n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : '—')
 const CHECK_TEXT = { pass: 'Pass', fail: 'Fail', unknown: 'Not confirmed yet' }
@@ -12,7 +15,106 @@ function criterionText(c) {
   return c.status === 'final' ? `${s}` : `${s} (${c.status === 'proposed' ? 'proposed' : c.status})`
 }
 
-function Pathway({ p, usingPlaceholders }) {
+const LABEL = Object.fromEntries(COMPONENTS.map((c) => [c.key, c.label]))
+const pct = (x) => `${(x * 100).toFixed(1).replace(/\.0$/, '')}%`
+
+// Where the developer fee behind the fee check comes from, and whether the pipeline's approved rules agree.
+function FeeSource({ fee }) {
+  if (!fee?.pipeline) return null
+  const pf = fee.pipeline
+  const rule = `${pf.percents.map(pct).join(' / ')}${pf.cap ? `, capped at ${money(pf.cap)}` : ''}`
+  if (fee.fromPipeline) {
+    return <p className="small-note">Developer fee {money(fee.gross)} on a {money(fee.tdc)} deal, from reviewer-approved rules ({rule}; {pf.tdcBasis}).{pf.conflicting ? ' The rules disagree, so the lowest fee is used.' : ''}</p>
+  }
+  if (typeof fee.gross === 'number' && Math.round(fee.gross) !== Math.round(pf.fee)) {
+    return (
+      <p className="small-note warn">
+        The pipeline’s approved rules ({rule}) give a fee of {money(pf.fee)} on a {money(pf.tdc)} deal; our research uses {money(fee.gross)}.
+        Our research is kept until someone checks which is right.
+      </p>
+    )
+  }
+  return <p className="small-note">The pipeline’s approved rules agree with our research on the developer fee ({rule}).</p>
+}
+
+// The scores researchers proposed (Access, Urban, DL3 execution, Venture fit), with DL3's decision on each.
+function Proposals({ code, p }) {
+  const { inputs, setInputs, viewer } = useModel()
+  const [changing, setChanging] = useState(null)
+  const decisions = inputs.approvals?.[approvalKey(code, p.pathway)] ?? {}
+  const decide = (c, d) => { setInputs(withDecision(inputs, code, p.pathway, c, d, viewer ?? 'DL3')); setChanging(null) }
+  const rows = ['access', 'urban', 'execution', 'venture'].map((c) => {
+    const d = decisions[c]
+    const j = c === 'venture' ? null : p.judgments?.[c]
+    const v = c === 'venture' ? p.venture : null
+    const was = p.rejected?.[c]?.was
+    const has = j || v || was || d
+    if (!has) return null
+    const proposed = c === 'venture'
+      ? (v ?? was) && VENTURE_FACTORS.filter((f) => (v ?? was)[f.key]).map((f) => `${f.label} ${(v ?? was)[f.key].score}`).join(' · ')
+      : (j ?? was) && `${(j ?? was).score} / 5`
+    const evidence = c === 'venture'
+      ? VENTURE_FACTORS.map((f) => (v ?? was)?.[f.key]?.evidence).filter(Boolean).join(' ')
+      : (j ?? was)?.evidence
+    return { c, d, proposed, evidence, approved: c === 'venture' ? Boolean(v?.approvedBy) : Boolean(j?.approvedBy) }
+  }).filter(Boolean)
+  if (rows.length === 0) return null
+  return (
+    <details className="details" open={rows.some((r) => !r.approved && !r.d)}>
+      <summary>Scores proposed by researchers: {rows.filter((r) => !r.approved && !r.d).length} waiting for a DL3 decision</summary>
+      <ul className="proposal-list">
+        {rows.map(({ c, d, proposed, evidence, approved }) => (
+          <li key={c} className="proposal">
+            <strong>{LABEL[c]}</strong>
+            <div>Proposed: {proposed ?? 'no proposal'}{' '}
+              <span className="small-note">
+                {d?.decision === 'approve' && `· approved by ${d.by} on ${d.on}`}
+                {d?.decision === 'change' && `· changed to ${d.score} by ${d.by} on ${d.on}`}
+                {d?.decision === 'reject' && `· rejected by ${d.by} on ${d.on}`}
+                {!d && approved && '· approved'}
+                {!d && !approved && '· waiting for a DL3 decision'}
+              </span>
+            </div>
+            {evidence && <p className="small-note">{evidence.length > 400 ? `${evidence.slice(0, 400)}…` : evidence}</p>}
+            {d?.note && <p className="small-note">Note: {d.note}</p>}
+            <div className="proposal-actions">
+              {d ? (
+                <button type="button" className="text-button" onClick={() => decide(c, null)}>Undo decision</button>
+              ) : changing === c ? (
+                <ChangeForm onCancel={() => setChanging(null)} onSave={(score, note) => decide(c, { decision: 'change', score, note })} />
+              ) : (
+                <>
+                  <button type="button" className="download-button" onClick={() => decide(c, { decision: 'approve' })}>Approve</button>
+                  {c !== 'venture' && <button type="button" className="download-button" onClick={() => setChanging(c)}>Change score</button>}
+                  <button type="button" className="download-button" onClick={() => decide(c, { decision: 'reject', note: window.prompt('Why reject it? (optional)') ?? undefined })}>Reject</button>
+                </>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="small-note">Decisions are saved with the DL3 inputs in this browser (and in “Save to a file”). Approved scores count as final.</p>
+    </details>
+  )
+}
+
+function ChangeForm({ onSave, onCancel }) {
+  const [score, setScore] = useState('')
+  const [note, setNote] = useState('')
+  return (
+    <div className="change-form">
+      <select aria-label="New score" value={score} onChange={(e) => setScore(e.target.value)}>
+        <option value="">Score…</option>
+        {[0, 1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n}</option>)}
+      </select>
+      <input aria-label="Reason" placeholder="Reason" value={note} maxLength={300} onChange={(e) => setNote(e.target.value)} />
+      <button type="button" className="download-button primary" disabled={score === ''} onClick={() => onSave(Number(score), note)}>Save</button>
+      <button type="button" className="text-button" onClick={onCancel}>Cancel</button>
+    </div>
+  )
+}
+
+function Pathway({ code, p, usingPlaceholders }) {
   return (
     <div className="pathway-row">
       <strong>{p.pathway} credits</strong>
@@ -28,6 +130,8 @@ function Pathway({ p, usingPlaceholders }) {
           </tbody>
         </table>
       )}
+      <FeeSource fee={p.fee} />
+      <Proposals code={code} p={p} />
       {p.criteria && (
         <details className="details">
           <summary>Scores by criterion (0–5)</summary>
@@ -147,7 +251,7 @@ export default function TerritoryPage({ id, onBack, onSources }) {
 
         <div className="pathway-block">
           <h3>9% and 4% results</h3>
-          {t.pathways.map((p) => <Pathway key={p.pathway} p={p} usingPlaceholders={inputStatus.usingPlaceholders} />)}
+          {t.pathways.map((p) => <Pathway key={p.pathway} code={t.id} p={p} usingPlaceholders={inputStatus.usingPlaceholders} />)}
         </div>
 
         <div className="pathway-block">

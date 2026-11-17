@@ -19,8 +19,8 @@ export default function ReviewQueuePage({ onOpenTerritory }) {
         <button type="button" aria-pressed={!onlyPresented} onClick={() => setOnlyPresented(false)}>All researched states</button>
       </div>
       <p className="small-note page-note">
-        {queue.length} open items. DL3 items are answered on the DL3 inputs page; rules from the pipeline are approved in the review
-        spreadsheet (see the pipeline’s refresh instructions).
+        {queue.length} open items. Proposed scores are approved, changed or rejected on each state’s page (open a state below);
+        DL3’s own answers go on the DL3 inputs page; rules from the pipeline are approved in the review spreadsheet.
       </p>
       {[...byOwner.entries()].map(([owner, items]) => (
         <section className="card" key={owner} data-reveal>

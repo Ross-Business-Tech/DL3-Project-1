@@ -1224,3 +1224,40 @@ form.card + .card {
     border-radius: 18px;
   }
 }
+
+.proposal-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.proposal {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.proposal-actions,
+.change-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.change-form input,
+.change-form select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  min-width: 0;
+}
+
+.change-form input {
+  flex: 1 1 160px;
+}
