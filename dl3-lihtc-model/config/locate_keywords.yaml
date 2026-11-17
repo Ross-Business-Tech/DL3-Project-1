@@ -1,0 +1,60 @@
+# Keyword/regex patterns used to find pages worth extracting. Deterministic; edit without code changes.
+topics:
+  fee_rule:
+    - 'developer\s+fee'
+    - 'deferred\s+(developer\s+)?fee'
+    - 'fee\s+(cap|limit|maximum)'
+    - 'total\s+development\s+cost'
+  unit_credit_caps:
+    - 'maximum\s+(annual\s+)?(credit|award|reservation)'
+    - 'per[- ]project\s+(cap|limit)'
+    - 'credit\s+(cap|ceiling)'
+    - 'maximum\s+number\s+of\s+units'
+  set_asides:
+    - 'set[- ]aside'
+    - 'nonprofit\s+set'
+    - 'geographic\s+(pool|region)'
+  deadlines:
+    - 'application\s+(deadline|due)'
+    - 'round\s+\d'
+    - 'due\s+(date|by)'
+  sponsor_eligibility:
+    - 'experience\s+requirement'
+    - 'principal(s)?\s+(must|shall)'
+    - 'sponsor\s+eligib'
+    - 'capacity\s+(requirement|threshold)'
+  award_table:
+    - 'awards?\s+(list|summary|announcement)'
+    - 'tax\s+credit\s+awards'
+    - 'projects?\s+awarded'
+  scoring_criteria:
+    - 'points?'
+    - 'scoring'
+    - 'selection\s+criteria'
+    - 'tie[- ]?breaker'
+    - 'threshold'
+    - 'local\s+(government|support|approval|notification)'
+  credit_availability:
+    - 'credit\s+ceiling'
+    - 'per\s+capita'
+    - 'volume\s+cap'
+    - 'tax[- ]exempt\s+bonds?'
+    - 'private\s+activity'
+    - '4\s*%'
+    - 'available\s+(credit|for\s+allocation)'
+  news_items:
+    - 'announc'
+    - 'groundbreaking'
+    - 'grand\s+opening'
+    - 'awarded'
+  cost_limits:
+    - 'cost\s+(limit|cap|containment|ceiling)'
+    - 'total\s+development\s+cost'
+    - 'per\s+unit'
+    - 'maximum\s+(allowable\s+)?cost'
+  bond_volume_cap:
+    - 'volume\s+cap'
+    - 'state\s+ceiling'
+    - 'private\s+activity'
+    - 'carry[- ]?forward'
+    - 'oversubscri'

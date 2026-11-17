@@ -1,0 +1,3 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python -m src.report.export_web
+
+Wrote ~/Code/DL3-Project-1/dl3-lihtc-model/data/web: {'awards': 231, 'rules': 80, 'sources': 78, 'cost_per_unit': 8} (0 rules approved)

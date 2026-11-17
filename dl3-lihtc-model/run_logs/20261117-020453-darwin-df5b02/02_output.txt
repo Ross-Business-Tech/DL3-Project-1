@@ -1,0 +1,4 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python -m src.awards.costs
+
+OH 9% 2025: median $289,165/unit from 23 of 23 projects
+Wrote ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/cost_per_unit.csv

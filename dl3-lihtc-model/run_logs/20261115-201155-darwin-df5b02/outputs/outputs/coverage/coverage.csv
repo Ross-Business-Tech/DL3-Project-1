@@ -1,0 +1,79 @@
+jurisdiction_id,item,value,ok,detail
+MI,sources registered,8,yes,run: python -m src.inventory.promote MI
+MI,sources never retrieved,0,yes,
+MI,sources older than freshness limit,0,yes,
+MI,QAP archived,1,yes,no QAP document in the archive
+MI,QAP that is not a draft,1,yes,only draft QAPs archived
+MI,QAP confirmed final by a person,0,no,set status to final in config/source_register.csv once checked
+MI,underwriting manual archived,1,yes,none (some states put this inside the QAP)
+MI,bond / 4% page archived,0,no,none
+MI,news page archived,0,no,none
+MI,rules: fee_rule,"0 approved, 14 to review, 0 failed quote check",no,14 waiting for review
+MI,rules: unit_credit_caps,"0 approved, 6 to review, 0 failed quote check",no,6 waiting for review
+MI,rules: cost_limits,"0 approved, 7 to review, 0 failed quote check",no,7 waiting for review
+MI,rules: bond_volume_cap,"0 approved, 0 to review, 0 failed quote check",no,not extracted yet
+MI,rules: set_asides,"0 approved, 13 to review, 0 failed quote check",no,13 waiting for review
+MI,rules: deadlines,"0 approved, 39 to review, 0 failed quote check",no,39 waiting for review
+MI,rules: sponsor_eligibility,"0 approved, 6 to review, 0 failed quote check",no,6 waiting for review
+MI,rules: scoring_criteria,"0 approved, 0 to review, 27 failed quote check",no,extracted but nothing found
+MI,rules: credit_availability,"0 approved, 3 to review, 0 failed quote check",no,3 waiting for review
+MI,extraction calls still failing,2,no,rerun: python -m src.extract.extract --force
+MI,awards 2021,PDF: 39 to review,no,PDF rows waiting for review
+MI,awards 2022,0 rows,no,no award rows for this year
+MI,awards 2023,0 rows,no,no award rows for this year
+MI,awards 2024,0 rows,no,no award rows for this year
+MI,awards 2025,0 rows,no,no award rows for this year
+MI,awards 2026,PDF: 13 to review,no,PDF rows waiting for review
+MI,award rows with total development cost,0,no,no cost data in award lists: use the QAP cost limits or application lists
+OH,sources registered,29,yes,run: python -m src.inventory.promote OH
+OH,sources never retrieved,0,yes,
+OH,sources older than freshness limit,0,yes,
+OH,QAP archived,1,yes,no QAP document in the archive
+OH,QAP that is not a draft,1,yes,only draft QAPs archived
+OH,QAP confirmed final by a person,0,no,set status to final in config/source_register.csv once checked
+OH,underwriting manual archived,1,yes,none (some states put this inside the QAP)
+OH,bond / 4% page archived,1,yes,none
+OH,news page archived,0,no,none
+OH,rules: fee_rule,"0 approved, 7 to review, 1 failed quote check",no,7 waiting for review
+OH,rules: unit_credit_caps,"0 approved, 0 to review, 13 failed quote check",no,extracted but nothing found
+OH,rules: cost_limits,"0 approved, 14 to review, 10 failed quote check",no,14 waiting for review
+OH,rules: bond_volume_cap,"0 approved, 0 to review, 0 failed quote check",no,extracted but nothing found
+OH,rules: set_asides,"0 approved, 17 to review, 0 failed quote check",no,17 waiting for review
+OH,rules: deadlines,"0 approved, 5 to review, 0 failed quote check",no,5 waiting for review
+OH,rules: sponsor_eligibility,"0 approved, 4 to review, 0 failed quote check",no,4 waiting for review
+OH,rules: scoring_criteria,"0 approved, 17 to review, 12 failed quote check",no,17 waiting for review
+OH,rules: credit_availability,"0 approved, 2 to review, 2 failed quote check",no,2 waiting for review
+OH,extraction calls still failing,2,no,rerun: python -m src.extract.extract --force
+OH,awards 2021,36 9%; PDF: 56 to review,yes,
+OH,awards 2022,31 9%; PDF: 53 to review,yes,
+OH,awards 2023,30 9%; PDF: 29 to review,yes,
+OH,awards 2024,24 9%; PDF: 48 to review,yes,
+OH,awards 2025,23 9%; PDF: 75 to review,yes,
+OH,awards 2026,25 9%,yes,
+OH,award rows with total development cost,23,yes,no cost data in award lists: use the QAP cost limits or application lists
+IN,sources registered,24,yes,run: python -m src.inventory.promote IN
+IN,sources never retrieved,0,yes,
+IN,sources older than freshness limit,0,yes,
+IN,QAP archived,1,yes,no QAP document in the archive
+IN,QAP that is not a draft,1,yes,only draft QAPs archived
+IN,QAP confirmed final by a person,0,no,set status to final in config/source_register.csv once checked
+IN,underwriting manual archived,1,yes,none (some states put this inside the QAP)
+IN,bond / 4% page archived,0,no,none
+IN,news page archived,0,no,none
+IN,rules: fee_rule,"0 approved, 8 to review, 0 failed quote check",no,8 waiting for review
+IN,rules: unit_credit_caps,"0 approved, 1 to review, 0 failed quote check",no,1 waiting for review
+IN,rules: cost_limits,"0 approved, 8 to review, 7 failed quote check",no,8 waiting for review
+IN,rules: bond_volume_cap,"0 approved, 0 to review, 0 failed quote check",no,not extracted yet
+IN,rules: set_asides,"0 approved, 7 to review, 0 failed quote check",no,7 waiting for review
+IN,rules: deadlines,"0 approved, 14 to review, 0 failed quote check",no,14 waiting for review
+IN,rules: sponsor_eligibility,"0 approved, 2 to review, 1 failed quote check",no,2 waiting for review
+IN,rules: scoring_criteria,"0 approved, 24 to review, 9 failed quote check",no,24 waiting for review
+IN,rules: credit_availability,"0 approved, 1 to review, 1 failed quote check",no,1 waiting for review
+IN,extraction calls still failing,1,no,rerun: python -m src.extract.extract --force
+IN,awards 2021,PDF: 19 to review,no,PDF rows waiting for review
+IN,awards 2022,0 rows,no,no award rows for this year
+IN,awards 2023,PDF: 19 to review,no,PDF rows waiting for review
+IN,awards 2024,PDF: 17 to review,no,PDF rows waiting for review
+IN,awards 2025,PDF: 23 to review,no,PDF rows waiting for review
+IN,awards 2026,PDF: 8 to review,no,PDF rows waiting for review
+IN,award rows with total development cost,0,no,no cost data in award lists: use the QAP cost limits or application lists

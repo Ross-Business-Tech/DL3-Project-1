@@ -1,0 +1,6 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python -m src.awards.costs
+
+OH 9% 2014: median $115,985/unit from 20 of 20 projects
+OH 9% 2024: median $115,985/unit from 10 of 34 projects
+OH 9% 2025: median $274,309/unit from 33 of 33 projects
+Wrote ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/cost_per_unit.csv

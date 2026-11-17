@@ -1,0 +1,16 @@
+{
+  "run_id": "20261115-191943-darwin-df5b02",
+  "ok": false,
+  "commands": [
+    {
+      "command": "python run_all.py --awards",
+      "exit_code": 1,
+      "seconds": 156.4
+    },
+    {
+      "command": "python -m src.extract.extract --dry-run",
+      "exit_code": 0,
+      "seconds": 1.6
+    }
+  ]
+}

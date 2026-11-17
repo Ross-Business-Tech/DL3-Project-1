@@ -1,0 +1,25 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python run_all.py --awards --extract
+
+MuPDF error: format error: No default Layer config
+
+MI_PROGRAM deadlines: 0 for review, 0 rejected by validation
+MI_PROGRAM credit_availability: 1 for review, 0 rejected by validation
+MI_RES_2022_APR1 award_table: 12 for review, 0 rejected by validation
+MI_RES_2022_DEC12 award_table: 14 for review, 0 rejected by validation
+MI_RES_2022_JAN18 award_table: 16 for review, 0 rejected by validation
+MI_RES_2022_JULY1 award_table: 24 for review, 0 rejected by validation
+MI_RES_2022_OCT1 award_table: 17 for review, 0 rejected by validation
+MI_RES_2023_APR3 award_table: 10 for review, 0 rejected by validation
+MI_RES_2023_DEC1 award_table: 24 for review, 0 rejected by validation
+MI_RES_2024_OCT1 award_table: 15 for review, 0 rejected by validation
+MI_RES_2025_APR1 award_table: 10 for review, 0 rejected by validation
+MI_RES_2025_OCT1 award_table: 14 for review, 0 rejected by validation
+P6 deadlines: 10 for review, 0 rejected by validation
+P7 deadlines: 1 for review, 0 rejected by validation
+P7 sponsor_eligibility: 0 for review, 0 rejected by validation
+Run 9272ea1e: {'fetched': 81, 'new': 10, 'changed': 0, 'unchanged': 71, 'failed': 0, 'blocking': 0}
+Report: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/runs/20261116_9272ea1e/change_report.html
+Awards: 0 rows from 0 files (0 flagged, 0 errors). Rows to check: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/award_rows.csv
+Extraction: 15 calls (86 reused), 168 findings for review, 0 rejected by validation, 0 errors (gemini gemini-3.5-flash-lite; tokens {'input_tokens': 65271, 'output_tokens': 63536, 'cache_read_tokens': 1757})
+  rejected   17 x quote not found verbatim on page N -> quote not on any page (paraphrased or invented)
+Review packet: python -m src.review.build_packet

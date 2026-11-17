@@ -1,0 +1,57 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python run_all.py --awards --extract
+
+~/Code/DL3-Project-1/.venv/lib/python3.15/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+    columns: project_name='Project Name', city='City', county='County', set_aside='Region', project_type='Population/Subpool', status='Funding Result', sponsor='Lead Developer', total_units='Total Units', annual_credit='Credits Reserved'
+OH_AWARDS_1 / Reservations: 25 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', total_units='Total Units', project_type='Population Served', status='Funding Result', annual_credit='Credits Reserved'
+OH_AWARDS_12 / Sheet2: 24 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', project_type='Construction Type: NC, Rehab, Adaptive Reuse', equity='Equity Building - 5 pts.', credit_type='Self-Sufficiency Programming - 5 pts. (LTR only)', score='TOTAL SCORE', total_units='Development with the greatest number of units', sponsor='Competitive (x), SI (S), Withdrawn (WD), Rejected (R), Developer Cap (DC)', credit_requested='Credits Requested', annual_credit='Credits Reserved', set_aside='CHDO HOME Set-Aside', restricted_units='LI Units', total_development_cost='TDC', cost_per_unit='TDC / Unit'
+OH_AWARDS_12 / Single Family: 0 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', sponsor='Applicant', total_development_cost='TDC', total_units='# of units', credit_requested='HDAP Requested', score='OHFA SCORE A Policy Priorities 8 points'
+OH_AWARDS_12 / Competitive Bond: 10 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', sponsor='Applicant', total_development_cost='TDC', total_units='# of units', credit_requested='HDAP Requested', score='OHFA SCORE A Policy Priorities 8 points'
+OH_AWARDS_12 / 2014 BGF (hide): 10 rows, 0 flagged
+OH_AWARDS_12 / Sheet1: 0 rows, 0 flagged (no award table found)
+    columns: project_name='Project Name', city='City', county='County', project_type='Population Served', sponsor='Lead Developer', address='Allocation Pool', status='Funding Result', annual_credit='Credits Reserved', total_units='Total Units'
+OH_AWARDS_16 / Sheet1: 30 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', project_type='Construction Type', total_units='Total Units', sponsor='Lead Developer', status='Funding Result'
+OH_AWARDS_18 / BGF Results: 22 rows, 0 flagged
+    columns: project_name='Project Name', address='Allocation Pool', status='Funding Result', city='City', county='County', project_type='Population Served', sponsor='Lead Developer', total_units='Total Units', annual_credit='Credits Reserved'
+OH_AWARDS_20 / Final Results - Full: 31 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', address='Allocation Pool', annual_credit='Housing Credits Reserved', project_type='Population', total_units='Total Units', sponsor='Developer'
+OH_AWARDS_24 / Results: 36 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', total_units='Total Units', project_type='Population Served', status='Funding Result', sponsor='Lead Developer', total_development_cost='Total Development Costs', annual_credit='Credits Reserved'
+OH_AWARDS_8 / Sheet2: 23 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', project_type='Construction Type: NC, Rehab, Adaptive Reuse', equity='Equity Building - 5 pts.', credit_type='Self-Sufficiency Programming - 5 pts. (LTR only)', score='TOTAL SCORE', total_units='Development with the greatest number of units', sponsor='Competitive (x), SI (S), Withdrawn (WD), Rejected (R), Developer Cap (DC)', credit_requested='Credits Requested', annual_credit='Credits Reserved', set_aside='CHDO HOME Set-Aside', restricted_units='LI Units', total_development_cost='TDC', cost_per_unit='TDC / Unit'
+OH_AWARDS_8 / Single Family: 0 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', sponsor='Applicant', total_development_cost='TDC', total_units='# of units', credit_requested='HDAP Requested', score='OHFA SCORE A Policy Priorities 8 points'
+OH_AWARDS_8 / Competitive Bond: 10 rows, 0 flagged
+    columns: project_name='Project Name', city='City', county='County', sponsor='Applicant', total_development_cost='TDC', total_units='# of units', credit_requested='HDAP Requested', score='OHFA SCORE A Policy Priorities 8 points'
+OH_AWARDS_8 / 2014 BGF (hide): 10 rows, 0 flagged
+OH_AWARDS_8 / Sheet1: 0 rows, 0 flagged (no award table found)
+MuPDF error: format error: No default Layer config
+
+MI_PROGRAM deadlines: 0 for review, 0 rejected by validation
+MI_PROGRAM credit_availability: 1 for review, 0 rejected by validation
+MI_QAP_CURRENT fee_rule: 14 for review, 0 rejected by validation
+MI_QAP_CURRENT unit_credit_caps: 6 for review, 0 rejected by validation
+MI_QAP_CURRENT cost_limits: 7 for review, 0 rejected by validation
+MI_QAP_CURRENT set_asides: 13 for review, 0 rejected by validation
+MI_QAP_CURRENT deadlines: 39 for review, 0 rejected by validation
+MI_QAP_CURRENT sponsor_eligibility: 6 for review, 0 rejected by validation
+MI_QAP_CURRENT scoring_criteria: 0 for review, 27 rejected by validation
+MI_QAP_CURRENT credit_availability: 0 for review, 0 rejected by validation
+P3 deadlines: 0 for review, 0 rejected by validation
+P6 deadlines: 10 for review, 0 rejected by validation
+P7 deadlines: 2 for review, 0 rejected by validation
+P7 sponsor_eligibility: 0 for review, 0 rejected by validation
+P8 deadlines: 7 for review, 0 rejected by validation
+P8 credit_availability: 0 for review, 1 rejected by validation
+Run 60b8ea5c: {'fetched': 71, 'new': 0, 'changed': 2, 'unchanged': 69, 'failed': 0, 'blocking': 0}
+Report: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/runs/20261115_60b8ea5c/change_report.html
+Retired (no longer in the register, history kept): P1b, NYC_QAP_CURRENT, NYC_AWARDS_1, NYC_AWARDS_2, NYC_AWARDS_3, NYC_AWARDS_4, NYC_AWARDS_5
+Top MSAs: 100 metros, 45 states and territories, ACS 5-year ending 2024, cutoff 100. Chattanooga, TN-GA Metro Area (575,812)
+Awards: 231 rows from 7 files (0 flagged, 0 errors). Rows to check: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/award_rows.csv
+Extraction: 16 calls (75 reused), 105 findings for review, 28 rejected by validation, 0 errors (gemini gemini-3.5-flash-lite; tokens {'input_tokens': 211808, 'output_tokens': 17638, 'cache_read_tokens': 0})
+Review packet: python -m src.review.build_packet

@@ -1,0 +1,26 @@
+{
+  "run_id": "20261117-021701-darwin-df5b02",
+  "ok": true,
+  "commands": [
+    {
+      "command": "~/Code/DL3-Project-1/.venv/bin/python run_all.py --awards --extract",
+      "exit_code": 0,
+      "seconds": 190.1
+    },
+    {
+      "command": "~/Code/DL3-Project-1/.venv/bin/python -m src.awards.costs",
+      "exit_code": 0,
+      "seconds": 0.0
+    },
+    {
+      "command": "~/Code/DL3-Project-1/.venv/bin/python -m src.report.coverage MI OH IN",
+      "exit_code": 0,
+      "seconds": 0.2
+    },
+    {
+      "command": "~/Code/DL3-Project-1/.venv/bin/python -m src.report.export_web",
+      "exit_code": 0,
+      "seconds": 0.2
+    }
+  ]
+}

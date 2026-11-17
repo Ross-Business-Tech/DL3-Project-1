@@ -1,0 +1,60 @@
+# Weights, gates and freshness. Changed here, never in code.
+freshness_days: 90          # proposed limit for critical fee/deadline/eligibility sources
+fetch:
+  timeout_seconds: 30
+  max_retries: 3            # total attempts = max_retries + 1
+  backoff_seconds: [2, 4, 8]
+  min_seconds_between_requests_per_host: 2.0
+  max_bytes: 52428800       # 50 MB cap per download
+  respect_robots_txt: true
+  # Retry in headless Chromium (Playwright) when a site shows a bot-check page, sends an incomplete TLS
+  # certificate chain, or builds its links with JavaScript. Web pages only. If Playwright is
+  # not installed, the error message says how to install it.
+  browser_fallback: true
+  allowed_content_types:
+    - text/html
+    - application/pdf
+    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - application/vnd.ms-excel
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - application/msword
+    - text/csv
+    - application/xml
+    - text/xml
+    - application/json          # Census API
+
+# LLM extraction. Rules are extracted from document text with page + verbatim quote; code verifies every
+# quote against the archived page before a finding can reach review. Same prompts and checks for any provider.
+llm:
+  provider: gemini              # gemini | anthropic
+  models:
+    gemini: gemini-3.5-flash-lite   # overridden by GEMINI_MODEL in .env
+    anthropic: claude-opus-5-5      # overridden by ANTHROPIC_MODEL
+  max_tokens: 16000
+  timeout_seconds: 300
+  gemini_thinking_level: null   # e.g. low / high, if the model supports it; null = model default
+  effort: high                  # anthropic only
+  refusal_fallback: true        # anthropic only: server-side fallback if the model declines
+  full_document_max_pages: 200  # send the whole document up to this size; larger ones send located pages only
+  located_pages_max: 40
+  located_neighbor_pages: 1     # rules often continue on the next page
+  # USD per million tokens for the cost estimate printed after a run. Fill in from the provider's price page;
+  # null = report token counts only.
+  price_per_mtok:
+    gemini: null
+    anthropic: {input: 4.00, output: 20.00, cache_write: 5.00, cache_read: 0.20}
+  # Which prompts run on which document types (doc_type in config/source_register.csv).
+  topics_by_doc_type:
+    qap: [fee_rule, unit_credit_caps, cost_limits, set_asides, deadlines, sponsor_eligibility, scoring_criteria, credit_availability]       # a QAP document itself
+    qap_doc: [fee_rule, unit_credit_caps, cost_limits, set_asides, deadlines, sponsor_eligibility, scoring_criteria, credit_availability]   # QAP promoted from inventory
+    qap_page: [deadlines]       # QAP landing page: links and dates, not the rules
+    qap_page_doc: [fee_rule, unit_credit_caps, cost_limits, set_asides, deadlines, sponsor_eligibility, scoring_criteria, credit_availability]  # PDFs linked from it
+    underwriting: [fee_rule, unit_credit_caps, cost_limits]
+    application: [deadlines, sponsor_eligibility]
+    program_page: [deadlines, credit_availability]
+    bond_page: [credit_availability, bond_volume_cap]   # multifamily bond / 4% program page
+    bond_cap_report: [bond_volume_cap]        # volume cap report, allocation list or notice
+    news_page: [news_items]                   # agency news or press page
+    award_list: [award_table]
+  # Award history the guide asks for: five complete years plus the current year to date.
+award_years: {first: 2021, last: 2026}

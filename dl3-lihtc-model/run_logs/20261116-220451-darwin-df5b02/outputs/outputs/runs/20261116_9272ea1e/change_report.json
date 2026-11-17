@@ -1,0 +1,1328 @@
+{
+  "run_id": "9272ea1e",
+  "started_at": "2026-11-16T22:04:51.339516+00:00",
+  "counts": {
+    "fetched": 81,
+    "new": 10,
+    "changed": 0,
+    "unchanged": 71,
+    "failed": 0,
+    "blocking": 0
+  },
+  "changes": [],
+  "furniture_only": [
+    "P4",
+    "P6",
+    "P7",
+    "MI_PROGRAM"
+  ],
+  "failures": [],
+  "freshness": [
+    {
+      "source_id": "CENSUS_MSA",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_22",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_23",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_24",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_25",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_BOND",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    }
+  ],
+  "candidates": [
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "cost_limits",
+      "page": 1,
+      "quote": "it to a developer who constructs a 100-unit building at a total cost of $60,000 per unit with taxable financing and reserves all of the apartments for low income tenant"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "of Low Income Units x 40% Qualified Basis $40,000 Applicable Credit Percentage x4% Annual Acquisition Credit $1,600 Rehabilitation Credit Rehabilitation Costs $20"
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "ty (MSHDA), this program permits investors in affordable rental housing who are awarded the credit- corporations, banking institutions, and individuals - to claim a cr"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "it, MI 48226 Amt Requested: $1,084,000 # Bldgs: 2 County: Wayne Max Amt Awarded: $1,084,000 # Total Units: 46 Target Units: Family # LIHTC Units: 46"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "ille, MI 49073 Amt Requested: $688,000 # Bldgs: 1 County: Barry Max Amt Awarded: $688,000 # Total Units: 20 Target Units: Family # LIHTC Units: 20"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "ids, MI 49507 Amt Requested: $1,500,000 # Bldgs: 1 County: Kent Max Amt Awarded: $1,500,000 # Total Units: 57 Target Units: Family # LIHTC Units: 45"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "nd, MI 48640 Amt Requested: $878,382 # Bldgs: 3 County: Midland Max Amt Awarded: $876,938 # Total Units: 50 Target Units: Family # LIHTC Units: 50"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "the project, project sponsor and contact person, the maximum amount of credit awarded, total number of units in the project, and number of tax credit units. If y"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "scoring_criteria",
+      "page": 2,
+      "quote": "The Greenwood LDHA LLC Project Address: 702 Greenwood Avenue 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Jackson, MI 49203 Amt Requ"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 20 Target Units: Family # LIHTC Units: 20 Category/Set-Aside Funded In: Undesignated / Rural Year of Credit: 2022 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 57 Target Units: Family # LIHTC Units: 45 Category/Set-Aside Funded In: Open - Urban / Distressed Year of Credit: 2022 Application Da"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 50 Target Units: Family # LIHTC Units: 50 Category/Set-Aside Funded In: Disaster Credit and Undesignated / Rural Year of Credit: 2022"
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 46 Target Units: Family # LIHTC Units: 46 Category/Set-Aside Funded In: PSH / Distressed Year of Credit: 2022 Application Date: 4/1/"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "ings, MI 49058 Amt Requested: $177,420 # Bldgs: 1 County: Barry Max Amt Awarded: $177,420 # Total Units: 60 Target Units: Family # LIHTC Units: 60"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "Twp, MI 48504 Amt Requested: $78,146 # Bldgs: 1 County: Genesee Max Amt Awarded: $78,146 # Total Units: 40 Target Units: Family # LIHTC Units: 36"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "ing, MI 48910 Amt Requested: $120,000 # Bldgs: 1 County: Ingham Max Amt Awarded: $120,000 # Total Units: 52 Target Units: Family # LIHTC Units: 52"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "apids, MI 49507 Amt Requested: $106,970 # Bldgs: 1 County: Kent Max Amt Awarded: $106,790 # Total Units: 54 Target Units: Elderly # LIHTC Units: 54"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "troit, MI 48234 Amt Requested: $94,278 # Bldgs: 1 County: Wayne Max Amt Awarded: $94,278 # Total Units: 50 Target Units: Family # LIHTC Units: 50"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "scoring_criteria",
+      "page": 2,
+      "quote": "ect Address: 326 West State Street 6938 North Santa Monica Blvd Fox Point, WI 53217 Hastings, MI 49058 Amt Requested: $177,420 # Bldgs: 1 County:"
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "topic": "scoring_criteria",
+      "page": 4,
+      "quote": "ckstone LDHA LLC Project Address: 209 N. Blackstone Street and 9100 Centre Pointe Drive, Suite 210 221 W. Louis Glick Hwy West Chester, OH 45069 Jackso"
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "int, MI 48503 Amt Requested: $16,962 # Bldgs: 2 County: Genesee Max Amt Awarded: $16,962 # Total Units: 26 Target Units: Family # LIHTC Units: 20"
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "sing, MI 48823 Amt Requested: $60,000 # Bldgs: 4 County: Ingham Max Amt Awarded: $60,000 # Total Units: 49 Target Units: Family # LIHTC Units: 49"
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "g, MI 49849 Amt Requested: $33,540 # Bldgs: 1 County: Marquette Max Amt Awarded: $33,540 # Total Units: 36 Target Units: Elderly # LIHTC Units: 32"
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "roit, MI 48214 Amt Requested: $106,724 # Bldgs: 1 County: Wayne Max Amt Awarded: $106,724 # Total Units: 51 Target Units: Family # LIHTC Units: 51"
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "roit, MI 48201 Amt Requested: $338,767 # Bldgs: 1 County: Wayne Max Amt Awarded: $210,005 # Total Units: 64 Target Units: Family # LIHTC Units: 51"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "news_items",
+      "page": 8,
+      "quote": "troit, MI 48201 Amt Requested: $80,520 # Bldgs: 1 County: Wayne Max Amt Awarded: $80,520 # Total Units: 33 Target Units: Family # LIHTC Units: 33"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "ter, MI 49036 Amt Requested: $115,751 # Bldgs: 6 County: Branch Max Amt Awarded: $115,751 # Total Units: 48 Target Units: Elderly # LIHTC Units: 48"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "ing, MI 48912 Amt Requested: $173,626 # Bldgs: 1 County: Ingham Max Amt Awarded: $173,626 # Total Units: 66 Target Units: Family # LIHTC Units: 66"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "apids, MI 49503 Amt Requested: $145,192 # Bldgs: 1 County: Kent Max Amt Awarded: $143,633 # Total Units: 52 Target Units: Elderly # LIHTC Units: 52"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "Rapids, MI 49503 Amt Requested: $75,000 # Bldgs: 1 County: Kent Max Amt Awarded: $75,000 # Total Units: 62 Target Units: Family # LIHTC Units: 62"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "scoring_criteria",
+      "page": 2,
+      "quote": "LC Project Address: 514 Erie Street and 500 North Cedar Street 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Lansing, MI 48912 Amt Requ"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "scoring_criteria",
+      "page": 3,
+      "quote": "t #: M22062 Owner Contact: Anthony Barker (616) 301-8000 Project Name: Eastpointe Commons I Eastpointe Commons I LDHA LP Project Address: 1450 Fulton Street"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "scoring_criteria",
+      "page": 4,
+      "quote": "t #: M22063 Owner Contact: Anthony Barker (616) 301-8000 Project Name: Eastpointe Commons II Eastpointe Commons II LDHA LP Project Address: 1450 Fulton Stree"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "enior Villas LDHA LLC Project Address: 95 South Fremont Street 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Coldwater, MI 49036 Amt Re"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "# Total Units: 48 Target Units: Elderly # LIHTC Units: 48 Category/Set-Aside Funded In: Additional Credit Year of Credit: 2022 Application Date: 7/1"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 66 Target Units: Family # LIHTC Units: 66 Category/Set-Aside Funded In: Additional Credit Year of Credit: 2022 Application Date: 7/1"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 52 Target Units: Elderly # LIHTC Units: 52 Category/Set-Aside Funded In: Additional Credit Year of Credit: 2022 Application Date: 7/1"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 62 Target Units: Family # LIHTC Units: 62 Category/Set-Aside Funded In: Additional Credit Year of Credit: 2022 Application Date: 7/1"
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "its: 283 Target Units: Family & Elderly # LIHTC Units: 281 Category/Set-Aside Funded In: Additional Credit Year of Credit: 2022 Application Date: 7/1"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "onning, MI 48650 Amt Requested: $321,751 # Bldgs: 6 County: Bay Max Amt Awarded: $321,751 # Total Units: 48 Target Units: Family # LIHTC Units: 48"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "evue, MI 49021 Amt Requested: $476,777 # Bldgs: 2 County: Eaton Max Amt Awarded: $476,777 # Total Units: 60 Target Units: Family # LIHTC Units: 60"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "on, MI 49201 Amt Requested: $836,500 # Bldgs: 2 County: Jackson Max Amt Awarded: $836,500 # Total Units: 26 Target Units: Family # LIHTC Units: 26"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "ids, MI 49508 Amt Requested: $1,121,240 # Bldgs: 1 County: Kent Max Amt Awarded: $1,121,240 # Total Units: 35 Target Units: Family # LIHTC Units: 35"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "e, MI 49456 Amt Requested: $1,480,000 # Bldgs: 1 County: Ottawa Max Amt Awarded: $1,480,000 # Total Units: 53 Target Units: Family # LIHTC Units: 53"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 48 Target Units: Family # LIHTC Units: 48 Category/Set-Aside Funded In: Preservation / Rural Year of Credit: 2023 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 60 Target Units: Family # LIHTC Units: 60 Category/Set-Aside Funded In: Preservation / Rural Year of Credit: 2023 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 26 Target Units: Family # LIHTC Units: 26 Category/Set-Aside Funded In: PSH / Nonprofit Year of Credit: 2023 Application Date: 10/3/"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 35 Target Units: Family # LIHTC Units: 35 Category/Set-Aside Funded In: PSH / Distressed Year of Credit: 2023 Application Date: 10/3"
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "# Total Units: 53 Target Units: Family # LIHTC Units: 53 Category/Set-Aside Funded In: Open - Balance of State / Tribal Year of Credit: 2023 Applica"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "g, MI 48933 Amt Requested: $1,497,000 # Bldgs: 1 County: Ingham Max Amt Awarded: $1,497,000 # Total Units: 63 Target Units: Family # LIHTC Units: 56"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "news_items",
+      "page": 3,
+      "quote": ", MI 48033 Amt Requested: $1,304,500 # Bldgs: 1 County: Oakland Max Amt Awarded: $1,304,500 # Total Units: 60 Target Units: Elderly # LIHTC Units: 6"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "it, MI 48201 Amt Requested: $1,300,000 # Bldgs: 1 County: Wayne Max Amt Awarded: $1,300,000 # Total Units: 33 Target Units: Family # LIHTC Units: 33"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "it, MI 48235 Amt Requested: $1,500,000 # Bldgs: 5 County: Wayne Max Amt Awarded: $1,500,000 # Total Units: 70 Target Units: Elderly # LIHTC Units: 7"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "the project, project sponsor and contact person, the maximum amount of credit awarded, total number of units in the project, and number of tax credit units. If y"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 63 Target Units: Family # LIHTC Units: 56 Category/Set-Aside Funded In: Open - Urban / Distressed Year of Credit: 2023 Application Da"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 60 Target Units: Elderly # LIHTC Units: 60 Category/Set-Aside Funded In: Undesignated / Distressed Year of Credit: 2023 Application Da"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 33 Target Units: Family # LIHTC Units: 33 Category/Set-Aside Funded In: Undesignated Year of Credit: 2023 Application Date: 4/3/2023"
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 70 Target Units: Elderly # LIHTC Units: 70 Category/Set-Aside Funded In: Open - Urban / Elderly Year of Credit: 2023 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "nd 52 $1,386,077 Jeremy DeRoo These projects will be funded from the 2025 credit ceiling. Additionally, because these projects will be receiving allocations of 2025 cr"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "the project, project sponsor and contact person, the maximum amount of credit awarded, total number of units in the project, and number of tax credit units. ADDIT"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "news_items",
+      "page": 9,
+      "quote": "MI 48238/48206 Amt Requested: $700,000 # Bldgs: 3 County: Wayne Max Amt Awarded: $700,000 # Total Units: 67 Target Units: Family # LIHTC Units: 67"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "onning, MI 48650 Amt Requested: $169,710 # Bldgs: 3 County: Bay Max Amt Awarded: $169,710 # Total Units: 16 Target Units: Family # LIHTC Units: 16"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "naba, MI 49829 Amt Requested: $366,100 # Bldgs: 1 County: Delta Max Amt Awarded: $366,100 # Total Units: 32 Target Units: Elderly # LIHTC Units: 32"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "49686 Amt Requested: $778,000 # Bldgs: 1 County: Grand Traverse Max Amt Awarded: $778,000 # Total Units: 64 Target Units: Family # LIHTC Units: 64"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "scoring_criteria",
+      "page": 5,
+      "quote": "Of Musekgon LDHA LLC Project Address: 122 West Muskegon Avenue 9100 Centre Pointe Drive, Suite 210 West Chester, OH 45069 Muskegon, MI 49440 Amt Req"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 16 Target Units: Family # LIHTC Units: 16 Category/Set-Aside Funded In: Preservation/Rural Year of Credit: 2024 Application Date: 12"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 32 Target Units: Elderly # LIHTC Units: 32 Category/Set-Aside Funded In: Preservation/Elderly Year of Credit: 2024 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 64 Target Units: Family # LIHTC Units: 64 Category/Set-Aside Funded In: PSH/Rural Year of Credit: 2024 Application Date: 12/1/2023"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 45 Target Units: Elderly # LIHTC Units: 45 Category/Set-Aside Funded In: Open - Urban/Elderly Year of Credit: 2024 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "# Total Units: 48 Target Units: Family # LIHTC Units: 48 Category/Set-Aside Funded In: Preservation/Tribal Year of Credit: 2024 Application Date: 1"
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "topic": "unit_credit_caps",
+      "page": 1,
+      "quote": "nd 52 $1,386,077 Jeremy DeRoo These projects will be funded from the 2025 credit ceiling. Additionally, because these projects will be receiving allocations of 2025 cr"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "it, MI 48221 Amt Requested: $1,080,000 # Bldgs: 1 County: Wayne Max Amt Awarded: $1,080,000 # Total Units: 36 Target Units: Elderly # LIHTC Units: 3"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "ids, MI 49629 Amt Requested: $790,720 # Bldgs: 2 County: Antrim Max Amt Awarded: $790,720 # Total Units: 24 Target Units: Family # LIHTC Units: 24"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "MI 49684 Amt Requested: $1,360,500 # Bldgs: 8 County: Leelanau Max Amt Awarded: $1,360,500 # Total Units: 54 Target Units: Family # LIHTC Units: 54"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "rt, MI 49631 Amt Requested: $830,492 # Bldgs: 3 County: Osceola Max Amt Awarded: $830,492 # Total Units: 65 Target Units: Family # LIHTC Units: 65"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "news_items",
+      "page": 5,
+      "quote": ", MI 49079 Amt Requested: $260,253 # Bldgs: 2 County: Van Buren Max Amt Awarded: $260,253 # Total Units: 24 Target Units: Family # LIHTC Units: 24"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "scoring_criteria",
+      "page": 3,
+      "quote": "roject Address: 550 W Grand Avenue 6938 North Santa Monica Blvd Fox Point, WI 53217 Muskegon, MI 49441 Amt Requested: $1,650,000 # Bldgs: 1 Count"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 24 Target Units: Family # LIHTC Units: 24 Category/Set-Aside Funded In: Open - Rural / Rural Year of Credit: 2025 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 54 Target Units: Family # LIHTC Units: 54 Category/Set-Aside Funded In: Open - Rural / Distressed Year of Credit: 2025 Application Da"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 65 Target Units: Family # LIHTC Units: 65 Category/Set-Aside Funded In: Preservation / Rural Year of Credit: 2025 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 24 Target Units: Family # LIHTC Units: 24 Category/Set-Aside Funded In: Preservation / Rural Year of Credit: 2025 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "# Total Units: 36 Target Units: Elderly # LIHTC Units: 36 Category/Set-Aside Funded In: Open - Urban / Elderly Year of Credit: 2025 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": ", MI 49014 Amt Requested: $1,650,000 # Bldgs: 1 County: Calhoun Max Amt Awarded: $1,650,000 # Total Units: 56 Target Units: Family # LIHTC Units: 55"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "MI 49442 Amt Requested: $1,273,492 # Bldgs: 1 County: Muskegon Max Amt Awarded: $1,273,492 # Total Units: 42 Target Units: Elderly # LIHTC Units: 4"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "MI 49090 Amt Requested: $1,500,000 # Bldgs: 3 County: Van Buren Max Amt Awarded: $1,500,000 # Total Units: 52 Target Units: Family # LIHTC Units: 52"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "t, MI 48213 Amt Requested: $1,570,000 # Bldgs: 18 County: Wayne Max Amt Awarded: $1,570,000 # Total Units: 54 Target Units: Family # LIHTC Units: 54"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "news_items",
+      "page": 1,
+      "quote": "the project, project sponsor and contact person, the maximum amount of credit awarded, total number of units in the project, and number of tax credit units. If y"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "# Total Units: 56 Target Units: Family # LIHTC Units: 55 Category/Set-Aside Funded In: PSH / Distressed Year of Credit: 2025 Application Date: 4/1/"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "# Total Units: 42 Target Units: Elderly # LIHTC Units: 42 Category/Set-Aside Funded In: Undesignated / Elderly Year of Credit: 2025 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "# Total Units: 52 Target Units: Family # LIHTC Units: 52 Category/Set-Aside Funded In: Open \u2013 Rural / Rural Year of Credit: 2025 Application Date:"
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "# Total Units: 54 Target Units: Family # LIHTC Units: 54 Category/Set-Aside Funded In: Open \u2013 Urban / Distressed Year of Credit: 2025 Application Da"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "news_items",
+      "page": 2,
+      "quote": "orate Drive, Suite 300 Troy, MI 48098 Amt Requested: $1,500,000 Max Amt Awarded: $1,500,000 # Bldgs: 1 # Total Units: 44 # LIHTC Units: 44 Target Units"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "news_items",
+      "page": 3,
+      "quote": "eet, Suite 100 Indianapolis, IN 46202 Amt Requested: $1,309,091 Max Amt Awarded: $1,309,091 # Bldgs: 1 # Total Units: 53 # LIHTC Units: 53 Target Units"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "news_items",
+      "page": 4,
+      "quote": "P 325 Commerce Court Gladwin, MI 48624 Amt Requested: $370,561 Max Amt Awarded: $370,561 # Bldgs: 2 # Total Units: 36 # LIHTC Units: 36 Target Units:"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "news_items",
+      "page": 5,
+      "quote": "Drive, Suite 102 Ann Arbor, MI 48105 Amt Requested: $1,225,000 Max Amt Awarded: $1,225,000 # Bldgs: 1 # Total Units: 39 # LIHTC Units: 39 Target Units"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "news_items",
+      "page": 6,
+      "quote": "ad, Suite 100 Bingham Farms, MI 48025 Amt Requested: $1,474,000 Max Amt Awarded: $1,474,000 # Bldgs: 4 # Total Units: 48 # LIHTC Units: 48 Target Units"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "set_asides",
+      "page": 2,
+      "quote": "gs: 1 # Total Units: 44 # LIHTC Units: 44 Target Units: Family Category/Set-Aside Funded In: Strategic Investment / Nonprofit Self Score: 95 Final Score: 94"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "set_asides",
+      "page": 3,
+      "quote": "s: 1 # Total Units: 53 # LIHTC Units: 53 Target Units: Elderly Category/Set-Aside Funded In: Open - Rural / Elderly Self Score: 107 Final Score: 101 Year of"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "set_asides",
+      "page": 4,
+      "quote": "gs: 2 # Total Units: 36 # LIHTC Units: 36 Target Units: Family Category/Set-Aside Funded In: Preservation / Rural Self Score: 97 Final Score: 97 Year of Cred"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "set_asides",
+      "page": 5,
+      "quote": "gs: 1 # Total Units: 39 # LIHTC Units: 39 Target Units: Family Category/Set-Aside Funded In: PSH / Distressed Self Score: 148 Final Score: 142 Year of Credit"
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "topic": "set_asides",
+      "page": 6,
+      "quote": "gs: 4 # Total Units: 48 # LIHTC Units: 48 Target Units: Family Category/Set-Aside Funded In: Open - Urban / Nonprofit Self Score: 105 Final Score: 105 Year o"
+    },
+    {
+      "source_id": "P4",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "listed below. Tier 15 Provides a 25% AV reduction. Properties in which 15% to 34% of the dwelling units rent at or below 60% of AMI. Taxpayer must commit for a p"
+    },
+    {
+      "source_id": "P6",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "riday, July 31, 2026 Preservation Level 1 Review Due Date Friday, July 31, 2026 4%/9% Mixed Transaction Level 1 Review Due Date Friday, July 31, 2026 Addendum III"
+    },
+    {
+      "source_id": "P6",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "tion Plan can be found on the 2028-2029 Qualified Allocation Plan Updates page. Due Dates For Next LIHTC Funding Round: October 2026 Funding Round Initial Meeting with"
+    },
+    {
+      "source_id": "P6",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "cation Plan (QAP): Staff Report for the 2026 QAP Qualified Allocation Plan 2026 Scoring Summary 2026 (PDF) Updated 08/03/2026 Scoring Summary 2026 (Excel) Updated 08/0"
+    },
+    {
+      "source_id": "P7",
+      "topic": "credit_availability",
+      "page": 1,
+      "quote": "plus Addendum III) \"Taxable Bond\" lending (Application plus Addendum IV) \"TEAM\" tax-exempt bond lending (Application plus Addendum IV) The Section 8 and Section 202 Preservati"
+    },
+    {
+      "source_id": "P7",
+      "topic": "deadlines",
+      "page": 1,
+      "quote": "THIS APPLICATION FOR NEW SUBMISSIONS BEGINNING WITH THE OCTOBER 1, 2025 FUNDING ROUND 2026-2027 LIHTC Program Application (PDF) Updated 08/03/2026 2026-2027 LIHTC Prog"
+    },
+    {
+      "source_id": "P7",
+      "topic": "scoring_criteria",
+      "page": 1,
+      "quote": "dated 08/03/2026 2026-2027 LIHTC Program Application (Excel) Updated 08/03/2026 Scoring Summary for 2026-2027 (PDF) Updated 08/03/2026 Scoring Summary for 2026-2027 (E"
+    },
+    {
+      "source_id": "P7",
+      "topic": "set_asides",
+      "page": 1,
+      "quote": "l) Addendum II - Using HOME Funds for Subsidy Addendum III - Supportive Housing Set Aside (PDF) Updated 07/21/2025 Addendum III - Supportive Housing Set Aside (Word) Upd"
+    }
+  ],
+  "freshness_days": 90,
+  "ocr": []
+}

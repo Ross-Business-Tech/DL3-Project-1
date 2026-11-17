@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-11-16T21:31:38.840229+00:00",
+  "code_version": "746490b",
+  "counts": {
+    "awards": 169,
+    "awards_pending_review": 606,
+    "rules": 193,
+    "sources": 71,
+    "cost_per_unit": 6,
+    "top_msas": 100,
+    "states_in_top_msas": 52
+  },
+  "rules_approved": 0,
+  "freshness_days": 90,
+  "note": "Auto-collected public agency information. Rules marked 'not reviewed' and award rows with CHECK notes must not feed a score. UNKNOWN means not stated in the source."
+}

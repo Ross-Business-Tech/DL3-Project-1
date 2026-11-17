@@ -1,0 +1,88 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python -m src.report.coverage MI OH IN
+
+
+MI: 20 of 26 items collected
+  [x] sources registered                     18
+  [x] sources never retrieved                0
+  [x] sources older than freshness limit     0
+  [x] QAP archived                           1
+  [x] QAP that is not a draft                1
+  [ ] QAP confirmed final by a person        0  <- set status to final in config/source_register.csv once checked
+  [x] underwriting manual archived           1
+  [ ] bond / 4% page archived                0  <- none
+  [ ] news page archived                     0  <- none
+  [x] rules: fee_rule                        14 approved, 0 to review, 0 failed quote check
+  [x] rules: unit_credit_caps                6 approved, 0 to review, 0 failed quote check
+  [x] rules: cost_limits                     7 approved, 0 to review, 0 failed quote check
+  [ ] rules: bond_volume_cap                 0 approved, 0 to review, 0 failed quote check  <- not extracted yet
+  [x] rules: set_asides                      13 approved, 0 to review, 0 failed quote check
+  [x] rules: deadlines                       39 approved, 0 to review, 0 failed quote check
+  [x] rules: sponsor_eligibility             6 approved, 0 to review, 0 failed quote check
+  [x] rules: scoring_criteria                27 approved, 0 to review, 0 failed quote check
+  [ ] rules: credit_availability             0 approved, 1 to review, 0 failed quote check  <- 1 waiting for review
+  [x] extraction calls still failing         0
+  [x] awards 2021                            PDF: 39 approved
+  [x] awards 2022                            PDF: 83 approved
+  [x] awards 2023                            PDF: 34 approved
+  [x] awards 2024                            PDF: 15 approved
+  [x] awards 2025                            PDF: 24 approved
+  [x] awards 2026                            PDF: 13 approved
+  [ ] award rows with total development cost 0  <- no cost data in award lists: use the QAP cost limits or application lists
+
+OH: 15 of 26 items collected
+  [x] sources registered                     29
+  [x] sources never retrieved                0
+  [x] sources older than freshness limit     0
+  [x] QAP archived                           1
+  [x] QAP that is not a draft                1
+  [ ] QAP confirmed final by a person        0  <- set status to final in config/source_register.csv once checked
+  [x] underwriting manual archived           1
+  [x] bond / 4% page archived                1
+  [ ] news page archived                     0  <- none
+  [ ] rules: fee_rule                        0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: unit_credit_caps                0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: cost_limits                     0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: bond_volume_cap                 0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: set_asides                      0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: deadlines                       0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: sponsor_eligibility             0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [ ] rules: scoring_criteria                0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [x] rules: credit_availability             2 approved, 0 to review, 0 failed quote check
+  [ ] extraction calls still failing         1  <- OH_AWARDS_4 award_table: output hit max_tokens; not parsed (raise llm.max_tokens)
+  [x] awards 2021                            36 9%; PDF: 48 approved
+  [x] awards 2022                            31 9%; PDF: 53 approved
+  [x] awards 2023                            30 9%; PDF: 37 approved
+  [x] awards 2024                            24 9%; PDF: 65 approved
+  [x] awards 2025                            23 9%; PDF: 56 approved
+  [x] awards 2026                            25 9%
+  [x] award rows with total development cost 23
+
+IN: 19 of 26 items collected
+  [x] sources registered                     24
+  [x] sources never retrieved                0
+  [x] sources older than freshness limit     0
+  [x] QAP archived                           1
+  [x] QAP that is not a draft                1
+  [ ] QAP confirmed final by a person        0  <- set status to final in config/source_register.csv once checked
+  [x] underwriting manual archived           1
+  [ ] bond / 4% page archived                0  <- none
+  [ ] news page archived                     0  <- none
+  [x] rules: fee_rule                        8 approved, 0 to review, 0 failed quote check
+  [x] rules: unit_credit_caps                1 approved, 0 to review, 0 failed quote check
+  [x] rules: cost_limits                     8 approved, 0 to review, 7 failed quote check
+  [ ] rules: bond_volume_cap                 0 approved, 0 to review, 0 failed quote check  <- not extracted yet
+  [ ] rules: set_asides                      0 approved, 0 to review, 0 failed quote check  <- extracted but nothing found
+  [x] rules: deadlines                       14 approved, 0 to review, 0 failed quote check
+  [x] rules: sponsor_eligibility             2 approved, 0 to review, 1 failed quote check
+  [x] rules: scoring_criteria                25 approved, 0 to review, 8 failed quote check
+  [x] rules: credit_availability             2 approved, 0 to review, 0 failed quote check
+  [ ] extraction calls still failing         1  <- IN_QAP_CURRENT set_asides: Gemini request error 429: You exceeded your current quota, please check your pla
+  [x] awards 2021                            PDF: 19 approved
+  [x] awards 2022                            PDF: 17 approved
+  [x] awards 2023                            PDF: 33 approved
+  [x] awards 2024                            PDF: 27 approved
+  [x] awards 2025                            PDF: 30 approved
+  [x] awards 2026                            PDF: 30 approved
+  [ ] award rows with total development cost 0  <- no cost data in award lists: use the QAP cost limits or application lists
+
+Wrote ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/coverage/coverage.csv
