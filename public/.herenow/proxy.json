@@ -1,0 +1,45 @@
+{
+  "proxies": {
+    "/api/pipeline/run": {
+      "upstream": "https://api.github.com/repos/Ross-Business-Tech/DL3-Project-1/actions/workflows/pipeline.yml/dispatches",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer ${DL3_GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "dl3-investment-intelligence"
+      },
+      "rateLimit": "20/hour/ip"
+    },
+    "/api/pipeline/runs": {
+      "upstream": "https://api.github.com/repos/Ross-Business-Tech/DL3-Project-1/actions/workflows/pipeline.yml/runs?event=workflow_dispatch&per_page=15",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer ${DL3_GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "dl3-investment-intelligence"
+      },
+      "rateLimit": "600/hour/ip"
+    },
+    "/api/pipeline/actions/runs/*": {
+      "upstream": "https://api.github.com/repos/Ross-Business-Tech/DL3-Project-1/actions/runs/",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer ${DL3_GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "dl3-investment-intelligence"
+      },
+      "rateLimit": "600/hour/ip"
+    },
+    "/api/pipeline-data/*": {
+      "upstream": "https://here.now/api/v1/drives/drv_01m7ngwkrw9hx0f54wmze53tf5/files/dl3-pipeline/web/",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer ${DL3_DRIVE_READ_TOKEN}"
+      },
+      "rateLimit": "600/hour/ip"
+    }
+  }
+}

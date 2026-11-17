@@ -20,7 +20,14 @@ import pipelineManifest from './data/pipeline/manifest.json'
 const researchModules = import.meta.glob('./data/research/*.json', { eager: true })
 const researchFiles = Object.entries(researchModules).map(([name, mod]) => ({ name, json: mod.default ?? mod }))
 
-export const REAL_DATA = buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee, inventoryCsv, researchFiles,
-  pipelineFiles: { rulesCsv: pipelineRulesCsv, sourcesCsv: pipelineSourcesCsv, costCsv: pipelineCostCsv, metroCsv: pipelineMetroCsv, awardsCsv: pipelineAwardsCsv, manifest: pipelineManifest },
-})
-// REAL_DATA.inventory.researchNext lists the 50 states, best award-list coverage first.
+export const BUNDLED_PIPELINE_FILES = {
+  rulesCsv: pipelineRulesCsv, sourcesCsv: pipelineSourcesCsv, costCsv: pipelineCostCsv, metroCsv: pipelineMetroCsv,
+  awardsCsv: pipelineAwardsCsv, manifest: pipelineManifest,
+}
+
+/** The records with a given pipeline export (the bundled one, or a newer one fetched from the live site). */
+export function buildRealData(pipelineFiles = BUNDLED_PIPELINE_FILES, inventory = inventoryCsv) {
+  return buildRecords({ partcCsv, awardHistoryCsv, awardsCsv, siteFactsCsv, programCapsCsv, nationalFee, inventoryCsv: inventory, researchFiles, pipelineFiles })
+}
+
+export const REAL_DATA = buildRealData()

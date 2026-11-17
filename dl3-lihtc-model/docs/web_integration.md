@@ -36,3 +36,33 @@ website:   src/ranking/data/*.csv -> ranking page (scoring runs in the browser)
   exported. DL3's confidential inputs (fee share, overhead, hurdle, deal files) must not be committed.
 - **LLM key.** `GEMINI_API_KEY` stays on the computer that runs the pipeline, or in a GitHub secret. It is never
   needed by the website, and the workflow's website build step has no secrets at all.
+
+## Running the pipeline from the website
+
+The "Run pipeline" page starts the GitHub workflow and shows its progress; new results load on every page when it
+finishes. How it fits together:
+
+```
+browser --(sealed API keys, states)--> here.now proxy (adds DL3_GITHUB_TOKEN) --> GitHub workflow_dispatch
+GitHub job: unseal keys -> state_store pull -> run_all.py --states ... -> export_web -> state_store push + publish-web
+browser <-- here.now proxy (adds DL3_DRIVE_READ_TOKEN) <-- here.now Drive dl3-pipeline/web/*  (newest results)
+```
+
+One-time setup (in this order):
+
+1. **Key pair for API keys.** In `dl3-lihtc-model/`: `python -m src.run_keys new-keypair`. Commit the public key it
+   writes to `public/pipeline-key.json`. Paste the private key file into the GitHub secret `PIPELINE_KEY_PRIVATE`,
+   then delete the file.
+2. **Drive.** Seed it and make the job's token (see `refresh_instructions.md`, "Running it in GitHub"), then
+   `python -m src.state_store make-token --site` for a READ-ONLY token limited to the published results.
+3. **here.now variables** (the instructor adds them on the account that owns the site: the workspace for the public
+   site, and the account hosting the dev site), each with allowed upstream as shown:
+   - `DL3_GITHUB_TOKEN`: a fine-grained GitHub token for this repository only, permission "Actions: read and write".
+     Allowed upstream `api.github.com`.
+   - `DL3_DRIVE_READ_TOKEN`: the token from `make-token --site`. Allowed upstream `here.now`.
+4. If the Drive belongs to a different here.now account, change the drive id in `public/.herenow/proxy.json`
+   (`make-token` prints it; it is not a secret).
+
+Security notes: the GitHub token never reaches the browser. Anyone who can open the site can start a run, so the
+site should be restricted to DL3 staff in here.now's access settings (Specific emails or domains). DL3's
+confidential inputs never leave the browser, so the proxy never sees them.
