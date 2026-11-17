@@ -33,7 +33,10 @@ ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'hard\s*cost', 'const
 # above. Add one only with a source: e.g. the QAP or the list itself saying the amount is annual.
 #   OH:
 #     "Credits Reserved": {field: annual_credit, source: "https://... p. 12: 'annual housing credits reserved'"}
-confirmed_headers: {}
+confirmed_headers:
+  OH:
+    "Credits Reserved": {field: annual_credit, source: "<link and page where OHFA says annual>"}
+    "Housing Credits Reserved": {field: annual_credit, source: "<same>"}
 # A header row must contain project_name (or application_number + sponsor) and at least this many mapped columns.
 min_mapped_columns: 3
 header_search_rows: 40
