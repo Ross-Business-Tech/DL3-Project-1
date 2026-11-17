@@ -14,7 +14,7 @@ from .parse_awards import credit_type_in, number, year_in
 
 
 def rows(conn, statuses=("approved", "pending_review")):
-    q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM extraction e "
+    q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM current_extraction e "
          f"JOIN snapshot s USING(snapshot_id) JOIN source src ON src.source_id=e.source_id "
          f"WHERE e.field='award_row' AND e.status IN ({','.join('?' * len(statuses))}) "
          f"AND e.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "

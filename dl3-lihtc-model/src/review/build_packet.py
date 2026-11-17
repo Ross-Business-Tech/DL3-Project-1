@@ -23,7 +23,7 @@ EDITABLE = {"decision", "reviewer", "corrected_value", "review_note"}
 def rows(conn, include_rejected: bool = False):
     statuses = ("pending_review", "rejected_validation") if include_rejected else ("pending_review",)
     q = (f"SELECT e.*, src.title, s.final_url AS source_url, s.retrieved_at, s.sha256, c.model_served AS model, "
-         f"c.prompt_version FROM extraction e JOIN snapshot s USING(snapshot_id) JOIN source src ON "
+         f"c.prompt_version FROM current_extraction e JOIN snapshot s USING(snapshot_id) JOIN source src ON "
          f"src.source_id=e.source_id JOIN llm_call c USING(call_id) WHERE e.status IN "
          f"({','.join('?' * len(statuses))}) ORDER BY e.source_id, e.topic, e.field, e.page")
     for r in conn.execute(q, statuses):

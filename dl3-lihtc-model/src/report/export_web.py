@@ -117,7 +117,7 @@ def pdf_award_rows(conn, approved: bool):
 
 def rule_rows(conn, include_pending: bool = True):
     statuses = ("approved", "pending_review") if include_pending else ("approved",)
-    q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM extraction e JOIN snapshot s "
+    q = (f"SELECT e.*, src.state, src.title, s.final_url, s.retrieved_at, s.sha256 FROM current_extraction e JOIN snapshot s "
          f"USING(snapshot_id) JOIN source src ON src.source_id=e.source_id WHERE e.field<>'award_row' AND e.status IN "
          f"({','.join('?' * len(statuses))}) AND e.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) "
          f"ORDER BY src.state, e.source_id, e.topic, e.field, e.page")

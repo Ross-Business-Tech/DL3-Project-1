@@ -62,6 +62,12 @@ def migrate(conn: sqlite3.Connection) -> None:
     conn.execute("CREATE VIEW current_snapshot AS SELECT MAX(s.snapshot_id) AS snapshot_id, s.source_id "
                  "FROM snapshot s JOIN source src USING(source_id) WHERE COALESCE(src.retired, 0) = 0 "
                  "AND s.is_duplicate = 0 GROUP BY s.source_id")
+    # Findings that count: from the current content of a source, and either approved by a reviewer or from the
+    # latest successful answer for that document and topic (older answers to the same question are superseded).
+    conn.execute("DROP VIEW IF EXISTS current_extraction")
+    conn.execute("CREATE VIEW current_extraction AS SELECT e.* FROM extraction e "
+                 "WHERE e.snapshot_id IN (SELECT snapshot_id FROM current_snapshot) AND (e.status = 'approved' OR "
+                 "e.call_id IN (SELECT MAX(call_id) FROM llm_call WHERE error IS NULL GROUP BY snapshot_id, topic))")
     conn.commit()
 
 

@@ -454,3 +454,46 @@ def test_unique_sources_from_packet(tmp_path):
     out = list(csv.DictReader(open(unique_sources.write(p))))
     assert [r["source_url"] for r in out] == ["https://a", "https://b"] and out[0]["extraction_id"] == "1"
     assert (out[0]["findings_for_this_url"], out[0]["topics"], out[0]["pages_cited"]) == ("2", "deadlines, fee_rule", "3, 9")
+
+
+
+def test_import_accepts_reviewer_wording_and_ignores_copied_values(env):
+    go(env, FakeClient({"fee_rule": {"findings": [
+        finding("developer_fee_max_percent", "15%", 2, "shall not exceed 15% of total development cost"),
+        finding("deferred_fee_max", "50%", 2, "Up to 50% of the fee may be deferred."),
+        finding("developer_fee_basis", "TDC", 2, "total development cost excluding land")], "not_found": []}}))
+    ids = {r["field"]: r["extraction_id"] for r in rows(env)}
+    conn = archive.connect(env.db)
+    packet = [
+        {"extraction_id": str(ids["developer_fee_max_percent"]), "decision": "Accept", "reviewer": "R", "corrected_value": "15%",
+         "review_note": "verified"},
+        {"extraction_id": str(ids["deferred_fee_max"]), "decision": "reject", "reviewer": "R", "corrected_value": "N/A"},
+        {"extraction_id": str(ids["developer_fee_basis"]), "decision": "correct", "reviewer": "R",
+         "corrected_value": "TDC excluding land"}]
+    dry = import_review.apply(conn, packet, dry_run=True)
+    assert (dry["approved"], dry["rejected"], dry["corrected"], dry["errors"]) == (2, 1, 1, [])
+    assert {r["status"] for r in rows(env)} == {"pending_review"}                       # dry run saved nothing
+    res = import_review.apply(conn, packet)
+    assert (res["approved"], res["rejected"], res["corrected"]) == (2, 1, 1)
+    by = {r["field"]: r for r in rows(env)}
+    assert by["developer_fee_max_percent"]["reviewer_value"] is None                    # copied value is not a correction
+    assert by["deferred_fee_max"]["status"] == "rejected_by_reviewer" and by["deferred_fee_max"]["reviewer_value"] is None
+    assert by["developer_fee_basis"]["reviewer_value"] == "TDC excluding land"
+    bad = import_review.apply(conn, [{"extraction_id": str(ids["deferred_fee_max"]), "decision": "correct", "reviewer": "R",
+                                      "corrected_value": "N/A"}, {"extraction_id": "1", "decision": "maybe", "reviewer": "R"}])
+    assert len(bad["errors"]) == 2
+
+
+def test_superseded_answers_leave_the_packet_but_approvals_stay(env):
+    client = FakeClient({"fee_rule": {"findings": [
+        finding("developer_fee_max_percent", "15%", 2, "shall not exceed 15% of total development cost")], "not_found": []}})
+    go(env, client)
+    conn = archive.connect(env.db)
+    first = rows(env)[0]["extraction_id"]
+    import_review.apply(conn, [{"extraction_id": str(first), "decision": "approve", "reviewer": "R"}])
+    go(env, client, force=True)          # the same question answered again: a second, newer answer
+    go(env, client, force=True)          # and a third
+    assert len(rows(env)) == 3
+    packet = list(build_packet.rows(conn))
+    assert len(packet) == 1 and packet[0]["extraction_id"] != first        # only the newest unreviewed answer
+    assert [v["extraction_id"] for v in import_review.approved_values(conn)] == [first]   # approval kept

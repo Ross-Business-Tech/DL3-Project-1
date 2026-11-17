@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def read_rows(path: Path) -> list[dict]:
     if path.suffix.lower() == ".csv":
-        with open(path, newline="", encoding="utf-8") as fh:
+        with open(path, newline="", encoding="utf-8-sig") as fh:  # Excel adds a byte-order mark
             return list(csv.DictReader(fh))
     from openpyxl import load_workbook
     ws = load_workbook(path, read_only=True)["Review"]
@@ -27,8 +27,20 @@ def read_rows(path: Path) -> list[dict]:
     return [{h: ("" if v is None else str(v)) for h, v in zip(header, r)} for r in it]
 
 
-def apply(conn, rows: list[dict]) -> dict:
-    out = {"approved": 0, "rejected": 0, "unchanged": 0, "errors": []}
+APPROVE = {"approve", "approved", "accept", "accepted", "yes", "y", "ok"}
+REJECT = {"reject", "rejected", "no", "n", "decline", "declined"}
+CORRECT = {"correct", "corrected", "fix", "fixed"}
+NO_VALUE = {"", "n/a", "na", "none", "-"}
+
+
+def _same(a: str, b: str) -> bool:
+    return " ".join((a or "").split()).lower() == " ".join((b or "").split()).lower()
+
+
+def apply(conn, rows: list[dict], dry_run: bool = False) -> dict:
+    """Record decisions. 'accept'/'yes' count as approve, 'no' as reject; 'correct' approves with the
+    corrected value. A corrected value equal to the original, or on a rejected row, is not a correction."""
+    out = {"approved": 0, "rejected": 0, "corrected": 0, "unchanged": 0, "errors": []}
     now = archive.utcnow().isoformat()
     for r in rows:
         decision = (r.get("decision") or "").strip().lower()
@@ -41,8 +53,20 @@ def apply(conn, rows: list[dict]) -> dict:
         if cur is None:
             out["errors"].append(f"{eid}: no such extraction")
             continue
-        if decision not in ("approve", "reject"):
-            out["errors"].append(f"{eid}: decision must be approve or reject, got '{decision}'")
+        corrected = (r.get("corrected_value") or "").strip()
+        if corrected.lower() in NO_VALUE or _same(corrected, cur["value"] or ""):
+            corrected = ""
+        if decision in CORRECT:
+            if not corrected:
+                out["errors"].append(f"{eid}: decision 'correct' needs a corrected_value different from the value")
+                continue
+            decision = "approve"
+        elif decision in APPROVE:
+            decision = "approve"
+        elif decision in REJECT:
+            decision, corrected = "reject", ""
+        else:
+            out["errors"].append(f"{eid}: decision must be approve, reject or correct, got '{decision}'")
             continue
         if not reviewer:
             out["errors"].append(f"{eid}: reviewer name required")
@@ -56,16 +80,19 @@ def apply(conn, rows: list[dict]) -> dict:
         status = "approved" if decision == "approve" else "rejected_by_reviewer"
         conn.execute("UPDATE extraction SET status=?, reviewer=?, reviewed_at=?, reviewer_value=?, review_note=? "
                      "WHERE extraction_id=?",
-                     (status, reviewer, now, (r.get("corrected_value") or "").strip() or None,
-                      (r.get("review_note") or "").strip() or None, eid))
+                     (status, reviewer, now, corrected or None, (r.get("review_note") or "").strip() or None, eid))
         out["approved" if status == "approved" else "rejected"] += 1
-    conn.commit()
+        out["corrected"] += int(bool(corrected))
+    if dry_run:
+        conn.rollback()
+    else:
+        conn.commit()
     return out
 
 
 def approved_values(conn, source_id: str | None = None) -> list[dict]:
     """The only extractions calculations may use: reviewer-approved, with the reviewer's correction applied."""
-    q = ("SELECT e.*, COALESCE(e.reviewer_value, e.value) AS approved_value FROM extraction e "
+    q = ("SELECT e.*, COALESCE(e.reviewer_value, e.value) AS approved_value FROM current_extraction e "
          "WHERE e.status='approved'" + (" AND e.source_id=?" if source_id else ""))
     return [dict(r) for r in conn.execute(q, (source_id,) if source_id else ())]
 
@@ -74,17 +101,27 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("files", nargs="*")
     ap.add_argument("--db", default=str(ROOT / "data" / "dl3.db"))
+    ap.add_argument("--dry-run", action="store_true", help="check the file and report; change nothing")
     a = ap.parse_args(argv)
     files = [Path(f) for f in a.files] or sorted((ROOT / "review" / "returned").glob("*.[cx][sl]s*"))
+    if not files:
+        print("No returned review files. Put them in review/returned/ or name them on the command line.")
+        return 1
     conn = archive.connect(Path(a.db))
-    total = {"approved": 0, "rejected": 0, "unchanged": 0, "errors": []}
+    total = {"approved": 0, "rejected": 0, "corrected": 0, "unchanged": 0, "errors": []}
     for f in files:
-        res = apply(conn, read_rows(f))
-        for k in ("approved", "rejected", "unchanged"):
+        res = apply(conn, read_rows(f), dry_run=a.dry_run)
+        for k in ("approved", "rejected", "corrected", "unchanged"):
             total[k] += res[k]
         total["errors"] += [f"{f.name}: {e}" for e in res["errors"]]
     conn.close()
-    print(total)
+    print(("DRY RUN, nothing saved. " if a.dry_run else "") +
+          f"{total['approved']} approved ({total['corrected']} with a corrected value), {total['rejected']} rejected, "
+          f"{total['unchanged']} without a decision, {len(total['errors'])} problems")
+    for e in total["errors"][:20]:
+        print("  ", e)
+    if len(total["errors"]) > 20:
+        print(f"   ... and {len(total['errors']) - 20} more")
     return 1 if total["errors"] else 0
 
 

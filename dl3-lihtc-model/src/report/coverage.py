@@ -61,7 +61,7 @@ def jurisdiction_coverage(conn, jid: str, settings: dict) -> dict:
 
     for topic in RULE_TOPICS:
         counts = {r[0]: r[1] for r in conn.execute(
-            "SELECT status, COUNT(*) FROM extraction WHERE source_id LIKE ? ESCAPE '\\' AND topic=? GROUP BY status",
+            "SELECT status, COUNT(*) FROM current_extraction WHERE source_id LIKE ? ESCAPE '\\' AND topic=? GROUP BY status",
             (like, topic))}
         ran = conn.execute("SELECT COUNT(*) FROM llm_call WHERE topic=? AND error IS NULL AND snapshot_id IN "
                            "(SELECT snapshot_id FROM snapshot WHERE source_id LIKE ? ESCAPE '\\')", (topic, like)).fetchone()[0]
