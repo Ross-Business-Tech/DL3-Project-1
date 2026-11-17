@@ -107,9 +107,13 @@ def promote(ids: list[str], inventory_csv: Path, register_csv: Path, db_path: Pa
     missing = [i for i in ids if i not in inv]
     if missing:
         raise SystemExit(f"not in inventory: {', '.join(missing)}")
-    with open(register_csv, newline="", encoding="utf-8") as fh:
-        reader = csv.DictReader(fh)
-        fields, rows = reader.fieldnames, list(reader)
+    if not Path(register_csv).exists():  # a separate register file (e.g. source_register_auto.csv) starts empty
+        with open(ROOT / "config" / "source_register.csv", newline="", encoding="utf-8") as fh:
+            fields, rows = csv.DictReader(fh).fieldnames, []
+    else:
+        with open(register_csv, newline="", encoding="utf-8") as fh:
+            reader = csv.DictReader(fh)
+            fields, rows = reader.fieldnames, list(reader)
     today = f"{archive.utcnow():%Y-%m-%d}"
     new = [r for i in ids for r in promoted_rows(inv[i], today, award_history(db_path, inv[i], *years))]
     prefixes = tuple(f"{i}_" for i in ids)
