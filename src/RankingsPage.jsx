@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { TERRITORIES } from './data.js'
 import { MAP } from './mapPaths.js'
 
-const byScore = (a, b) => b.score - a.score
+// Unscored areas go last.
+const byScore = (a, b) => (b.score ?? -1) - (a.score ?? -1)
 
 // The map's drawing area from the traced image: [x, y, width, height].
 const [VX, VY, VW, VH] = MAP.viewBox.split(' ').map(Number)
@@ -193,7 +194,7 @@ function MapView({ onOpen }) {
           <div className="map-label" aria-hidden="true">
             <strong>{STATE_NAMES[hover] ?? hover}</strong>
             <span>
-              {researched.get(hover) ? `${researched.get(hover).score} / 100` : 'Not researched yet'}
+              {researched.get(hover) ? researched.get(hover).scoreText : 'Not researched yet'}
             </span>
           </div>
         )}
@@ -206,7 +207,7 @@ function MapView({ onOpen }) {
         >
           {entries.map(([code, d]) => {
             const t = researched.get(code)
-            const name = t ? `${t.name}, score ${t.score}` : `${code}, not researched yet`
+            const name = t ? `${t.name}, ${t.scoreText}` : `${code}, not researched yet`
             return (
               <path
                 key={code}
@@ -260,9 +261,9 @@ function ListView({ onOpen }) {
   return (
     <>
       <div className="segmented" role="group" aria-label="Location type">
-        {['All', 'State', 'Local'].map((k) => (
+        {['All', 'State'].map((k) => (
           <button key={k} type="button" aria-pressed={kind === k} onClick={() => setKind(k)}>
-            {k === 'All' ? 'All locations' : k === 'State' ? 'States' : 'Local'}
+            {k === 'All' ? 'All locations' : 'States'}
           </button>
         ))}
       </div>
@@ -274,7 +275,7 @@ function ListView({ onOpen }) {
               <strong>{t.name}</strong>
               <span>{t.kind} · {t.status}</span>
             </span>
-            <span className="score-pill">{t.score} / 100</span>
+            <span className="score-pill">{t.scoreText}</span>
           </button>
         ))}
       </div>

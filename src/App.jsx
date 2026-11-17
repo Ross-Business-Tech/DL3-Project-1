@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { TERRITORIES } from './data.js'
+import { MODEL_INFO, TERRITORIES, overviewStats } from './data.js'
 import RankingsPage from './RankingsPage.jsx'
 import TerritoriesPage from './TerritoriesPage.jsx'
 import TerritoryPage from './TerritoryPage.jsx'
@@ -32,15 +32,20 @@ const MENU = [
 const BUILT = new Set(['overview', 'rankings', 'territories', 'sources'])
 const SAMPLE_NOTE = new Set(['overview', 'rankings', 'territories', 'territory'])
 
-const SAMPLE_STATS = [
-  { value: '60', label: 'States & territories' },
-  { value: '12', label: 'Priority opportunities' },
-  { value: '8', label: 'Need review' },
-  { value: '94%', label: 'Research completeness' },
-]
+// Worked out from the territory data, so the numbers always match the lists.
+const SAMPLE_STATS = (() => {
+  const s = overviewStats()
+  return [
+    { value: String(s.areas), label: 'States & territories' },
+    { value: String(s.priority), label: 'Priority opportunities' },
+    { value: String(s.needReview), label: 'Need review' },
+    { value: `${s.researched}%`, label: 'Research completeness' },
+  ]
+})()
 
 function Overview({ onOpenTerritory }) {
-  const top = [...TERRITORIES].sort((a, b) => b.score - a.score).slice(0, 3)
+  // Only areas with a score can be ranked; the rest wait until they are scored.
+  const top = TERRITORIES.filter((t) => t.score !== null).sort((a, b) => b.score - a.score).slice(0, 3)
   return (
     <>
       <section className="stats" aria-label="Key numbers">
@@ -62,7 +67,7 @@ function Overview({ onOpenTerritory }) {
                 <strong>{t.name}</strong>
                 <span>{t.kind} · {t.status}</span>
               </span>
-              <span className="score-pill">{t.score} / 100</span>
+              <span className="score-pill">{t.scoreText}</span>
             </button>
           ))}
         </section>
@@ -152,7 +157,7 @@ function App() {
         <div className="page-band-inner">
           <div className="band-rule" aria-hidden="true" />
           <h1>{title}</h1>
-          {screen === 'overview' && <p>Last ranking update: November 2026</p>}
+          {screen === 'overview' && <p>Last ranking update: {MODEL_INFO.runDate} · Model {MODEL_INFO.modelVersion}</p>}
           {SAMPLE_NOTE.has(screen) && <span className="sample-note">Sample numbers for design only</span>}
         </div>
       </section>

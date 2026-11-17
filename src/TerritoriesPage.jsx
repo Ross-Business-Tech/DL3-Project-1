@@ -1,6 +1,6 @@
 import { TERRITORIES } from './data.js'
 
-const byScore = (a, b) => b.score - a.score
+const byScore = (a, b) => (b.score ?? -1) - (a.score ?? -1)
 
 // The Territories list. Each card opens that territory's own page.
 export default function TerritoriesPage({ onOpen }) {
@@ -23,7 +23,7 @@ export default function TerritoriesPage({ onOpen }) {
                 <h2>{t.name}</h2>
                 <p className="small-note">{t.kind} · {t.status} · Research: {t.depth}</p>
               </div>
-              <div className="score-pill">{t.score} / 100</div>
+              <div className="score-pill">{t.scoreText}</div>
             </div>
             <dl className="detail-grid">
               <div><dt>Allocating agency</dt><dd>{t.agency}</dd></div>

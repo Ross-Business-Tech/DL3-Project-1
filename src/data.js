@@ -1,37 +1,75 @@
-// Made-up sample data for the screens. Nothing here is a real ranking or a real rule.
-// When the research and scoring work is ready, this file is the one place to swap in real results.
+// Sample data in the same shape as the ranking system's output (see src/ranking/forFrontEnd.js on the
+// ranking branch). Every field below is one the ranking system fills in, so real results can replace
+// this list one for one. Nothing here is a real ranking.
 
-// Territories with details. Rule values say "Needs verification" until a reviewer confirms them.
+// Where the numbers come from: the model version and the date of the run.
+export const MODEL_INFO = {
+  modelVersion: 'sprint-0.1',
+  runDate: 'November 2026',
+}
+
+// The ranking system covers the 50 states and DC.
+export const TOTAL_AREAS = 51
+
+// `score` is null until a state passes every check and all criteria have evidence.
+// `scoreText` is what the site shows in that case, for example "Not scored yet".
+// `depth` is "In depth", "Fee screen only", or "Not researched".
+// `pathways` gives the 9% and 4% results separately, each with its checks and reason.
+// `sourceLinks` lists the public pages the team found for that state. They're placeholders here.
 export const TERRITORIES = [
   {
-    id: 'MI', name: 'Michigan', kind: 'State', score: 92, status: 'Complete', depth: 'In depth',
+    id: 'MI', name: 'Michigan', kind: 'State',
+    score: 92, scoreText: '92 / 100',
+    status: 'Complete', depth: 'In depth',
     agency: 'Sample agency name', openQuestions: 0, sources: 4, lastChecked: 'November 2026',
-    feeRule: 'Needs verification', creditCap: 'Needs verification', deadline: 'Needs verification',
+    feeRule: '9%: passes at 14.20% · 4%: rule not verified',
+    creditCap: 'Needs verification', deadline: 'Needs verification',
+    pathways: [
+      { pathway: '9%', checks: 'Pass', confidence: 'Medium', reason: 'Sample: fee and unit checks pass.' },
+      { pathway: '4%', checks: 'Needs verification', confidence: 'Low', reason: 'Sample: bond rule not verified.' },
+    ],
+    sourceLinks: [
+      { label: 'Latest non-draft plan', url: 'https://example.org/sample-plan' },
+      { label: 'Application round', url: 'https://example.org/sample-round' },
+    ],
   },
   {
-    id: 'OH', name: 'Ohio', kind: 'State', score: 89, status: 'Complete', depth: 'In depth',
+    id: 'OH', name: 'Ohio', kind: 'State',
+    score: 89, scoreText: '89 / 100',
+    status: 'Complete', depth: 'In depth',
     agency: 'Sample agency name', openQuestions: 1, sources: 3, lastChecked: 'November 2026',
-    feeRule: 'Needs verification', creditCap: 'Needs verification', deadline: 'Needs verification',
+    feeRule: '9%: passes at 13.60%',
+    creditCap: 'Needs verification', deadline: 'Needs verification',
+    pathways: [
+      { pathway: '9%', checks: 'Pass', confidence: 'Medium', reason: 'Sample: fee and unit checks pass.' },
+      { pathway: '4%', checks: 'Needs verification', confidence: 'Low', reason: 'Sample: award count incomplete.' },
+    ],
+    sourceLinks: [{ label: 'Latest non-draft plan', url: 'https://example.org/sample-plan' }],
   },
   {
-    id: 'IN', name: 'Indiana', kind: 'State', score: 86, status: 'Review', depth: 'In depth',
+    id: 'IN', name: 'Indiana', kind: 'State',
+    score: null, scoreText: 'Not scored yet',
+    status: 'Review', depth: 'In depth',
     agency: 'Sample agency name', openQuestions: 2, sources: 3, lastChecked: 'November 2026',
-    feeRule: 'Needs verification', creditCap: 'Needs verification', deadline: 'Needs verification',
+    feeRule: '9%: rule not verified · 4%: fee screen only',
+    creditCap: 'Needs verification', deadline: 'Needs verification',
+    pathways: [
+      { pathway: '9%', checks: 'Needs verification', confidence: 'Low', reason: 'Sample: fee rule not confirmed.' },
+      { pathway: '4%', checks: 'Needs verification', confidence: 'Low', reason: 'Sample: sponsor path needs DL3 input.' },
+    ],
+    sourceLinks: [{ label: 'Application round', url: 'https://example.org/sample-round' }],
   },
   {
-    id: 'CA', name: 'California', kind: 'State', score: 74, status: 'Incomplete', depth: 'Partial',
+    id: 'CA', name: 'California', kind: 'State',
+    score: null, scoreText: 'Not scored yet',
+    status: 'Incomplete', depth: 'Fee screen only',
     agency: 'Sample agency name', openQuestions: 4, sources: 1, lastChecked: 'November 2026',
-    feeRule: 'Needs verification', creditCap: 'Needs verification', deadline: 'Needs verification',
-  },
-  {
-    id: 'local-a', name: 'Sample City A', kind: 'Local', score: 88, status: 'Complete', depth: 'In depth',
-    agency: 'Sample local agency', openQuestions: 0, sources: 2, lastChecked: 'November 2026',
-    feeRule: 'Needs verification', creditCap: 'Needs verification', deadline: 'Needs verification',
-  },
-  {
-    id: 'local-b', name: 'Sample City B', kind: 'Local', score: 79, status: 'Review', depth: 'Partial',
-    agency: 'Sample local agency', openQuestions: 3, sources: 1, lastChecked: 'November 2026',
-    feeRule: 'Needs verification', creditCap: 'Needs verification', deadline: 'Needs verification',
+    feeRule: '9%: fee screen only',
+    creditCap: 'Needs verification', deadline: 'Needs verification',
+    pathways: [
+      { pathway: '9%', checks: 'Needs verification', confidence: 'Low', reason: 'Sample: only the fee screen is done.' },
+    ],
+    sourceLinks: [],
   },
 ]
 
@@ -47,3 +85,14 @@ export const SOURCES = [
   { id: 'P8', title: 'IHDA LIHTC program page', use: 'Historical 4% and 9% allocations and current timelines.', url: 'https://www.ihda.org/developers/tax-credits/low-income-tax-credit/' },
   { id: 'P9', title: 'IRS Revenue Ruling 2016-29', use: 'Separates a local opportunity to comment from a required local veto.', url: 'https://www.irs.gov/pub/irs-drop/rr-16-29.pdf' },
 ]
+
+// Overview numbers, worked out from the list above so they always match it.
+export function overviewStats(list = TERRITORIES) {
+  const count = (fn) => list.filter(fn).length
+  return {
+    areas: TOTAL_AREAS,
+    priority: count((t) => t.status === 'Complete'),
+    needReview: count((t) => t.status === 'Review' || t.status === 'Incomplete'),
+    researched: Math.round((count((t) => t.depth === 'In depth') / TOTAL_AREAS) * 100),
+  }
+}

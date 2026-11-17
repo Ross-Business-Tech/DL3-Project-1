@@ -522,6 +522,47 @@
   max-width: 900px;
 }
 
+.pathway-block {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.pathway-block h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.pathway-row {
+  padding: 10px 0;
+}
+
+.pathway-row strong {
+  display: block;
+  color: var(--ink);
+}
+
+.pathway-row span {
+  font-size: 14px;
+  color: var(--body);
+}
+
+.pathway-row .small-note {
+  margin-top: 4px;
+}
+
+.source-links a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--teal);
+  text-underline-offset: 4px;
+}
+
+.source-links li {
+  margin: 6px 0;
+}
+
 /* Modern page header: a soft glow, a teal rule that draws in, and a title that slides in */
 .page-band {
   background:
