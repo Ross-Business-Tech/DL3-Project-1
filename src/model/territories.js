@@ -46,12 +46,17 @@ export function buildTerritories(result, records) {
         sourceLinks: linksFor(rec?.sources),
         pathways: t.pathways.map((p) => {
           const row = rows.find((r) => r.pathway === p.pathway)
+          const src = records.find((r) => codeOf(r.state) === t.id && r.pathway === p.pathway) // the record as given to the engine
           return {
             ...p,
             action: row?.action ?? null,
             checksList: row?.gates?.checks?.map((c) => ({ label: c.label, status: c.status, detail: c.detail })) ?? [],
             criteria: row?.criteria ?? null,
             economics: row?.economics ?? null,
+            fee: src ? { gross: src.approvedGrossFee ?? null, tdc: src.totalDevelopmentCost ?? null, fromPipeline: Boolean(src.feeFromPipeline), pipeline: src.pipelineFee ?? null } : null,
+            judgments: src?.judgments ?? {},
+            venture: src?.venture ?? null,
+            rejected: { ...(src?.rejected ?? {}), ...(src?.ventureRejected ? { venture: src.ventureRejected } : {}) },
           }
         }),
       }

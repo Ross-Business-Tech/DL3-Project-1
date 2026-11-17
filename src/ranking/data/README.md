@@ -78,8 +78,11 @@ cd dl3-lihtc-model && python -m src.report.export_web --site
 cd .. && npm test && npm run build
 ```
 
-Loaded by `../loadPipeline.js` and shown on each state's card under "From the data pipeline", plus a summary
-section on the page. Evidence and display only: nothing here changes a gate, a score or a rank (a test checks this).
+Loaded by `../loadPipeline.js` and shown on each state's page under "From the data pipeline". Its REVIEWED facts
+also feed the score through `../pipelineFacts.js`: the developer fee from approved fee rules (on a 100-unit deal at
+the state's median cost per unit, lowest reading where rules disagree, never verified from a draft), project size
+and yearly award counts from the award lists. Order of trust: our own sheet research (never overwritten; differences
+are listed and shown on the state page) > the pipeline > the AI research files > the draft fee screen.
 
 - `rules.csv`: rules extracted from each plan with page and quote. Only rows with `review_state = approved`
   (a named person approved them) are shown; the rest are ignored.

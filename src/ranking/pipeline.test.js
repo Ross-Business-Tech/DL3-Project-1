@@ -1,9 +1,11 @@
-// The data pipeline's export (data/pipeline/*): loaded as evidence, approved rules only, never a score change.
+// The data pipeline's export (data/pipeline/*): approved rules only; its reviewed facts fill gaps in the score
+// (pipelineFacts.js) but never overwrite our own sheet research.
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { pipelineFromFiles, attachPipeline } from './loadPipeline.js'
 import { buildRecords } from './buildData.js'
+import { basisKind, feeFor } from './pipelineFacts.js'
 
 const read = (name) => readFileSync(new URL(`./data/${name}`, import.meta.url), 'utf8')
 const real = () => ({
@@ -62,14 +64,83 @@ test('a missing column is an error, an empty export is simply empty', () => {
   assert.equal(p.stats.approvedRules, 0)
 })
 
-test('attaching the pipeline changes no gate, score or rank', () => {
+test('our own sheet research is never overwritten; disagreements are listed', () => {
   const without = buildRecords(files())
   const withP = buildRecords({ ...files(), pipelineFiles: real() })
-  const pick = (b) => b.records.map((r) => JSON.stringify([r.id, r.gates, r.criteria, r.score, r.rank, r.confidence]))
+  const pick = (b) => b.records.filter((r) => ['Michigan', 'Ohio', 'Indiana'].includes(r.state))
+    .map((r) => JSON.stringify([r.id, r.approvedGrossFee, r.totalDevelopmentCost, r.maxFeasibleUnits, r.feeRuleVerified, r.confidence, r.criticalSourceDates]))
   assert.deepEqual(pick(withP), pick(without))
+  // Michigan's approved rules give the same fee as our research; Indiana's do not, and that is listed.
+  assert.equal(withP.records.find((r) => r.id === 'michigan-9').pipelineFee.fee, 1_800_000)
+  assert.ok(withP.pipelineComparison.some((c) => c.state === 'Indiana'))
+  assert.ok(!withP.pipelineComparison.some((c) => c.state === 'Michigan'))
   assert.ok(withP.records.find((r) => r.id === 'michigan-9').pipeline.rules.length > 0)
   assert.equal(without.records.filter((r) => r.pipeline).length, 0)
   assert.equal(attachPipeline([{ state: 'Nowhere' }], new Map())[0].pipeline, undefined)
+})
+
+// A state the pipeline collected but nobody researched by hand (California), in the export's own columns.
+const RULE_HEAD = 'state,source_id,document,doc_status,topic,field,value,units,applies_to,page,section,quote,review_state,reviewed_on,value_as_extracted,checks,source_url,retrieved,sha256'
+const rule = (field, value, { applies = 'both', status = 'final', review = 'approved', retrieved = '2026-11-20' } = {}) =>
+  `CA,CA_QAP,CTCAC regulations,${status},fee_rule,${field},"${value}",,${applies},12,,quote,${review},2026-11-21,,,https://www.treasurer.ca.gov/regs.pdf,${retrieved},abc`
+const AWARD_HEAD = 'state,pathway,year,project,parent_project,city,total_units,new_construction,age_restricted_or_assisted_living,credits_awarded,round_or_list,source_url,retrieved,notes'
+const award = (year, project, units, nc, pathway = '9%') => `CA,${pathway},${year},${project},,Los Angeles,${units},${nc},no,1000000,Round 1,https://www.treasurer.ca.gov/a.pdf,2026-11-20,`
+const COST_HEAD = 'state,pathway,year,projects_with_cost,projects_total,median_cost_per_unit,min_cost_per_unit,max_cost_per_unit,median_units,cost_for_100_units_at_median,basis,sources'
+const california = (rules, awards = [], costs = ['CA,9%,2025,10,10,600000,400000,800000,80,60000000,total cost / units,CA_AW']) => ({
+  rulesCsv: [RULE_HEAD, ...rules].join('\n'), awardsCsv: [AWARD_HEAD, ...awards].join('\n'), costCsv: [COST_HEAD, ...costs].join('\n'),
+})
+const caRecords = (pf) => buildRecords({ ...files(), pipelineFiles: pf }).records.filter((r) => r.state === 'California')
+
+test('a state with only the draft fee screen is scored from the pipeline\'s approved rules', () => {
+  const before = buildRecords(files()).records.find((r) => r.id === 'california-9')
+  const ca9 = caRecords(california([rule('developer_fee_max_percent', '15%'), rule('developer_fee_basis', 'total development cost')])).find((r) => r.pathway === '9%')
+  assert.equal(ca9.totalDevelopmentCost, 60_000_000) // median cost per unit x 100 units
+  assert.equal(ca9.approvedGrossFee, 9_000_000) // 15% of total development cost
+  assert.equal(ca9.feeRuleVerified, true)
+  assert.equal(ca9.confidence, 'Medium')
+  assert.deepEqual(ca9.criticalSourceDates, ['2026-11-20'])
+  assert.match(ca9.notes, /reviewer-approved rules/)
+  assert.notEqual(ca9.approvedGrossFee, before.approvedGrossFee)
+})
+
+test('pipeline fees take the lowest reading, respect caps and the basis, and never pass on a draft', () => {
+  const pf = california([
+    rule('developer_fee_max_percent', '20%'), rule('developer_fee_max_percent', '12'),
+    rule('developer_fee_dollar_cap', '$5,000,000'), rule('developer_fee_basis', 'eligible basis'),
+  ])
+  const ca9 = caRecords(pf).find((r) => r.pathway === '9%')
+  assert.equal(ca9.approvedGrossFee, Math.round(Math.min(0.12 * 0.75 * 60e6, 5e6))) // 12% of 75% of cost
+  assert.equal(ca9.confidence, 'Low') // the rules disagree
+  assert.ok(ca9.pipelineFee.conflicting)
+  const capped = caRecords(california([rule('developer_fee_max_percent', '15%'), rule('developer_fee_dollar_cap', '$2,000,000')])).find((r) => r.pathway === '9%')
+  assert.equal(capped.approvedGrossFee, 2_000_000)
+  const draft = caRecords(california([rule('developer_fee_max_percent', '15%', { status: 'draft' })])).find((r) => r.pathway === '9%')
+  assert.equal(draft.feeRuleVerified, false)
+  const pathwayOnly = caRecords(california([rule('developer_fee_max_percent', '15%', { applies: '4%' })]))
+  assert.ok(!pathwayOnly.find((r) => r.pathway === '9%').feeFromPipeline)
+  assert.ok(pathwayOnly.find((r) => r.pathway === '4%').feeFromPipeline)
+  const unreviewed = caRecords(california([rule('developer_fee_max_percent', '15%', { review: 'not reviewed: do not use in calculations' })]))
+  assert.ok(unreviewed.every((r) => !r.feeFromPipeline))
+})
+
+test('pipeline award lists supply project size and yearly counts, unknown where construction type is missing', () => {
+  const pf = california([], [award(2023, 'Big One', 140, 'yes'), award(2023, 'Small', 60, 'yes'), award(2024, 'Mystery', 200, 'UNKNOWN'), award(2019, 'Old Giant', 300, 'yes')])
+  const ca9 = caRecords(pf).find((r) => r.pathway === '9%')
+  assert.equal(ca9.maxFeasibleUnits, 140) // 2019 is outside 2021-2025
+  const y2023 = ca9.awardHistory.find((h) => h.year === 2023)
+  assert.deepEqual([y2023.eligibleAwards, y2023.awardsAbove100Units, y2023.fromPipeline], [2, 1, true])
+  const y2024 = ca9.awardHistory.find((h) => h.year === 2024)
+  assert.deepEqual([y2024.eligibleAwards, y2024.awardsAbove100Units], [null, null])
+})
+
+test('fee arithmetic', () => {
+  assert.equal(basisKind('eligible basis'), 'eligible-basis')
+  assert.equal(basisKind('all other development costs, excluding developer fee'), 'cost-excluding-fee')
+  assert.equal(basisKind('Total Development Cost'), 'total-cost')
+  assert.equal(basisKind('something else'), 'unknown')
+  assert.equal(feeFor(0.15, 'total-cost', 40e6), 6e6)
+  assert.equal(Math.round(feeFor(0.15, 'cost-excluding-fee', 40e6)), Math.round(0.15 * 40e6 / 1.15))
+  assert.equal(feeFor(0.15, 'eligible-basis', 40e6, 2e6), 2e6)
 })
 
 test('the ranking engine passes the pipeline evidence through to the cards', async () => {

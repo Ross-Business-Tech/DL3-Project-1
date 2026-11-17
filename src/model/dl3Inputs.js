@@ -29,8 +29,13 @@ export const STATE_FIELDS = [
   { key: 'financingPath', label: 'Financing path confirmed', kind: 'yesno' },
 ]
 
+// Decisions on the scores researchers proposed, per state and pathway: approve, change (with a new score) or reject.
+export const JUDGED = ['access', 'urban', 'execution', 'venture']
+export const DECISIONS = ['approve', 'change', 'reject']
+export const approvalKey = (code, pathway) => `${code}|${pathway}`
+
 export function emptyInputs() {
-  return { economics: {}, feeDenominator: null, states: {}, updatedAt: null }
+  return { economics: {}, feeDenominator: null, states: {}, approvals: {}, updatedAt: null }
 }
 
 const num = (v) => (v === '' || v === null || v === undefined ? null : Number(v))
@@ -52,6 +57,23 @@ export function sanitize(raw) {
     if (Number.isInteger(e) && e >= 0 && e <= 5) st.execution = e
     for (const k of ['sponsorPath', 'financingPath']) if (s[k] === true || s[k] === false) st[k] = s[k]
     if (Object.keys(st).length) out.states[code] = st
+  }
+  for (const [key, decisions] of Object.entries(raw.approvals ?? {})) {
+    if (!/^[A-Z]{2}\|(9|4)%$/.test(key) || !decisions || typeof decisions !== 'object') continue
+    const clean = {}
+    for (const c of JUDGED) {
+      const d = decisions[c]
+      if (!d || !DECISIONS.includes(d.decision)) continue
+      if (d.decision === 'change' && (c === 'venture' || !Number.isInteger(d.score) || d.score < 0 || d.score > 5)) continue
+      clean[c] = {
+        decision: d.decision,
+        ...(d.decision === 'change' ? { score: d.score } : {}),
+        ...(typeof d.note === 'string' && d.note.trim() ? { note: d.note.trim().slice(0, 300) } : {}),
+        ...(typeof d.by === 'string' && d.by.trim() ? { by: d.by.trim().slice(0, 120) } : {}),
+        ...(typeof d.on === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d.on) ? { on: d.on } : {}),
+      }
+    }
+    if (Object.keys(clean).length) out.approvals[key] = clean
   }
   if (typeof raw.updatedAt === 'string') out.updatedAt = raw.updatedAt.slice(0, 40)
   return out
@@ -88,7 +110,8 @@ export function clearInputs(storage = globalThis.localStorage) {
 export function inputStatus(inputs) {
   const entered = ECONOMIC_FIELDS.filter((f) => isNum(inputs.economics[f.key])).map((f) => f.key)
   const hurdlesSet = isNum(inputs.economics.minRetainedCash) && isNum(inputs.economics.minPresentValue)
-  return { entered, hurdlesSet, statesEntered: Object.keys(inputs.states).length, usingPlaceholders: entered.length < ECONOMIC_FIELDS.length }
+  const decisions = Object.values(inputs.approvals ?? {}).reduce((n, d) => n + Object.keys(d).length, 0)
+  return { entered, hurdlesSet, statesEntered: Object.keys(inputs.states).length, decisions, usingPlaceholders: entered.length < ECONOMIC_FIELDS.length }
 }
 
 /** Engine settings: the researched-scores view, with DL3's numbers wherever they have been entered. */
@@ -110,13 +133,54 @@ export function settingsFor(inputs) {
   }
 }
 
-/** Records with DL3's per-state judgments applied (DL3 ability to execute, sponsor and financing paths). */
+/** One reviewer decision applied to a record's proposed judgment. */
+function decide(record, criterion, d, who, date) {
+  const by = d.by ?? who
+  const on = d.on ?? date
+  if (criterion === 'venture') {
+    if (!record.venture) return record
+    if (d.decision === 'reject') {
+      const { venture, ...rest } = record
+      return { ...rest, ventureRejected: { by, on, note: d.note ?? null, was: venture } }
+    }
+    return { ...record, venture: { ...record.venture, approvedBy: by, approvedOn: on } }
+  }
+  const j = record.judgments?.[criterion]
+  const judgments = { ...record.judgments }
+  if (d.decision === 'reject') {
+    delete judgments[criterion]
+    return { ...record, judgments, rejected: { ...record.rejected, [criterion]: { by, on, note: d.note ?? null, was: j ?? null } } }
+  }
+  if (d.decision === 'approve') {
+    if (!j) return record
+    judgments[criterion] = { ...j, approvedBy: by, approvedOn: on }
+  } else {
+    const why = d.note ? `: ${d.note}` : ''
+    judgments[criterion] = {
+      ...j,
+      score: d.score,
+      evidence: j ? `${j.evidence} DL3 changed the proposed ${j.score} to ${d.score}${why}` : `Scored by DL3${why}`,
+      proposedBy: j?.proposedBy ?? by,
+      approvedBy: by,
+      approvedOn: on,
+    }
+  }
+  return { ...record, judgments }
+}
+
+/**
+ * Records with DL3's decisions applied: first the reviewer's decisions on proposed scores, then DL3's own
+ * per-state answers (ability to execute, sponsor and financing paths), which win over any proposal.
+ */
 export function applyStateInputs(records, inputs, codeOf, who = 'DL3') {
   const date = (inputs.updatedAt ?? new Date().toISOString()).slice(0, 10)
   return records.map((r) => {
+    let out = r
+    const decisions = inputs.approvals?.[approvalKey(codeOf(r.state), r.pathway)]
+    for (const [c, d] of Object.entries(decisions ?? {})) out = decide(out, c, d, who, date)
     const s = inputs.states[codeOf(r.state)]
-    if (!s) return r
-    let out = { ...r }
+    if (!s) return out
+    out = { ...out }
     if (s.sponsorPath === true || s.sponsorPath === false) out.sponsorPath = s.sponsorPath
     if (s.financingPath === true || s.financingPath === false) out.financingPath = s.financingPath
     if (Number.isInteger(s.execution)) {
@@ -128,4 +192,15 @@ export function applyStateInputs(records, inputs, codeOf, who = 'DL3') {
     }
     return out
   })
+}
+
+/** Record one decision (or clear it with decision null) and return the new inputs. */
+export function withDecision(inputs, code, pathway, criterion, decision, who) {
+  const key = approvalKey(code, pathway)
+  const current = { ...(inputs.approvals?.[key] ?? {}) }
+  if (decision) current[criterion] = { ...decision, by: who, on: new Date().toISOString().slice(0, 10) }
+  else delete current[criterion]
+  const approvals = { ...inputs.approvals, [key]: current }
+  if (Object.keys(current).length === 0) delete approvals[key]
+  return { ...inputs, approvals }
 }
