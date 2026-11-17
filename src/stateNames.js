@@ -9,5 +9,7 @@ export const STATE_NAMES = {
   OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina',
   SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia',
   WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming',
+  // Territories and cities the pipeline also covers. They have no spot on the map, so they appear only in the Downloads panel.
+  PR: 'Puerto Rico', VI: 'U.S. Virgin Islands', CHI: 'Chicago', NYC: 'New York City',
 }
 

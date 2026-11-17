@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { SOURCES, TERRITORIES } from './data.js'
 import { downloadExcel, downloadPipelineRequest, downloadSelectedCsv, downloadSourcesCsv, downloadTerritoriesCsv } from './exports.js'
-import { MAP } from './mapPaths.js'
 import { STATE_NAMES } from './stateNames.js'
 
-// Every state and DC on the map, in alphabetical order by code name.
-const ALL_CODES = Object.keys(MAP.states).filter((c) => STATE_NAMES[c]).sort((a, b) => STATE_NAMES[a].localeCompare(STATE_NAMES[b]))
+// Every jurisdiction the pipeline covers (50 states, DC, Puerto Rico, the U.S. Virgin Islands, Chicago and NYC),
+// in alphabetical order by name.
+const ALL_CODES = Object.keys(STATE_NAMES).sort((a, b) => STATE_NAMES[a].localeCompare(STATE_NAMES[b]))
 
 // The printable pages. Only the chosen one is visible when printing.
 function PrintReport({ mode }) {
