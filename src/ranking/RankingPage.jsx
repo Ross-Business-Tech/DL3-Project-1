@@ -58,6 +58,86 @@ function SourceLinks({ sources }) {
   )
 }
 
+const fieldText = (f) => (f.charAt(0).toUpperCase() + f.slice(1)).replace(/_/g, ' ')
+const dateText = (iso) => (iso ? iso.slice(0, 10) : 'unknown')
+
+// What the data pipeline (dl3-lihtc-model/) adds for a state: rules a named person approved, with page and
+// quote; its award rows for this pathway; cost per unit; the top-100 metro screen; document freshness.
+// Evidence only: nothing here changes a gate or a score.
+function PipelineEvidence({ p, pathway }) {
+  if (!p) return null
+  const awards = p.awards.filter((a) => a.pathway === pathway)
+  const otherAwards = p.awards.filter((a) => a.pathway !== pathway && a.pathway !== '9%' && a.pathway !== '4%')
+  const cost = p.costs.find((c) => c.pathway === pathway)
+  const byTopic = new Map()
+  for (const r of p.rules) byTopic.set(r.topicLabel, [...(byTopic.get(r.topicLabel) ?? []), r])
+  const stale = p.documents.filter((d) => d.stale)
+  return (
+    <>
+      <p className="small"><strong>From the data pipeline</strong> (collected from official documents; rules shown only after a person approved them)</p>
+      {p.metro && (
+        <p className="small">
+          Top-100 metro screen ({p.metro.vintage ?? 'Census ACS 5-year'}):{' '}
+          {p.metro.inTop
+            ? <>yes, part of {p.metro.count} of the {p.metro.topN} largest metro areas; largest is {p.metro.largest} (#{p.metro.largestRank}).</>
+            : <>no, not part of any of the {p.metro.topN} largest metro areas.</>}
+        </p>
+      )}
+      {cost && (
+        <p className="small">
+          Total development cost per unit ({pathway}, {cost.year}): median {money(cost.median)} from {cost.projects} of {cost.of} projects
+          {cost.min !== null && cost.max !== null && <> (range {money(cost.min)}–{money(cost.max)})</>}; a 100-unit deal at the median is about {money(cost.for100Units)}.
+        </p>
+      )}
+      {awards.length > 0 && (
+        <details className="details">
+          <summary>Award rows the pipeline collected for {pathway}: {awards.reduce((n, a) => n + a.awards, 0)}</summary>
+          <table className="parts">
+            <tbody>
+              <tr><td><strong>Year</strong></td><td className="num"><strong>Awards</strong></td><td className="num"><strong>101+ units</strong></td></tr>
+              {awards.map((a) => (
+                <tr key={a.year}><td>{a.year}</td><td className="num">{a.awards}</td><td className="num">{a.units100}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="small">Spreadsheet rows read in code plus PDF rows a person approved. Rows still needing a check are left out. A cross-check on our own award research, not used in the score.</p>
+        </details>
+      )}
+      {otherAwards.length > 0 && (
+        <p className="small">{otherAwards.reduce((n, a) => n + a.awards, 0)} more award rows do not say whether they are 9% or 4%.</p>
+      )}
+      {byTopic.size > 0 && (
+        <details className="details">
+          <summary>Approved rules from the plan: {p.rules.length}</summary>
+          {[...byTopic.entries()].map(([topic, rules]) => (
+            <div key={topic}>
+              <p className="small"><strong>{topic}</strong></p>
+              <ul className="srcs small">
+                {rules.map((r, i) => (
+                  <li key={`${r.field}${r.page}${i}`}>
+                    {fieldText(r.field)}: <strong>{r.value}</strong>{r.appliesTo !== 'unknown' && ` (${r.appliesTo})`}
+                    {r.quote && <span className="block">“{r.quote.length > 220 ? `${r.quote.slice(0, 220)}…` : r.quote}”</span>}
+                    <span className="block">
+                      {r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer">{r.document ?? 'source'}</a> : (r.document ?? 'source')}
+                      {r.page !== null && `, p. ${r.page}`}{r.docStatus === 'draft' && ' · draft document'}{r.reviewedOn && ` · approved ${r.reviewedOn}`}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </details>
+      )}
+      {p.documents.length > 0 && (
+        <p className={`small ${stale.length ? 'warn' : ''}`}>
+          {p.documents.length} source document{p.documents.length === 1 ? '' : 's'} kept by the pipeline
+          {stale.length ? `; ${stale.length} older than the 90-day limit, recheck before relying on them` : '; all checked within 90 days'}.
+        </p>
+      )}
+    </>
+  )
+}
+
 // What the program's rules allow for a single project, with the source it came from.
 function ProgramLimits({ caps }) {
   if (!caps) return null
@@ -153,6 +233,7 @@ function Details({ r }) {
       <AssumptionChanges changes={r.assumptionChanges} />
       <ProgramLimits caps={r.programCaps} />
       <SourceLinks sources={r.sources} />
+      <PipelineEvidence p={r.pipeline} pathway={r.pathway} />
       {Object.entries(r.evidence).map(([key, text]) => (
         <p className="small" key={key}>
           <strong>{COMPONENTS.find((c) => c.key === key)?.label}:</strong> {text}
@@ -239,6 +320,7 @@ function CheckCard({ r }) {
         <AssumptionChanges changes={r.assumptionChanges} />
         <ProgramLimits caps={r.programCaps} />
         <SourceLinks sources={r.sources} />
+        <PipelineEvidence p={r.pipeline} pathway={r.pathway} />
         {r.nextDeadline && <p className="small"><strong>Next deadline:</strong> {r.nextDeadline}</p>}
         {r.notes && <p className="small"><strong>Research notes:</strong> {r.notes}</p>}
       </details>
@@ -595,6 +677,25 @@ export default function RankingPage() {
             </summary>
             <FeeScreenList rows={feeRows} />
           </details>
+        </Section>
+      )}
+
+      {dataset !== 'sample' && REAL_DATA.pipeline.stats.states > 0 && (
+        <Section
+          title="From the data pipeline"
+          hint={`Collected from official documents by the team's pipeline (export of ${dateText(REAL_DATA.pipeline.generatedAt)}). Each state's card shows the details under “Why this score”. Rules appear only after a named person approved them. None of this changes a score yet.`}
+        >
+          <ul className="names small">
+            <li><strong>{REAL_DATA.pipeline.stats.approvedRules}</strong> approved rules for {REAL_DATA.pipeline.stats.statesWithRules.join(', ') || 'no state yet'}</li>
+            <li><strong>{REAL_DATA.pipeline.stats.awardRows}</strong> award rows collected</li>
+            <li><strong>{REAL_DATA.pipeline.stats.statesInTopMetros}</strong> of the 50 states and DC are part of a top-100 metro area (Census ACS 5-year)</li>
+            {REAL_DATA.pipeline.stats.statesOutsideTopMetros.length > 0 && (
+              <li>Not part of one: {REAL_DATA.pipeline.stats.statesOutsideTopMetros.join(', ')}</li>
+            )}
+          </ul>
+          {REAL_DATA.pipeline.stats.staleCritical.length > 0 && (
+            <p className="small warn">Critical sources older than 90 days: {REAL_DATA.pipeline.stats.staleCritical.join('; ')}</p>
+          )}
         </Section>
       )}
 

@@ -15,8 +15,7 @@ import { parseCsv } from './loadPartC.js'
 import { stateName } from './usStates.js'
 
 export const INVENTORY_SOURCE = {
-  branch: 'claude/optimistic-hamilton-7al9rk',
-  commit: '0cbdd31',
+  // Copied by: cd dl3-lihtc-model && python -m src.report.export_web --site
   file: 'dl3-lihtc-model/data/inventory/state_inventory.csv',
 }
 

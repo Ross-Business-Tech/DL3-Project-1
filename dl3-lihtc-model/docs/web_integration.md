@@ -5,9 +5,10 @@ visitor's browser. There is no server. That means:
 
 - **The scraping pipeline cannot run on the website.** It needs Python, a headless browser, a database and API
   keys, none of which exist in a visitor's browser. It runs on one person's computer.
-- **The website reads files.** After a run, `python -m src.report.export_web` writes `data/web/`:
-  `awards.csv`, `rules.csv`, `sources.csv`, `manifest.json`, plus the inventory in `data/inventory/`.
-  Those files are copied into the website's `src/ranking/data/` and the site is rebuilt.
+- **The website reads files.** After a run, `python -m src.report.export_web --site` writes `data/web/` and copies
+  it into the website (`src/ranking/data/pipeline/` and `src/ranking/data/inventory.csv`). Then `npm test`,
+  `npm run build`, commit, and open a pull request into `development`. The site shows it on each state's card
+  under "From the data pipeline" (`src/ranking/loadPipeline.js`).
 
 ```
 computer:  run_all.py -> data/dl3.db + archive/ -> export_web -> data/web/*.csv

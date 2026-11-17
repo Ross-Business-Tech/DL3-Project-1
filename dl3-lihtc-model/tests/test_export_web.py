@@ -87,3 +87,20 @@ def test_sources_and_manifest_and_no_names(tmp_path):
     assert man["counts"] == m["counts"] and man["rules_approved"] == 1
     for f in (tmp_path / "web").iterdir():
         assert "Private Person" not in f.read_text()   # reviewer / importer names never leave the database
+
+
+def test_copy_to_site(tmp_path):
+    web = tmp_path / "web"
+    web.mkdir()
+    for n in export_web.SITE_FILES:
+        (web / n).write_text("x")
+    inv = tmp_path / "inv.csv"
+    inv.write_text("jurisdiction_id\n")
+    site = tmp_path / "site"
+    site.mkdir()
+    copied = export_web.copy_to_site(web, site, inv)
+    assert sorted(copied) == sorted([f"pipeline/{n}" for n in export_web.SITE_FILES] + ["inventory.csv"])
+    assert (site / "pipeline" / "rules.csv").read_text() == "x" and (site / "inventory.csv").exists()
+    import pytest
+    with pytest.raises(SystemExit):
+        export_web.copy_to_site(web, tmp_path / "missing")

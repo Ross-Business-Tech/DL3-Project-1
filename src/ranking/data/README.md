@@ -40,9 +40,8 @@ project (120 units, $40M total development cost), with the rule text and a sourc
 - The dashboard's own review covered only 22 of the 50 states, and it assumed a sponsor path for its pilots that our
   research marks as needing DL3's input, so none of that is used.
 
-`inventory.csv` is the scraping pipeline's 50-state inventory, copied unchanged from branch
-`claude/optimistic-hamilton-7al9rk`, commit `0cbdd31`, file `dl3-lihtc-model/data/inventory/state_inventory.csv`.
-To refresh it, copy the newer file over this one and run `npm test`. It is a map of WHERE documents are, found
+`inventory.csv` is the scraping pipeline's 50-state inventory, copied unchanged from
+`dl3-lihtc-model/data/inventory/state_inventory.csv` by the pipeline's export (see `pipeline/` below). It is a map of WHERE documents are, found
 automatically by a crawler and NOT verified. What it gives the tool: document links on each state's card, the plan's
 draft or unknown status, and a hint of where to research next. What it does not have: any rule value. Fee cap, credit
 cap and deadline still say "needs verification" for every jurisdiction, and nothing has been reviewed.
@@ -69,3 +68,25 @@ Things to know about this data:
 See `../SCORING.md` for the exact columns and rules.
 
 All of this is public agency information. Never add personal data about individuals.
+
+## `pipeline/`: the data pipeline's export
+
+Copied from `dl3-lihtc-model/data/web/` by the pipeline (also refreshes `inventory.csv`):
+
+```bash
+cd dl3-lihtc-model && python -m src.report.export_web --site
+cd .. && npm test && npm run build
+```
+
+Loaded by `../loadPipeline.js` and shown on each state's card under "From the data pipeline", plus a summary
+section on the page. Evidence and display only: nothing here changes a gate, a score or a rank (a test checks this).
+
+- `rules.csv`: rules extracted from each plan with page and quote. Only rows with `review_state = approved`
+  (a named person approved them) are shown; the rest are ignored.
+- `awards.csv`: award rows in the same columns as our `awards.csv` (spreadsheets read in code plus approved PDF rows).
+  Shown as counts per pathway and year next to our research; rows with `CHECK:` in their notes are left out.
+- `cost_per_unit.csv`: median total development cost per unit where award lists publish it.
+- `states_in_top_msas.csv`: whether each state is part of a top-100 metro area (Census ACS 5-year), DL3's
+  2026-11-15 urban screen.
+- `sources.csv`: every document the pipeline keeps, with its last retrieval date and whether it is stale.
+- `manifest.json`: when the export was made and from which pipeline version.

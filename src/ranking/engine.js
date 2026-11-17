@@ -535,6 +535,7 @@ export function rankRecords(records, options = {}) {
       programCaps: r.programCaps ?? null,
       feeScreen: r.feeScreen ?? null,
       sources: r.sources ?? null,
+      pipeline: r.pipeline ?? null, // the data pipeline's evidence: display only, never used in a score
       awardHistory: r.awardHistory ?? [],
       criticalSourceDates: r.criticalSourceDates ?? [],
       economicsDetail: economicsDetailFor(r, settings),

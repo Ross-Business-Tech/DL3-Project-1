@@ -21,12 +21,12 @@ test('the inventory loads: 55 jurisdictions in the file, the 50 states kept, not
   assert.ok(inv.byState.has('Michigan') && inv.byState.has('Indiana') && !inv.byState.has('District of Columbia'))
 })
 
-test('award-list coverage hints for 2021-2025: 18 states three-plus, 11 one or two, 12 unclear, 9 none', () => {
-  assert.deepEqual(inv.stats.awardCoverage, { 'three-plus': 18, 'one-or-two': 11, unclear: 12, none: 9 })
+test('award-list coverage hints for 2021-2025: 19 states three-plus, 11 one or two, 13 unclear, 7 none', () => {
+  assert.deepEqual(inv.stats.awardCoverage, { 'three-plus': 19, 'one-or-two': 11, unclear: 13, none: 7 })
 })
 
 test('plan status: a draft or unknown plan is never treated as final', () => {
-  assert.deepEqual(inv.stats.qapStatus, { draft: 10, unknown: 29, 'related-only': 1 })
+  assert.deepEqual(inv.stats.qapStatus, { draft: 10, unknown: 31, 'related-only': 2 })
   assert.ok([...inv.byState.values()].every((s) => s.qapStatus !== 'final')) // the pipeline never marks one final automatically
 })
 
@@ -34,7 +34,7 @@ test('several links in one cell are split, labeled, and kept only if they are we
   const al = inv.byState.get('Alabama').links.qapDocuments
   assert.ok(al.length >= 3)
   assert.ok(al.every((l) => l.url.startsWith('https://')))
-  assert.deepEqual(al.slice(0, 2).map((l) => l.label), ['2027', '2026'])
+  assert.deepEqual(al.slice(0, 2).map((l) => l.label), ['2026', '2025'])
   const warnings = []
   const links = parseLinks('https://ok.example/a.pdf [2026]; javascript:alert(1); ftp://x/y; https://ok.example/b', (p) => warnings.push(p))
   assert.deepEqual(links.map((l) => l.url), ['https://ok.example/a.pdf', 'https://ok.example/b'])
@@ -89,7 +89,7 @@ test('records get their state\'s document links, and the ranking itself does not
 test('the research-next list puts the best award-list coverage first and marks states already researched in depth', () => {
   const next = buildRecords({ ...files(), inventoryCsv: read('inventory.csv') }).inventory.researchNext
   assert.equal(next.length, 50)
-  assert.ok(next.slice(0, 18).every((s) => s.coverage === 'three-plus'))
-  assert.ok(next.slice(-9).every((s) => s.coverage === 'none'))
+  assert.ok(next.slice(0, 19).every((s) => s.coverage === 'three-plus'))
+  assert.ok(next.slice(-7).every((s) => s.coverage === 'none'))
   assert.deepEqual(next.filter((s) => s.researchedInDepth).map((s) => s.state).sort(), ['Indiana', 'Michigan', 'Ohio'])
 })

@@ -201,13 +201,40 @@ def export(db_path: Path, out_dir: Path, settings: dict | None = None, reference
     return manifest
 
 
+SITE_FILES = ["rules.csv", "sources.csv", "cost_per_unit.csv", "states_in_top_msas.csv", "awards.csv", "manifest.json"]
+
+
+def copy_to_site(web_dir: Path, site_data: Path, inventory_csv: Path | None = None) -> list[str]:
+    """Copy the export into the website's data folder (src/ranking/data/): pipeline/*.csv and the inventory."""
+    import shutil
+    if not site_data.is_dir():
+        raise SystemExit(f"website data folder not found: {site_data}")
+    dest = site_data / "pipeline"
+    dest.mkdir(exist_ok=True)
+    copied = []
+    for name in SITE_FILES:
+        if (web_dir / name).exists():
+            shutil.copyfile(web_dir / name, dest / name)
+            copied.append(f"pipeline/{name}")
+    if inventory_csv and inventory_csv.exists():
+        shutil.copyfile(inventory_csv, site_data / "inventory.csv")
+        copied.append("inventory.csv")
+    return copied
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--db", default=str(ROOT / "data" / "dl3.db"))
     ap.add_argument("--out", default=str(ROOT / "data" / "web"))
+    ap.add_argument("--site", action="store_true",
+                    help="also copy the files into the website (../src/ranking/data/), then run npm test and npm run build")
     a = ap.parse_args(argv)
     m = export(Path(a.db), Path(a.out))
     print(f"Wrote {a.out}: {m['counts']} ({m['rules_approved']} rules approved)")
+    if a.site:
+        copied = copy_to_site(Path(a.out), ROOT.parent / "src" / "ranking" / "data",
+                              ROOT / "data" / "inventory" / "state_inventory.csv")
+        print(f"Copied into the website: {', '.join(copied)}. Next: npm test && npm run build, then commit.")
     return 0
 
 
