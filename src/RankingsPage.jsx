@@ -76,14 +76,80 @@ function MapView({ onOpen }) {
     return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
+  // Mobile only: two fingers pinch to zoom. Touch events only, so desktop mouse and trackpad are unchanged.
+  const pinchActive = useRef(false)
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+    const touches = new Map()
+    let pinchDist = null
+
+    const down = (e) => {
+      if (e.pointerType !== 'touch') return
+      touches.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (touches.size === 2) {
+        const [a, b] = [...touches.values()]
+        pinchDist = Math.hypot(a.x - b.x, a.y - b.y)
+        pinchActive.current = true
+        dragRef.current = { moved: true }
+      }
+    }
+    const move = (e) => {
+      if (e.pointerType !== 'touch') return
+      const p = touches.get(e.pointerId)
+      if (!p) return
+      p.x = e.clientX
+      p.y = e.clientY
+      if (touches.size !== 2 || !pinchDist) return
+      const [a, b] = [...touches.values()]
+      const dist = Math.hypot(a.x - b.x, a.y - b.y)
+      const rect = el.querySelector('svg').getBoundingClientRect()
+      const fx = clamp01(((a.x + b.x) / 2 - rect.left) / rect.width)
+      const fy = clamp01(((a.y + b.y) / 2 - rect.top) / rect.height)
+      const factor = dist / pinchDist
+      pinchDist = dist
+      setView((v) => zoomAt(v, fx, fy, factor))
+    }
+    const up = (e) => {
+      if (e.pointerType !== 'touch') return
+      touches.delete(e.pointerId)
+      if (touches.size < 2) {
+        pinchDist = null
+        pinchActive.current = false
+      }
+    }
+
+    el.addEventListener('pointerdown', down)
+    el.addEventListener('pointermove', move)
+    el.addEventListener('pointerup', up)
+    el.addEventListener('pointercancel', up)
+    return () => {
+      el.removeEventListener('pointerdown', down)
+      el.removeEventListener('pointermove', move)
+      el.removeEventListener('pointerup', up)
+      el.removeEventListener('pointercancel', up)
+    }
+  }, [])
+
   // Click and drag to move the map, only when it is zoomed in.
   const startDrag = (e) => {
-    if (viewRef.current.z <= 1 || e.button !== 0) return
+    // Ignore the second finger of a pinch; the pinch handler above deals with it.
+    if (viewRef.current.z <= 1 || e.button !== 0 || e.isPrimary === false) return
     const svg = e.currentTarget
+    const pointerId = e.pointerId
     const start = { x: e.clientX, y: e.clientY, view: viewRef.current, moved: false }
     dragRef.current = { moved: false }
 
     const onMove = (ev) => {
+      if (ev.pointerId !== pointerId) return
+      // While pinching, the pinch sets the zoom: keep this drag's start point at the current view,
+      // so the map continues smoothly from there when the pinch ends.
+      if (pinchActive.current) {
+        start.x = ev.clientX
+        start.y = ev.clientY
+        start.view = viewRef.current
+        return
+      }
       const dx = ev.clientX - start.x
       const dy = ev.clientY - start.y
       if (!start.moved && Math.hypot(dx, dy) > 4) start.moved = true
@@ -122,7 +188,7 @@ function MapView({ onOpen }) {
 
   return (
     <>
-      <div className="map-wrap" ref={wrapRef} style={{ touchAction: zoomed ? 'none' : 'pan-y' }}>
+      <div className="map-wrap" ref={wrapRef} style={{ touchAction: 'none' }}>
         {hover && (
           <div className="map-label" aria-hidden="true">
             <strong>{STATE_NAMES[hover] ?? hover}</strong>
