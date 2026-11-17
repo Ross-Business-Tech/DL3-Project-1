@@ -1,0 +1,674 @@
+{
+  "run_id": "82f546ee",
+  "started_at": "2026-11-17T02:17:01.469680+00:00",
+  "counts": {
+    "fetched": 81,
+    "new": 0,
+    "changed": 0,
+    "unchanged": 81,
+    "failed": 0,
+    "blocking": 0
+  },
+  "changes": [],
+  "furniture_only": [
+    "P3",
+    "P6",
+    "P7",
+    "P8",
+    "MI_PROGRAM"
+  ],
+  "failures": [],
+  "freshness": [
+    {
+      "source_id": "CENSUS_MSA",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "IN_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "IN_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "MI_RES_2022_APR1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_DEC12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_JAN18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_JULY1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2022_OCT1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2023_APR3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2023_DEC1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2024_OCT1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2025_APR1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_RES_2025_OCT1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "MI_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_AWARDS_1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_10",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_11",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_12",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_13",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_14",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_15",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_16",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_17",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_18",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_19",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_20",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_21",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_22",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_23",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_24",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_25",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_AWARDS_9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_BOND",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "OH_PROGRAM",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_QAP_CURRENT",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "OH_UW",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P1",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P2",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P3",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P4",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P5",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    },
+    {
+      "source_id": "P6",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P7",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P8",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 1
+    },
+    {
+      "source_id": "P9",
+      "age_days": 0,
+      "stale": false,
+      "blocks_recommendation": false,
+      "reason": "fresh",
+      "critical": 0
+    }
+  ],
+  "candidates": [],
+  "freshness_days": 90,
+  "ocr": []
+}
