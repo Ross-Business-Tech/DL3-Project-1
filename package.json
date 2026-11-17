@@ -10,11 +10,12 @@
     "preview": "vite preview",
     "smoke": "node scripts/smoke-test.cjs",
     "publish:preview": "node scripts/herenow-publish.mjs preview",
-    "test": "node --test src/ranking/engine.test.js src/ranking/loadPartC.test.js src/ranking/scoring.test.js src/ranking/urban.test.js src/ranking/programCaps.test.js src/ranking/nationalFee.test.js src/ranking/preview.test.js src/ranking/inventory.test.js src/ranking/guideFinish.test.js src/ranking/research.test.js src/ranking/pipeline.test.js"
+    "test": "node --test src/ranking/engine.test.js src/ranking/loadPartC.test.js src/ranking/scoring.test.js src/ranking/urban.test.js src/ranking/programCaps.test.js src/ranking/nationalFee.test.js src/ranking/preview.test.js src/ranking/inventory.test.js src/ranking/guideFinish.test.js src/ranking/research.test.js src/ranking/pipeline.test.js src/model/model.test.js"
   },
   "dependencies": {
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
