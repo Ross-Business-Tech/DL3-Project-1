@@ -9,7 +9,9 @@ Commands (run from dl3-lihtc-model/):
     python -m src.state_store pull         download the latest state (an existing local DB is backed up first)
     python -m src.state_store push         upload this machine's state
     python -m src.state_store status       compare local and Drive without changing anything
+    python -m src.state_store publish-web  upload the website files so the site shows the newest results at once
     python -m src.state_store make-token   create a Drive token limited to dl3-pipeline/, for the GitHub job
+    python -m src.state_store make-token --site   a read-only token for the website's proxy (results only)
 
 Safety:
     * push refuses to overwrite a database someone else uploaded after your last pull (here.now checks
@@ -42,6 +44,8 @@ PREFIX = "dl3-pipeline/"
 DB_KEY = PREFIX + "dl3.db.gz"
 OCR_KEY = PREFIX + "ocr_cache.tar.gz"
 ARCHIVE_KEY = PREFIX + "archive/"
+AUTO_REGISTER_KEY = PREFIX + "source_register_auto.csv"  # states added with run_all.py --states
+WEB_KEY = PREFIX + "web/"  # the newest website files; the site reads them through a read-only proxy route
 MAX_FILE = 500 * 1024 * 1024  # here.now's per-file Drive limit
 CLIENT = "dl3-lihtc-model/state-store"
 
@@ -144,8 +148,8 @@ class Drive:
         files = res.get("files") or []
         return next((f for f in files if f.get("path") == path), files[0] if files else {})
 
-    def make_token(self, label: str, ttl: str | None) -> str:
-        body = {"perms": "write", "manageTokens": False, "pathPrefix": PREFIX, "label": label, **({"ttl": ttl} if ttl else {})}
+    def make_token(self, label: str, ttl: str | None, perms: str = "write", prefix: str = PREFIX) -> str:
+        body = {"perms": perms, "manageTokens": False, "pathPrefix": prefix, "label": label, **({"ttl": ttl} if ttl else {})}
         return self._call("POST", f"/api/v1/drives/{quote(self.id, safe='')}/tokens", json=body).json()["token"]
 
 
@@ -176,6 +180,9 @@ class Paths:
         self.archive = root / "archive"
         self.ocr = root / "data" / "ocr_cache"
         self.versions = root / "data" / ".state_versions.json"
+        self.auto_register = root / "config" / "source_register_auto.csv"
+        self.web = root / "data" / "web"
+        self.inventory_csv = root / "data" / "inventory" / "state_inventory.csv"
 
     def load_versions(self) -> dict:
         try:
@@ -272,6 +279,10 @@ def pull(drive: Drive, paths: Paths, log=print) -> dict:
         drive.get(key, dest)
         summary["archive_downloaded"] += 1
 
+    if AUTO_REGISTER_KEY in remote:  # the Drive copy is the newest: every run that adds a state saves it there
+        drive.get(AUTO_REGISTER_KEY, paths.auto_register)
+        summary["auto_register"] = "downloaded"
+
     ocr_remote = remote.get(OCR_KEY)
     if ocr_remote:
         with tempfile.TemporaryDirectory() as td:
@@ -334,8 +345,40 @@ def push(drive: Drive, paths: Paths, force: bool = False, log=print) -> dict:
                 drive.put(OCR_KEY, tgz, "application/gzip")  # a cache: newest copy wins
                 summary["ocr"] = "uploaded"
 
+    if paths.auto_register.is_file():
+        a = remote.get(AUTO_REGISTER_KEY)
+        if not _same_sha(a, sha256_file(paths.auto_register)):
+            drive.put(AUTO_REGISTER_KEY, paths.auto_register, "text/csv")
+            summary["auto_register"] = "uploaded"
+
     paths.save_versions(versions)
     return summary
+
+
+def web_files(paths: Paths) -> dict[str, Path]:
+    from src.report.export_web import SITE_FILES
+    files = {name: paths.web / name for name in SITE_FILES if (paths.web / name).is_file()}
+    if paths.inventory_csv.is_file():
+        files["inventory.csv"] = paths.inventory_csv
+    return files
+
+
+def publish_web(drive: Drive, paths: Paths) -> dict:
+    """Upload the website files (python -m src.report.export_web) so the site can show them without a rebuild.
+    manifest.json goes last: the site treats a new manifest as "new results are ready"."""
+    files = web_files(paths)
+    if "manifest.json" not in files:
+        raise StateError("No website files yet: run python -m src.report.export_web first.")
+    remote = drive.list(WEB_KEY)
+    sent = []
+    for name in sorted(files, key=lambda n: n == "manifest.json"):
+        key, src = WEB_KEY + name, files[name]
+        if _same_sha(remote.get(key), sha256_file(src)):
+            continue
+        ctype = "application/json" if name.endswith(".json") else "text/csv"
+        drive.put(key, src, ctype)  # published copies: newest wins
+        sent.append(name)
+    return {"published": ", ".join(sent) or "nothing changed", "folder": WEB_KEY}
 
 
 def status(drive: Drive, paths: Paths) -> dict:
@@ -362,8 +405,11 @@ def main(argv=None) -> int:
     p = sub.add_parser("push", help="upload this machine's state to here.now")
     p.add_argument("--force", action="store_true", help="overwrite the Drive database even if it changed since your pull")
     sub.add_parser("status", help="compare local state with here.now")
+    sub.add_parser("publish-web", help="upload the website files so the site shows the newest results")
     t = sub.add_parser("make-token", help="create a Drive token limited to dl3-pipeline/ (for the GitHub secret)")
-    t.add_argument("--out", type=Path, default=Path.home() / ".herenow" / "dl3_drive_token")
+    t.add_argument("--site", action="store_true",
+                   help="a READ-ONLY token limited to dl3-pipeline/web/, for the website's proxy variable DL3_DRIVE_READ_TOKEN")
+    t.add_argument("--out", type=Path, default=None)
     t.add_argument("--ttl", default=None, help='e.g. "180d"; default: no expiry')
     a = ap.parse_args(argv)
 
@@ -376,14 +422,24 @@ def main(argv=None) -> int:
             r = push(drive, paths, force=a.force)
         elif a.cmd == "status":
             r = status(drive, paths)
+        elif a.cmd == "publish-web":
+            r = publish_web(drive, paths)
         else:
-            token = drive.make_token("dl3 pipeline GitHub job", a.ttl)
-            a.out.parent.mkdir(parents=True, exist_ok=True)
-            a.out.write_text(token + "\n")
-            a.out.chmod(0o600)
-            r = {"saved_to": str(a.out), "limited_to": PREFIX,
-                 "next": "Copy the file's contents into the GitHub secret HERENOW_DRIVE_TOKEN "
-                         "(Settings > Secrets and variables > Actions), then delete the file."}
+            if a.site:
+                token = drive.make_token("dl3 website: read pipeline results", a.ttl, perms="read", prefix=WEB_KEY)
+                out = a.out or Path.home() / ".herenow" / "dl3_site_read_token"
+                where = ("Give the file's contents to your instructor to store as the here.now variable "
+                         "DL3_DRIVE_READ_TOKEN (allowed upstream: here.now), then delete the file.")
+            else:
+                token = drive.make_token("dl3 pipeline GitHub job", a.ttl)
+                out = a.out or Path.home() / ".herenow" / "dl3_drive_token"
+                where = ("Copy the file's contents into the GitHub secret HERENOW_DRIVE_TOKEN "
+                         "(Settings > Secrets and variables > Actions), then delete the file.")
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(token + "\n")
+            out.chmod(0o600)
+            r = {"saved_to": str(out), "limited_to": WEB_KEY if a.site else PREFIX,
+                 "drive_id (not secret)": drive.id, "next": where}
     except StateError as e:
         print(f"✖ {e}", file=sys.stderr)
         return 2

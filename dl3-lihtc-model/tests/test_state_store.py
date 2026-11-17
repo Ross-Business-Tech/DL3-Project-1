@@ -204,3 +204,35 @@ def test_bad_token_message(tmp_path):
             return Resp(401, js={"error": "bad token"})
     with pytest.raises(ss.StateError, match="HERENOW_DRIVE_TOKEN"):
         ss.Drive("tok", session=Deny()).list(ss.PREFIX)
+
+
+def test_auto_register_travels_with_the_state(tmp_path, fake):
+    mac, ci = tmp_path / "mac", tmp_path / "ci"
+    make_state(mac)
+    (mac / "config").mkdir()
+    (mac / "config" / "source_register_auto.csv").write_text("source_id,state\nCA_QAP,CA\n")
+    ss.push(drive(fake), ss.Paths(mac), log=lambda *_: None)
+    (ci / "config").mkdir(parents=True)
+    ss.pull(drive(fake), ss.Paths(ci), log=lambda *_: None)
+    assert (ci / "config" / "source_register_auto.csv").read_text() == "source_id,state\nCA_QAP,CA\n"
+
+
+def test_publish_web_sends_manifest_last_and_skips_unchanged(tmp_path, fake):
+    web = tmp_path / "data" / "web"
+    web.mkdir(parents=True)
+    for name in ("rules.csv", "sources.csv", "manifest.json", "awards_pending_review.csv"):
+        (web / name).write_text(name)
+    r = ss.publish_web(drive(fake), ss.Paths(tmp_path))
+    assert r["published"].split(", ")[-1] == "manifest.json"
+    assert ss.WEB_KEY + "awards_pending_review.csv" not in fake.files  # only the files the site reads
+    assert ss.publish_web(drive(fake), ss.Paths(tmp_path))["published"] == "nothing changed"
+
+
+def test_publish_web_needs_an_export(tmp_path, fake):
+    with pytest.raises(ss.StateError, match="export_web"):
+        ss.publish_web(drive(fake), ss.Paths(tmp_path))
+
+
+def test_site_token_is_read_only_and_limited_to_results(fake):
+    drive(fake).make_token("site", None, perms="read", prefix=ss.WEB_KEY)
+    assert fake.tokens[-1]["perms"] == "read" and fake.tokens[-1]["pathPrefix"] == "dl3-pipeline/web/"

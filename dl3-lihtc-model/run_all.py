@@ -33,10 +33,16 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
                  only: set[str] | None = None, follow_documents: bool = False,
                  refresh_hud: bool = True, fetcher: fetch.Fetcher | None = None,
                  inventory: bool = False, inventory_only: set[str] | None = None,
-                 extract: bool = False, llm_client=None, awards: bool = False) -> Path:
+                 extract: bool = False, llm_client=None, awards: bool = False,
+                 states: list[str] | None = None, recrawl: bool = False) -> Path:
     settings = fetch.load_settings()
-    register = fetch.load_register(register_path)
     db_path = db_path or ROOT / "data" / "dl3.db"
+    state_plan = None
+    if states:  # any state by its code: sets up states that have no sources yet, then runs only those states
+        from src import states as state_mod
+        state_plan = state_mod.prepare(states, settings, db_path, recrawl=recrawl)
+        only = (only or set()) | state_plan["only"] or {"(no sources for these states)"}  # never "everything"
+    register = fetch.load_register(register_path)
     archive_root = archive_root or ROOT / "archive"
     out_root = out_root or ROOT / "outputs" / "runs"
     run_id = uuid.uuid4().hex[:8]
@@ -108,6 +114,7 @@ def run_pipeline(*, register_path: Path | None = None, db_path: Path | None = No
     (out_dir / "change_report.json").write_text(json.dumps(ctx, indent=2, default=str), encoding="utf-8")
     manifest = {"run_id": run_id, "started_at": started, "code_version": code_version(),
                 "register": str(register_path or "config/source_register.csv"),
+                "states": {k: v for k, v in (state_plan or {}).items() if k != "only"} or None,
                 "settings": settings, "counts": ctx["counts"], "hud_allocator_rows": hud_rows, "inventory": inventory_path, "top_msas": msa_summary, "retired_sources": summary.retired,
                 "extraction": extraction, "awards": award_summary,
                 "sources": summary.details,
@@ -126,6 +133,11 @@ def main(argv=None) -> int:
     ap.add_argument("--inventory", nargs="*", metavar="ID",
                     help="also crawl agency sites and rebuild data/inventory/state_inventory.xlsx "
                          "(all jurisdictions, or the IDs given, e.g. --inventory MI CHI)")
+    ap.add_argument("--states", nargs="+", metavar="XX",
+                    help="run only these states (and the national sources), e.g. --states MI OH IN or --states CA. "
+                         "A state with no sources yet is crawled and its documents added automatically")
+    ap.add_argument("--recrawl", action="store_true",
+                    help="with --states: crawl the agency sites again even for states that already have sources")
     ap.add_argument("--awards", action="store_true", help="parse archived award spreadsheets (code only, no LLM)")
     ap.add_argument("--extract", action="store_true",
                     help="extract rules with the LLM in settings.yaml (Gemini: GEMINI_API_KEY in .env); "
@@ -137,9 +149,15 @@ def main(argv=None) -> int:
     out = run_pipeline(only=set(a.only) if a.only else None, follow_documents=a.follow_documents,
                        refresh_hud=not a.no_hud, inventory=a.inventory is not None,
                        inventory_only={x.upper() for x in a.inventory} if a.inventory else None,
-                       extract=a.extract, awards=a.awards)
+                       extract=a.extract, awards=a.awards, states=a.states, recrawl=a.recrawl)
     m = json.loads((out / "run_manifest.json").read_text())
     print(f"Run {m['run_id']}: {m['counts']}\nReport: {out / 'change_report.html'}")
+    if m.get("states"):
+        st = m["states"]
+        print(f"States: {', '.join(st['states'])}" + (f"; set up now: {st['added']}" if st["added"] else ""))
+        if st["missing"]:
+            print(f"  No sources found for {', '.join(st['missing'])}: add them to config/source_register.csv "
+                  "by hand or with python -m src.fetch.manual_import")
     if m.get("retired_sources"):
         print(f"Retired (no longer in the register, history kept): {', '.join(m['retired_sources'])}")
     if m.get("top_msas"):

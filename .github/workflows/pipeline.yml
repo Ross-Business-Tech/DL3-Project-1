@@ -1,6 +1,7 @@
 # DL3 data pipeline: refresh the LIHTC data in the cloud and propose it to the website as a pull request.
 #
-# Run it: GitHub > Actions > "DL3 data pipeline" > Run workflow (on the development branch).
+# Run it from the website's "Run the pipeline" page, or GitHub > Actions > "DL3 data pipeline" > Run workflow
+# (on the development branch). "states" takes any state code; a state with no sources yet is set up first.
 #
 #   1. "collect" (has the API keys, runs only pipeline code, never npm):
 #        pulls the pipeline's database + archived documents from the here.now Drive,
@@ -15,8 +16,9 @@
 # The review packet for new findings is in the run's "pipeline-reports" download.
 #
 # Settings > Secrets and variables > Actions:
-#   secret   CENSUS_API_KEY        Census API key (top-100 metro screen)
-#   secret   GEMINI_API_KEY        only needed when "extract" is ticked
+#   secret   PIPELINE_KEY_PRIVATE  unseals keys typed on the website (cd dl3-lihtc-model && python -m src.run_keys new-keypair)
+#   secret   CENSUS_API_KEY        Census API key, used when the website sends none
+#   secret   GEMINI_API_KEY        used for "extract" when the website sends none
 #   secret   HERENOW_DRIVE_TOKEN   made with: cd dl3-lihtc-model && python -m src.state_store make-token
 #   variable GEMINI_MODEL          optional, e.g. gemini-3.5-flash-lite
 #   variable DL3_CONTACT           optional contact shown to agency sites in the crawler's user agent
@@ -27,18 +29,28 @@ name: DL3 data pipeline
 on:
   workflow_dispatch:
     inputs:
+      states:
+        description: "States to run, by code: e.g. 'MI OH IN' or 'CA'. A state with no sources yet is crawled and set up."
+        type: string
+        default: "MI OH IN"
       extract:
         description: "Extract rules with Gemini (costs API credit; findings go to review, never straight to the site)"
         type: boolean
         default: false
-      inventory:
-        description: "Re-crawl agency sites for the 50-state inventory: 'all', some IDs like 'MI OH', or blank to skip"
+      recrawl:
+        description: "Crawl the agency sites again for these states to find new documents"
+        type: boolean
+        default: false
+      request_id:
+        description: "Set by the website so it can find its run; leave blank"
         type: string
         default: ""
-      coverage_states:
-        description: "States for the coverage checklist"
+      keys:
+        description: "Set by the website: API keys sealed with public/pipeline-key.json; leave blank to use the repository secrets"
         type: string
-        default: "MI OH IN"
+        default: ""
+
+run-name: "DL3 data pipeline: ${{ inputs.states }}${{ inputs.extract && ' + Gemini' || '' }} ${{ inputs.request_id }}"
 
 permissions:
   contents: read
@@ -56,32 +68,16 @@ jobs:
       run:
         working-directory: dl3-lihtc-model
     env:
-      CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       HERENOW_DRIVE_TOKEN: ${{ secrets.HERENOW_DRIVE_TOKEN }}
       GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
       DL3_CONTACT: ${{ vars.DL3_CONTACT }}
       INPUT_EXTRACT: ${{ inputs.extract }}
-      INPUT_INVENTORY: ${{ inputs.inventory }}
-      INPUT_STATES: ${{ inputs.coverage_states }}
+      INPUT_RECRAWL: ${{ inputs.recrawl }}
+      INPUT_STATES: ${{ inputs.states }}
     steps:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-
-      - name: Check settings
-        run: |
-          missing=""
-          [ -n "$HERENOW_DRIVE_TOKEN" ] || missing="$missing HERENOW_DRIVE_TOKEN"
-          [ -n "$CENSUS_API_KEY" ] || missing="$missing CENSUS_API_KEY"
-          if [ "$INPUT_EXTRACT" = "true" ] && [ -z "$GEMINI_API_KEY" ]; then missing="$missing GEMINI_API_KEY"; fi
-          if [ -n "$missing" ]; then
-            echo "::error::Add these repository secrets first:$missing (see the top of .github/workflows/pipeline.yml)"
-            exit 1
-          fi
-          case "$INPUT_INVENTORY $INPUT_STATES" in
-            *[!A-Za-z0-9_\ ]*) echo "::error::inventory and coverage_states take letters, digits and spaces only"; exit 1;;
-          esac
 
       - uses: actions/setup-python@v6
         with:
@@ -95,6 +91,29 @@ jobs:
           pip install -q -r requirements.txt
           python -m playwright install --with-deps chromium
 
+      # Keys typed on the website arrive sealed and are used for this run only; otherwise the repository secrets.
+      - name: API keys for this run
+        env:
+          SEALED_KEYS: ${{ inputs.keys }}
+          PIPELINE_KEY_PRIVATE: ${{ secrets.PIPELINE_KEY_PRIVATE }}
+          FALLBACK_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FALLBACK_CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python -m src.run_keys unseal
+
+      - name: Check settings
+        run: |
+          missing=""
+          [ -n "$HERENOW_DRIVE_TOKEN" ] || missing="$missing HERENOW_DRIVE_TOKEN"
+          [ -n "$CENSUS_API_KEY" ] || missing="$missing CENSUS_API_KEY"
+          if [ "$INPUT_EXTRACT" = "true" ] && [ -z "$GEMINI_API_KEY" ]; then missing="$missing GEMINI_API_KEY"; fi
+          if [ -n "$missing" ]; then
+            echo "::error::Missing:$missing. Type the API keys on the website, or add repository secrets (see the top of .github/workflows/pipeline.yml)"
+            exit 1
+          fi
+          case "$INPUT_STATES" in
+            *[!A-Za-z0-9_,\ ]*|"") echo "::error::states takes state codes separated by spaces, e.g. MI OH IN"; exit 1;;
+          esac
+
       - name: Pipeline tests
         run: python -m pytest -q
 
@@ -104,10 +123,10 @@ jobs:
       - name: Run the pipeline
         id: run
         run: |
-          args="--awards"
+          states="$(echo "$INPUT_STATES" | tr ',' ' ' | xargs)"
+          args="--awards --states $states"
           [ "$INPUT_EXTRACT" = "true" ] && args="$args --extract"
-          inv="$(echo "$INPUT_INVENTORY" | xargs)"
-          if [ "$inv" = "all" ]; then args="$args --inventory"; elif [ -n "$inv" ]; then args="$args --inventory $inv"; fi
+          [ "$INPUT_RECRAWL" = "true" ] && args="$args --recrawl"
           echo "python run_all.py $args"
           set +e
           python run_all.py $args 2>&1 | tee ../run_all.txt
@@ -124,9 +143,13 @@ jobs:
       - name: Reports and website files
         run: |
           python -m src.awards.costs
-          python -m src.report.coverage $INPUT_STATES | tee ../coverage.txt
+          python -m src.report.coverage $(echo "$INPUT_STATES" | tr ',' ' ') | tee ../coverage.txt
           if [ "$INPUT_EXTRACT" = "true" ]; then python -m src.review.build_packet; fi
           python -m src.report.export_web --site
+
+      # The website reads these through its read-only proxy route, so results show without waiting for a merge.
+      - name: Publish results for the website
+        run: python -m src.state_store publish-web
 
       - name: Summary
         if: always()
@@ -148,6 +171,7 @@ jobs:
             dl3-lihtc-model/data/web/
             dl3-lihtc-model/data/inventory/
             dl3-lihtc-model/data/reference/
+            dl3-lihtc-model/config/source_register_auto.csv
             src/ranking/data/pipeline/
             src/ranking/data/inventory.csv
 
@@ -185,6 +209,7 @@ jobs:
         id: diff
         run: |
           git add -A dl3-lihtc-model/data src/ranking/data
+          [ -f dl3-lihtc-model/config/source_register_auto.csv ] && git add dl3-lihtc-model/config/source_register_auto.csv
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No data changed since the last run; no pull request needed." >> "$GITHUB_STEP_SUMMARY"
