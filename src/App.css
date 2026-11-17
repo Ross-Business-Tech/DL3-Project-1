@@ -628,6 +628,37 @@
   transform: translateY(-1px);
 }
 
+/* Small name tag that appears above a state code on hover or keyboard focus */
+.state-chip {
+  position: relative;
+}
+
+.state-chip::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 4px 8px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(10, 17, 28, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 5;
+}
+
+.state-chip:hover::after,
+.state-chip:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 .state-chip[aria-pressed='true'] {
   background: linear-gradient(90deg, var(--teal), var(--teal-deep));
   border-color: transparent;

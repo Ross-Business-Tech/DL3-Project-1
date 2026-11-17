@@ -88,7 +88,7 @@ export default function Downloads() {
               className="state-chip"
               aria-pressed={picked.includes(c)}
               onClick={() => toggle(c)}
-              title={STATE_NAMES[c]}
+              data-name={STATE_NAMES[c]}
             >
               {c}
             </button>
