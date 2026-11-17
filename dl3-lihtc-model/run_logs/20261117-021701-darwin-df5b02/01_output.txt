@@ -1,0 +1,10 @@
+$ ~/Code/DL3-Project-1/.venv/bin/python run_all.py --awards --extract
+
+MuPDF error: format error: No default Layer config
+
+Run 82f546ee: {'fetched': 81, 'new': 0, 'changed': 0, 'unchanged': 81, 'failed': 0, 'blocking': 0}
+Report: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/runs/20261117_82f546ee/change_report.html
+Awards: 0 rows from 0 files (0 flagged, 0 errors). Rows to check: ~/Code/DL3-Project-1/dl3-lihtc-model/outputs/awards/award_rows.csv
+Extraction: 0 calls (101 reused), 0 findings for review, 0 rejected by validation, 0 errors (gemini gemini-3.5-flash-lite; tokens {'input_tokens': 0, 'output_tokens': 0, 'cache_read_tokens': 0})
+  rejected   17 x quote not found verbatim on page N -> quote not on any page (paraphrased or invented)
+Review packet: python -m src.review.build_packet
