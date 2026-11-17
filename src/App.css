@@ -592,6 +592,54 @@
   box-shadow: 0 6px 14px rgba(10, 17, 28, 0.1);
 }
 
+/* State picker for the pipeline */
+.state-picker {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.state-picker h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.state-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.state-chip {
+  min-width: 44px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--body);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.state-chip:hover {
+  transform: translateY(-1px);
+}
+
+.state-chip[aria-pressed='true'] {
+  background: linear-gradient(90deg, var(--teal), var(--teal-deep));
+  border-color: transparent;
+  color: #fff;
+}
+
+.download-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Print-only report: hidden on screen, shown alone when printing to PDF */
 .print-report {
   display: none;

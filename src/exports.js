@@ -65,3 +65,34 @@ export function downloadExcel() {
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(sourceRows()), 'Sources')
   XLSX.writeFile(wb, 'dl3-ranking-tables.xlsx')
 }
+
+// Rows for the chosen states. A state with no data yet still gets a row, marked "Not researched yet".
+export function selectedRows(codes, names) {
+  return codes.map((code) => {
+    const t = TERRITORIES.find((x) => x.id === code)
+    return t ?? { id: code, name: names[code] ?? code, kind: 'State', scoreText: 'Not scored yet', status: 'Not researched yet', depth: 'Not researched' }
+  })
+}
+
+export function downloadSelectedCsv(codes, names) {
+  download('dl3-selected-states.csv', new Blob([toCsv(territoryRows(selectedRows(codes, names)))], { type: 'text/csv' }))
+}
+
+// A text file for Vijay's pipeline. The site can't run the pipeline itself, so this file lists the
+// states and the command to run on a computer with Python.
+export function downloadPipelineRequest(codes) {
+  const list = codes.join(' ')
+  const text = [
+    'DL3 pipeline request',
+    `States: ${list || '(none selected)'}`,
+    '',
+    'To run the pipeline for these states, open the dl3-lihtc-model folder on a computer with Python,',
+    'then run this command:',
+    '',
+    `  python run_all.py --inventory ${list}`,
+    '',
+    'Results are written to the outputs and data folders. Keep them private until DL3 approves them.',
+    '',
+  ].join('\n')
+  download('dl3-pipeline-request.txt', new Blob([text], { type: 'text/plain' }))
+}

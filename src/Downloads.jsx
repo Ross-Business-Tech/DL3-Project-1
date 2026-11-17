@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { SOURCES, TERRITORIES } from './data.js'
-import { downloadExcel, downloadSourcesCsv, downloadTerritoriesCsv } from './exports.js'
+import { downloadExcel, downloadPipelineRequest, downloadSelectedCsv, downloadSourcesCsv, downloadTerritoriesCsv } from './exports.js'
+import { MAP } from './mapPaths.js'
+import { STATE_NAMES } from './stateNames.js'
+
+// Every state and DC on the map, in alphabetical order by code name.
+const ALL_CODES = Object.keys(MAP.states).filter((c) => STATE_NAMES[c]).sort((a, b) => STATE_NAMES[a].localeCompare(STATE_NAMES[b]))
 
 // The printable pages. Only the chosen one is visible when printing.
 function PrintReport({ mode }) {
@@ -51,6 +56,11 @@ export default function Downloads() {
     }, 50)
   }
 
+  const [picked, setPicked] = useState([])
+  const toggle = (code) =>
+    setPicked((p) => (p.includes(code) ? p.filter((c) => c !== code) : [...p, code]))
+  const ordered = ALL_CODES.filter((c) => picked.includes(c))
+
   return (
     <section className="card downloads" aria-labelledby="downloads-heading">
       <h2 id="downloads-heading">Downloads for reviewers</h2>
@@ -63,6 +73,52 @@ export default function Downloads() {
         <button type="button" className="download-button" onClick={downloadSourcesCsv}>Sources (.csv)</button>
       </div>
       <p className="small-note">For a PDF, the print window opens. Choose "Save as PDF" as the destination.</p>
+
+      <div className="state-picker">
+        <h3>Choose states for the pipeline</h3>
+        <p className="small-note">
+          The website can't run the pipeline itself. Pick the states here, then download the list and the
+          selected data. Running the pipeline happens on a computer with Python.
+        </p>
+        <div className="state-chips" role="group" aria-label="States">
+          {ALL_CODES.map((c) => (
+            <button
+              type="button"
+              key={c}
+              className="state-chip"
+              aria-pressed={picked.includes(c)}
+              onClick={() => toggle(c)}
+              title={STATE_NAMES[c]}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+        <p className="small-note">
+          {ordered.length === 0 ? 'No states selected.' : `Selected: ${ordered.map((c) => STATE_NAMES[c]).join(', ')}`}
+        </p>
+        <div className="download-grid">
+          <button type="button" className="download-button" onClick={() => setPicked(ALL_CODES)}>Select all</button>
+          <button type="button" className="download-button" onClick={() => setPicked([])}>Clear</button>
+          <button
+            type="button"
+            className="download-button"
+            disabled={ordered.length === 0}
+            onClick={() => downloadSelectedCsv(ordered, STATE_NAMES)}
+          >
+            Selected states (.csv)
+          </button>
+          <button
+            type="button"
+            className="download-button"
+            disabled={ordered.length === 0}
+            onClick={() => downloadPipelineRequest(ordered)}
+          >
+            Pipeline request (.txt)
+          </button>
+        </div>
+      </div>
+
       <PrintReport mode={mode} />
     </section>
   )
