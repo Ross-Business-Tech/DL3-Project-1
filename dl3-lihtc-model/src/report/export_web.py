@@ -191,7 +191,7 @@ def export(db_path: Path, out_dir: Path, settings: dict | None = None, reference
         if src.exists():
             (out_dir / name).write_bytes(src.read_bytes())
             counts[name.removesuffix(".csv")] = max(len(src.read_text(encoding="utf-8").splitlines()) - 1, 0)
-    approved = conn.execute("SELECT COUNT(*) FROM extraction WHERE status='approved' AND field<>'award_row'").fetchone()[0]
+    approved = conn.execute("SELECT COUNT(*) FROM current_extraction WHERE status='approved' AND field<>'award_row'").fetchone()[0]
     conn.close()
     manifest = {"generated_at": archive.utcnow().isoformat(), "code_version": code_version(), "counts": counts,
                 "rules_approved": approved, "freshness_days": settings["freshness_days"],

@@ -364,3 +364,21 @@ def test_extra_register_files_add_michigan_reservation_lists(tmp_path, monkeypat
     monkeypatch.setattr(fetch, "ROOT", tmp_path)
     assert [r["source_id"] for r in fetch.load_register()] == ["A", "C"]
     assert [r["source_id"] for r in fetch.load_register(cfg / "source_register.csv")] == ["A"]   # explicit path: that file only
+
+
+def test_web_page_with_same_text_is_not_new_content(tmp_path):
+    from tests.test_fetch import Site, go, reg
+    site = Site()
+    try:
+        site.routes["/qap"] = (200, "text/html", b"<html><script>t=1</script><p>Deadline: May 1</p></html>")
+        go(site, tmp_path, reg(site))
+        site.routes["/qap"] = (200, "text/html", b"<html><script>t=2</script><p>Deadline:  May 1</p></html>")
+        go(site, tmp_path, reg(site))
+        site.routes["/qap"] = (200, "text/html", b"<html><p>Deadline: June 1</p></html>")
+        go(site, tmp_path, reg(site))
+    finally:
+        site.srv.shutdown()
+    conn = archive.connect(tmp_path / "t.db")
+    dup = [r["is_duplicate"] for r in conn.execute("SELECT is_duplicate FROM snapshot ORDER BY snapshot_id")]
+    assert dup == [0, 1, 0]          # same visible text: duplicate; real change: new content
+    assert conn.execute("SELECT COUNT(*) FROM snapshot").fetchone()[0] == 3   # every file still archived

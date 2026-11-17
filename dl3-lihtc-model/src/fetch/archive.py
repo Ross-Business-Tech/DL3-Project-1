@@ -146,6 +146,18 @@ def latest_snapshot(conn: sqlite3.Connection, source_id: str, before_id: int | N
     return conn.execute(sql + " ORDER BY snapshot_id DESC LIMIT 1", args).fetchone()
 
 
+def _same_page_text(prev, data: bytes, content_type: str | None, archive_root) -> bool:
+    ct = (content_type or "").split(";")[0].strip().lower()
+    if ct != "text/html" or (prev["content_type"] or "").split(";")[0].strip().lower() != "text/html":
+        return False
+    try:
+        from .diff import html_to_text
+        old = (Path(archive_root) / prev["archive_path"]).read_bytes()
+        return html_to_text(old) == html_to_text(data)
+    except (OSError, ValueError):
+        return False
+
+
 def store_snapshot(
     conn: sqlite3.Connection,
     archive_root: str | Path,
@@ -175,6 +187,10 @@ def store_snapshot(
 
     prev = latest_snapshot(conn, source["source_id"])
     changed = prev is None or prev["sha256"] != digest
+    if changed and prev is not None and _same_page_text(prev, data, content_type, archive_root):
+        # A web page whose visible text is unchanged (only tokens, timestamps or scripts differ): keep the
+        # new file, but it is not new content, so parsed and extracted results stay with the earlier copy.
+        changed = False
     cur = conn.execute(
         """INSERT INTO snapshot (source_id, url, final_url, retrieved_at, sha256, content_type,
              byte_size, http_status, archive_path, is_duplicate, parent_source_id, doc_status, run_id, retrieval_method,

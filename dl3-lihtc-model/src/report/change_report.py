@@ -21,6 +21,9 @@ def build_context(conn, archive_root: Path, run_id: str, freshness_days: int) ->
             new += 1
         elif s["is_duplicate"]:
             unchanged += 1
+            before = archive.latest_snapshot(conn, s["source_id"], s["snapshot_id"])
+            if before is not None and before["sha256"] != s["sha256"]:
+                furniture.append(s["source_id"])  # same visible text, different bytes
         else:
             d = diff.compare_latest_for(conn, archive_root, s)
             d["title"] = s["title"]
