@@ -35,8 +35,8 @@ ignore_headers: ['\bfee\b', 'phone', 'e-?mail', 'contact', 'hard\s*cost', 'const
 #     "Credits Reserved": {field: annual_credit, source: "https://... p. 12: 'annual housing credits reserved'"}
 confirmed_headers:
   OH:
-    "Credits Reserved": {field: annual_credit, source: "<link and page where OHFA says annual>"}
-    "Housing Credits Reserved": {field: annual_credit, source: "<same>"}
+    "Credits Reserved": {field: annual_credit, source: "https://www.ohiohome.org/ppd/documents/2026-9Percent-%20Results.pdf p.3: 2026 annual ceiling $40,652,142; credits reserved are against the annual ceiling"}
+    "Housing Credits Reserved": {field: annual_credit, source: "https://www.ohiohome.org/ppd/documents/2026-9Percent-%20Results.pdf p.6: same"}
 # A header row must contain project_name (or application_number + sponsor) and at least this many mapped columns.
 min_mapped_columns: 3
 header_search_rows: 40
