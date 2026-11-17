@@ -7,3 +7,5 @@
 /review/
 __pycache__/
 .pytest_cache/
+/data/.state_versions.json
+/data/dl3.db.before-pull-*

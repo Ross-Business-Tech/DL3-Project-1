@@ -210,6 +210,12 @@ python -m src.report.export_web     # data/web/: awards.csv, rules.csv, sources.
 The website is static and cannot run this pipeline; it reads these files. `awards.csv` uses the same columns
 as the website's `src/ranking/data/awards.csv`. See `docs/web_integration.md`.
 
+## Running in GitHub Actions
+
+`.github/workflows/pipeline.yml` runs the pipeline in the cloud and opens a pull request with the refreshed
+website files. State (database, archive, OCR cache) is kept in the here.now Drive by `python -m src.state_store
+pull|push`. Setup: `docs/refresh_instructions.md`.
+
 ## Logging runs to GitHub
 
 ```bash

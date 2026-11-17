@@ -36,6 +36,37 @@ source freshness. Unchanged documents are not sent to the LLM again.
 Each December, when the Census Bureau releases a new ACS 5-year estimate, raise the year in the `CENSUS_MSA`
 URL in `config/source_register.csv` and re-run `python run_all.py --only CENSUS_MSA`.
 
+## Running it in GitHub (no computer needed)
+The workflow `.github/workflows/pipeline.yml` ("DL3 data pipeline") runs the same steps in GitHub Actions and
+opens a pull request into `development` with the refreshed website files. The database and archived documents
+live in the team's here.now Drive (`dl3-pipeline/`), so each run builds on the last one and keeps every
+reviewer decision.
+
+One-time setup:
+1. On the computer that has the newest database, sign in to here.now (`node scripts/herenow-login.mjs`), then
+   from `dl3-lihtc-model/` run `python -m src.state_store push`. This seeds the Drive (the first upload takes a
+   while: every archived document goes up once).
+2. `python -m src.state_store make-token` saves a token that can only touch `dl3-pipeline/` to
+   `~/.herenow/dl3_drive_token`. Paste its contents into the GitHub secret `HERENOW_DRIVE_TOKEN`, then delete
+   the file.
+3. GitHub secrets `CENSUS_API_KEY` and (for extraction) `GEMINI_API_KEY`; optional variable `GEMINI_MODEL`.
+4. Settings > Actions > General: allow GitHub Actions to create pull requests.
+
+Run it: Actions > DL3 data pipeline > Run workflow, on `development`. Tick "extract" to send changed documents
+to Gemini. The run's **pipeline-reports** download has the change report, coverage, award rows to check and,
+after extraction, the review packet.
+
+Reviewing when the pipeline runs in GitHub:
+```bash
+python -m src.state_store pull               # newest database from the Drive (your old one is kept as a backup)
+python -m src.review.import_review           # import the filled-in packet
+python -m src.state_store push               # save the decisions for the next run
+python -m src.report.export_web --site       # or just run the workflow again
+```
+If `push` says the Drive copy changed since your pull, someone else (or a run) saved in between. Nothing was
+overwritten: pull, import again, push. `python -m src.state_store status` compares the two without changing
+anything.
+
 ## Confirming what an award column means
 If award rows are flagged "credit column does not say annual or ten-year", check the agency's own definition
 (the list's notes, or the QAP), then record it in `config/award_columns.yaml` under `confirmed_headers` with the

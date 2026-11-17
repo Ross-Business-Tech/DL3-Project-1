@@ -31,3 +31,14 @@ Open decisions need Andrew Stables / DL3 sign-off before scoring. Record each de
 | Urban definition (proposed: Census 2020 urban areas + DL3 overrides) | Open |
 | Venture Development factor scoring method | Open |
 | Ongoing operator after handoff | Open |
+
+## 2026-11-17: the pipeline runs in GitHub Actions; its state lives in the here.now Drive
+- Why: the team wanted to run the pipeline without one person's computer. A GitHub runner starts empty each
+  time, so the database (snapshots, extractions, reviewer decisions) and the archived originals are kept in the
+  team's here.now Drive under `dl3-pipeline/` (`src/state_store.py`). Free plan: 10 GB, 500 MB per file.
+- Lost-update protection: `push` sends the version it pulled and here.now refuses the upload if the Drive copy
+  changed since, so a review imported on a laptop cannot be overwritten by a run (or the other way round).
+- The job that holds API keys runs only pipeline code; the website build (npm) runs in a separate job with no
+  secrets. Results arrive as a pull request into `development`; a person merges it.
+- The live Drive upload response names the upload address `uploadUrl` (the published OpenAPI says `url`); both
+  are accepted.
